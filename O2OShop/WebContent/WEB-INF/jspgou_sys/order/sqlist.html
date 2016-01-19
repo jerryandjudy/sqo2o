@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+<script type="text/javascript">
+var url = location.href;
+var index = url.indexOf('jsessionid');
+if(index != -1) {
+	var sid = url.substr(index+11);
+	document.cookie = "JSESSIONID="+sid+";path=/;";
+}
+function changeSite(id) {
+       var domain=$("#site"+id).val();
+	   $("#sitelist").attr("action","http://"+domain+":${site.global.port}${site.global.contextPath}/nhaocang/admin/index.do");
+	    $("#sitelist").submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "order.function.all"/> - <@s.m "global.list"/></div>
+		
+	<div style="float: right" >
+
+	 <#if isSuper><div style="float:left" >
+                                         <form action="index.do" target="_top" method="get" id="sitelist">
+                                            <#list siteList as s>
+                                              <#if s.close==false>
+											  <input type="hidden" id="site${s.id}" value="${s.domain}" />
+											  </#if>
+								              </#list>
+											<select name="${siteParam}" onchange="changeSite(this.value)">
+											  <#list siteList as s>
+											  <#if s.close==false>
+								              <option value="${s.id}"<#if s.id==site.id> selected="selected"</#if>>${s.name}</option>
+								               </#if>
+								              </#list>
+								            </select>
+							            </form>
+							            </div>
+							            </#if>
+							            
+							           </div>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_sqlist.do" id="forms" method="post">
+	 <div style="padding-top:5px">
+	 订单编号: <input type="text" name="code" value="${code!}" style="width:100px"/> 
+	 买家:&nbsp;&nbsp;<input type="text" name="receiveName" value="${receiveName!}" style="width:100px"/>  
+	下单日期:<input type="text" name="createTime" value="${createTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/> 
+	结单日期:<input type="text" name="finishedTime" value="${finishedTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/> 
+	  订单状态:<select name="status">
+      	<option value="">--订单状态--</option>
+        <option value="1" <#if status??><#if 1==status>selected="selected"</#if></#if>>未完成</option>
+        <option value="2" <#if status??><#if 2==status>selected="selected"</#if></#if>>已完成</option>
+      </select>
+     
+       <input type="submit"  value="<@s.m "global.query"/>" />
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table listAction="v_sqlist" value=pagination;sqOrder,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${sqOrder.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="订单编号">${sqOrder.code!}</@p.column><#t/>
+	<@p.column code="服务">${sqOrder.sqService.name!}</@p.column><#t/>
+	<@p.column code="买家">${sqOrder.receiveName!}</@p.column><#t/>
+	<@p.column code="联系电话">${sqOrder.receiveTel!}</@p.column><#t/>
+	<@p.column code="住址">${sqOrder.receiveAddress!}</@p.column><#t/>
+	<@p.column code="服务商">${sqOrder.seller.realname!}</@p.column><#t/>
+	<@p.column code="order.total" align="center">${sqOrder.totalPrice!}<br/></@p.column><#t/>
+	<@p.column code="order.createTime" style="width:100px;">${sqOrder.createTime!}</@p.column><#t/>
+	<@p.column code="结单时间" style="width:100px;">${sqOrder.finishedTime!}</@p.column><#t/>
+	<@p.column code="order.status">${(sqOrder.status==1)?string('未完成','已完成')}</@p.column><#t/>
+	<@p.column code="备注">${sqOrder.comments!}</@p.column><#t/>
+	<@p.column code="站点">${sqOrder.website.name!}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品销售统计列表页- ${web.name}${web.additionalTitle!}</title>
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${sysResRoot}/front.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/res/common/css/jquery.ui.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/res/common/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/fckeditor/fckeditor.js" type="text/javascript"></script>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+</script>
+</head>
+<body>
+[#include "../include/店铺页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+     [#include "../include/页头导航栏.html"/]
+</div>
+<div class="w960 mt10">
+  [#include "店铺中心_导航.html"/]
+  <div class="user_right">
+<div class="mc_content">
+<div class="usercenter_position"><span>销售统计管理</span>  
+<form id="tableForm" action="${base}/sell/list.jspx" method="post">
+		[#if pagination.list?size gt 0]
+		<table width="100%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#cccccc" style="font-size:12px;">
+		<tr>
+			<td height="30" align="center" bgcolor="#f0f0f0">ID</td>
+			<td align="center" bgcolor="#f0f0f0">商品名称</td>
+			<td align="center" bgcolor="#f0f0f0">类别</td>
+			<td align="center" bgcolor="#f0f0f0">类型</td>
+			<td align="center" bgcolor="#f0f0f0">销售价</td>
+			<td align="center" bgcolor="#f0f0f0">库存</td>
+			<td align="center" bgcolor="#f0f0f0">销量</td>
+			<td align="center" bgcolor="#f0f0f0">操作选项</td>
+		</tr>
+		[#list pagination.list as c]
+		<tr>	
+			<td height="30" align="center" bgcolor="#FFFFFF">${c.id}</td>
+			<td bgcolor="#FFFFFF">
+			   <img src="${root!}${c.coverImg!}" width="70" height="70"/>
+			   <a href="${c.url!}" target="_self" style="color:#333; text-decoration:none;">
+			   [@text_cut s=c.name len='15' append='...'/]</a>
+			</td>
+			<td align="center" bgcolor="#FFFFFF">${c.category.name}</td>
+			<td align="center" bgcolor="#FFFFFF">${c.type.name}</td>
+			<td align="center" bgcolor="#FFFFFF">${c.salePrice}</td>
+			<td align="center" bgcolor="#FFFFFF">${c.stockCount}</td>
+			<td align="center" bgcolor="#FFFFFF">${c.saleCount}</td>
+			<td align="center" bgcolor="#FFFFFF">
+		<a href="view.jspx?id=${c.id}">查看详情</a> </td>
+		</tr>
+		[/#list]
+  </table>
+<div style="height:10px; width:100%;"></div>
+        <input type="hidden" name="pageNo" value="${pageNo}"/>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td height="50" align="center" class="pn-sp" style="font-size:12px;">
+			共 ${pagination.totalCount} 条 
+			每页 ${pagination.pageSize} 条 
+			<input type="button" value="首 页" onclick="_gotoPage('1');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+			<input type="button" value="上一页" onclick="_gotoPage('${pagination.prePage}');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+			<input type="button" value="下一页" onclick="_gotoPage('${pagination.nextPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>
+			<input type="button" value="尾 页" onclick="_gotoPage('${pagination.totalPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/> 
+			当前 ${pagination.pageNo}/${pagination.totalPage} 页  转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+			<input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val());"[#if pagination.totalPage==1] disabled="disabled"[/#if]/>
+		</td>
+		</tr>
+		</table>
+		<script type="text/javascript">
+		function _gotoPage(pageNo) {
+			try{
+				var tableForm = document.getElementById("tableForm");
+				$("input[name=pageNo]").val(pageNo);
+				tableForm.action="${base}/sell/list.jspx";
+				tableForm.onsubmit=null;
+				tableForm.submit();
+			} catch(e) {
+				alert('_gotoPage(pageNo)方法出错');
+			}
+		}
+		</script>
+		[#else]
+			<div align="center">暂无数据</div>
+		[/#if]
+      </form>
+     </div>
+   </div>
+  </div>
+</div>
+</body>
+</html>

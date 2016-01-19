@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>修改订单</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function changeCount(){
+	var totalWeight=0.0;
+	$("#[id^='itemCount_']").each(function(){
+		var ss=parseFloat(jQuery(this).val());
+		var h=jQuery(this).attr("id");
+		var index=h.split("_")[1];
+		var weight=$("#itemWeight_"+index).html();
+		totalWeight+=ss*weight;
+	});
+	ajaxtotalDeliveryFee($("#shippingId").val(),totalWeight);
+	setTimeout(function(){changePrice()},1000);
+}
+
+function changePrice(){
+	var totalPrice=0.0;
+	$("#[id^='itemPrice_']").each(function(){
+		var ss=parseFloat(jQuery(this).val());
+		var h=jQuery(this).attr("id");
+		var index=h.split("_")[1];
+		var count=$("#itemCount_"+index).val();
+		$("#subtotal_"+index).html("");
+		$("#subtotal_"+index).html(count*ss);
+		totalPrice+=count*ss;
+	});
+	$("#productPrice").html("");
+	$("#productPrice").html(totalPrice);
+	$("#total").html("");
+	$("#total").html(parseFloat($("#freight").val())+totalPrice);
+	$("#totalPice").val(parseFloat($("#freight").val())+totalPrice);
+}
+
+function changeFreight(){
+	var ss=parseFloat($("#productPrice").html());
+	$("#total").html("");
+	ss+=parseFloat($("#freight").val());
+	$("#total").html(ss);
+	$("#totalPice").val(ss);
+}
+
+
+
+
+function ajaxtotalDeliveryFee(d,w){
+	$.post("../order/ajaxtotalDeliveryFee.do", {
+		'deliveryMethod':d,
+		'weight':w
+	}, function(data) {
+		if(data.status==1){
+			$("#freight").val(data.freight);
+			return data.freight;
+		}
+	},'json');
+}
+</script>
+<style type="text/css">
+.addr{padding:2px 0;}
+.title{font-size:14px;}
+</style>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "order.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.td colspan="2"><strong class="title"><@s.m "order.product"/></strong></@p.td><@p.tr/>
+<@p.td colspan="2">
+<@p.table value=order.items;item,i,has_next><#rt/>
+	<@p.column code="product.code" style="width:100px"><#if item.productSite.product.productExt??>${item.productSite.product.productExt.code!}</#if></@p.column><#t/>
+	<@p.column code="product.name" align="left"><img src="${item.productSite.product.productExt.coverImg!}" width="50" height="50"/>
+	${item.productSite.product.name!}&nbsp;<#if item.productFash??>${item.productFash.attitude!}</#if></@p.column><#t/>
+	<@p.column code="orderItem.finalPrice" style="width:110px">
+	 <#if item.productFash??><input type="text" id="itemPrice_${item.id}" name="itemPrice" value="${item.salePrice!0}" onchange="changePrice();" style="width:100px"/>
+	 <#else><input type="text" id="itemPrice_${item.id}" name="itemPrice" value="${item.salePrice!0}"  onchange="changePrice();"  style="width:100px"/>
+	 </#if></@p.column><#t/>
+	 <@p.column code="单重" style="width:60px"><span id="itemWeight_${item.id}">${item.productSite.product.weight}</span></@p.column><#t/>
+	<@p.column code="orderItem.count" style="width:60px">
+		<input type="hidden" name="itemId" value="${item.id}"/>
+		<input type="text" id="itemCount_${item.id}" name="itemCount" value="${item.count!0}" onchange="changeCount();" style="width:50px"/>
+	</@p.column><#t/>
+	<@p.column code="orderItem.subtotal" style="width:100px"><span id="subtotal_${item.id}"><#if item.productFash??>${item.productFash.salePrice*item.count!0}
+	 <#else>${item.productSite.salePrice*item.count!0}</#if></span>
+	</@p.column><#t/>
+</@p.table>
+</@p.td><@p.tr/>
+
+<@p.td colspan="2"><strong class="title"><@s.m "order.info"/></strong></@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="订单编号">${order.code}</@p.td>
+<@p.td colspan="1" width="50" label="order.createTime">${order.createTime}</@p.td><@p.tr/>
+
+<@p.td colspan="1" width="50" label="order.status">
+<@s.m "order.status.${order.status}"/>
+</@p.td>
+<@p.td colspan="1" width="50" label="order.paymentStatus">
+<@s.m "order.paymentStatus.${order.paymentStatus}"/>
+</@p.td>
+<@p.tr/>
+<@p.td colspan="1" width="50" label="order.shippingStatus">
+<@s.m "order.shippingStatus.${order.shippingStatus}"/>
+</@p.td>
+<@p.select colspan="1" width="50" label="order.shipping" id="shippingId" name="shippingId" value=order.shipping.id  onchange="changeCount();" list=shippingList listKey="id" listValue="name"/>
+<@p.tr/>
+
+<@p.td colspan="1" width="50" label="order.productPrice"><span id="productPrice">${order.productPrice}</span></@p.td>
+<@p.td colspan="1" width="50" label="order.freight" required="true">
+<input type="text" id="freight" name="freight" value="${order.freight!0}" class="required number" onchange="changeFreight();" style="width:70px;" maxlength="20"/>
+ &nbsp; <@s.m "order.weight"/>: <span id="weight">${order.weight!0}</span> g
+</@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="order.total"><span id="total">${order.total!0}</span>
+<input type="hidden" id="totalPrice" name="totalPrice" value="${order.total!0}"/></@p.td>
+<@p.select colspan="1" width="50" label="order.payment"  name="paymentId" value=order.payment.id list=paymentList listKey="id" listValue="name"/>
+<@p.tr/>
+<@p.td colspan="1" width="50" label="订单类型"><#if order.ordeRType==1>商城订单<#else>进销存订单</#if></@p.td>
+<@p.td colspan="1" width="50" label="卖家"><#if order.ordeRType==1><#if order.status==0>未分单<#else>${order.bld.companyName}</#if><#else><#if order.status==0>未分单<#else>${order.gys.companyName}</#if></#if></@p.td>
+<@p.tr/>
+<@p.td colspan="1" width="50" label="卖家账户可用余额"><#if order.ordeRType==1><#if order.status==0>未分单<#else>${order.bld.account.money!}</#if><#else><#if order.status==0>未分单<#else>${order.gys.account.money!}</#if></#if></@p.td>
+<@p.td colspan="1" width="50" label="平台流水抽成">${order.lsccMoney!0}</@p.td>
+<@p.tr/>
+
+<@p.td colspan="2"><strong class="title">收货人信息</strong></@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="收货人姓名">${order.receiveName!}</@p.td>
+<@p.td colspan="1" width="50" label="收货人电话">${order.receiveMobile!}</@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="收货人固定电话">${order.receivePhone!}</@p.td>
+<@p.td colspan="1" width="50" label="收货人邮编">${order.receiveZip!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="收货人地址">${order.receiveAddress!}</@p.td><@p.tr/>
+<@p.textarea colspan="2" label="order.comments" name="comments" value=order.comments cols="70" rows="3"/><@p.tr/>
+
+<@p.td colspan="2">
+	<@p.hidden name="id" value=order.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

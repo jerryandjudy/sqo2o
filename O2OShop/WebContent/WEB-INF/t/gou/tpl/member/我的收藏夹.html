@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的收藏夹  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/collect.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+function del(id){
+	var ids = new Array(1);;
+	ids[0] = id;
+	$.post("${base}/collect/delCollect.jspx",{collectIds:ids},function(data){
+                alert(data);
+                location.reload();
+		});
+}
+function dels(){
+	var j = 0;
+	var h = 0;
+	var fchecked=document.getElementsByName("colect_goods_list");
+	for(var i=0;i<fchecked.length;i++){
+        if(fchecked[i].checked){j++; }
+	}
+	var ids = new Array(j);
+	for(var i=0;i<fchecked.length;i++){
+          if(fchecked[i].checked){ids[h] = fchecked[i].id;h++;}
+	}
+	if(ids.length<1){alert('请选择');return ;}
+	$.post("${base}/collect/delCollect.jspx",{collectIds:ids},function(data){
+		alert(data);
+        location.reload();     
+		});
+}
+function checkall(o){
+	$("input[type=checkbox]").each(function(){
+         $(this).attr("checked",o);
+		});
+}
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="w960 mt10">
+  [#include "会员中心_导航.html"/]
+  <div class="user_right">
+     <div class="usercenter_position"><span>我的收藏夹</span> </div>      
+        <div class="intro_box">
+            <div class="intro">
+               <div class="right_line">
+               [@collect_page pageNo=pageNo count='4']
+                  <p style="line-height: 20px"><strong>您共收藏了<font size="+0">${tag_pagination.totalCount}</font>个商品</strong></p>
+                  <div class="listtool list_head">
+                     <input type="checkbox" onclick="checkall(this.checked)" value="all" />全选
+                     <button class="w44 deleteFavorite" onclick="if (confirm('您确定要从收藏夹中删除选定的玩物吗？')); dels();">删除</button>
+                     <!--  <button class="w44 deleteFavorite" onclick="addToCart();">购买</button>-->
+                  </div>
+                  <table class="favorite_tb" cellspacing="0" cellpadding="0" width="100%" border="0">
+                       [#if tag_list?size gt 0]
+                         [#list tag_list as coll]
+                            <tr>
+                             <td  valign="middle" align="center" width="10">
+                                  <input type="checkbox" id="${coll.id}"  name="colect_goods_list" />
+                                </td>
+                            [#if coll.fashion??]
+                              <td width="130">
+                                   <a class="img120" href="${coll.productSite.url!}" target="_blank">
+                                      <img src="${coll.productSite.product.productExt.coverImg}" width="115" height="115"  />
+                                   </a>
+                                </td>
+                              <td class="name" width="51%">
+                                 <a  href="${coll.product.url}" target="_blank" style="color: #653000">
+                                 [@text_cut s=coll.productSite.product.name len='30' append='...'/]
+                                 ${coll.fashion.attitude!}</a><br/>
+                                                                                       成交价：<span id="THIS_PRICE_30163" style="color: #653000">${coll.fashion.salePrice!0}元</span>
+                              </td>
+                              <td class="td_fav" valign="middle" align="center">
+                                <div class="list" style="position: relative">&nbsp;</div>
+                               </td>
+                             <td class="operate" width="17%">
+                                <a href="${coll.productSite.url}" target="_blank">查看详情</a><br/>
+                                <a href="javascript:if (confirm('您确定要从收藏夹中删除选定的玩物吗？')); del(${coll.id});" style="color: #653000">删除</a>
+                             </td>
+                             [#else]
+                              <td width="130">
+                                  <a class="img120" href="${coll.productSite.url!}" target="_blank">
+                                      <img src="${coll.productSite.product.productExt.coverImg}" width="115" height="115"  />
+                                   </a>
+                                </td>
+                              <td class="name" width="51%">
+                                   <a href="${coll.productSite.url}" target="_blank" style="color: #653000">
+                                   [@text_cut s=coll.productSite.product.name len='30' append='...'/] </a><br/>
+                                                                                                 成交价：<span  style="color: #653000">${coll.productSite.salePrice!0}元</span>
+                               </td>
+                              <td class="td_fav" valign="middle" align="center" >
+                                <div class="list" style="position: relative">&nbsp;</div>
+                               </td>
+                             <td class="operate" valign="middle" align="center" width="17%">
+                                <a href="${coll.productSite.url}" target="_blank">查看详情</a><br/>
+                                <a href="javascript:if (confirm('您确定要从收藏夹中删除选定的商品吗？')); del(${coll.id});" style="color: #653000">删除</a>
+                             </td>
+                             [/#if]
+                          </tr>
+                       [/#list]
+                     [#else]
+                         <tr><td colspan="5">暂无收藏</td></tr>
+                    [/#if]
+                    
+           </table>
+            <div class="listtool list_head">
+                 <input type="checkbox" onclick="checkall(this.checked)" value="all" />全选
+                 <button class="w44 deleteFavorite" onclick="if (confirm('您确定要从收藏夹中删除选定的玩物吗？')); dels();">删除</button>
+                 <!-- <button class="w44 deleteFavorite" onclick="addToCart();">购买</button> -->
+          </div>
+          <div class="clear"></div>
+		   <div align="center">  [@pagination_style sysPage='1'/]</div>
+          [/@collect_page]
+        </div>
+      </div>
+   </div>    
+ </div>
+   <div class="clear"></div>
+ </div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

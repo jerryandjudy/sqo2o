@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ActivitysGys" table="jc_shop_activitys_gys">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<many-to-one name="activitys" column="activitys_id" class="com.jspgou.cms.entity.Activitys" not-null="true"></many-to-one>
+		<many-to-one name="gys" column="gys_id" class="com.jspgou.cms.entity.Gys" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 结算管理 - <@s.m "global.list"/></div>
+	<div class="clear">
+	</div>
+</div>
+<div class="rhead">
+	<form action="v_notelist.do" method="post">
+	 <div style="padding-top:5px">
+	 店铺名称：<input type="text" name="storeName" value="${storeName!}"/>
+        结算开始时间:
+         <input type="text" name="startTime" value="${startTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+	    &nbsp;结算结束时间：&nbsp;<input type="text" name="endTime" value="${endTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+        <input type="hidden" name="storeId" value="${storeId!}"/>
+         <div style="float:right">
+         <a href="v_excel.do">导出excel</a>
+         <input type="submit"  value="<@s.m "global.query"/>" /></div>
+		</div>
+
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;balance,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${balance.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${balance.id}</@p.column><#t/>
+	<@p.column code="store.storeName">${balance.store.storeName!}</@p.column><#t/>
+	<@p.column code="结算开始时间">${balance.startTime!}</@p.column><#t/>
+	<@p.column code="结算结束时间">${balance.endTime!}</@p.column><#t/>
+	<@p.column code="结算总额">${balance.total!}</@p.column><#t/>
+    <@p.column code="抽成">${balance.commission!}</@p.column><#t/>
+    <@p.column code="店铺收入">${balance.storeTotal}</@p.column><#t/>
+	<@p.column code="平台商收入">${balance.platTotal}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="DataBackup" table="jc_data_backup">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="native"/></id>
+		<property name="dataBasePath" column="dataBasePath" type="string" not-null="true" length="255"/>
+		<property name="address" column="address" type="string" not-null="true" length="255"/>
+		<property name="dataBaseName" column="dataBaseName" type="string" not-null="true" length="255"/>
+		<property name="username" column="username" type="string" not-null="true" length="255"/>
+		<property name="password" column="password" type="string" not-null="true" length="255"/>
+	</class>
+</hibernate-mapping>

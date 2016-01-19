@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>全文搜索   - ${web.name}${web.additionalTitle!}</title>
+</head>
+<body>
+<h1>JspGou全文检索</h1>
+ <form action="${base}/search.jspx" method="post" id="jvForm">
+      <input name="q" id="q" value="${q!'请输入关键词'}" type="text" id="keyword"
+         onfocus="if(this.value=='请输入关键词')this.value=''" 
+         onblur="if(this.value=='')this.value='请输入关键词'" maxlength="24"
+          autocomplete="off"  style="width:275px;height:17px;">
+       <span id="fid_box">
+		     <select name="ctgId">
+		        <option value="">所有信息</option>
+		        [@shop_Category_list]
+		           [#list tag_list as ctg]
+		                <option value="${ctg.id}">${ctg.name}</option>
+		            [/#list]
+	            [/@shop_Category_list] 
+		      </select>
+		 </span>
+       <input type="submit" value="搜索"/>
+</form>
+</body>
+</html>

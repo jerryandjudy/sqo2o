@@ -1,0 +1,24 @@
+<!--LOGO-->
+<div class="logo_box">
+  <div class="logo_in">
+  <div class="logo_index fl"><img src="${root}/images/index/logo.jpg" width="190px" height="85px" /></div>
+  <div class="logo_365 fl"><img src="${root}/images/index/365.gif"/></div> 
+  <!--全站搜索-->
+  <div class="searchBox fl">
+  <div class="fl ipt_width mar_T20"><input type="text" class="searchIpt" /></div>
+  <div class="fl btn_width mar_T20"><input type="submit" class="btn" value="搜索"/></div>
+  <div class="fl mainNavs">
+	<a href="#">相宜本草</a>
+	<a href="#">洗发水</a>
+	<a href="#">果冻</a>
+	<a href="#">牛奶</a>
+	<a href="#">纸尿裤</a>
+	</div>
+  </div>
+  <div class="index_btn1 fr mar_T20"><a href="${base}/cart/shopping_cart.jspx">我的购物车<span id="cart_total_items"></span>个商品</a></div>
+  <div class="index_btn2 fr mar_T20 mar_R10 "><a href="${base}/cart/checkout_shipping.jspx">去购物车结算</a></div>
+</div> 
+</div> 
+<script type="text/javascript">
+	  $('#cart_total_items').html(Shop.cartTotalItems());
+  </script>

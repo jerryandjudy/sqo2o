@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/thirdparty/swfupload/swfupload.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/swfupload.queue.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/fileprogress.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/handlers.js" type="text/javascript"></script>
+<link href="${base}/thirdparty/swfupload/process.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function openmap(){
+var dialog = $.dialog({title:'标注',min:false,max:false,width:'850px',height:'500px',content: 'url:../bld/v_mapadd.do?id='+$("#id").val()
+});
+dialog.show();
+}
+</script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+var swfu;
+window.onload=function() {
+	var uploadPicsUrl = "../common/o_swfPicsUpload.do";
+	var uploadAttachsUrl = "../common/o_swfAttachsUpload.do";
+	//在firefox、chrome下，上传不能保留登录信息，所以必须加上jsessionid。
+	var jsessionid = $.cookie("JSESSIONID");
+	if(jsessionid) {
+		uploadPicsUrl += ";jsessionid="+jsessionid;
+		uploadAttachsUrl += ";jsessionid="+jsessionid;
+	}
+};
+function uploadPicsSuccess(file,data) {
+	var jsonData=eval("("+data+")");//转换为json对象 
+	if(jsonData.error!=null){
+		$.alert("<@s.m 'global.prompt'/>",jsonData.error);
+	}else{
+		addPicLine();
+		var index = picIndex - 1;
+		imgUrl=jsonData.imgUrl;
+		$("#preImg"+index).attr("src",""+imgUrl);
+		var imgSrc = parent.document.getElementById("preImg"+index);
+		if(!$(imgSrc).attr("noResize")) {
+			$(imgSrc).css("width","auto");
+			$(imgSrc).css("height","auto");
+		}
+		$("#uploadImgPath"+index).val(imgUrl);
+	}
+}
+function uploadAttachSuccess(file,data) {
+	var jsonData=eval("("+data+")");//转换为json对象 
+	if(jsonData.error!=null){
+		$.alert("<@s.m 'global.prompt'/>",jsonData.error);
+	}else{
+		addAttachLine();
+		var index = attachIndex - 1;
+		
+		var attachUrl=jsonData.attachUrl;
+		var attachName=jsonData.attachName;
+		$("#attachmentPaths"+index).val(attachUrl);
+		$("#attachmentNames"+index).val(attachName);
+	}
+}
+</script>
+</head>
+<body>
+<#include "/common/image_switch_upload.html"/>
+<#include "/common/image_big_upload.html"/>
+<#include "/common/image_amp_upload.html"/>
+<#include "/common/image_upload.html"/>
+<#include "/common/attachment_upload.html"/>
+<#include "/common/doc_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 便利店编辑 - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.text colspan="2" label="便利店名称" name="ketaUser.realname" value=bld.ketaUser.realname required="true"  /><@p.tr/>
+<@p.text colspan="2" label="联系电话" name="ketaUser.phone" value=bld.ketaUser.phone class="required"  required="true" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="公司名称" name="companyName" value=bld.companyName class="required"  required="false" maxlength="100"  /><@p.tr/>
+
+<@p.text colspan="2" label="店铺地址" name="bldAddr" value=bld.bldAddr id="bldAddr" class="required"  required="true"  readonly="readonly" ondblclick="openmap();" help="该数据不可直接填写,请双击输入框，然后在地图上标注"  maxlength="200" size="50" /><@p.tr/>
+<@p.text colspan="2" label="连锁信息" name="chainInfo" value=bld.chainInfo class="required"  required="false" maxlength="100" size="50"  /><@p.tr/>
+<@p.text colspan="2" label="法人" name="legalPerson" value=bld.legalPerson required="false" maxlength="100"   size="50"/><@p.tr/>
+<@p.text colspan="2" label="联系人" name="contact" value=bld.contact required="false" maxlength="100"  size="50" /><@p.tr/>
+<@p.text colspan="2" label="联系方式" name="contactTel" value=bld.contactTel required="false" maxlength="100"  size="50" /><@p.tr/>
+<@p.text colspan="2" label="组织机构代码证号" name="orgCodeCert" value=bld.orgCodeCert required="false" maxlength="100"  size="50" /><@p.tr/>
+<@p.text colspan="2" label="开户行" style="width:300px" name="khh" value=bld.khh class="required"  required="true" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="户名" style="width:300px" name="hm" value=bld.hm class="required"  required="true" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="开户行账号" style="width:300px" name="khhzh" value=bld.khhzh class="required"  required="true" maxlength="100"  /><@p.tr/>
+
+<@p.td label="联络人有效授权书" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath100" name="fjLlrAuthorize" readonly="readonly" value=bld.fjLlrAuthorize  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(100);"/><br/>
+        <span id="ufc100"><input type="file" id="uploadFile100" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(100);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth100" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight100" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(100);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg100" src="${bld.fjLlrAuthorize!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="合作意向书" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath101" name="fjHzyxs" readonly="readonly" value=bld.fjHzyxs  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(101);"/><br/>
+        <span id="ufc101"><input type="file" id="uploadFile101" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(101);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth101" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight101" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(101);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg101" src="${bld.fjHzyxs!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="保证书" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath102" name="fjBzs" readonly="readonly" value=bld.fjBzs  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(102);"/><br/>
+        <span id="ufc102"><input type="file" id="uploadFile102" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(102);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth102" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight102" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(102);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg102" src="${bld.fjBzs!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="企业营业执照" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath103" name="fjQyyyzz" readonly="readonly" value=bld.fjQyyyzz  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(103);"/><br/>
+        <span id="ufc103"><input type="file" id="uploadFile103" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(103);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth103" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight103" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(103);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg103" src="${bld.fjQyyyzz!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="组织机构代码证" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath104" name="fjZzzgdm" readonly="readonly" value=bld.fjZzzgdm  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(104);"/><br/>
+        <span id="ufc104"><input type="file" id="uploadFile104" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(104);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth104" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight104" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(104);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg104" src="${bld.fjZzzgdm!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="税务登记证" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath105" name="fjSwdjz" readonly="readonly" value=bld.fjSwdjz  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(105);"/><br/>
+        <span id="ufc105"><input type="file" id="uploadFile105" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(105);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth105" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight105" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(105);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg105" src="${bld.fjSwdjz!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="开户许可证" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath106" name="fjKhxkz" readonly="readonly" value=bld.fjKhxkz  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(106);"/><br/>
+        <span id="ufc106"><input type="file" id="uploadFile106" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(106);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth106" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight106" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(106);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg106" src="${bld.fjKhxkz!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ 
+ <@p.td label="法人及非法人身份证正反面" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath107" name="fjFrffrSfz" readonly="readonly" value=bld.fjFrffrSfz  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(107);"/><br/>
+        <span id="ufc107"><input type="file" id="uploadFile107" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(107);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth107" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight107" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(107);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg107" src="${bld.fjFrffrSfz!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ 
+ <@p.td label="商户照片" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath108" name="fjShzp" readonly="readonly" value=bld.fjShzp  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(108);"/><br/>
+        <span id="ufc108"><input type="file" id="uploadFile108" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(108);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth108" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight108" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(108);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg108" src="${bld.fjShzp!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="入账卡正反面" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath109" name="fjRzkzfm" readonly="readonly" value=bld.fjRzkzfm  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(109);"/><br/>
+        <span id="ufc109"><input type="file" id="uploadFile109" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(109);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth109" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight109" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(109);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg109" src="${bld.fjRzkzfm!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ <@p.hidden id="attr_lng" value=bld.mapX name="mapX"    />
+<@p.hidden id="attr_lat" value=bld.mapY name="mapY"    />
+ <@p.td label="入账授权书" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath110" name="fjRzsqs" readonly="readonly" value=bld.fjRzsqs  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(110);"/><br/>
+        <span id="ufc110"><input type="file" id="uploadFile110" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(110);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth110" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight110" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(110);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg110" src="${bld.fjRzsqs!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+
+ <@p.td label="法人银行卡及非法人银行卡正反面" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath111" name="fjFrFfrYhk" readonly="readonly" value=bld.fjFrFfrYhk  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(111);"/><br/>
+        <span id="ufc111"><input type="file" id="uploadFile111" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(111);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth111" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight111" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(111);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg111" src="${bld.fjFrFfrYhk!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+
+
+ <@p.td label="超市加盟合同" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath112" name="fjJmht" readonly="readonly" value=bld.fjJmht  size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(112);"/><br/>
+        <span id="ufc112"><input type="file" id="uploadFile112" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(112);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth112" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight112" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(112);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg112" src="${bld.fjJmht!}" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+
+
+
+
+
+
+
+<@p.td colspan="2"><@p.hidden name="id" id="id" value=bld.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

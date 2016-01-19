@@ -1,0 +1,15 @@
+<div class="topleft">
+  [#if member??]
+    <span class="welcome">您好,<font color="red">${member.username!}</font>.欢迎光临JSPGO!</span>
+    <span class="login_text">
+       <a href="${base}/logout.jspx">退出登录</a>
+    </span>
+  [#else]
+    <span class="welcome">您好,欢迎光临JSPGO!</span>
+    <span class="login_text">
+       <a href="${base}/login.jspx" target="_self">用户登录</a> |
+       <a href="${base}/register.jspx" target="_self">免费注册</a> |
+       <a href="${base}/forgot_password.jspx" target="_blank">找回密码</a>
+    </span>  
+  [/#if]
+</div>

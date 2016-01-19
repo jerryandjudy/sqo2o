@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.core.entity">
+	<class name="Admin" table="jc_core_admin">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="admin_id"><generator class="native"/></id>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="viewonlyAdmin" column="is_viewonly_admin" type="java.lang.Boolean" not-null="true"/>
+		<property name="isSuper" column="is_super" type="java.lang.Boolean" not-null="true"/>
+		<many-to-one name="user" column="user_id" class="User" not-null="true"></many-to-one>
+		<many-to-one name="website" column="website_id" class="Website" not-null="true"></many-to-one>
+		<set name="roles" lazy="false" table="jc_core_admin_role">
+			<key column="admin_id"/>
+			<many-to-many column="role_id" class="Role"/>
+		</set>
+	</class>
+</hibernate-mapping>

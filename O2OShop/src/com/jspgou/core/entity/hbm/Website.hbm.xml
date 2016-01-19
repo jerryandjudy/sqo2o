@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.core.entity">
+	<class name="Website" table="jc_core_website">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="website_id"><generator class="native" /></id>
+		<property name="domain" column="domain" type="string" not-null="true" length="100" />
+		<property name="name" column="name" type="string" not-null="true" length="150" />
+		<property name="additionalTitle" column="additionalTitle" type="string" not-null="false" length="150" />
+		<property name="currentSystem" column="current_system" type="string" not-null="true" length="20" />
+		<property name="suffix" column="suffix" type="string" not-null="true" length="20" />
+		<property name="lft" column="lft" type="integer" not-null="true" length="10" />
+		<property name="rgt" column="rgt" type="integer" not-null="true" length="10" />
+		<property name="createTime" column="create_time" type="timestamp" not-null="true" />
+		<property name="baseDomain" column="base_domain" type="string" not-null="false" length="100" />
+		<property name="domainAlias" column="domain_alias" type="string" not-null="false" length="255" />
+		<property name="shortName" column="short_name" type="string" not-null="false" length="20" />
+		<property name="closeReason" column="close_reason" type="string" not-null="false" length="255" />
+		<property name="close" column="is_close" type="java.lang.Boolean" not-null="true" />
+		<property name="relativePath" column="is_relative_path" type="java.lang.Boolean" not-null="true" />
+		<property name="frontEncoding" column="front_encoding" type="string" not-null="true" length="20" />
+		<property name="frontContentType" column="front_content_type" type="string" not-null="true" length="50" />
+		<property name="localeFront" column="locale_front" type="string" not-null="true" length="20" />
+		<property name="localeAdmin" column="locale_admin" type="string" not-null="true" length="20" />
+		<property name="controlReserved" column="control_reserved" type="string" not-null="false" />
+		<property name="controlNameMinlen" column="control_name_minlen" type="integer" not-null="true" length="10" />
+		<property name="controlFrontIps" column="control_front_ips" type="string" not-null="false" />
+		<property name="controlAdminIps" column="control_admin_ips" type="string" not-null="false" />
+		<property name="company" column="company" type="string" not-null="true" length="255" />
+		<property name="copyright" column="copyright" type="string" not-null="true" length="255" />
+		<property name="recordCode" column="record_code" type="string" not-null="true" length="255" />
+		<property name="email" column="email" type="string" not-null="true" length="255" />
+		<property name="phone" column="phone" type="string" not-null="true" length="255" />
+		<property name="mobile" column="mobile" type="string"  length="255" />
+		<property name="version" column="version" type="string" length="255" />	
+		<property name="restart" column="restart" type="java.lang.Boolean" />	
+
+		<component name="emailSender" class="EmailSender">
+		<property name="host" column="email_host" type="string" not-null="false" length="50"/>
+		<property name="encoding" column="email_encoding" type="string" not-null="false" length="20"/>
+		<property name="username" column="email_username" type="string" not-null="false" length="100"/>
+		<property name="password" column="email_password" type="string" not-null="false" length="100"/>
+		<property name="personal" column="email_personal" type="string" not-null="false" length="100"/>
+		</component>
+		
+		<many-to-one name="account" column="account_id" class="Account"  not-null="false"></many-to-one>
+		<many-to-one name="admin" column="admin_id" class="Admin" not-null="false"></many-to-one>
+		<many-to-one name="parent" column="parent_id" class="Website" not-null="false"></many-to-one>
+		<many-to-one name="global" column="global_id" class="Global" not-null="true"></many-to-one>
+		<set name="child" inverse="true">
+			<key column="parent_id"/>
+			<one-to-many class="Website"/>
+		</set>
+		
+		<map name="messages" table="jc_core_message_tpl" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="website_id" not-null="true"/>
+			<map-key column="message_name" type="string" length="50"/>
+			<composite-element class="MessageTemplate">
+				<property name="subject" column="message_subject" type="string" not-null="false" length="255"/>
+				<property name="text" column="message_text" type="string" not-null="false"/>
+				<property name="activeTitle" column="active_title" type="string" not-null="false" length="255"/>
+				<property name="activeTxt" column="active_txt" type="string" not-null="false"/>
+			</composite-element>
+		</map>
+	</class>
+</hibernate-mapping>

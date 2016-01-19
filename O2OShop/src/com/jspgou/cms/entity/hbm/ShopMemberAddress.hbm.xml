@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopMemberAddress" table="jc_shop_member_address">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="address_id">
+			<generator class="native"/>
+		</id>
+		<property name="username" column="username" type="string" not-null="true" length="100"/>
+		<property name="gender" column="gender" type="boolean" not-null="false"/>
+		<property name="detailaddress" column="detailaddress" type="string" not-null="true" length="255"/>
+		<property name="postCode" column="postcode" type="string" not-null="false" length="20"/>
+		<property name="tel" column="tel" type="string" not-null="false" length="30"/>
+		<property name="areaCode" column="areacode" type="string" not-null="false" length="4"/>
+		<property name="phone" column="phone" type="string" not-null="false" length="14" />
+		<property name="extNumber" column="extnumber" type="string" not-null="false" length="6"/>
+		<property name="isDefault" column="is_default" type="boolean" not-null="true"/>
+		<many-to-one name="member" column="member_id" class="ShopMember" not-null="true"></many-to-one>
+		<many-to-one name="province" column="province_id" class="Address" not-null="true"></many-to-one>
+		<many-to-one name="city" column="city_id" class="Address" not-null="true"></many-to-one>
+		<many-to-one name="country" column="country_id" class="Address" not-null="true"></many-to-one>
+		<many-to-one name="street" column="street_id" class="Address"></many-to-one>
+		<many-to-one name="website" column="site_id" class="com.jspgou.core.entity.Website" not-null="false"></many-to-one>
+	</class>	
+</hibernate-mapping>

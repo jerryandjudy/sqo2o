@@ -1,0 +1,58 @@
+.welcom-con{ margin:0 auto; width:98%;}
+.ms{height:27px; border-bottom:1px solid #c0d5e6; border-top:1px solid #c0d5e6; margin-top:25px;padding-left:0px;}
+.ms li{color:#09C; font-weight:bold; float:left; line-height:27px;}
+.wxx{width:30%;}
+.ms-xx{height:80px; }
+.striping{border-bottom:1px solid #c0d5e6; }
+.item-title {color:#09C;}
+
+.we-txt{background:url(../img/admin/jeecms.png) no-repeat 0px -80px;}
+.we-txt a{color:#ff0000;}
+.we-txt p{line-height:24px; padding-left:158px; margin-top:17px;}
+
+/*数据录入和修改样式*/
+.pn-ftable{background-color:#B4CFCF;margin-top:5px;}
+.pn-ftable1{margin-top:5px;}
+.pn-flabel{background-color:#F9FBFD;text-align:right;padding-right:3px;}
+.pn-flabel-h{height:27px;}
+.pn-fcontent{background-color:#FFFFFF;padding-left:5px;}
+.pn-fbutton{background-color:#FFFFFF;text-align:center;}
+.pn-fhelp{color:#747474;padding:3px 0px;}
+.pn-frequired{color:red}
+.pn-fruler{background:url(../img/admin/ruler.gif) repeat-x 1px 6px;}
+/*数据列表样式*/
+.pn-ltable{background-color:#E2EBEF;margin:5px auto 0px auto;}
+.pn-lthead{}
+.pn-lthead th{height:27px;background-image:url(../img/theme/msg_bg.jpg);}
+.pn-ltbody{background-color:#FFFFFF;}
+.pn-ltbody tr{height:25px;}
+/*数据列表鼠标经过样式*/
+.pn-lhover{background-color:#F2F2F2;}
+.pn-lselected{background-color:#d9e8fb;}
+/*数据列表没有数据样式*/
+.pn-lnoresult{padding:10px;border:#b4cfcf 1px solid;text-align:center;color:red;font-weight:bold;}
+/*数据列表批量操作样式*/
+.pn-lbopt{margin-top:2px;padding:5px;border:#b4cfcf 1px solid;}
+/*数据列表操作链接样式*/
+.pn-lopt{text-align:center;}
+a.pn-loperator{text-decoration:underline;}
+a.pn-loperator:link {color: #2366A8;}
+a.pn-loperator:visited {color: #2366A8;}
+a.pn-loperator:hover{color: #2366A8;}
+a.pn-loperator:active {color: #2366A8;}
+/*分页样式*/
+.pn-sp{margin:3px auto 0px auto;padding:1px 0px;height:28px;background-image:url(../img/theme/pbg.jpg);}
+.pn-sp-left{float:left;padding-left:10px;width:24%}
+.pn-sp-right{float:left;text-align:center;width:74%}
+/*树的样式*/
+.pn-tree{font-size:12px;}
+.pn-tree *{word-break:keep-all;white-space:nowrap;}
+.pn-tree img{vertical-align:middle;}
+.pn-tree-hover{background-color:#F5F5F5;}
+.pn-tree-selected{background-color:#DDECEF;}
+.pn-tree-checkbox{vertical-align:middle;}
+
+.upload-button/*上传*/{background:url(../img/theme/menu_search.jpg) no-repeat; width:52px; height:19px; color:#666666; line-height:19px; text-align:center; border:0 none; cursor:pointer;}
+.browse/*浏览*/{background:url(../img/theme/menu_search.jpg) no-repeat; width:52px; height:19px; color:#666666; line-height:19px; text-align:center; border:0 none; cursor:pointer;}
+.file-button{height:24px;opacity:0;filter:alpha(opacity=0);position:absolute;right:5px;top:-5px; *left:0; *top:5px;}
+.file-button-other{height:24px;opacity:0;filter:alpha(opacity=0);position:absolute;right:78px;top:0px;}

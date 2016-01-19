@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>店铺资源重命名页  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/collect.css" type="text/css" rel="stylesheet" />
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class=" mt10">
+     <div class="mc_content" style="float:left;widht:500px;">
+	    <div class="usercenter_position"><span>暂放</span> </div>       
+         <div class="right_line">
+            <form method="post" action="o_rename.jspx" id="jvForm">
+              <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
+                <tr>
+                  <td width="20%" class="pn-flabel pn-flabel-h">原名称:</td>
+                  <td width="80%" class="pn-fcontent">${origName!}</td></tr>
+                <tr>
+                  <td width="20%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>新名称:</td>
+                  <td width="80%" class="pn-fcontent"><input type="text" maxlength="100" value="${origName!}" name="distName" class="required" size="40" maxlength="100"/></td></tr>
+               <tr><td colspan="2" class="pn-fbutton">
+	                 <input type="hidden" name="origName" value="${origName!}"/>
+	                 <input type="hidden" name="roott" value="${roott!}"/>
+	               <input type="submit" value="提交" class="submit" class="submit"/> &nbsp; 
+	               <input type="reset" value="重置" class="reset" class="reset"/></td></tr>
+	         </table>
+          </form>
+          </div>
+    </div>
+</div>
+ <div class="clear"></div>
+</body>
+</html>

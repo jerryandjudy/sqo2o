@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品已付款商品页- ${web.name}${web.additionalTitle!}</title>
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${sysResRoot}/front.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/res/common/css/jquery.ui.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/res/common/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/fckeditor/fckeditor.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+</script>
+</head>
+<body>
+[#include "../include/店铺页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+     [#include "../include/页头导航栏.html"/]
+</div>
+<div class="w960 mt10">
+  [#include "店铺中心_导航.html"/]
+  <div class="user_right">
+<div class="mc_content">
+	  <div class="usercenter_position"><span>已卖出商品</span>   
+      <form id="jvForm" action="sold.jspx">
+      <div class="listtool list_head">
+             <table class="favorite_tb" cellspacing="0" cellpadding="0" width="100%" border="0">
+                <tr>
+                   <td width="100" height="30">订单编号：</td>
+                   <td><input id="code" type="text" maxlength="30" value="${code!}" name="code" size="50"/></td>
+                 </tr>
+                 <tr>
+                    <td width="100" height="30">下单时间：</td>
+                    <td><input name="startTime"  value="${startTime!}" class="Wdate required regist_input" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>&nbsp;到
+                                 <input  name="endTime" type="text"  value="${endTime!}" class="Wdate required regist_input"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/></td>
+                  </tr>
+                  <tr>
+                       <td width="100" height="30">支付方式：</td>
+                        <td><select id="paymentId" name="paymentId">
+                                 <option value="">--支付方式--</option>
+                                  [#list paymentList as payment]
+                                    <option value="${payment.id}"[#if paymentId??] [#if paymentId==payment.id]selected="selected"[/#if][/#if]>${payment.name!}</option>
+                                  [/#list]
+                         </select></td>
+                    </tr>
+                  <tr>
+                         <td width="100" height="30">配送方式：</td>
+                         <td><select id="shippingId" name="shippingId">
+                                             <option value="">--配送方式--</option>
+                                              [#list shippingList as shipping]
+                                               <option value="${shipping.id}"[#if shippingId??] [#if shippingId==shipping.id]selected="selected"[/#if][/#if]>${shipping.name!}</option>
+                                              [/#list]
+                                          </select></td>
+                </tr>
+                <tr>
+                     <td colspan="2" align="center" height="30"><button class="J_MakePoint button search-btn"  type="submit"><font color="#000000">搜索</font></button></td>
+                </tr>
+           </table>
+      </div>
+    [@order_item_page  code=code paymentId=paymentId storeId=store.id shippingId=shippingId status='19'  startTime=startTime  endTime=endTime count='10']
+  	<table width="100%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#cccccc" style="font-size:12px;">
+		<tr>	
+			<td height="30" align="center" bgcolor="#f0f0f0">商品名称</td>
+			<td align="center" bgcolor="#f0f0f0">订单编号</td>
+			<td align="center" bgcolor="#f0f0f0">商品金额</td>
+			<td align="center" bgcolor="#f0f0f0">购买数量</td>
+			<td align="center" bgcolor="#f0f0f0">购买时间</td>
+			<td align="center" bgcolor="#f0f0f0">支付方式</td>
+			<td align="center" bgcolor="#f0f0f0">配送方式</td>
+		  </tr>
+		 [#if tag_list?size gt 0]
+		 [#list tag_list as item]
+		  <tr>	
+			<td align="center" bgcolor="#FFFFFF">
+			<img src="${root!}${item.product.coverImg!}" width="70" height="70"/>
+			<a href="${item.product.url!}" target="_self" style="color:#333; text-decoration:none;">[@text_cut s=item.product.name len='15' append='...'/]
+			</td>
+			<td align="center" bgcolor="#FFFFFF">${item.itemOrder.code!}</td>
+			<td align="center" bgcolor="#FFFFFF">${item.salePrice!0}</td>
+			<td align="center" bgcolor="#FFFFFF">${item.count!0}</td>
+			<td align="center" bgcolor="#FFFFFF">${item.itemOrder.createTime!}</td>
+			<td align="center" bgcolor="#FFFFFF">${item.itemOrder.payment.name!}</td>
+			<td align="center" bgcolor="#FFFFFF">${item.itemOrder.shipping.name!}</td>
+		  </tr>
+		 [/#list]
+		 [/#if]
+		</table>
+		<div align="center">[@pagination_style sysPage='3'/]</div>
+       [/@order_item_page]
+      </form>
+   </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 举报投诉管理 - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.td label="投诉举报编号" width="100" colspan="2">${report.code!}</@p.td><@p.tr/>
+<@p.td label="订单编号" width="100" colspan="2">${report.order.code!}</@p.td><@p.tr/>
+<@p.td label="被投诉方" width="100" colspan="2">${report.store.storeName!}</@p.td><@p.tr/>
+<@p.td label="被投诉方" width="100" colspan="2">${report.member.realName!}</@p.td><@p.tr/>
+<@p.td label="发起时间" width="100" colspan="2">${report.startDate?string("yyyy-MM-dd HH:mm:ss")!}</@p.td><@p.tr/>
+<@p.td label="处理时间" width="100" colspan="2"><#if report.endDate??>${report.endDate?string('yyyy-MM-dd HH:mm:ss')!}</#if></@p.td><@p.tr/>
+<@p.td label="平台商留言" colspan="2" width="100"><textarea name="platReply" cols="100" rows="5">${report.platReply!}</textarea></@p.td><@p.tr/>
+<@p.td width="100" colspan="2">
+<@p.hidden name="id" value=report.id/>
+<@p.hidden name="intervene" value=1/>
+<@p.hidden name="status" value=report.status/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

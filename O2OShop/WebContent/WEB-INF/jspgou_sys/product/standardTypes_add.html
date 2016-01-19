@@ -1,0 +1,17 @@
+<div class="mc_content" >
+ <ul class="ysppm_rg_ul">
+ 	<#list standardTypeList as standardType>
+ 	  <li <#if standardType_index=0>class="curr3"<#else>class="normaltab3"</#if> id="tb_1${standardType_index+1}" onclick="HoverLi(1,'${standardType_index+1}','${digit}');">${standardType.name}</li>
+ 	</#list>
+</ul>
+ <div class="mc_content">
+ 	<#list standardTypeList as standardType>
+	<div id="tbc_1${standardType_index+1}" <#if standardType_index=0>class="dis"<#else>class="undis"</#if>>
+	   <#list standardType.standardSet as standard>
+          <input type="checkbox" id="${standardType.field!}" name="${standardType.field!}" value="${standard.id!}" nameAttr="${standard.name!}" />
+          <span class="colorSize">${standard.name!}</span><br/>
+        </#list>
+	</div>
+	</#list>
+</div>
+</div>

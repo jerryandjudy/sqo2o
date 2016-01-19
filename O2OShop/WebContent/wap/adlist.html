@@ -1,0 +1,10 @@
+<!-- Slider -->
+<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}'>
+  <ul class="am-slides">
+  [@shop_advertising_space id=21  count=4]
+  [#list tag_list as ad]
+    <li><a href="${ad.attr.image_link!}"><img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}"></a></li>
+    [/#list]
+  [/@shop_advertising_space]
+  </ul>
+</div>

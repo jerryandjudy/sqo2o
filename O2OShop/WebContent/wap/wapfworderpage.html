@@ -1,0 +1,97 @@
+
+<!--TOP=end-->
+[@sqorder_page status=status count='5' pageNos=pageNos ] [#list tag_list
+as sqOrder]
+<div class="am-container am-margin-top-lg">
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<div class="am-panel am-panel-default mo am-text-xs">
+				<div class="am-panel-hd">订单号：${sqOrder.code!}</div>
+				<div class="am-panel-bd c-goods-list" style="padding: 10px">
+					<p>服务名称：${sqOrder.sqService.name!}</p>
+					<p>服务描述：${sqOrder.sqService.descriptions!}</p>
+					<p>服务商：${sqOrder.seller.realname!}</p>
+					<p>下单时间：${sqOrder.createTime!}</p>
+					<p>结单时间：${sqOrder.finishedTime!}</p>
+					<p>收 货 人：${sqOrder.receiveName!}</p>
+					<p>联系电话：${sqOrder.receiveTel!}</p>
+					<p>收货地址：${sqOrder.receiveAddress!}</p>
+					<p>订单备注：${sqOrder.comments!}</p>
+
+				</div>
+				<footer class="am-panel-footer">
+					[#if sqOrder.status==1 ]<span class="am-padding-xs">未完成</span>
+					[#else] <span class="am-padding-xs">已完成 </span> [/#if]
+
+				</footer>
+			</div>
+		</div>
+		<div class="am-u-sm-12">
+			<ul id="orders"
+				class="am-pagination am-pagination-centered am-no-layout"
+				data-am-widget="pagination">
+			</ul>
+		</div>
+	</div>
+</div>
+[/#list] [#assign p=tag_pagination /] [#if p.pageNo gte p.totalPage]
+<div class="am-g am-text-center" id="next-page" url="end">
+	没有更多了.... [#else]
+	<div class="am-g am-text-center" id="next-page"
+		url="/wap/wapfworderpage.jspx">
+		<i class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+			class="am-icon-spinner am-icon-spin"></i>...
+	</div>
+	[/#if]
+	<script type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										pageNos:${pageNos+1},
+										status:[#if status??]${status}[#else]''[/#if]
+								
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script>
+
+	<script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+</div>
+[/@sqorder_page]
+

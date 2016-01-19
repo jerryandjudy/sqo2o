@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shop.config.basic.function"/></div>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_basic_update.do">
+<@p.text label="website.name" name="name" value=website.name required="true" class="required" maxlength="150"/>
+<#--<@p.text label="website.additionalTitle" name="additionalTitle" value=website.additionalTitle maxlength="150" help="website.additionalTitle.help"/>-->
+<@p.text label="website.domain" name="domain" value=website.domain required="true" class="required" maxlength="100"/>
+<@p.text label="website.baseDomain" name="baseDomain" value=website.baseDomain help="website.baseDomain.help" maxlength="100"/>
+<@p.radio label="website.relativePath" name="relativePath" value=website.relativePath list={"true":"global.true","false":"global.false"} required="true" help="website.relativePath.help"/>
+<@p.select label="website.suffix" name="suffix" value=website.suffix list=[".jhtml",".htm"] required="true"/>
+<#--
+<@p.text label="website.frontEncoding" name="frontEncoding" value=website.frontEncoding required="true" class="required" maxlength="20"/>
+<@p.text label="website.frontContentType" name="frontContentType" value=website.frontContentType required="true" class="required" maxlength="50" size="30"/>
+-->
+<@p.text label="website.localeFront" name="localeFront" value=website.localeFront required="true" class="required" maxlength="20"/>
+<@p.text label="website.localeAdmin" name="localeAdmin" value=website.localeAdmin required="true" class="required" maxlength="20"/>
+<@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

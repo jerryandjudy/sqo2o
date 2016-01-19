@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JSPGOU商品 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/product.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script src="${root}/u/js/product.js"  type="text/javascript"></script>
+<script language="JavaScript" type="text/JavaScript">
+function g(o){
+	return document.getElementById(o);
+}
+
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='spms_normal';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='spms_curr';
+}
+
+function addToCart(productId,count,isAdd) {
+	/*if(!Core.username()) {
+		location.href='${loginUrl}';
+		return;
+	}*/
+	$.post('${base}/cart/add_orderItem.jspx', {
+		'productId' : productId,
+		'productAmount' : count,
+		'isAdd' : isAdd
+	}, function(data) {
+		if(data.status==1) {
+			location.href='${base}/cart/shopping_cart.jspx?backUrl=${location}';
+		} else if(data.status==0) {
+			location.href='${loginUrl}';
+		} else {
+			alert(data.error);
+		}
+	},'json');
+}
+
+function addToCollect(productId){
+	$.post('${base}/collect/add_to_collect.jspx',{
+		'productId':productId
+		}, function(data){
+            if(data.status == 1){
+            	 alert('收藏成功!');
+            }else if(data.status== 2){
+                    alert('收藏过该商品');
+            }else{
+            	location.href='${base}/login.jspx';
+            }
+	   },'json');
+}
+
+function copyLink(){
+	try {
+		var cText =  document.location.toString();
+		if (window.clipboardData) {
+			window.clipboardData.setData("Text", cText);
+			alert("页面链接复制成功，你可以粘贴到飞信、QQ或MSN发送给好友");
+		} else if (window.netscape) {
+			try {
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+			} catch (e) {
+				alert("您的浏览器设置为不允许复制！\n如果需要此操作，请在浏览器地址栏输入'about:config'并回车\n然后将'signed.applets.codebase_principal_support'设置为'true',再重试复制操作!");
+				return false;
+			}
+			var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+			if (!clip) 
+				return;
+			var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+			if (!trans) {
+				return;
+			}
+			trans.addDataFlavor('text/unicode');
+			var str = new Object();
+			var len = new Object();
+			var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+			
+			str.data = cText;
+			trans.setTransferData("text/unicode", str, cText.length * 2);
+			var clipid = Components.interfaces.nsIClipboard;
+			if (!clip) 
+				return false;
+			clip.setData(trans, null, clipid.kGlobalClipboard);
+			alert("页面链接复制成功，你可以粘贴到飞信、QQ或MSN发送给好友");
+		}
+	} catch (e) {
+	}
+};
+
+// 分享代码
+var shareid = "fenxiang";
+
+(function() {
+    var a = {
+        url:function() {
+            return encodeURIComponent(window.location.href)
+        },title:function() {
+            return encodeURIComponent(window.document.title)
+        },content:function(b) {
+            if (b) {
+                return encodeURIComponent($("#" + b).html())
+            } else {
+                return""
+            }
+        },setid:function() {
+            if (typeof(shareid) == "undefined") {
+                return null
+            } else {
+                return shareid
+            }
+        },kaixin:function() {
+            window.open("http://www.kaixin001.com/repaste/share.php?rtitle=" + this.title() + "&rurl=" + this.url() + "&rcontent=" + this.content(this.setid()))
+        },renren:function() {
+            window.open("http://share.renren.com/share/buttonshare.do?link=" + this.url() + "&title=" + this.title())
+        },sinaminiblog:function() {
+            window.open("http://v.t.sina.com.cn/share/share.php?url=" + this.url() + "&title=" + this.title() + "&content=utf-8&source=&sourceUrl=&pic=")
+        },baidusoucang:function() {
+            window.open("http://cang.baidu.com/do/add?it=" + this.title() + "&iu=" + this.url() + "&dc=" + this.content(this.setid()) + "&fr=ien#nw=1")
+        },taojianghu:function() {
+            window.open("http://share.jianghu.taobao.com/share/addShare.htm?title=" + this.title() + "&url=" + this.url() + "&content=" + this.content(this.setid()))
+        },wangyi:function() {
+            window.open("http://t.163.com/article/user/checkLogin.do?source=%E7%BD%91%E6%98%93%E6%96%B0%E9%97%BB%20%20%20&link=" + this.url() + "&info=" + this.content(this.setid()))
+        },qqzone:function() {
+            window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title))						 
+            },pengyou:function() {
+            window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?to=pengyou&url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title))
+        },douban:function() {
+            window.open("http://www.douban.com/recommend/?url=" + this.url() + "&title=" + this.title() + "&v=1")
+        }};
+    window.share = a
+})();
+
+$(function() {
+    $(".renren").click(function() {
+        share.renren();
+    });
+    $(".xinlang").click(function() {
+        share.sinaminiblog();
+    });
+    $(".douban").click(function() {
+        share.douban();
+    });
+    $(".kaixin").click(function() {
+        share.kaixin();
+    });
+    $(".taojianghu").click(function() {
+        share.taojianghu();
+    });
+    $(".wangyi").click(function() {
+        share.wangyi();
+    });
+    $(".qqzone").click(function() {
+        share.qqzone();
+    });
+    $(".baidusoucang").click(function() {
+        share.baidusoucang();
+    });
+    $(".qqweibo").click(function() {
+        share.qqweibo();
+    });
+	$(".qqpengyou").click(function() {
+        share.pengyou();
+    });
+});
+function postToWb() {
+    var _t = encodeURI(document.title);
+    var _url = encodeURI(document.location);
+    var _appkey = encodeURI("appkey");
+    var _u = 'http://v.t.qq.com/share/share.php?title=' + _t + '&url=' + _url + '&appkey=' + _appkey;
+    window.open(_u);
+}
+</script>
+
+</head>
+<body onload="getSeverTime();">
+
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	[#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+</div>
+[#include "../include/页头广告位.html"/]
+<div class="position">您现在的位置：<a href="${base}/">首页</a>  » <a href="${category.url!}" class="red">${category.name!}</a></div>
+<div class="center mt10">
+  <div class="produce clearfix">
+    <input type="hidden" name="id" value="${product.id}"/>
+     <!--  
+	 <div class="p_title"><h2><font id="productMainName">${product.name!}</font></h2></div>
+	 -->
+	 <div class="property property_box ">
+	   <div class="specific_info1">
+          	<dl class="clearfix" id="productMainName">
+                <dd><h2>${product.name!}</h2></dd>
+          	</dl>
+	   		<dl class="clearfix">
+				<dt>商品编号：</dt>
+				<dd id="productCode">${product.productExt.code!}</dd>
+			</dl>
+		  	<dl class="clearfix" id="productQiangPrice"></dl>	
+		  		<dl class="clearfix">
+				<dt>销售价：</dt>
+					<dd><span class="price_1store productPriceSpan  f24" id="nonMemberPrice">¥${product.salePrice!}</span>
+			    		<span class="price_1store">元</span>
+			    		<span class="gift_points">赠送积分：
+			    			<strong> [#if product.score??]${product.score!}分[#else]无积分[/#if]</strong>
+			    		</span>
+					</dd>
+				</dl>
+				<dl class="clearfix">
+					<dt>市场价：</dt>
+					<dd><del id="old_price" class="old_price">¥${product.marketPrice!}元</del></dd>
+				</dl>
+				<dl class="clearfix">
+					<dt>商品评分：</dt>
+					<dd id="">暂时无评分</dd>
+				</dl>
+				<dl class="clearfix">
+					<dt>库存：</dt>
+					<dd id="stock_count">[#if product.stockCount??]${'有货'}[#else]${'无货'}[/#if]</dd>
+				</dl>			
+	 	</div>					
+     	<div class="specific_info2">
+			<dl id="goToBuyDistrict" class="clearfix">
+				<dt>购买数量：</dt>
+				<dd>
+				<div class="computing">
+					<input type="button" class="reduce" onclick="decrementAll();"/>
+					<input type="text" id="product_amount" name="productAmount" onchange ="buyButtonNumChange('product_amount')" class="num" onkeyup="inputOnlyNum(this, 1, 999);" value="1"/>
+					<input type="button" class="add" onclick="incrementAll();"/>
+				</div>
+			</dd>
+		</dl>								
+		<table>
+		   <tr id="buyButtonsDistrict">
+			  <td width="84">&nbsp;</td>
+			   <td> 
+			   <input type="button" class="add_shopping_cart" value="加入购物车" onclick="javascript:addToCart(${product.id},$('#product_amount').val(),true);"/>
+	             <span  style="display:none" onclick="doSubscribeProdAction();" class="rp_btn" id="subscribeProdSpan" productId="2227287" merchantId="3">
+		               <strong><span id="subscribeProdBtn">0</span>元</strong></span>
+			   </td>
+			   	<td>
+					<a id="addFavorite" class="collection"  href="javascript:void(0);" onclick="javascript:addToCollect(${product.id});">收藏&gt;&gt;</a>
+				</td>
+		 </tr>
+		</table>
+		<div id="noGoodsRecommendsDiv" style="display:none;"></div>
+	</div>           
+  </div><!-- property -->
+  <div class="gallery " id="gallery_view">
+	<div class="pic" id="mainPic">
+		 [#if product.pictures?? && product.pictures?size gt 0]
+           [#list product.pictures as pic]
+              [#if pic_index==0]
+                 <a id="productImgA" class="jqzoom" href="${root!}${pic.appPicturePath!}"  style="width:378px;height:378px;">
+			      <img id="productImg" src="${root!}${pic.bigPicturePath!}" alt="${product.name!}" width="378" height="378"/>
+	          	</a>
+               [/#if]
+              [/#list]
+        [/#if]
+	</div>
+	<div class="clear"></div>
+	<!-- 商品图片滚动 -->
+	<div class="pic_slide">
+		<span class="prev" id="prevBtn"></span>
+			<div class="pic_slide_box" id="sliderImgs">
+				<ul id="detailPictureSlider">
+				  [#if product.pictures?? && product.pictures?size gt 0]
+                      [#list product.pictures as pic]
+                         [#if pic_index==0]
+                           	<li><img  class="selected" src="${root!}${pic.picturePath!}" onmouseover="initCurrPicture(jQuery(this),'${root}','${pic.bigPicturePath!}','${pic.appPicturePath!}')" width="58" height="58" /></li>
+                         [#else]
+                            <li><img src="${root!}${pic.picturePath!}" onmouseover="initCurrPicture(jQuery(this),'${root}','${pic.bigPicturePath!}','${pic.bigPicturePath!}')" width="58" height="58" /></li>
+                         [/#if]
+                        [/#list]
+                       [/#if]
+				</ul>
+			</div>
+	   <span class="next" id="nextBtn"></span>
+	</div>
+	<!--  
+	<div class="specific_info1">		
+        <dl class="clearfix">
+        	 <!--  
+			 <dt>分&nbsp;享&nbsp;到：</dt>
+			
+			 <dd class="share_ico">
+			 	<span>分享到:&nbsp;</span>
+	            <a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?appkey=2794712645&title=【${product.name!}】,JSPGOU价 ￥${product.salePrice!}&ralateUid=1725229222&url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()"></a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${product.name!}￥${product.salePrice!}','2fc26c2514bb48ec891170ce68db2683');" ></a>
+            </dd>
+        </dl>			
+    </div>
+    -->
+    <div class="share-con">
+	<span class="tit">分享到：</span>
+	<a title="复制链接" href="javascript:void(0)" onclick="copyLink()"><span class="copylink"></span></a>
+	<a title="分享到腾讯微博" href="javascript:void(0)" onclick="postToWb();"><span class="tengxunweibo"></span></a>
+	<a title="分享到新浪微博" href="javascript:void(0);"><span class="xinlang"></span></a>
+	<a title="分享到搜狐微博" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var f='http://t.sohu.com/third/post.jsp?',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=660,height=470,left=',(s.width-660)/2,',top=',(s.height-470)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','','','utf-8'));"><span class="sohu"></span></a>
+	<a title="分享到网易微博" href="javascript:void(0);"><span class="wangyi"></span></a>
+	<a title="分享到Qzone空间" href="javascript:void(0);"><span class="qqzone"></span></a>
+	<a title="分享到朋友社区" href="javascript:void(0);"><span class="qqpengyou"></span></a>
+	<a title="分享到人人网" href="javascript:void(0);"><span class="renren"></span></a>
+	<a title="分享到开心网" href="javascript:void(0);"><span class="kaixin"></span></a>
+	<a title="分享到淘江湖" href="javascript:void(0);"><span class="taojianghu"></span></a>
+
+	<a title="分享到豆瓣" href="javascript:void(0);"><span class="douban"></span></a>
+	<a title="分享到百度收藏" href="javascript:void(0);"><span class="baidusoucang"></span></a>
+</div>
+  </div><!-- gallery -->
+ </div><!-- produce -->	    
+ <div class="spxx">
+       <ul class="spxx_type">
+              <li class="spms_curr" id="tb_11" onclick="HoverLi(1,1,5)" style="cursor: hand"><a>商品祥情</a></li>	
+              <li class="spms_normal" id="tb_12" onclick="HoverLi(1,2,5)" style="cursor: hand"><a>服务承诺</a></li> 
+              <li class="spms_normal" id="tb_13" onclick="HoverLi(1,3,5)" style="cursor: hand"><a>商品评价</a></li>
+              <li class="spms_normal" id="tb_14" onclick="HoverLi(1,4,5)" style="cursor: hand"><a>商品咨询</a></li>
+              <li class="spms_normal" id="tb_15" onclick="HoverLi(1,5,5)" style="cursor: hand"><a>成交记录</a></li>
+       </ul>
+       <div id="tbc_11"  class="dis">
+          <div class="intro_box">
+                   ${product.text!}
+          </div>
+      </div>  
+      <div class="undis" id="tbc_12">
+          <div class="intro_box">
+                   ${product.text1!}
+          </div>
+     </div>  
+     <div class="undis" id="tbc_13">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/searchDiscussPage.jspx?productId=${product.id!}" name="rightFrame" noresize="noresize" id="rightFrame" height="800"></iframe>
+     </div> 
+     <div class="undis" id="tbc_14">
+         <iframe width="740"  frameborder=0 scrolling=no  src="${base}/consultProduct.jspx?productId=${product.id!}" name="rightFrame" noresize="noresize" id="rightFrame" height="800"></iframe>
+     </div>
+    <div class="undis" id="tbc_15">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/bargain.jspx?productId=${product.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800"></iframe>
+    </div>
+ </div>  
+  <div class="clear"></div>
+</div>
+ [#include "../include/页脚信息栏.html"/] 
+</body>
+</html>

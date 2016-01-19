@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+var swfu;
+window.onload=function() {
+	var uploadPicsUrl = "../common/o_swfPicsUpload.do";
+	var uploadAttachsUrl = "../common/o_swfAttachsUpload.do";
+	//在firefox、chrome下，上传不能保留登录信息，所以必须加上jsessionid。
+	var jsessionid = $.cookie("JSESSIONID");
+	if(jsessionid) {
+		uploadPicsUrl += ";jsessionid="+jsessionid;
+		uploadAttachsUrl += ";jsessionid="+jsessionid;
+	}
+	swfu=new SWFUpload({
+		upload_url : uploadPicsUrl,
+		flash_url : "${base}/thirdparty/swfupload/swfupload.swf",
+		file_size_limit : "20 MB",
+		file_types : "*.jpg;*.gif;*.png;*.bmp",
+		file_types_description : "<@s.m 'content.picture'/>",
+		file_queue_limit : 0,
+		custom_settings : {
+			progressTarget : "fsUploadProgress",
+			cancelButtonId : "btnCancel"
+		},
+		debug: false,
+		
+		button_image_url : "${base}/res/common/img/theme/menu_search.jpg",
+		button_placeholder_id : "spanButtonPlaceHolder",
+		button_text: "<span class='btnText'><@s.m 
+
+"content.pictures.upload"/></span>",
+		button_width: 52,
+		button_height: 19,
+		button_text_top_padding: 2,
+		button_text_left_padding: 0,
+		button_text_style: '.btnText{color:#666666;}',
+		
+		file_queued_handler : fileQueued,
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : uploadError,
+		upload_success_handler : uploadPicsSuccess,
+		upload_complete_handler : uploadComplete,
+		queue_complete_handler : queueComplete
+	});
+};
+function uploadPicsSuccess(file,data) {
+	var jsonData=eval("("+data+")");//转换为json对象 
+	if(jsonData.error!=null){
+		$.alert("<@s.m 'global.prompt'/>",jsonData.error);
+	}else{
+		addPicLine();
+		var index = picIndex - 1;
+		imgUrl=jsonData.imgUrl;
+		$("#preImg"+index).attr("src",""+imgUrl);
+		var imgSrc = parent.document.getElementById("preImg"+index);
+		if(!$(imgSrc).attr("noResize")) {
+			$(imgSrc).css("width","auto");
+			$(imgSrc).css("height","auto");
+		}
+		$("#uploadImgPath"+index).val(imgUrl);
+	}
+}
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shopArticle.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.select colspan="2" width="100" label="shopArticle.channel" name="channelId" list=channelList  value=(cid)!  listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="global.none" required="true"/><@p.tr/>
+<@p.td colspan="2" width="100"  label="shopArticle.title" required="true" >
+<@p.text name="title" size="70" required="true" class="required"  maxlength="255"/>
+<label><input type="checkbox" onclick="$('#linkDiv').toggle(this.checked);if(!this.checked){$('#link').val('');}"/><@s.m "global.link"/></label>
+<div id="linkDiv" style="display:none">url: <input type="text" id="link" name="link" size="35" maxlength="255"/></div>
+</@p.td><@p.tr/>
+ <@p.td label="标题图" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath106" name="titleImg"    size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(106);"/><br/>
+        <span id="ufc106"><input type="file" id="uploadFile106" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(106);"/><br/>
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg106"  alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="shopArticle.publishTime" readonly="readonly" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" help="shopArticle.publishTime.help"/>
+<@p.radio colspan="1" width="50" label="shopArticle.disabled" name="disabled" value="false" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.editor colspan="2" width="100"  label="shopArticle.content" name="content" height="300"/><@p.tr/>
+<@p.td colspan="2" width="100"  label="shopArticle.extendData">
+<@s.m "shopArticle.data"/>2: <@p.text name="param2"/> &nbsp;
+<@s.m "shopArticle.data"/>3: <@p.text name="param3"/>
+</@p.td><@p.tr/>
+<@p.td colspan="2" width="100" ><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

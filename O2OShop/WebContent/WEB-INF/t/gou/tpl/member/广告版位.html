@@ -1,0 +1,47 @@
+[#if adspace?? && adspace.enabled]
+(function() {
+var Ad = function(iId,sHtml,fCode,dStart,dEnd,iWeight) {
+	this.iId = iId;
+	this.sHtml = sHtml;
+	this.fCode = fCode;
+	this.dStart = dStart;
+	this.dEnd = dEnd;
+	this.iWeight = iWeight;
+}
+var ads = new Array(${adList?size});
+var adsLen = 0;
+[#list adList as ad]
+
+[#assign html]
+<a href="${(ad.attr.image_link)!}" target="${ad.attr.image_target!}" title="${(ad.attr.image_title)!}" onclick="$.get('${base}/ad_click.jspx?id=${ad.id}');">
+<img src="${ad.attr.image_url}" border="0"[#if (ad.attr.image_width)??] width="${ad.attr.image_width}"[/#if][#if (ad.attr.image_height)??] height="${ad.attr.image_height}"[/#if]/>
+</a>
+[/#assign]
+ads[adsLen++] = new Ad(${ad.id},"${html?js_string}",null,
+	[#if ad.startTimeMillis??]new Date(${ad.startTimeMillis})[#else]null[/#if],
+	[#if ad.endTimeMillis??]new Date(${ad.endTimeMillis})[#else]null[/#if],
+	${ad.weight});
+
+[/#list]
+var indexArr = new Array();
+var now = new Date();
+for(var i=0,j=0,len=ads.length;i<len;i++){
+	if((!ads[i].dStart || now>ads[i].dStart) && (!ads[i].dEnd || now<ads[i].dEnd)) {
+		for(var max=j+ads[i].iWeight;j<max;j++) {
+			indexArr[j] = i;
+		}
+	}
+}
+
+var rand = parseInt(Math.random() * indexArr.length);
+var show = ads[indexArr[rand]];
+if(show.sHtml) {
+	document.write(show.sHtml);
+} else {
+	show.fCode();
+}
+$.get("${base}/ad_display.jspx?id="+show.iId);
+})();
+[#else]
+document.write('广告版位不存在');
+[/#if]

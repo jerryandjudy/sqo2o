@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+function chgStatus() {
+	var status = $("input[name=status]:checked").val();
+	location.href="v_list.do?cid=${cid!}&status=" + status;
+}
+
+function chgTotal(total,commission){
+	alert(total);
+	alert(commission);
+	if(commission>1||commission<0){
+          alert("抽成只能在0-1之间");
+          $("#commission").val("0.0");
+          return;
+	}
+	var storeTotal=total*(1-commission);
+	$("#store").html("");
+	$("#store").html(storeTotal);
+	$("#storeTotal").val(storeTotal);
+	var platTotal=total*(commission);
+	$("#plat").html("");
+	$("#plat").html(platTotal);
+	$("#platTotal").val(platTotal);
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "order.function.all"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_balance.do" method="post">
+	 <div style="padding-top:5px">
+        下单日期:
+         <input type="text" name="startTime" value="${startTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+	    &nbsp;至&nbsp;<input type="text" name="endTime" value="${endTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+        <input type="hidden" name="storeId" value="${storeId!}"/>
+         <div style="float:right"><input type="submit"  value="<@s.m "global.query"/>" /></div>
+		</div>
+
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.table value=list;order,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${order.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="order.id">${order.id}</@p.column><#t/>
+	<@p.column code="收货人名称"><#if order.shopMemberAddress??>${order.shopMemberAddress.username}</#if></@p.column><#t/>
+	<@p.column code="order.total" align="center">￥${order.total!}<br/>(含运费:${order.freight!0})</@p.column><#t/>
+	<@p.column code="order.createTime" style="width:100px;">${order.createTime}</@p.column><#t/>
+	<@p.column code="order.shipping"><#if order.shipping??>${order.shipping.name}</#if></@p.column><#t/>
+	<@p.column code="order.payment"><#if order.payment??>${order.payment.name!}</#if></@p.column><#t/>
+	<@p.column code="order.status"><@s.m "order.status.${order.orderStatus}"/></@p.column><#t/>
+</@p.table>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="storeId" value="${storeId!}"/>
+<div>
+<@p.td colspan="2"><strong class="title">财务结算</strong></@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="订单总额">${total!0.0}</@p.td>
+<@p.td colspan="1" width="50" label="抽成"><input type="text" id="commission" name="commission" value="0.0" onchange="chgTotal(${total},this.value);"/></@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="店铺收入"><span id="store">${total!0.0}</span>元</@p.td>
+<@p.td colspan="1" width="50" label="平台商收入"><span id="plat">0.0</span>元</@p.td><@p.tr/>
+<input type="hidden" id="total" name="total" value="${total!0.0}"/>
+<input type="hidden" id="platTotal" name="platTotal" value="0.0" />
+<input type="hidden" id="storeTotal" name="storeTotal" value="${total!0.0}"/>
+<input type="hidden" id="startTime" name="startTime" value="${startTime!}" />
+<input type="hidden" id="endTime" name="endTime" value="${endTime!}" />
+<@p.td colspan="2"><input type="submit" value="确认结算"/></@p.td>
+</div>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

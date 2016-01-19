@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="OrderReturn" table="jc_shop_order_return">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="return_id"><generator class="native"/></id>
+		<property name="code" column="code" type="string" not-null="false" length="255"/>
+		<property name="reason" column="reason" type="string" not-null="false" length="500"/>
+		<property name="alipayId" column="alipay_id" type="string" not-null="false" length="255"/>
+		<property name="status" column="status" type="integer" not-null="true" length="10"/>
+		<property name="money" column="money" type="java.lang.Double" not-null="true" length="11"/>
+		<property name="sellerMoney" column="seller_money" type="java.lang.Double" not-null="false" length="11"/>
+		<property name="returnType" column="return_type" type="java.lang.Integer" not-null="true" length="11"/>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+		<property name="finishedTime" column="finished_time" type="timestamp" not-null="false"/>
+		<property name="payType" column="pay_type" type="integer" not-null="true" length="10"/>
+		
+        <many-to-one name="order" column="order_id" class="Order" not-null="true"></many-to-one>
+		<many-to-one name="shopDictionary" column="reason_id" class="ShopDictionary" not-null="true"></many-to-one>
+		<list name="pictures" table="jc_shop_order_return_picture">
+			<key column="return_id"/>
+			<list-index column="priority"/>
+			<composite-element class="OrderReturnPicture">
+				<property name="imgPath" column="img_path" type="string" length="100" not-null="true"/>
+				<property name="description" column="description" type="string" length="255" not-null="false"/>
+			</composite-element>
+		</list>
+	</class>	
+</hibernate-mapping>

@@ -1,0 +1,227 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title> ${category.name!}- ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/main_kind.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${root}/js/index_v20.js" /></script>
+</head>
+<body>
+
+<!--TOP-->
+[#include "../include/页头顶栏.html"/]
+
+<!--LOGO-->
+[#include "../include/页头搜索栏.html"/]
+
+
+
+<div id="nav" class="fl">
+<div class="area clearfix">
+<div class="separate" >	
+<div class="menu-dh">
+    	<ul>
+            <li><a href="${base}/">首 页</a></li>
+        	<li><a href="${base}/sp/index.htm">休闲零食</a></li>
+            <li><a href="${base}/jsyl/index.htm">酒水饮料</a></li>
+            <li><a href="${base}/jjyp/index.htm">家居用品</a></li>
+            <li><a href="${base}/ghhz/index.htm">个护化妆</a></li>
+            <li><a href="${base}/lyfs/index.htm">粮油干货</a></li>
+            <li><a  href="${base}/wtyp/index.htm">文体用品</a></li>
+            <li><a href="${base}/sqfw/index.htm">社区服务</a></li>
+            <li><a href="${base}/bldmap/index.htm">便利店网点</a></li>
+        </ul>
+    </div></div>
+<div class="category-content" id="guide_2">
+<div>
+<span class="all-goods">${category.name}<em></em></span>
+</div>
+
+
+<div class="category">
+<ul class="category-list" style="height:456px;" id="js_climit_li">
+
+[@shop_Category_list loadChild='0' Level=1 count=6 parentId=category.id isDisplay='1' ]
+            [#list tag_list as categorys]
+            [#if categorys_index<6]
+
+  <li class="appliance js_toggle relative first">
+    <div class="category-info list-nz">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-289" href="${categorys.url!}" target="_blank" class="ml-22" title="${categorys.title!}">${categorys.name!}</a></h3>
+      <p class="c-category-list limit-24">
+      [@shop_Category_list loadChild='0' Level=1 count=24 parentId=categorys.id isDisplay='1' ]
+      [#assign othercate=tag_list /]
+      		[#list tag_list as tc]
+      		[#if tc_index<3]
+      		<a href="${tc.url!}" target="_blank" title="${tc.title!}">${tc.name!}</a>
+     		[/#if]
+      		[/#list]
+       		[/@shop_Category_list]  
+      </p>
+      <em>&gt;</em>
+      </div>
+<textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    
+    <div class="sort-side">
+    <dl class="dl-sort">
+    				 [#list othercate as oc]
+           <dd><a target="_blank" href="${oc.url!}"><span [#if oc.isJp==true] class="red" [/#if] >${oc.name!}</span> </a> </dd>      
+           			 
+      				 [/#list]
+         
+     </dl>
+     </div>
+     
+     
+     </div>
+     </div>
+     </div>
+     </div>
+</textarea>
+  </li>
+  [/#if]
+   [/#list]
+           [/@shop_Category_list]  
+  
+ 
+</ul>
+</div>
+
+</div>
+</div>
+<center>
+<!--focus start-->
+<div  id="focus" style="width: 1280px;margin: 0 auto;" >
+	<div style="float:left;width: 202px;height: 454px;" >
+	</div>
+	<div id="focus_m"  style=" float:left; width: 1078px;height: 454px">
+		<ul>
+		    [@shop_advertising_space id=23 categoryId=category.id count=1]
+		    [#if tag_list?size gt 0]
+			[#list tag_list as ad] 
+			 <li ><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}" hidefocus="true" title="${ad.attr.image_title!}"><img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}" width="1078px" height="454px" alt="" /></a></li>
+			 [/#list]
+			 [#else]
+			 <li ><a href="#" target="#" hidefocus="true" title="测试"><img src="${root}/images/kind/1_kind.jpg" width="1078px" height="454px" alt="" /></a></li>
+			 [/#if]
+			 [/@shop_advertising_space]
+		</ul>
+	</div>
+
+</div>
+<!--focus end-->
+
+<!--产品展示图组-->
+[@shop_Category_list loadChild='0' Level=1 count=24 parentId=category.id isDisplay='1' ]
+            [#list tag_list as categorys]
+
+
+
+<div class="Product_group_box">
+<div style="width:1280px; margin:0 auto;">
+<div class="kind_floor_titlebox">
+<div class="kind_floor_title01">${categorys.name!}</div>
+<div class="kind_floor_title02">
+
+	[@shop_Category_list loadChild='0' Level=1 count=24 parentId=categorys.id isDisplay='1' ]
+      [#assign othercate=tag_list /]
+      		[#list tag_list as tc]
+|<a href="${tc.url!}">${tc.name!}</a>
+
+			[/#list]
+		[/@shop_Category_list]  	
+</div>
+</div>
+
+<div class="kind_floor_box">
+<div class="kind_floor_top">
+<div class="kind_floor_top1">精彩推荐 
+ </div>
+</div>
+<div class="kind_floor_probox">
+	
+
+	[@shop_ProductSiteList categoryId=categorys.id recommend='1' count='8' ]
+		
+	[#list tag_list as productSite]
+		
+	[#if productSite_index<2]
+   
+     
+
+<div class="kind_floor_left">
+<ul>
+<li><a href="${productSite.url!}"><img src="http://u-10017112.file.myqcloud.com${productSite.product.productExt.coverImg!}" title="${productSite.product.name!}" style="width:236px;height:230px"/></a></li>
+<li class="kind_left_li"><a href="${productSite.url!}" target="_blank" title="${productSite.product.name}" >[@text_cut s=productSite.product.name len=12 /]</a></li>
+<li class="kind_left_li"><em>¥${productSite.salePrice!}</em></li>
+</ul>
+</div>
+
+
+
+
+	[/#if]
+	[#if productSite_index>1]
+
+<div class="kind_floor_right0${productSite_index-1}">
+<ul>
+<li><a href="${productSite.url!}"  target="_blank" title="${productSite.product.name}">[@text_cut s=productSite.product.name len=12 /]</a></li>
+<li class="kind_floor_right0${productSite_index-1}_zz"><em>¥${productSite.salePrice!}</em></li>
+<li class="kind_floor_right0${productSite_index-1}_img"><a href="${productSite.url!}"><img src="http://u-10017112.file.myqcloud.com${productSite.product.productExt.coverImg!}" style="width:120px;height:120px"/></a></li>
+</ul>
+</div>
+
+	[/#if]
+	
+[/#list]
+     [/@shop_ProductSiteList]
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+ [/#list]
+           [/@shop_Category_list]  
+  
+
+
+
+
+
+<!--页脚-->
+[#include "../include/页脚信息栏.html"/]
+
+<script type="text/javascript">
+(function(){ 
+ var $menuLi =$('#nav .menu');
+ var $menuHd = $('#nav .menu-hd');
+ var $menuBd = $('#nav .menu-bd');
+ var $arrow = $('#nav .m1 i');
+ $menuBd.hover(function(){
+ $menuHd.addClass('on');
+ },function(){
+ $menuHd.removeClass('on');
+ });
+ $menuLi.hover(function(){
+ $menuHd.children('b').addClass('b-on');
+ },function(){
+ $menuHd.children('b').removeClass('b-on');
+ })
+})();
+</script>
+<script type="text/javascript" src="js/index_kind.js"></script>
+</body>
+</html>

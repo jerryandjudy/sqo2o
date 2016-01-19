@@ -1,0 +1,188 @@
+<div class="left fl">
+   <div class="itemChoose">
+      <h2>分类筛选</h2>
+      <div class="itemChooseBox">
+        [#if !(category.parent??)]
+                 <!-- 顶级类别的展示列表 -->
+         <!-- 顶级类别开始 -->
+            <h3><a class="icon_btn open" href="javascript:void(0);"></a>
+              <a href="${category.url!}" title="${category.name!}">${category.name!}</a></h3>
+          <ul class="show">
+             <!-- 二级类别 开始-->
+              [#if category.child?size&gt;0]
+              [@shop_Category_list parentId=category.id]
+                 [#list tag_list as ctg]
+                    [#if ctg.child?size&gt;0]
+                    <li class="child">
+                         <a class="icon_btn" href="javascript:void(0);"></a>
+                         <a href="${ctg.url!}" title="${ctg.name!}">${ctg.name!}</a>
+                         <ul>
+                          <!-- 三级类别 开始-->
+                           [@shop_Category_list parentId=ctg.id]
+                            [#list tag_list as ctg1]
+                            [#if ctg1.child?size&gt;0]
+                            <li class="child">
+                                  <a class="icon_btn" href="javascript:void(0);"></a>
+                                   <a href="${ctg1.url!}" title="${ctg1.name!}">${ctg1.name!}</a>
+                                   <ul>
+                                    <!-- 四级类别开始 -->
+                                    [@shop_Category_list parentId=ctg1.id]
+                                        [#list tag_list as ctg2]
+                                         [#if ctg2.child?size&gt;0]
+                                           <li class="child">
+                                              <a class="icon_btn" href="javascript:void(0);"></a>
+                                              <a href="${ctg2.url!}" title="${ctg2.name!}">${ctg2.name!}</a>
+                                               <ul>
+                                                <!-- 五级类别开始 -->
+                                                 [@shop_Category_list parentId=ctg2.id]
+                                                    [#list tag_list as ctg3]
+                                                       <li>
+                                                            <a class="icon_btn" href="javascript:void(0);"></a>
+                                                             <a href="${ctg3.url!}" title="${ctg3.name!}">${ctg3.name!}</a>
+                                                        </li>
+                                                    [/#list]
+                                                 [/@shop_Category_list] 
+                                                 <!-- 五级类别结束 -->
+                                                </ul>
+                                            </li>
+                                         [#else]
+                                            <li><a class="icon_btn" href="javascript:void(0);"></a>
+                                            <a href="${ctg2.url!}" title="${ctg2.name!}">${ctg2.name!}</a> </li>
+                                         [/#if]
+                                        [/#list]
+                                     [/@shop_Category_list] 
+                                     <!-- 四级类别结束 -->
+                                    </ul>
+                             </li>
+                             [#else]
+                                <li><a class="icon_btn" href="javascript:void(0);"></a>
+                                   <a href="${ctg1.url!}" title="${ctg1.name!}">${ctg1.name!}</a>
+                                 </li>
+                              [/#if]
+                            [/#list]
+                          [/@shop_Category_list] 
+                          <!-- 三级类别结束 -->
+                         </ul>
+                      </li>
+                      [#else]
+                         <li><a class="icon_btn" href="javascript:void(0);"></a>
+                              <a href="${ctg.url!}" title="${ctg.name!}">${ctg.name!}</a>
+                          </li>
+                      [/#if]
+                   [/#list]
+             [/@shop_Category_list]  
+             <!-- 二级类别结束 -->
+             [/#if]
+          </ul>
+         <!-- 顶级类别结束 -->
+         [#else]
+        <!--其他级别类别开始 -->
+        <!-- 一级类别开始 -->
+         <h3><a class="icon_btn open" href="javascript:void(0);"></a>
+              <a href="${category.parent.url!}" title="${category.parent.name!}">${category.parent.name!}</a></h3>
+          <ul class="show">
+          <!-- 二级类别 开始-->
+          [#if category.parent.child?size&gt;0]
+           [@shop_Category_list parentId=category.parent.id]
+               [#list tag_list as ctg]
+                    [#if ctg.child?size&gt;0]
+                    <li class="child">
+                         <a [#if ctg.id==category.id]class="icon_btn open"[#else]class="icon_btn"[/#if] href="javascript:void(0);"></a>
+                         <a href="${ctg.url!}" title="${ctg.name!}">${ctg.name!}</a>
+                         <ul [#if ctg.id==category.id]class="show"[/#if]>
+                           <!-- 三级类别 开始-->
+                           [@shop_Category_list parentId=ctg.id]
+                            [#list tag_list as ctg1]
+                            [#if ctg1.child?size&gt;0]
+                            <li class="child">
+                                  <a [#if ctg1.id==category.id]class="icon_btn open"[#else]class="icon_btn"[/#if] href="javascript:void(0);"></a>
+                                   <a href="${ctg1.url!}" title="${ctg1.name!}">${ctg1.name!}</a>
+                                   <ul [#if ctg1.id==category.id]class="show"[/#if]>
+                                   <!-- 四级类别开始 -->
+                                    [@shop_Category_list parentId=ctg1.id]
+                                        [#list tag_list as ctg2]
+                                         [#if ctg2.child?size&gt;0]
+                                           <li class="child">
+                                              <a [#if ctg2.id==category.id]class="icon_btn open"[#else]class="icon_btn"[/#if] href="javascript:void(0);"></a>
+                                              <a href="${ctg2.url!}" title="${ctg2.name!}">${ctg2.name!}</a>
+                                               <ul [#if ctg2.id==category.id]class="show"[/#if]>
+                                                <!-- 五级类别开始 -->
+                                                 [@shop_Category_list parentId=ctg2.id]
+                                                    [#list tag_list as ctg3]
+                                                       <li>
+                                                            <a class="icon_btn" href="javascript:void(0);"></a>
+                                                             <a href="${ctg3.url!}" title="${ctg3.name!}">${ctg3.name!}</a>
+                                                        </li>
+                                                    [/#list]
+                                                 [/@shop_Category_list] 
+                                                 <!-- 五级类别结束 -->
+                                                </ul>
+                                            </li>
+                                         [#else]
+                                            <li><a class="icon_btn" href="javascript:void(0);"></a>
+                                            <a href="${ctg2.url!}" title="${ctg2.name!}">${ctg2.name!}</a> </li>
+                                         [/#if]
+                                        [/#list]
+                                     [/@shop_Category_list] 
+                                     <!-- 四级类别结束 -->
+                                    </ul>
+                             </li>
+                             [#else]
+                                <li><a class="icon_btn" href="javascript:void(0);"></a>
+                                   <a href="${ctg1.url!}" title="${ctg1.name!}">${ctg1.name!}</a>
+                                 </li>
+                              [/#if]
+                            [/#list]
+                          [/@shop_Category_list] 
+                            <!-- 三级类别 结束-->
+                         </ul>
+                      </li>
+                      [#else]
+                         <li><a class="icon_btn" href="javascript:void(0);"></a>
+                              <a href="${ctg.url!}" title="${ctg.name!}">${ctg.name!}</a>
+                          </li>
+                      [/#if]
+                   [/#list]
+             [/@shop_Category_list] 
+             <!-- 二级类别 结束--> 
+             [/#if]
+          </ul>
+          <!-- 其他级别类别结束-->
+       [/#if]
+      </div>
+    </div>
+    <div class="last-week-hot mt10">
+         <div class="tit_hot">上周热销榜 <span>HOT</span></div>
+          	[@shop_topSale count=2]
+          	    [#list tag_list as topSale]
+          	    <dl>
+               	   <dt><a href="">${topSale.name!}</a></dt>
+                   <dd class="hot_img fl"><a href="${topSale.url!}" target="_blank">
+                   <img src="${topSale.productExt.coverImg!global.defImg}" width="63" height="65" onload="javascript:DrawImage(this,63,65);" /></a></dd>
+                   <dd class="hot_price fr">
+                   [#if topSale.category.colorsize] 
+                   	[#list topSale.fashions as fashion]
+                    	[#if fashion.isDefault]
+                        ¥${fashion.salePrice!0}
+                      	[/#if]
+                   	[/#list]     
+                   [#else]
+                   	¥${topSale.salePrice!0}
+                   [/#if]
+                   </dd>
+               </dl>
+          	  [/#list]
+             [/@shop_topSale]
+      </div>
+     <div class="choiceness mt10">
+        [@sift_brand]
+           [#if tag_bean??]
+             <div class="tit_choiceness">精选品牌 <span>${tag_bean.name!}</span></div>
+               <div class="pinpai_sp">
+                    <div class="pinpai_img"><a style="cursor: hand" onclick="brandSubmit('${tag_bean.id}');"  ><img src="${tag_bean.logoPath!}" width="179" height="93" /></a></div>
+                    <a style="cursor: hand" onclick="brandSubmit('${tag_bean.id}');" class="look_sp">[查看本品牌商品]</a>
+               </div>
+           [/#if]
+        [/@sift_brand]
+    </div>
+</div>

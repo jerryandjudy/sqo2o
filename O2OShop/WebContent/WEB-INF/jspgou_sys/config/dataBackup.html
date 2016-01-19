@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function closeDIV(){
+	document.getElementById("showDIV").style.display="none";
+}
+function openDIV(){
+	document.getElementById("showDIV").style.display="block";
+}
+function backup(){
+	$("#password").val($("#pwd").val());
+	closeDIV();
+	getTableForm().submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 数据备份 </div>
+	
+	<form class="ropt">
+		<input type="button" value="备份" onclick="openDIV()"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="tableForm" action="o_dataBackup.do">
+<input type="hidden" name="password" id="password"/>
+<input type="hidden" name="id" value="${dataBackup.id!}"/>
+<@p.td label="数据库路径">
+	<@p.text name="dataBasePath" value="${dataBackup.dataBasePath!}" required="true" class="required"/>
+</@p.td>
+<@p.tr/>
+<@p.td label="地址">
+	<@p.text name="address" value="${dataBackup.address!}" required="true" class="required" help="本机可使用localhost"/>
+</@p.td>
+<@p.tr/>
+<@p.td label="数据库名称">
+	<@p.text name="dataBaseName" value="${dataBackup.dataBaseName!}" required="true" class="required"/>
+</@p.td>
+<@p.tr/>
+<@p.td label="用户名">
+	<@p.text name="username" value="${dataBackup.username!}" required="true" class="required"/>
+</@p.td>
+<@p.tr/>
+</@p.form>
+</div>
+
+<div id="showDIV"
+	style="display: none; z-index: 2; position: absolute; top: 30%; right: 50%; width: 200px; height: 50px; background: #eee; border: 1px solid #000; margin: 0 auto;">
+<div align="center"><input type="hidden" id="hiddenId" /> 
+<input type="password" id="pwd" /><br/>
+<input type="button" onclick="backup()" value="备份" /> 
+<input type="button" onclick="closeDIV()" value="关闭" />
+</div>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

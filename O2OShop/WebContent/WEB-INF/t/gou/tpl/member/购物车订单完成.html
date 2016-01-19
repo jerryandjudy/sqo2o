@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的购物车  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/buy.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+</div>
+<div class="w960">
+	 <div class="buy_position">您当前的位置：<a href="${base!}" target="_blank">首页</a>&nbsp;&gt;&nbsp;成功提交订单</div>
+     <ul class="step6">
+     	 <li>1.我的购物车</li><li>2.确定送货地址</li><li>3.选择送货方式</li><li>4.选择支付方式</li><li>5.订单确认</li><li class="step_curr">6.订单完成</li>
+     </ul>
+  <div class="mygwc"><strong>成功提交订单</strong>（温馨提示：<span>1.选购清单中的商品无法保留库存,请您及时结算。2.商品的价格和库存将以订单提交时为准。</span>）</div>
+  <div class="zccg">
+	 <div class="gxzccg"><img src="${root}/u/buy/cjtjdd.jpg" /></div>
+     <div class="cgxx">
+     	  <p>1、您该订单的编号:${order.id}</p>
+          <p>2、该订单共需支付：${order.total}</p>
+          <p>3、该订单支付方式： ${order.payment.name}</p>
+          <p>4、<a href="my_order_view.jspx?orderId=${order.id}">查看详情</a></p>
+      </div>
+   </div>
+   <div class="clear"></div>
+</div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

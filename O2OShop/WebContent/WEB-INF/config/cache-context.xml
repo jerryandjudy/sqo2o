@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-lazy-init="true">
+	<!--缓存--><!-- 引用ehCache的配置 -->
+	<bean id="cacheManager" class="com.jspgou.common.web.WebEhCacheManagerFacotryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache-application.xml</value>
+		</property>
+		<property name="diskStoreLocation">
+			<value>/WEB-INF/cache/application</value>
+		</property>
+	</bean>
+	<!--全局缓存--><!-- 定义ehCache的工厂，并设置所使用的Cache name -->
+	<bean id="globalCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<qualifier value="global"/>
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>com.jspgou.core.Global</value>
+		</property>
+	</bean>
+	<!--域名缓存-->
+	<bean id="domainCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<qualifier value="domain"/>
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>com.jspgou.core.Domain</value>
+		</property>
+	</bean>
+	<!--SESSION缓存-->
+	<bean id="ehSessionCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<qualifier value="session"/>
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>com.jspgou.common.web.session.Session</value>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ExendedItem" table="jc_shop_exended_item">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="Id"><generator class="native"/></id>
+    	<property name="name" column="name" type="string" not-null="true" length="255"/>
+		<many-to-one name="exended" column="exended_id" class="Exended" not-null="true"></many-to-one>
+	</class>	
+</hibernate-mapping>

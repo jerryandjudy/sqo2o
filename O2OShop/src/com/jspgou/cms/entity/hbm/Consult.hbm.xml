@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Consult" table="jc_shop_consult">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="consult" column="consult" type="string" not-null="false" length="254"/>
+		<property name="adminReplay" column="adminReplay" type="string" not-null="false" length="254"/>
+		<property name="time" column="time" type="timestamp" not-null="false" length="19"/>
+		
+		<many-to-one name="member" column="member_id" class="ShopMember" not-null="true"></many-to-one>
+		<many-to-one name="productSite" column="product_site_id" class="ProductSite" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

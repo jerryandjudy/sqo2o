@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>拆分结果 </title>
+<#include "/jspgou_sys/head.html"/>
+</head>
+<body>
+<h1>拆分结果：</h1>
+<form id="tableForm" method="post">
+<div align="center" style="font-size: 50px"  >拆分未成功的商品如下，系统已经自动处理为取消订单状态</div>
+<#if list?size gt 0>
+	<@p.table value=list;item,i,has_next><#rt/>
+	<@p.column code="product.code" style="width:100px"><#if item.productSite.product.productExt??>${item.productSite.product.productExt.code!}</#if></@p.column><#t/>
+	<@p.column code="product.name" align="left"><img src="${item.productSite.product.productExt.coverImg!}" width="50" height="50"/>
+	${item.productSite.product.name!}&nbsp;<#if item.productFash??>${item.productFash.attitude!}</#if></@p.column><#t/>
+	<@p.column code="orderItem.finalPrice" style="width:110px">
+	 <#if item.productFash??><input type="text" id="itemPrice_${item.id}" name="itemPrice" value="${item.salePrice!0}" onchange="changePrice();" style="width:100px"/>
+	 <#else><input type="text" id="itemPrice_${item.id}" name="itemPrice" value="${item.salePrice!0}"  onchange="changePrice();"  style="width:100px"/>
+	 </#if></@p.column><#t/>
+	 <@p.column code="单重" style="width:60px"><span id="itemWeight_${item.id}">${item.productSite.product.weight}</span></@p.column><#t/>
+	<@p.column code="orderItem.count" style="width:60px">
+		<input type="hidden" name="itemId" value="${item.id}"/>
+		<input type="text" id="itemCount_${item.id}" name="itemCount" value="${item.count!0}" onchange="changeCount();" style="width:50px"/>
+	</@p.column><#t/>
+	<@p.column code="orderItem.subtotal" style="width:100px"><span id="subtotal_${item.id}"><#if item.productFash??>${item.productFash.salePrice*item.count!0}
+	 <#else>${item.productSite.salePrice*item.count!0}</#if></span>
+	</@p.column><#t/>
+</@p.table>
+<#else>
+<div align="center" style="font-size: 50px"  >拆分成功</div>
+</#if>
+
+</form>
+<div class="foot"><#if backUrl??>【<a href="${backUrl}">点击这里返回</a>】<#else>【<a href="javascript:history.back();">点击这里返回上一页</a>】</#if> </div>
+</body>
+</html>

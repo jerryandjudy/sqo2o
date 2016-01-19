@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 供应商配送区域 - <@s.m "global.list"/></div>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_gysps_list.do" method="post">
+	 <div style="padding-top:5px">
+	供应商姓名： <input type="text" name="username" id="username" value="${username!}" style="width:150px"/>  
+	供应商公司： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;psqy,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${psqy.id}'/><#t/>
+	</@p.column><#t/>
+	
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商姓名">${psqy.gys.ketaUser.realname}</@p.column><#t/>
+	<@p.column code="联系电话">${psqy.gys.ketaUser.phone}</@p.column><#t/>
+	<@p.column code="公司">${psqy.gys.companyName}</@p.column><#t/>
+	<@p.column code="所属站点">${psqy.gys.website.name}</@p.column><#t/>
+	<@p.column code="配送区域">${psqy.province.name}/${psqy.city.name}/${psqy.country.name}</@p.column><#t/>
+	<@p.column code="说明">${psqy.description}</@p.column><#t/>
+	<@p.column code="添加人">${psqy.user.username}</@p.column><#t/>
+	<@p.column code="添加时间">${psqy.createTime}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

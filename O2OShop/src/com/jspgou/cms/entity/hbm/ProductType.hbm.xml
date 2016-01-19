@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ProductType" table="jc_shop_ptype">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="ptype_id"><generator class="native"/></id>
+		<property name="name" column="name" type="string" not-null="true" length="150"/>
+		<property name="alias" column="alias" type="string" not-null="false" length="255"/>
+		<property name="channelPrefix" column="channel_prefix" type="string" not-null="true" length="20"/>
+		<property name="contentPrefix" column="content_prefix" type="string" not-null="true" length="20"/>
+		<property name="props" column="props" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<property name="detailImgWidth" column="detail_img_width" type="integer" not-null="true" length="10"/>
+		<property name="detailImgHeight" column="detail_img_height" type="integer" not-null="true" length="10"/>
+		<property name="listImgWidth" column="list_img_width" type="integer" not-null="true" length="10"/>
+		<property name="listImgHeight" column="list_img_height" type="integer" not-null="true" length="10"/>
+		<property name="minImgWidth" column="min_img_width" type="integer" not-null="true" length="10"/>
+		<property name="minImgHeight" column="min_img_height" type="integer" not-null="true" length="10"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<set name="exendeds" table="jc_shop_ptype_exended">
+			<cache usage="read-write"/>
+			<key column="ptype_id"/>
+			<many-to-many column="exended_id" class="Exended"/>
+		</set>
+		<set name="properties" inverse="true" cascade="all-delete-orphan">
+			<key column="ptype_id"/>
+			<one-to-many class="ProductTypeProperty"/>
+		</set>
+	</class>
+</hibernate-mapping>

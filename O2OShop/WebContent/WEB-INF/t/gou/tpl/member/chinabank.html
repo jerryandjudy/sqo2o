@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here  - ${web.name}${web.additionalTitle!}</title>
+</head>
+
+<body onLoad="javascript:document.E_FORM.submit()">
+<form action="https://pay3.chinabank.com.cn/PayGate" method="POST" name="E_FORM">
+  
+<input type="hidden" name="v_md5info"    value="${v_md5info}" size="100">
+<input type="hidden" name="v_mid"        value="${v_mid}">
+<input type="hidden" name="v_oid"        value="${v_oid}">
+<input type="hidden" name="v_amount"     value="${v_amount}">
+<input type="hidden" name="v_moneytype"  value="${v_moneytype}">
+<input type="hidden" name="v_url"        value="${v_url}"> 
+</form>
+</body>
+</html>

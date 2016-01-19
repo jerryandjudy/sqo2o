@@ -1,0 +1,15 @@
+<div id="top">
+[#include "../include/header_store_register.html"/]
+  <div class="topright">
+    <span><a href="${base}/shopMember/index.jspx" target="_self">会员中心  |</a></span> 
+    <span>
+      [#if member??][#if member.store??]<a href="${member.store.url!}" target="_blank">我的店铺首页   |</a>[/#if][/#if]
+      <a href="${base}/store/index.jspx" target="_self">卖家中心   |</a>
+      <a href="${base}/registerStore.jspx" target="_self">我要开店  |</a>
+    </span> 
+    <span>
+         <a href="javascript:void(0);" onclick="window.external.addFavorite('http://','商城管理系统')">加入收藏</a>  |
+         <a href="javascript:void(0);" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://localhost:8080/gou/');">设为主页</a>
+    </span>  
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<style type="text/css">
+.addr{padding:2px 0;}
+</style>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "member.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign usernameExist><@s.m "error.usernameExist"/></#assign>
+<#assign emailExist><@s.m "error.emailExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12"> 
+<@p.text colspan="1" width="50" label="member.username" id="username" name="username" size="30" required="true" vld="{required:true,rangelength:[3,100],remote:'../admin/v_check_username.do',messages:{remote:'${usernameExist}'}}"/>
+<@p.text colspan="1" width="50" label="member.email" id="email" name="email" size="30" required="true" vld="{required:true,email:true,maxlength:100,remote:'../admin/v_check_email.do',messages:{remote:'${emailExist}'}}"/><@p.tr/>
+<@p.password width="50" colspan="1" label="member.password" id="password" name="password" maxlength="100" required="true" class="required"/>
+<@p.password width="50" colspan="1" label="member.pwdAgain" equalTo="#password"/><@p.tr/>
+<@p.select colspan="1" width="50" label="group.function" id="groupId" name="groupId" list=groupList listKey="id" listValue="name" required="true"/>
+<@p.text colspan="1" width="50" label="member.score" id="score" name="score" value="0" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="1" width="50" label="member.realname" id="realName" name="realName" required="true" class="required" maxlength="10"/>
+<@p.radio colspan="1" width="50" label="member.gender" id="gender" name="gender" value="true" required="true" list={"true":"member.gender.male","false":"member.gender.female"}/><@p.tr/>
+<@p.text colspan="1" width="50" label="member.birthday" id="birthday" name="birthday" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate required" required="true"/>
+<@p.radio colspan="1" width="50" label="member.marriage" id="marriage" name="marriage" value=" " required="true" list={"true":"member.marriage.married","false":"member.marriage.unmarried"," ":"member.secrecy"}/><@p.tr/>
+<@p.text colspan="1"  width="50" label="member.mobile" id="mobile" name="mobile" required="true" class="required mobile" minlength="11" maxlength="11"/><font color="red"> <span id="checkmobile"></span></font>
+<@p.text colspan="1"  width="50" label="member.tel" id="tel" name="tel" maxlength="50"/><@p.tr/>
+<@p.text colspan="1"  width="50" label="member.schoolTag" id="schoolTag" name="schoolTag" maxlength="50"/>
+<@p.text colspan="1" width="50" label="member.schoolTagDate" id="schoolTagDate" name="schoolTagDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="member.disabled" id="disabled" name="disabled" value="false" required="true" list={"true":"global.true","false":"global.false"}/>
+<@p.radio colspan="1" width="50" label="member.isCar" id="isCar" name="isCar" value="false" required="true" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.text colspan="2"  width="50" label="member.position" id="position" name="position" maxlength="50"/><@p.tr/>
+
+<@p.select colspan="1" width="50" label="userDegree.function" id="userDegreeId" name="userDegreeId" list=userDegreeList listKey="id" listValue="name" required="true"/>
+<@p.select colspan="1" width="50" label="degree.function" id="degreeId" name="degreeId" list=degreeList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.select colspan="1" width="50" label="incomeDesc.function" id="incomeDescId" name="incomeDescId" list=incomeDescList listKey="id" listValue="name" required="true"/>
+<@p.select colspan="1" width="50" label="workSeniority.function" id="workSeniorityId" name="workSeniorityId" list=workSeniorityList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.select colspan="2" width="100"  label="familyMembers.function" id="familyMembersId" name="familyMembersId" list=familyMembersList listKey="id" listValue="name"/><@p.tr/>
+<@p.td label="头像" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="avatar" size="30"/> <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+<span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="139" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="139" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+
+<@p.text colspan="2" width="100" label="member.company" id="company" name="company" size="70" maxlength="100" /><@p.tr/>
+<@p.text colspan="2" width="100" label="member.address" id="address" name="address" size="70" maxlength="100" /><@p.tr/>
+<@p.textarea colspan="2" label="member.favoriteBrand" id="favoriteBrand" name="favoriteBrand" maxlength="255" cols="70" rows="5"/><@p.tr/>
+<@p.textarea colspan="2" label="member.favoriteStar" id="favoriteStar" name="favoriteStar" maxlength="255" cols="70" rows="5"/><@p.tr/>
+<@p.textarea colspan="2" label="member.favoriteMovie" id="favoriteMovie" name="favoriteMovie" maxlength="255" cols="70" rows="5"/><@p.tr/>
+<@p.textarea colspan="2" label="member.favoritePersonage" id="favoritePersonage"name="favoritePersonage" maxlength="255" cols="70" rows="5"/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/>&nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品 - ${web.name}${web.additionalTitle!}</title>
+<style>
+.box{ width:440px;}
+.box li{ float:left; width:400px; height:100px; margin-right:10px;}
+</style>
+<link href="${root}/css/product.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/pshow.css" type="text/css" rel="stylesheet" />
+<script src="${rootSys}/front/jquery.js" type="text/javascript"></script>
+<script src="${root}/js/product.js"  type="text/javascript"></script>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript">
+$(function(){
+	$.post("${base}/historyRecord.jspx",{sqServiceId:"${sqService.id}"},function(data){});
+});
+function addOrder(sqServiceId){
+	window.location.href="${base}/order/fworder.jspx?sqServiceId="+sqServiceId+"&returnUrl="+window.location.href;
+}
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='spms_normal';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='spms_curr';
+}
+function HoverLi1(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb1_'+m+i).className='spms_normal';
+		g('tbc1_'+m+i).className='undis';
+	}
+	g('tbc1_'+m+n).className='dis';
+	g('tb1_'+m+n).className='spms_curr';
+}
+
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div style="width:100%; background: #ffffff;">
+<div id="head">
+	[#include "../include/页头搜索栏.html"/]
+</div></div>
+[#include "../include/页头广告位.html"/]
+<div class="position">您现在的位置：<a href="${base}/">首页</a>  » <a href="${category.url!}" class="red">${category.name!}</a></div>
+<div class="center mt10">
+  <div class="produce clearfix">
+	 <div class="p_title"><h2><font id="productMainName">${sqService.name!}</font></h2></div>
+	 <div class="">
+	
+     <div class="specific_info2" style="text-indent:20px;">
+            <p style="height:40px;"></p>
+			<p>地　　址：${fws.fwsAddr!}</p>
+			<p style="height:30px;"></p>
+			<p>联 系   人：${fws.companyName!}</p>
+			<p style="height:30px;"></p>
+			<p>联系电话：<a style=" font-size:22px; font-weight:bold; color:#F60; ">${fws.phone!}</a></p>
+            <p style="height:30px;"></p>
+
+											
+		[#if category.colorsize==true]
+		[#else]
+		<div style="text-align:right; margin-left:800px;">
+		<table> 
+		 <tr id="buyButtonsDistrict">
+			  <td width="84">&nbsp;</td>
+			   <td> 
+			   <input type="button" class="add_shopping_cart" value="加入订单" onclick="javascript:addOrder(${sqService.id});"/>
+			   </td>
+	
+		   </tr>
+		</table>
+		</div>
+		[/#if]
+	</div>         
+	<div class="specific_info1">
+        <dl class="clearfix">
+			 <dt>分&nbsp;&nbsp;享&nbsp;到：</dt>
+			 <dd class="share_ico">
+			 [#if category.colorsize==true]
+			 	<a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?title=【${sqService.name!}】&url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()">新浪微博</a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${sqService.name!}￥${sqService.price!}','2fc26c2514bb48ec891170ce68db2683');" >腾讯微博</a>
+			 [#else]
+	            <a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?title=【${sqService.name!}】&url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()">新浪微博</a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${sqService.name!}￥${sqService.price!}','2fc26c2514bb48ec891170ce68db2683');" >腾讯微博</a>
+             [/#if]
+            </dd>
+        </dl>			
+   </div>
+  </div><!-- property -->
+ </div><!-- produce -->	 
+ 
+ 
+ <div class="spxx">
+       <ul class="spxx_type">
+              <li class="spms_curr" id="tb_11" onclick="HoverLi(1,1,2)" style="cursor: hand"><a>商品祥情</a></li>	
+              <li class="spms_normal" id="tb_12" onclick="HoverLi(1,2,2)" style="cursor: hand"><a>商品评价</a></li>
+       </ul>
+       <div id="tbc_11"  class="dis">
+          <div class="intro_box">
+                   ${sqService.descriptions!}
+          </div>
+      </div>  
+     <div class="undis" id="tbc_12">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/searchDiscussPage.jspx?sqServiceId=${sqService.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+        </iframe>
+     </div> 
+ </div>  
+  <div class="clear"></div>
+</div>
+ [#include "../include/页脚信息栏.html"/] 
+ 
+</body>
+</html>

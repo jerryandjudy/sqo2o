@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "admin.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign errorEmailExist><@s.m "error.emailExist"/></#assign>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.td colspan="1" width="50" label="admin.username">${admin.username}</@p.td>
+<@p.text colspan="1" width="50" label="admin.email" name="email" value=admin.email rvalue=admin.email required="true" vld="{required:true,email:true,rangelength:[3,100],remote:'v_check_email.do',messages:{remote:'${errorEmailExist}'}}"/><@p.tr/>
+<@p.password colspan="1" width="50" label="admin.password" id="password" name="password" minlength="3" maxlength="32" help="admin.password.help"/>
+<@p.password colspan="1" width="50" label="admin.passwordAgain" id="passwordAgain" equalTo="#password" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="admin.fullname" name="firstname" value=admin.firstname maxlength="100"/>
+<@p.radio colspan="1" width="50" label="admin.disabled" name="disabled" value=admin.disabled list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<#if isSuper>
+<@p.radio colspan="1" width="50" label="超级管理员" name="isSuper" value=admin.isSuper list={"true":"global.true","false":"global.false"} required="true" />
+<@p.radio colspan="1" width="50" label="只读管理员" name="viewonlyAdmin" value=admin.viewonlyAdmin list={"true":"global.true","false":"global.false"} required="true" help="用于后台演示"/><@p.tr/>
+<#else>
+<@p.hidden  name="isSuper" value="false" id="isSuper" />
+<@p.hidden  name="viewonlyAdmin" value="false" id="viewonlyAdmin" />
+</#if>
+<#if siteAdmin>
+
+<#list adminrole as adminrole>
+<@p.hidden  name="roleIds" value="${adminrole.id}"  />
+</#list>
+<#else>
+<@p.checkboxlist colspan="2" label="角色" name="roleIds" valueList=roleIds list=roleList listKey="id" listValue="name" onclick="checkedThis(this);"/>
+<@p.tr/>
+</#if>
+<@p.select colspan="2"  label="所属站点" name="siteId" value=admin.website.id  list=siteList listKey="id" listValue="name" required="true" /><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=admin.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

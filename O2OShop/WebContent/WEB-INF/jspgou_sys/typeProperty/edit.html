@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <#if property.category>类型模型<#else>商品模型</#if> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign custom=property.custom/>
+<#assign type=property.dataType/>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<#if custom>
+	<@p.text colspan="1" width="50" label="字段" name="field" value=property.field required="true" class="required" maxlength="100"/>
+<#else>
+	<@p.td colspan="1" width="50" label="字段">${property.field}</@p.td>
+</#if>
+<@p.text colspan="1" width="50" label="名称" name="label" value=property.propertyName required="true" class="required" maxlength="100"/><@p.tr/>
+<#if !custom>
+	<@p.td colspan="2" label="数据类型"><@s.m "property.type${property.dataType}"/></@p.td><@p.tr/>
+	<#if type==1 || type==2 || type==3>
+		<@p.text colspan="2" label="默认值" name="defValue" value=property.defValue! maxlength="255"/><@p.tr/>
+	<#elseif type==4>
+		<@p.text colspan="2" label="默认值" name="defValue" value=property.defValue! maxlength="255"/><@p.tr/>
+		<@p.text colspan="1" width="50" label="行数" name="rows" value=property.rows! class="digits" maxlength="3"/>
+		<@p.text colspan="1" width="50" label="列数" name="cols" value=property.cols! class="digits" maxlength="3"/><@p.tr/>
+	</#if>
+<#else>
+	<@p.select colspan="2" label="数据类型" name="dataType" value="${property.dataType}" list={"1":"字符串文本","2":"整型文本","3":"浮点型文本","4":"文本区","5":"日期","6":"下拉列表","7":"复选框","8":"单选框"}/><@p.tr/>
+	<@p.text colspan="2" label="默认值" name="defValue" value=property.defValue! maxlength="255"/><@p.tr/>
+	<@p.text colspan="2" label="可选项" name="optValue" value=property.optValue! size="70" maxlength="255" help="cmsModelItem.optValue.help"/><@p.tr/>
+	<@p.text colspan="1" width="50" label="行数" name="rows" value=property.rows! class="digits" maxlength="3"/>
+	<@p.text colspan="1" width="50" label="列数" name="cols" value=property.cols! class="digits" maxlength="3"/><@p.tr/>
+</#if>
+
+<@p.td colspan="2">
+	<@p.hidden name="id" value=property.id />
+	<input type="hidden" name="typeId" value="${typeId}"/>
+	<input type="hidden" name="category" value="${isCategory?string("true","false")}"/>
+	<@p.submit code="global.submit"/> &nbsp;<@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

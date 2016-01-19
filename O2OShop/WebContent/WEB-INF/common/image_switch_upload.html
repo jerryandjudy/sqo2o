@@ -1,0 +1,67 @@
+<script type="text/javascript">
+//上传图片
+function uploadSwitch(n) {
+	var of = $('#uploadFileSwitch'+n);
+	//检查是否选择了图片
+	if(of.val()=='') {
+		alert('<@s.m "imageupload.error.noFileToUpload"/>');
+		return;
+	}
+	//将file移动至上传表单
+	$('#fileContentSwitch').empty();
+	$('#fileContentSwitch').append(of);
+	//复制一个file放至原处
+	$('#ufcSwitch'+n).append(of.clone());
+	//修改属性
+	of.attr('id','');
+	
+	of.attr('name','uploadFileSwitch');
+	//其他表单
+	$('#ufFileNameSwitch').val($('#fileName'+n).val());
+	$('#ufWidthSwitch').val($('#zoomWidthSwitch'+n).val());
+	$('#ufHeightSwitch').val($('#zoomHeightSwitch'+n).val());
+	$('#uploadSwitchNum').val(n);	
+	$('#uploadSwitchForm').submit();
+}
+//剪裁图片
+function imgCut(n) {
+	if($('#uploadImgPath'+n).val()=='') {
+		alert("<@s.m "imageupload.error.noFileToCut"/>");
+		return;
+	}
+	var url = "../common/v_image_area_select.do?uploadNum="+n+"&imgSrcPath="
+		+$("#uploadImgPathSwitch"+n).val()+"&zoomWidthSwitch="+$("#zoomWidthSwitch"+n).val()+"&zoomHeightSwitch="+$("#zoomHeightSwitch"+n).val();
+	window.open(url,"imgcut","height=550, width=1000, top=0, left=0, toolbar=no, menubar=no, scrollbars=auto, resizable=yes,location=no, status=no");
+}
+//清除图片
+function clearImg(n) {
+	$('#uploadImgPathSwitch'+n).val("");
+	$('#preSwitchImg'+n).attr("src","");
+}
+
+//预览图片
+function previewImg(n) {
+	var img = $("#uploadImgPathSwitch"+n).val();
+	if(img!="") {
+		if(img.indexOf("?")==-1) {
+			$("#preSwitchImg"+n).attr("src",img+"?d="+new Date()*1);
+		} else {
+			$("#preSwitchImg"+n).attr("src",img+"&d="+new Date()*1);
+		}
+		if(!$("#preSwitchImg"+n).attr("noResize")) {
+			$("#preSwitchImg"+n).css("width","auto");
+			$("#preSwitchImg"+n).css("height","auto");
+		}
+	} else {
+		$("#preSwitchImg"+n).removeAttr("src");		
+	}
+}
+</script>
+<form id="uploadSwitchForm" action="../common/o_upload_switch_image.do" method="post" enctype="multipart/form-data" target="hiddenIframe" style="display:none;width:0px;height:0px;">
+<span id="fileContentSwitch">　</span>
+<input id="ufWidthSwitch" type="hidden" name="zoomWidthSwitch"/>
+<input id="ufHeightSwitch" type="hidden" name="zoomHeightSwitch"/>
+<input id="uploadSwitchNum" type="hidden" name="uploadNum"/>
+<input id="ufFileNameSwitch" type="hidden" name="fileName"/>
+</form>
+<iframe name="hiddenIframe" frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 加盟费设置 - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+
+
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.td colspan="2"  width="50" label="加盟费类型"  >${jmf.jmftypeId.name}</@p.td><@p.tr/>
+<@p.td colspan="2"  width="50" label="站点"  >${jmf.website.name}</@p.td><@p.tr/>
+<@p.text colspan="2" width="100" label="金额" name="je" value=jmf.je class="required number" size="50" maxlength="255"/><@p.tr/>
+<@p.text colspan="2" width="100" label="平台分成" name="ptFc" value=jmf.ptFc class="required number" size="50" maxlength="255"/><@p.tr/>
+<@p.text colspan="2" width="100" label="代理商分成" name="dlsFc" value=jmf.dlsFc class="required number" size="50" maxlength="255"/><@p.tr/>
+<!-- <@p.text colspan="2" width="100" label="抽成比例" name="bl" value=jmf.bl class="required number" size="50" maxlength="255"/><@p.tr/> -->
+
+<@p.td colspan="2"><@p.hidden name="id" value=jmf.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

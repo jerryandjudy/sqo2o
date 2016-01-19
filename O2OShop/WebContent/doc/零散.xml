@@ -1,0 +1,18 @@
+
+list.html
+<@p.column code="所属站点">${ordertype.website.name}</@p.column><#t/>
+
+
+
+add.html
+<@p.select  label="选择站点" colspan="2" width="100" headerKey="" headerValue="请选择" name="siteId" class="required" required="true" listKey="id"  listValue="name" list=allsite />
+<@p.tr/>
+
+edit.html
+<@p.select  label="选择站点" colspan="2" width="100" headerKey="" headerValue="请选择" name="siteId" required="true"  class="required" listKey="id" value=shopOrderType.website.id listValue="name" list=allsite />
+<@p.tr/>
+
+有关数据库按条件查询
+OrderDaoImpl
+
+LsfcDaoImpl

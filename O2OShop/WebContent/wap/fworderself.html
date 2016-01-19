@@ -1,0 +1,162 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>服务订单</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+ var URL = '${base}';
+    var APP ='${base}';
+    var SELF = '${base}/wap/wapindex.jspx';
+  </script>
+<!--TOP-->
+[#include "header.html"]
+<!--TOP=end-->
+
+<div class="content">
+<div class="am-container am-margin-top-lg">
+
+   
+    <div class="am-u-sm-12"></div>
+    <div class="am-u-sm-12">
+        <form id="piorder-form" class="am-form" action="/Order/doorder.html" method="POST">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd" data-am-collapse="{target: '#addressBD'}">
+                 确认收货地址 <i class="cbh am-icon-chevron-up"></i>
+                 </div>
+<div id="addressBD" class="am-panel-collapse am-collapse am-in">
+
+    <div class="am-panel-bd">
+        <div class="am-alert am-alert-secondary am-text-sm" data-am-alert="">当前所选择站点：${web.name!}</div>
+<span class="am-text-sm">点击选择收货地址 <i class="am-icon-hand-o-down"></i></span>
+<ul class="am-avg-sm-1 c-address-list">
+[#if smalist?size gt 0]
+     [#list smalist as sma]
+    <li [#if sma.isDefault]class="selected"[/#if]   data-location="${sma.id!}">
+    <input type="radio" value="${sma.id!}" name="deliveryInfo"></input>
+
+    <p>${sma.username!}</p>
+    <p class="am-text-truncate">${sma.province.name!}/${sma.city.name!}/${sma.country.name!}/${sma.street.name!}(${sma.detailaddress!})</p>
+    <p>${sma.tel!}</p>
+    <span><i class="am-icon-check"></i></span>
+
+</li>
+ [/#list]
+[/#if]
+</ul>
+<div class="am-form-group am-margin-bottom-xs">
+    <button class="am-btn am-btn-sm am-btn-primary" data-url="${base}/wap/addradd.jspx?returnUrl=${base}/wap/fworder.jspx?sqServiceId=${sqService.id!}"  data-title="添加新地址" data-toggle="modalhelper" type="button">
+添加新地址</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- <div id="GoodsCoupons" class="hide noshow">
+
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd" data-am-collapse="{target: '#couponsBD'}"> 可用优惠券</div>
+    <div id="couponsBD" class="am-panel-collapse am-collapse am-in">
+        <div class="am-panel-bd">
+            <p style="margin-bottom:0"><i class="iconfont"></i>暂无可用优惠券</p>
+        </div>
+    </div>
+
+</div> -->
+<div class="am-panel am-panel-default">
+
+    <div class="am-panel-hd" data-am-collapse="{target: '#goodsBD'}">
+
+    服务详情
+
+</div>
+<div id="goodsBD" class="am-panel-collapse am-collapse am-in">
+
+    <div class="am-panel-bd c-goods-list">
+      <!--   <p class="c-goods-title"><i class="iconfont"></i>即时达</p> -->
+								<div id="good_${sqService.id}">
+								<input type="hidden" name="sqServiceId" value='${sqService.id}'/>
+									<div class="am-g am-padding-xs">
+										<div class="am-u-sm-9">
+											<p class="am-text-xs">服务：${sqService.name!}</p>
+											<p class="am-text-xs">服务价：${sqService.price!}</p>
+	                                        <p class="am-text-primary">联系电话：${sqService.ketaUser.phone!}</p>
+	                                        <p class="am-text-xs">详情：${sqService.descriptions!}</p>
+										</div>
+
+									</div>
+								</div>
+							</div>
+        </div>
+    </div>
+
+</div>
+<div class="am-panel am-panel-default noshow">
+
+    <div class="am-panel-hd" data-am-collapse="{target: '#remarkBD'}">
+    备注 
+    <i class="cbh am-icon-chevron-up"></i>
+
+</div>
+<div id="remarkBD" class="am-panel-collapse am-collapse am-in">
+
+        <div class="am-panel-bd">
+            <div class="am-form-group am-margin-bottom-xs">
+                <input type="text" name="comments"  id="remark"  placeholder="订单备注，如有特殊要求，请填写" ></input>
+            </div>
+        </div>
+    </div>
+
+</div>
+<input id="checkoutfwsubmit" class="c-submit am-btn-lg am-btn-block am-btn am-btn-primary am-btn-sm noshow" type="button" value="提 交"></input>
+
+                <input type="hidden" value="7edfe126f35898777ec27be90ab13e63_2f42ba7a10cf2d91aac20c9e49d65a9e" name="__hash__"></input>
+            </form>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+
+
+  
+
+    </script>
+
+</div>
+
+
+
+
+
+</div>
+
+[#include "footer.html"]
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jspgou-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<ul id="lmenu">
+<li><a href="marketing_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+<li><a href="../popularityGroup/v_list.do" target="rightFrame">捆绑销售</a></li>
+<@authorize url="gift/v_list.do"> 
+<li><a href="../gift/v_list.do" target="rightFrame">礼品管理</a></li>
+</@authorize>
+
+<@authorize url="exchange/v_list.do"> 
+<li><a href="../exchange/v_list.do" target="rightFrame">礼品兑换</a></li>
+</@authorize>
+
+<@authorize url="coupon/v_list.do"> 
+<li><a href="../coupon/v_list.do" target="rightFrame">优惠劵</a></li>
+</@authorize>
+</ul>
+</body>
+</html>

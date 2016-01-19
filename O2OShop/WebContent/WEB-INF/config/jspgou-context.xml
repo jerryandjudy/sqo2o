@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="false">
+		
+	<!--全文检索-->
+	<bean id="luceneProductSvc" class="com.jspgou.cms.lucene.LuceneProductSvcImpl"/>
+	<!--登录-->
+	<bean id="loginSvc" class="com.jspgou.cms.service.impl.LoginSvcImpl"/>
+	<!--购物-->
+	<bean id="shoppingSvc" class="com.jspgou.cms.service.impl.ShoppingSvcImpl"/>
+
+	<!--标签-->
+	<!--分页样式标签-->
+	<bean id="pagination_style" class="com.jspgou.cms.action.directive.abs.PaginationDirective"/>
+	<bean id="shop_Category_list" class="com.jspgou.cms.action.directive.CategoryListDirective"/>
+	<bean id="address_page" class="com.jspgou.cms.action.directive.AddressPageDirective"/>
+	<bean id="shop_Bld" class="com.jspgou.cms.action.directive.BldPageDirective"/>
+	<bean id="shop_Category" class="com.jspgou.cms.action.directive.CategoryPageDirective"/>
+	<bean id="sqservice_list" class="com.jspgou.cms.action.directive.SqServiceListDirective"/>
+	<bean id="sqservice_page" class="com.jspgou.cms.action.directive.SqServicePageDirective"/>
+	<bean id="sqorder_page" class="com.jspgou.cms.action.directive.SqOrderPageDirective"/>
+	<bean id="shop_Category_brand" class="com.jspgou.cms.action.directive.CategoryBrandListDirective"/>
+	<bean id="shop_ProductList" class="com.jspgou.cms.action.directive.ProductListDirective"/>
+	<bean id="shop_ProductSiteList" class="com.jspgou.cms.action.directive.ProductSiteListDirective"/>
+	<bean id="shop_ProductPage" class="com.jspgou.cms.action.directive.ProductPageDirective"/>
+	<bean id="shop_Channel" class="com.jspgou.cms.action.directive.ChannelListDirective"/>
+	<bean id="shop_ArticleList" class="com.jspgou.cms.action.directive.ArticleListDirective"/>
+	<bean id="shop_WebsiteList" class="com.jspgou.cms.action.directive.WebsiteListDirective"/>
+	<bean id="shop_ArticlePage" class="com.jspgou.cms.action.directive.ArticlePageDirective"/>
+	<bean id="shop_BrandList" class="com.jspgou.cms.action.directive.BrandListDirective"/>
+	<bean id="shop_productTypeList" class="com.jspgou.cms.action.directive.ProductTypeListDirective"/>
+	<bean id="shop_typeofCategoryList" class="com.jspgou.cms.action.directive.ProductTypeofCategoryListDirective"/>
+	<bean id="shop_productTagList" class="com.jspgou.cms.action.directive.ProductTagListDirective"/>
+	<bean id="shop_ProductPageChannel" class="com.jspgou.cms.action.directive.ProductPageChannelDirective"/>
+	<bean id="shop_topSale" class="com.jspgou.cms.action.directive.ProductTopSaleDirective"/>
+	<bean id="shop_lucene_page" class="com.jspgou.cms.lucene.LuceneDirectivePage"/>
+	<bean id="isRecommend_product" class="com.jspgou.cms.action.directive.IsRecommendDirective"/>
+	<bean id="cate_brand" class="com.jspgou.cms.action.directive.BrandByCategoryListDirective"/>
+	<bean id="cate_brand_searchname" class="com.jspgou.cms.action.directive.BrandBySearchNameListDirective"/>
+	<bean id="sift_brand" class="com.jspgou.cms.action.directive.SiftBrandDirective"/>
+	<bean id="post_list" class="com.jspgou.cms.action.directive.PosterListDirective"/>
+	<bean id="cart_list" class="com.jspgou.cms.action.directive.CartCountDirective"/>
+	<bean id="keyword_list" class="com.jspgou.cms.action.directive.KeyWordDirective"/>
+	<bean id="alone_channel" class="com.jspgou.cms.action.directive.AloneChannelDirective"/>
+	<bean id="footer_channel" class="com.jspgou.cms.action.directive.FooterChannelDirective"/>
+	<bean id="history_record" class="com.jspgou.cms.action.directive.HistoryRecordDirective"/>
+	<bean id="gift_page" class="com.jspgou.cms.action.directive.GiftPageDirective"/>
+	<bean id="collect_page" class="com.jspgou.cms.action.directive.CollectPageDirective"/>
+	<bean id="order_page" class="com.jspgou.cms.action.directive.OrderPageDirective"/>
+	<bean id="fworder_page" class="com.jspgou.cms.action.directive.FwOrderPageDirective"/>
+	<bean id="score_page" class="com.jspgou.cms.action.directive.ScorePageDirective"/>
+	<bean id="money_page" class="com.jspgou.cms.action.directive.MoneyPageDirective"/>
+	<bean id="customerService_list" class="com.jspgou.cms.action.directive.CustomerServiceListDirective"/>
+	
+	<bean id="shop_coupon_page" class="com.jspgou.cms.action.directive.CouponPageDirective"></bean>
+	<bean id="shop_bargain_page" class="com.jspgou.cms.action.directive.BargainPageDirective"></bean>
+	<bean id="shop_advertising" class="com.jspgou.cms.action.directive.AdvertiseDirective"/>
+	<bean id="shop_advertising_space" class="com.jspgou.cms.action.directive.AdvertiseSpaceDirective"/>
+	<!--DAO-->
+	<bean id="addressDao" class="com.jspgou.cms.dao.impl.AddressDaoImpl"/>
+	<bean id="shopAdminDao" class="com.jspgou.cms.dao.impl.ShopAdminDaoImpl"/>
+	<bean id="productTypeDao" class="com.jspgou.cms.dao.impl.ProductTypeDaoImpl"/>
+	<bean id="productTextDao" class="com.jspgou.cms.dao.impl.ProductTextDaoImpl"/>
+	<bean id="productTagDao" class="com.jspgou.cms.dao.impl.ProductTagDaoImpl"/>
+	<bean id="productDao" class="com.jspgou.cms.dao.impl.ProductDaoImpl"/>
+	<bean id="productSiteDao" class="com.jspgou.cms.dao.impl.ProductSiteDaoImpl"/>
+	<bean id="productExtDao" class="com.jspgou.cms.dao.impl.ProductExtDaoImpl"/>
+	<bean id="categoryDao" class="com.jspgou.cms.dao.impl.CategoryDaoImpl"/>
+	<bean id="brandTextDao" class="com.jspgou.cms.dao.impl.BrandTextDaoImpl"/>
+	<bean id="brandDao" class="com.jspgou.cms.dao.impl.BrandDaoImpl"/>
+	<bean id="logisticsTextDao" class="com.jspgou.cms.dao.impl.LogisticsTextDaoImpl"/>
+	<bean id="logisticsDao" class="com.jspgou.cms.dao.impl.LogisticsDaoImpl"/>
+	<bean id="shopConfigDao" class="com.jspgou.cms.dao.impl.ShopConfigDaoImpl"/>
+	<bean id="shopMemberDao" class="com.jspgou.cms.dao.impl.ShopMemberDaoImpl"/>
+	<bean id="shopMemberGroupDao" class="com.jspgou.cms.dao.impl.ShopMemberGroupDaoImpl"/>
+	<bean id="shippingDao" class="com.jspgou.cms.dao.impl.ShippingDaoImpl"/>
+	<bean id="customerServiceDao" class="com.jspgou.cms.dao.impl.CustomerServiceDaoImpl"/>
+	
+	<bean id="cartDao" class="com.jspgou.cms.dao.impl.CartDaoImpl"/>
+	<bean id="shopMemberAddressDao" class="com.jspgou.cms.dao.impl.ShopMemberAddressDaoImpl"/>
+	<bean id="paymentDao" class="com.jspgou.cms.dao.impl.PaymentDaoImpl"/>
+	<bean id="orderDao" class="com.jspgou.cms.dao.impl.OrderDaoImpl"/>
+	<bean id="shopChannelDao" class="com.jspgou.cms.dao.impl.ShopChannelDaoImpl"/>
+	<bean id="shopChannelContentDao" class="com.jspgou.cms.dao.impl.ShopChannelContentDaoImpl"/>
+	<bean id="shopArticleDao" class="com.jspgou.cms.dao.impl.ShopArticleDaoImpl"/>
+	<bean id="shopArticleContentDao" class="com.jspgou.cms.dao.impl.ShopArticleContentDaoImpl"/>
+	<bean id="productFashionDao" class="com.jspgou.cms.dao.impl.ProductFashionDaoImpl"/>
+	<bean id="orderItemDao" class="com.jspgou.cms.dao.impl.OrderItemDaoImpl"/>
+	<bean id="standardDao" class="com.jspgou.cms.dao.impl.StandardDaoImpl"/>
+	<bean id="standardTypeDao" class="com.jspgou.cms.dao.impl.StandardTypeDaoImpl"/>
+	<bean id="productStandardDao" class="com.jspgou.cms.dao.impl.ProductStandardDaoImpl"/>
+	<bean id="orderReturnDao" class="com.jspgou.cms.dao.impl.OrderReturnDaoImpl"/>
+	<bean id="shopMoneyDao" class="com.jspgou.cms.dao.impl.ShopMoneyDaoImpl"/>
+	<bean id="exendedDao" class="com.jspgou.cms.dao.impl.ExendedDaoImpl"/>
+	<bean id="exendedItemDao" class="com.jspgou.cms.dao.impl.ExendedItemDaoImpl"/>
+	<bean id="paymentPluginsDao" class="com.jspgou.cms.dao.impl.PaymentPluginsDaoImpl"/>
+	
+	
+	<bean id="couponDao" class="com.jspgou.cms.dao.impl.CouponDaoImpl"/>
+	<bean id="giftDao" class="com.jspgou.cms.dao.impl.GiftDaoImpl"/>
+	<bean id="giftExchangeDao" class="com.jspgou.cms.dao.impl.GiftExchangeDaoImpl"/>
+	<bean id="productTypePropertyDao" class="com.jspgou.cms.dao.impl.ProductTypePropertyDaoImpl"/>
+	<bean id="dataBackupDao" class="com.jspgou.cms.dao.impl.DataBackupDaoImpl"/>
+	<bean id="cartItemDao" class="com.jspgou.cms.dao.impl.CartItemDaoImpl"/>
+	
+	<bean id="consultDao" class="com.jspgou.cms.dao.impl.ConsultDaoImpl"/>
+	<bean id="discussDao" class="com.jspgou.cms.dao.impl.DiscussDaoImpl"/>
+	
+	<bean id="posterDao" class="com.jspgou.cms.dao.impl.PosterDaoImpl"/>
+	<bean id="keyWordDao" class="com.jspgou.cms.dao.impl.KeyWordDaoImpl"/>
+	<bean id="memberCouponDao" class="com.jspgou.cms.dao.impl.MemberCouponDaoImpl"/>
+	<bean id="collectDao" class="com.jspgou.cms.dao.impl.CollectDaoImpl"/>
+	<bean id="shopPayDao" class="com.jspgou.cms.dao.impl.ShopPayDaoImpl"/>
+	<bean id="adspaceDao" class="com.jspgou.cms.dao.impl.AdspaceDaoImpl"/>
+	<bean id="advertiseDao" class="com.jspgou.cms.dao.impl.AdvertiseDaoImpl"/>
+	<bean id="shopDictionaryDao" class="com.jspgou.cms.dao.impl.ShopDictionaryDaoImpl"/>
+	<bean id="shopDictionaryTypeDao" class="com.jspgou.cms.dao.impl.ShopDictionaryTypeDaoImpl"/>
+	<bean id="shopScoreDao" class="com.jspgou.cms.dao.impl.ShopScoreDaoImpl"/>
+	<bean id="gatheringDao" class="com.jspgou.cms.dao.impl.GatheringDaoImpl"/>
+	<bean id="shipmentsDao" class="com.jspgou.cms.dao.impl.ShipmentsDaoImpl"/>
+	<bean id="popularityGroupDao" class="com.jspgou.cms.dao.impl.PopularityGroupDaoImpl"/>
+    <bean id="popularityItemDao" class="com.jspgou.cms.dao.impl.PopularityItemDaoImpl"/>
+    <bean id="cmsLogDao" class="com.jspgou.cms.dao.impl.CmsLogDaoImpl"/>
+    
+    <bean id="shopOrderTypeDao" class="com.jspgou.cms.dao.impl.ShopOrderTypeDaoImpl"/>
+    <bean id="lsfcDao" class="com.jspgou.cms.dao.impl.LsfcDaoImpl"/>
+    <bean id="jmfDao" class="com.jspgou.cms.dao.impl.JmfDaoImpl"/>
+    <bean id="ketaUserDao" class="com.jspgou.cms.dao.impl.KetaUserDaoImpl"/>
+    <bean id="dlsDao" class="com.jspgou.cms.dao.impl.DlsDaoImpl"/>
+    <bean id="gysDao" class="com.jspgou.cms.dao.impl.GysDaoImpl"/>
+    <bean id="bldDao" class="com.jspgou.cms.dao.impl.BldDaoImpl"/>
+    <bean id="psqyDao" class="com.jspgou.cms.dao.impl.PsqyDaoImpl"/>
+    <bean id="organizationDao" class="com.jspgou.cms.dao.impl.OrganizationDaoImpl"/>
+    <bean id="cmsFileDao" class="com.jspgou.cms.dao.impl.CmsFileDaoImpl"/>
+
+	<!--MANAGER-->
+	<bean id="addressMng" class="com.jspgou.cms.manager.impl.AddressMngImpl"/>
+	<bean id="updateMng" class="com.jspgou.cms.manager.impl.UpdateMngImpl"/>
+	<bean id="shopAdminMng" class="com.jspgou.cms.manager.impl.ShopAdminMngImpl"/>
+	<bean id="productTypeMng" class="com.jspgou.cms.manager.impl.ProductTypeMngImpl"/>
+	<bean id="productTextMng" class="com.jspgou.cms.manager.impl.ProductTextMngImpl"/>
+	<bean id="productTagMng" class="com.jspgou.cms.manager.impl.ProductTagMngImpl"/>
+	<bean id="productMng" class="com.jspgou.cms.manager.impl.ProductMngImpl"/>
+	<bean id="productSiteMng" class="com.jspgou.cms.manager.impl.ProductSiteMngImpl"/>
+	<bean id="productExtMng" class="com.jspgou.cms.manager.impl.ProductExtMngImpl"/>
+	<bean id="categoryMng" class="com.jspgou.cms.manager.impl.CategoryMngImpl"/>
+	<bean id="brandTextMng" class="com.jspgou.cms.manager.impl.BrandTextMngImpl"/>
+	<bean id="brandMng" class="com.jspgou.cms.manager.impl.BrandMngImpl"/>
+	<bean id="logisticsTextMng" class="com.jspgou.cms.manager.impl.LogisticsTextMngImpl"/>
+	<bean id="logisticsMng" class="com.jspgou.cms.manager.impl.LogisticsMngImpl"/>
+	<bean id="shopConfigMng" class="com.jspgou.cms.manager.impl.ShopConfigMngImpl"/>
+	<bean id="shopMemberGroupMng" class="com.jspgou.cms.manager.impl.ShopMemberGroupMngImpl"/>
+	<bean id="shopMemberMng" class="com.jspgou.cms.manager.impl.ShopMemberMngImpl"/>
+	<bean id="shippingMng" class="com.jspgou.cms.manager.impl.ShippingMngImpl"/>
+	<bean id="customerServiceMng" class="com.jspgou.cms.manager.impl.CustomerServiceMngImpl"/>
+
+	<bean id="cartMng" class="com.jspgou.cms.manager.impl.CartMngImpl"/>
+	<bean id="shopMemberAddressMng" class="com.jspgou.cms.manager.impl.ShopMemberAddressMngImpl"/>
+	<bean id="paymentMng" class="com.jspgou.cms.manager.impl.PaymentMngImpl"/>
+	<bean id="orderMng" class="com.jspgou.cms.manager.impl.OrderMngImpl"/>
+	<bean id="shopChannelMng" class="com.jspgou.cms.manager.impl.ShopChannelMngImpl"/>
+	<bean id="shopChannelContentMng" class="com.jspgou.cms.manager.impl.ShopChannelContentMngImpl"/>
+	<bean id="shopArticleMng" class="com.jspgou.cms.manager.impl.ShopArticleMngImpl"/>
+	<bean id="shopArticleContentMng" class="com.jspgou.cms.manager.impl.ShopArticleContentMngImpl"/>
+	<bean id="productFashionMng" class="com.jspgou.cms.manager.impl.ProductFashionMngImpl"/>
+	<bean id="orderItemMng" class="com.jspgou.cms.manager.impl.OrderItemMngImpl"/>
+	<bean id="orderReturnMng" class="com.jspgou.cms.manager.impl.OrderReturnMngImpl"/>
+	<bean id="shopMoneyMng" class="com.jspgou.cms.manager.impl.ShopMoneyMngImpl"/>
+	<bean id="paymentPluginsMng" class="com.jspgou.cms.manager.impl.PaymentPluginsMngImpl"/>
+
+	<bean id="couponMng" class="com.jspgou.cms.manager.impl.CouponMngImpl"/>
+	<bean id="giftMng" class="com.jspgou.cms.manager.impl.GiftMngImpl"/>
+	<bean id="giftExchangeMng" class="com.jspgou.cms.manager.impl.GiftExchangeMngImpl"/>
+	<bean id="productTypePropertyMng" class="com.jspgou.cms.manager.impl.ProductTypePropertyMngImpl"/>
+	<bean id="dataBackupMng" class="com.jspgou.cms.manager.impl.DataBackupMngImpl"/>
+	<bean id="cartItemMng" class="com.jspgou.cms.manager.impl.CartItemMngImpl"/>
+	<bean id="productStandardMng" class="com.jspgou.cms.manager.impl.ProductStandardMngImpl"/>
+	
+	<bean id="consultMng" class="com.jspgou.cms.manager.impl.ConsultMngImpl"/>
+	<bean id="discussMng" class="com.jspgou.cms.manager.impl.DiscussMngImpl"/>
+	
+	<bean id="posterMng" class="com.jspgou.cms.manager.impl.PosterMngImpl"/>
+	<bean id="keyWordMng" class="com.jspgou.cms.manager.impl.KeyWordMngImpl"/>
+	<bean id="memberCouponMng" class="com.jspgou.cms.manager.impl.MemberCouponMngImpl"/>
+	<bean id="collectMng" class="com.jspgou.cms.manager.impl.CollectMngImpl"/>
+	<bean id="shopPayMng" class="com.jspgou.cms.manager.impl.ShopPayMngImpl"/>
+	<bean id="adspaceMng" class="com.jspgou.cms.manager.impl.AdspaceMngImpl"/>
+	<bean id="advertiseMng" class="com.jspgou.cms.manager.impl.AdvertiseMngImpl"/>
+
+	<bean id="shopDictionaryMng" class="com.jspgou.cms.manager.impl.ShopDictionaryMngImpl"/>
+	<bean id="shopDictionaryTypeMng" class="com.jspgou.cms.manager.impl.ShopDictionaryTypeMngImpl"/>
+	<bean id="shopScoreMng" class="com.jspgou.cms.manager.impl.ShopScoreMngImpl"/>
+	
+	<bean id="standardMng" class="com.jspgou.cms.manager.impl.StandardMngImpl"/>
+	<bean id="standardTypeMng" class="com.jspgou.cms.manager.impl.StandardTypeMngImpl"/>
+	<bean id="exendedMng" class="com.jspgou.cms.manager.impl.ExendedMngImpl"/>
+	<bean id="exendedItemMng" class="com.jspgou.cms.manager.impl.ExendedItemMngImpl"/>
+	<bean id="gatheringMng" class="com.jspgou.cms.manager.impl.GatheringMngImpl"/>
+	<bean id="shipmentsMng" class="com.jspgou.cms.manager.impl.ShipmentsMngImpl"/>
+	<bean id="popularityGroupMng" class="com.jspgou.cms.manager.impl.PopularityGroupMngImpl"/>
+	<bean id="popularityItemMng" class="com.jspgou.cms.manager.impl.PopularityItemMngImpl"/>
+	<bean id="cmsLogMng" class="com.jspgou.cms.manager.impl.CmsLogMngImpl"/>
+	
+	<bean id="shopOrderTypeMng" class="com.jspgou.cms.manager.impl.ShopOrderTypeMngImpl"/>
+	<bean id="lsfcMng" class="com.jspgou.cms.manager.impl.LsfcMngImpl"/>
+	<bean id="jmfMng" class="com.jspgou.cms.manager.impl.JmfMngImpl"/>
+	<bean id="dlsMng" class="com.jspgou.cms.manager.impl.DlsMngImpl"/>
+	<bean id="gysMng" class="com.jspgou.cms.manager.impl.GysMngImpl"/>
+	<bean id="bldMng" class="com.jspgou.cms.manager.impl.BldMngImpl"/>
+	<bean id="ketaUserMng" class="com.jspgou.cms.manager.impl.KetaUserMngImpl"/>
+	<bean id="organizationMng" class="com.jspgou.cms.manager.impl.OrganizationMngImpl"/>
+	<bean id="cmsFileMng" class="com.jspgou.cms.manager.impl.CmsFileMngImpl"/>
+	<bean id="psqyMng" class="com.jspgou.cms.manager.impl.PsqyMngImpl"/>
+	
+	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+<context:component-scan base-package="com.jspgou.cms.dao"  >
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller"  />
+</context:component-scan>
+<context:component-scan base-package="com.jspgou.cms.manager">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+</context:component-scan>
+</beans>

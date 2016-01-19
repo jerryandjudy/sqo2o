@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = document.getElementById('tableForm');
+	f.action="o_site_deletes.do";
+	f.submit();
+}
+
+function getTableForm(){
+	return document.getElementById("tableForm");
+}
+
+function optSavePrices() {
+	var f = getTableForm();
+	f.action="o_Saveprices.do";
+	f.submit();
+}
+</script>
+<script type="text/javascript">
+var url = location.href;
+var index = url.indexOf('jsessionid');
+if(index != -1) {
+	var sid = url.substr(index+11);
+	document.cookie = "JSESSIONID="+sid+";path=/;";
+}
+function changeSite(id) {
+       var domain=$("#site"+id).val();
+	   $("#sitelist").attr("action","http://"+domain+":${site.global.port}${site.global.contextPath}/nhaocang/admin/index.do");
+	    $("#sitelist").submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "site.shop.function.product"/> - <@s.m "site.product.function"/> - <@s.m "global.list"/></div>
+	
+	<form class="ropt">
+		<#if ctgId??>
+		<input type="hidden" name="ctgId" value="${ctgId}"/>
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add_list.do';"/>
+		<#else>
+		<div style="padding:5px 0 0 0"><@s.m "product.selectCategory"/></div>
+		</#if>
+	</form>
+	<div style="float: right" >
+	 <#if isSuper>
+                                         <form action="index.do" target="_top" method="get" id="sitelist">
+                                            <#list siteList as s>
+                                              <#if s.close==false>
+											  <input type="hidden" id="site${s.id}" value="${s.domain}" />
+											  </#if>
+								              </#list>
+											<select name="${siteParam}" onchange="changeSite(this.value)">
+											  <#list siteList as s>
+											  <#if s.close==false>
+								              <option value="${s.id}"<#if s.id==site.id> selected="selected"</#if>>${s.name}</option>
+								               </#if>
+								              </#list>
+								            </select>
+							            </form>
+							            </#if>
+							           </div>
+	<div class="clear"></div>
+</div>
+	<form id="tableForm" action="v_site_list.do" method="post">
+<div class="rhead">
+	 <select name="typeId">
+            <option value="">--商品类型--</option>
+         <#list typeList as productType>
+            <option value="${productType.id}"<#if typeId??> <#if typeId==productType.id>selected="selected"</#if></#if>>${productType.name!}</option>
+         </#list>  
+       </select>
+	<@s.m "product.name"/>:<input type="text" name="productName" value="${productName!}" style="width:100px"/>
+	品牌名称: <input type="text" name="brandName" value="${brandName!}" style="width:100px"/>  
+    <label class="ckl">
+	    <input type="checkbox" id="isOnSale" name="isOnSale" value="true" <#if isOnSale?? && isOnSale> checked="checked"</#if>/><@s.m "product.onSale"/>
+    </label>
+    <label class="ckl">
+	     <input type="checkbox" id="isRecommend" name="isRecommend" value="true" <#if isRecommend?? && isRecommend> checked="checked"</#if>/><@s.m "product.recommend"/>
+    </label>
+    <label class="ckl">
+	      <input type="checkbox" id="isSpecial" name="isSpecial" value="true" <#if isSpecial?? && isSpecial> checked="checked"</#if>/><@s.m "product.special"/>
+    </label>
+    <label class="ckl">
+	     <input type="checkbox" id="isHotsale" name="isHotsale" value="true" <#if isHotsale?? && isHotsale> checked="checked"</#if>/> 热卖
+    </label>
+    <label>
+	    <input type="checkbox" id="isNewProduct" name="isNewProduct" value="true"<#if isNewProduct?? && isNewProduct> checked="checked"</#if> /> 新品
+     </label>
+	  库存:
+	    <input type="text" name="startStock" value="${startStock!}" style="width:50px"/>
+	    &nbsp;至&nbsp;<input type="text" name="endStock" value="${endStock!}" style="width:50px"/>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+	<div class="clear"></div>
+</div>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="ctgId" value="${ctgId!}"/>
+<@p.table listAction="v_site_list.do" value=pagination;productSite,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${productSite.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID" width="20">${productSite.id!}</@p.column><#t/>
+	<@p.column code="product.name"><a href="${productSite.url}" target="_blank">${productSite.product.name}</a></@p.column><#t/>
+	<@p.column code="product.category">${productSite.product.category.name}</@p.column><#t/>
+	<@p.column code="product.type">${productSite.product.type.name}</@p.column><#t/>
+	<@p.column code="productsite.salePrice"><#if productSite.product.productFashion??><input type="text" name="productSiteList[${i}].salePrice" value="${productSite.salePrice!}" size="3"/><#else><input type="text" name="productSiteList[${i}].salePrice" value="${productSite.salePrice!}" size="3"/></#if><input type="hidden" name="productSiteList[${i}].id" value="${productSite.id}"/></@p.column><#t/>
+	<@p.column code="productsite.marketPrice"><input type="text" name="productSiteList[${i}].marketPrice" value="${productSite.marketPrice!}" size="3"/></@p.column><#t/>
+	<@p.column code="productsite.costPrice"><input type="text" name="productSiteList[${i}].costPrice" value="${productSite.costPrice!}" size="3"/></@p.column><#t/>
+	<!-- <@p.column code="product.stockCount">${productSite.stockCount}</@p.column><#t/> -->
+	<@p.column code="product.brand"><#if productSite.product.brand??>${(productSite.product.brand.name)!}</#if></@p.column><#t/>
+	<@p.column code="product.onSale">
+		<input type="checkbox"  id="onSale" name="productSiteList[${i}].onSale"  <#if productSite.onSale> checked="checked"</#if>/>
+	</@p.column><#t/>
+	<@p.column code="product.recommend">
+		<input type="checkbox"  id="recommend" name="productSiteList[${i}].recommend"  <#if productSite.recommend> checked="checked"</#if>/>
+	</@p.column><#t/>
+	<@p.column code="product.special">
+		<input type="checkbox"  id="special" name="productSiteList[${i}].special" <#if productSite.special> checked="checked"</#if>/>
+	</@p.column><#t/>
+	<@p.column code="product.hotsale">
+		<input type="checkbox"  id="hotsale" name="productSiteList[${i}].hotsale" <#if productSite.hotsale> checked="checked"</#if>/>
+	</@p.column><#t/>
+	<@p.column code="product.newProduct">
+		<input type="checkbox"  id="newProduct" name="productSiteList[${i}].newProduct" <#if productSite.newProduct> checked="checked"</#if>/>
+	</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<!-- <a href="v_site_edit.do?id=${productSite.id}&pageNo=${pageNo!}&ctgId=${(productSite.product.category.id)!}"><@s.m "global.edit.price"/></a> -->
+		<a href="v_site_edit_view.do?id=${productSite.id}&pageNo=${pageNo!}&ctgId=${(productSite.product.category.id)!}"><@s.m "global.view"/></a> | <#rt/>
+		<a href="o_site_delete.do?id=${productSite.id}&pageNo=${pageNo!}&ctgId=${(productSite.product.category.id)!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/>
+	 <input type="button" value="<@s.m "global.savePrices"/>" onclick="optSavePrices();"/>
+</div>
+
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

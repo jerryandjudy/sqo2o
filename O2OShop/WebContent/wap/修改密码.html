@@ -1,0 +1,105 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>登录页</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+ var URL = '${base}';
+    var APP ='${base}';
+    var SELF = '${base}/wap/wapindex.jspx';
+  </script>
+<!--TOP-->
+[#include "header.html"]
+<!--TOP=end-->
+
+<div class="content">
+
+<div class="am-container am-margin-top-lg">
+    <div class="am-g">     
+        <div class="am-u-sm-12">
+            <form id="login-form"  class="am-form am-form-horizontal" method="post">
+            <input type="hidden" name="returnUrl" value="${returnUrl!}"/>
+                <div class="am-form-group">
+                    <div class="am-u-sm-12">
+                        <div class="am-form-icon">
+                            <i class="am-icon-mobile-phone"></i>
+                            <input id="account" class="am-form-field" type="tel" placeholder="输入注册时填写的手机号" name="username"></input>
+                        </div>
+                    </div>   
+                </div>
+                <div class="am-form-group">
+                    <div class="am-u-sm-12">
+                        <div class="am-form-icon">
+                            <i class="am-icon-lock"></i>
+                            <input id="password" class="am-form-field" type="password" placeholder="输入密码" name="password"></input>
+                        </div>
+                    </div> 
+                </div>
+               <!--  <div class="am-form-group">
+                    <div class="am-u-sm-12">
+                        <div class="checkbox">
+                            <label class="am-checkbox">
+                                <input id="rememberme" class="am-ucheck-checkbox" type="checkbox" data-am-ucheck="" name="rememberme"></input>
+                                <span class="am-ucheck-icons">
+                                    <i class="am-icon-unchecked"></i>
+                                    <i class="am-icon-checked"></i>
+                                </span>
+                                7天内自动登录
+                            </label>
+                        </div>
+                    </div>   
+                </div> -->
+                <div class="am-form-group am-margin-bottom-sm"> 
+                    <div class="am-u-sm-12">
+                        <input id="loginsubmit" class="am-btn-block am-btn am-btn-primary am-btn-sm" type="button" value="登 录"></input>
+                        </div> 
+                    </div>
+                    <hr></hr> 
+                    <div class="am-form-group">
+     
+                <div class="am-u-sm-12">
+                  <a class="am-btn am-btn-default am-btn-sm" href="#"><span class="am-icon-question-circle"></span>忘记密码</a>
+                 </div>
+  
+
+</div>
+                    <input type="hidden" value="" name="__hash__"></input>
+                </form>
+            </div>         
+        </div>      
+    </div>
+
+</div>
+
+[#include "footer.html"]
+
+</body>
+</html>

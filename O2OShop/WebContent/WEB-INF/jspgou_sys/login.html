@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>后台管理</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+if(top!=this) {
+	top.location=this.location;
+}
+$(function() {
+	$("#username").focus();
+	$("#jvForm").validate();
+});
+</script>
+<style type="text/css">
+body {
+	margin: 0;
+	background-color: #016aa9;
+	overflow:hidden;
+	font-size:12px;
+}
+.input{height:16px;width:150px;border:1px solid #d4d0c8; vertical-align:middle;}
+.yzm{height:16px;width:100px;border:1px solid #d4d0c8; vertical-align:middle;}
+.btn{width:50px;border:#002d96 1px solid;padding:2px;font-size:12px;filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#FFFFFF, EndColorStr=#9DBCEA); cursor: hand; color: black;}
+ul{list-style:none;}
+</style>
+</head>
+
+<body>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="600" align="center">
+	<table width="894" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_03.jpg"/></td>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_04.jpg"/></td>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_05.jpg"/></td>
+      </tr>
+      <tr>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_07.jpg"/></td>
+        <td background="${base}/res/jspgou/img/login/jspgou_08.jpg">
+		<form id="jvForm" action="login.do" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		   <tr>
+            <td colspan="2">
+              <#if errors??>
+				<ul>
+					<span style="color:red"><#list errors as error><li>${error}</li></#list></span>
+				</ul>
+				</#if>
+            </td>
+          </tr>
+          <tr>
+            <td width="23%" height="30" style="color:#fff;"><@s.m "admin.username"/>：</td>
+            <td width="77%" align="left"><input type="input" id="username" name="username" vld="{required:true}" maxlength="100" class="input"/></td>
+          </tr>
+          <tr>
+            <td height="30" style="color:#fff;"><@s.m "admin.password"/>：</td>
+            <td align="left">
+			<input type="password" id="password" name="password" vld="{required:true}" maxlength="32" class="input"/>
+			</td>
+          </tr>	  
+          <tr>
+            <td colspan="2" align="center">
+               <input type="submit" value="&nbsp;<@s.m "global.submit"/>&nbsp;" class="btn"/>
+               &nbsp;&nbsp;
+               <input type="reset" value="&nbsp;<@s.m "global.reset"/>&nbsp;" class="btn"/>
+            </td>
+          </tr>
+        </table>
+		</form>
+		</td>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_09.jpg"/></td>
+      </tr>
+      <tr>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_10.jpg"/></td>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_11.jpg"/></td>
+        <td><img src="${base}/res/jspgou/img/login/jspgou_12.jpg"/></td>
+      </tr>
+    </table>
+	</td>
+  </tr>
+</table>
+</body>
+</html>

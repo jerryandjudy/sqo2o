@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = document.getElementById('tableForm');
+	f.action="o_delete.do";
+	f.submit();
+}
+function limitTime(id){
+	$.post("updateLimitTime.jspx",{id:id},function(data){
+              
+		});
+}
+
+
+function getTableForm(){
+
+	return document.getElementById("tableForm");
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shop.function.product"/> - <@s.m "product.function"/> </div>
+	<div class="clear"></div>
+</div>
+请先删除订单数据。
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

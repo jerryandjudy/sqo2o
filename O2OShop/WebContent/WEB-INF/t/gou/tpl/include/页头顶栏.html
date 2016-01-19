@@ -1,0 +1,20 @@
+
+<!--<script type="text/javascript" src="js/side_ad.js"></script>-->
+
+
+<div class="top_box">
+  <div class="top_991">
+    <div class="fl"><a>站点切换</a></div>
+    <div class="fl">
+      <select class="select_top" onchange="window.location.href=this.value;" > 
+      [@shop_WebsiteList]
+      [#list tag_list as site]
+            <option [#if web.name==site.name] selected[/#if] value="http://${site.domain}:${site.global.port}/${site.contextPath}">${site.name}</option> 
+      [/#list]
+      [/@shop_WebsiteList]
+        </select> 
+    </div>
+    [#include "../include/header_register.html"/]
+   
+ </div>
+</div>

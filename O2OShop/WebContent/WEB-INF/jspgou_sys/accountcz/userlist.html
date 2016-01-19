@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+
+var api = frameElement.api, W = api.opener;
+function ok()
+{
+	var ketauserId=document.getElementById('ketauserId').value;
+	var ketauserRealname=document.getElementById('ketauserRealname').value;
+	var ketauserUsername=document.getElementById('ketauserUsername').value;
+	
+	
+	
+	if(ketauserId==""){
+		alert("请选择用户");
+		return;
+	}
+    W.document.getElementById("ketauserId").value = ketauserId;
+    W.document.getElementById("userRealname").value = ketauserRealname;
+    W.document.getElementById("ketauserUsername").value = ketauserUsername;
+   
+    api.close();
+   // W.document.getElementById('attr_lng').value = attr_lng;
+    //W.document.getElementById('attr_lat').value = attr_lat;
+}
+function setHiddenId(ketauserId, ketauserUsername, ketauserRealname) {
+	//alert(radioId);
+	//alert(username);
+	document.getElementById("ketauserId").value = ketauserId;
+	document.getElementById("ketauserUsername").value = ketauserUsername;
+	document.getElementById("ketauserRealname").value = ketauserRealname;
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 用户列表 - <@s.m "global.list"/></div>
+	<form class="ropt" method="post">
+		<!-- <input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/> -->
+		<input type="button" id="qd" onclick="ok();"  value="确定" />
+	</form>
+	<div class="clear"></div>
+</div>
+
+<form action="v_list_operating.do" method="post" style="padding-top:5px; border-top:1px solid #fff; text-indent:10px; padding-bottom:5px;">
+	用户名: <input type="text" name="queryUsername" value="${queryUsername!}" style="width:100px"/>
+	姓名: <input type="text" name="queryName" value="${queryName!}" style="width:150px"/>
+	<input type="hidden" name="organizationId" value="${organizationId!}"/>
+	
+	<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="queryUsername" value="${queryUsername!}"/>
+<input type="hidden" name="queryName" value="${queryName!}"/>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="ketauserId" value="" id="ketauserId"/>
+<input type="hidden" name="ketauserRealname" value="" id="ketauserRealname"/>
+<input type="hidden" name="ketauserUsername" value="" id="ketauserUsername"/>
+<@p.table value=pagination;ketaUser,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type="radio" name='ids' value='${ketaUser.id}' id="${ketaUser.id}" onclick="setHiddenId('${ketaUser.id!}', '${ketaUser.username!}', '${ketaUser.realname!}')"   /><#t/>
+	</@p.column><#t/>
+	<@p.column code="用户id">${ketaUser.id!}</@p.column><#t/>
+	<@p.column code="用户名">${ketaUser.username!}</@p.column><#t/>
+	
+	<@p.column code="姓名">${ketaUser.realname!}</@p.column><#t/>
+	
+	
+	
+	
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>N号仓</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<link rel="icon" type="image/png" href="${base}/wapstyle/assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+<link rel="apple-touch-icon-precomposed" href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage" content="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+ var URL = '${base}';
+    var APP ='${base}';
+    var SELF = '${base}/wap/wapindex.jspx';
+  </script>
+<div class="content">
+ [#include "header.html"]
+<!-- Slider -->
+<!-- Slider -->
+ [#include "adlist.html"]
+
+  [#include "menu.html"]
+  
+  <div class="am-g ">
+  [@shop_Category_list loadChild='1' Level=1 count=30  isDisplay='1' ]
+     [#list tag_list as c]
+    <div class="am-u-sm-6 " > <div class="am-thumbnail"><a href="${base}/wap/productlist.jspx?categoryId=${c.id}"   title="${c.name!}"  ><img title="${c.name!}"  src="http://u-10017112.file.myqcloud.com${c.imagePath!web.global.defImg}"></a></div></div>
+    [/#list]
+   [/@shop_Category_list]
+  </div>
+  
+  
+  <div class="am-g">
+    <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default am-margin-zero am-titlebar-multi am-no-layout">
+      <h2 class="am-titlebar-title">特价推荐</h2>
+      <nav class="am-titlebar-nav"><a href="${base}/wap/productlist.jspx?recommend=1&special=1" class="">more »</a></nav>
+    </div>
+    [@shop_ProductSiteList recommend=1 special=1 count='4' ]
+		
+    <div style="position: relative; height: 766.4px;" class="js-masonry">
+	[#list tag_list as productSite]
+      <div  class="am-u-sm-6 goodsitem">
+        <div class="am-thumbnail"><a href="${base}/wap/productself.jspx?id=${productSite.id}"  data-title="商品详情" data-url="${base}/wap/productself.jspx?id=${productSite.id}"><img  class="scrollLoading" style="max-height: 80px" src="http://u-10017112.file.myqcloud.com${productSite.product.minImg!web.global.defImg}" alt=""></a>
+          <p class="am-thumbnail-caption am-text-truncate am-text-xs"><a href="${base}/wap/productself.jspx?id=${productSite.id}"  data-title="商品详情" data-url="${base}/wap/productself.jspx?id=${productSite.id}">[${productSite.product.category.name!}]&nbsp;${productSite.product.name!}</a></p>
+          <p class="am-thumbnail-caption index-cart am-text-secondary"><span class="am-text-xs">￥${productSite.salePrice}元</span><a href="javascript:void(0)" class="am-fr" data-store="5" data-name="${productSite.product.name!}" data-goodid="${productSite.id!}" data-price="3.00" onclick="addcart(this)"><i class="am-icon-shopping-cart am-text-primary"></i></a></p>
+          <!-- <p class="am-thumbnail-caption index-cart am-text-primary" style="font-size:14px"><span class="am-text-xs">在线支付￥2(每日限一单)</span></p> -->
+        </div>
+      </div>
+      [/#list]
+      [/@shop_ProductSiteList ]
+    </div>
+  </div>
+  [@shop_Category_list loadChild='1' Level=1 count=5  isDisplay='1' ]
+     [#list tag_list as c]
+  <div class="am-g">
+    <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default am-margin-zero am-titlebar-multi am-no-layout">
+      <h2 class="am-titlebar-title"><a href="${base}/wap/productlist.jspx?categoryId=${c.id}" class="">${c.name!}</a></h2>
+      <nav class="am-titlebar-nav"><a href="${base}/wap/productlist.jspx?categoryId=${c.id}" class="">more »</a></nav>
+    </div>
+    [@shop_ProductSiteList categoryId=c.id hostSale=1  count='4' ]  <!-- 热门 -->
+    <div style="position: relative; height: 766.4px;" class="js-masonry">
+    [#list tag_list as productSite]
+      <div  class="am-u-sm-6 goodsitem">
+        <div class="am-thumbnail"><a href="${base}/wap/productself.jspx?id=${productSite.id}"  data-title="商品详情" data-url="${base}/wap/productself.jspx?id=${productSite.id}"><img  style="max-height: 80px" class="scrollLoading" src="http://u-10017112.file.myqcloud.com${productSite.product.minImg!web.global.defImg}" alt=""></a>
+          <p class="am-thumbnail-caption am-text-truncate am-text-xs"><a href="${base}/wap/productself.jspx?id=${productSite.id}"  data-title="商品详情" data-url="${base}/wap/productself.jspx?id=${productSite.id}">[${productSite.product.category.name!}]&nbsp;${productSite.product.name!}</a></p>
+          <p class="am-thumbnail-caption index-cart am-text-secondary"><span class="am-text-xs">￥${productSite.salePrice}元</span><a href="javascript:void(0)" class="am-fr" data-store="5" data-name="${productSite.product.name!}" data-goodid="${productSite.id}" data-price="3.00" onclick="addcart(this)"><i class="am-icon-shopping-cart am-text-primary"></i></a></p>
+          <!-- <p class="am-thumbnail-caption index-cart am-text-primary" style="font-size:14px"><span class="am-text-xs">在线支付￥2(每日限一单)</span></p> -->
+        </div>
+      </div>
+     [/#list]
+    </div>
+    [/@shop_ProductSiteList]
+  </div>
+    [/#list]
+   [/@shop_Category_list]
+  <script  src="${base}/wapstyle/assets/js/masonry.pkgd.min.js"></script>
+  
+
+</div>
+
+
+[#include "footer.html"]
+
+<script type="text/javascript">
+//$(function() {
+	//var $modal = $('#chooseLocation');
+   // if(sites==undefined||sites.url==''){
+    //	 $modal.modal();
+    //}else if(${web.id}!=sites.id){
+    	//window.location.href =sites.url;
+   // }
+ 
+//});
+</script>
+
+
+
+
+
+<!--<![endif]--> 
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>密码管理 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<style>
+.pl_line { width: 710px; font-size:12px;}
+.pl_zone {color: #000000; display: block; float: left; line-height: 24px; overflow-x: hidden; overflow-y: hidden; word-wrap: break-word; border-bottom: #EAEAEA dotted 1px; padding: 10px; }
+.pl {width: 710px;}
+.pl_zone span {color: #999999;}
+UL, LI {list-style-image: none; list-style-position: outside; list-style-type: none; margin:0; padding: 0;}
+.pl_txt {color: #333333; line-height: 22px;}
+</style>
+</head>
+<body>
+[#--
+[#include '../shop/inc_head.html'/]
+--]
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="w960 mt10">
+  [#include "会员中心_导航.html"/]
+     <div>
+     	  <div>
+          	   <span>商品评论</span> 
+          </div>      
+            <div>
+							[#list pagination.list as c]
+								<div>
+									<ul class="pl_zone pl">
+										<li><strong>${c.member.username!}</strong>&nbsp;&nbsp;<span>发表于 ${c.time!}</span></li>
+										<li class="pl_txt"> ${c.content!}</li>
+									</ul>
+									<div class="clear"></div>
+								</div>
+						    [/#list]
+                              [@pagination_style style='7'/]
+            </div>
+     </div>
+     <div class="clear"></div>
+
+[#include "../include/页脚信息栏.html"/]
+
+</body>
+</html>

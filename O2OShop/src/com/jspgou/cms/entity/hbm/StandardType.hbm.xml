@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="StandardType" table="jc_standard_type">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="standardtype_id">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="name" type="string" not-null="true" length="255"/>
+		<property name="field" column="field" type="string" not-null="true" length="255"/>
+		<property name="dataType" column="dataType" type="boolean" not-null="true"/>
+		<property name="priority" column="priority" type="integer" not-null="false" length="10"/>
+		<property name="remark" column="remark" type="string" not-null="true" length="255"/>
+		<set name="standardSet" inverse="true" cascade="delete">
+			<cache usage="read-write"/>
+			<key column="type_id"/>
+			<one-to-many class="Standard"/>
+		</set>
+		<set name="categorys" table="jc_shop_category_sdtype" inverse="true">
+			<cache usage="read-write"/>
+			<key column="standardtype_id"/>
+			<many-to-many column="category_id" class="Category"/>
+		</set>
+	</class>	
+</hibernate-mapping>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户中心欢迎页  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+</style>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+[#include "../include/页头搜索栏.html"/]
+<div class="w960 mt10">
+  [#include "会员中心_导航.html"/]
+     <div class="user_right">
+     	  <div class="user_ddxx">
+          	   <div class="user_photo">
+               	    <div class="photo_img">[#if member.avatar??]<img src="${member.avatar!}" width="86" height="100" />[#else]<img src="${root}/img/photo.jpg" width="86" height="100" />[/#if]</div>
+                    <p><a href="${base}/shopMember/portrait.jspx">修改头像</a></p>
+                    <p><a href="${base}/shopMember/profile.jspx">编辑个人资料</a></p>
+               </div>
+               <div class="user_dd">
+               	    <p class="user_name"><span style="color:#010000;"><strong>${member.username!}</strong>&nbsp;&nbsp;<a href="${base}/shopMember/profile.jspx">(修改)</a></span>&nbsp;&nbsp;&nbsp;<span>欢迎您！上次登录时间：${member.lastLoginTime!}</span></p>
+                    <div class="user_type">
+                    	 <span class="user_type_zc">${member.group.name}</span><span>今年已消费￥${money!0.00}</span>
+                    </div>
+                    <div class="user_xxdd">
+                    	 <ul>
+                         	 <li class="li_left" style="border-bottom:0 none;"><span>账户余额：</span>￥${member.money!0.00}</li>
+                             <li class="li_line"></li>
+                             <li class="li_right"><span>我的积分：</span><span style="color:#eb0e22;">${member.score!0}</span>分</li>
+                             <li class="li_left"></li>
+                             <li class="li_line"></li>
+                             <li class="li_right"></li>
+                             <li class="li_left" ></li>
+                             <li class="li_line"></li>
+                             <li class="li_right" style="border-bottom:0 none;"></li>
+                         </ul>
+                    </div>
+               </div>
+          </div> 
+         <div class="tjsp_box">
+          	   <h2 class="tjsp_box_tit">推荐商品</h2>
+               <ul>
+          [@isRecommend_product isrecommend='1' count='8']
+          [#list tag_list as productsite]
+               	   <li>
+                      <a href="${productsite.url}" target="_blank"><img src="${productsite.product.productExt.coverImg!}" width="110" height="110" />[@text_cut s=productsite.product.name len='7' append='...'/]</a>
+                      <p style="color:#a20002;">售价：￥${productsite.salePrice!}</p>
+                   </li>
+          [/#list] 
+          [/@isRecommend_product]           
+                  
+               </ul>
+          </div>
+     </div>
+     <div class="clear"></div>
+</div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

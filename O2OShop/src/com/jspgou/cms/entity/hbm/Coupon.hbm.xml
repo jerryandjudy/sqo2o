@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Coupon" table="jc_shop_coupon">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="couponName" column="coupon_name" type="string" not-null="true" length="50"/>	
+		<property name="couponTime" column="coupon_begintime" type="timestamp" not-null="true" length="19"/>	
+		<property name="couponEndTime" column="coupon_endtime" type="timestamp" not-null="true" length="19"/>
+		<property name="couponPicture" column="coupon_pic" type="string" not-null="true" length="50"/>
+		<property name="couponPrice" column="coupon_price" type="big_decimal" not-null="true" length="10"/>	
+		<property name="leastPrice" column="coupon_leastPrice" type="big_decimal" not-null="true" length="10"/>	
+		<property name="isusing" column="is_using" type="java.lang.Boolean" not-null="true" length="3"/>
+		<property name="couponCount" column="coupon_count" type="integer" not-null="true" length="11"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

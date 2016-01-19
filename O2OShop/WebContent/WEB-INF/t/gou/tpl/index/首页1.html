@@ -1,0 +1,488 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="${sysResRoot}/jquery.js" ></script>
+<script type="text/javascript" src="${root}/u/js/duice.js"></script>
+<script type="text/javascript" src="${root}/u/js/img.js"></script>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='normaltab';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='curr';
+}
+function HoverLi2(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb2_'+m+i).className='normaltab2';
+		g('tbc2_'+m+i).className='undis';
+	}
+	g('tbc2_'+m+n).className='dis';
+	g('tb2_'+m+n).className='curr2';
+}
+$(document).ready(function(){
+	$('<a href="#" id="retop">返回顶部</a>').appendTo('body').fadeOut().click(function(){
+		$(document).scrollTop(0);
+		$(this).fadeOut();
+		return false;
+	});
+	var $retop = $('#retop');
+	function backTopLeft(){
+		var btLeft = $(window).width() / 2 + 520;
+		if (btLeft <= 500){
+			$retop.css({ 'left': 500 });
+		}else{
+			$retop.css({ 'left': btLeft });
+		}
+	}
+	backTopLeft();
+	$(window).resize(backTopLeft);
+	$(window).scroll(function(){
+		if ($(document).scrollTop() === 0){
+			$retop.fadeOut();
+		}else{
+			$retop.fadeIn(); 
+		}
+		if ($.browser.msie && $.browser.version == 6.0 && $(document).scrollTop() !== 0){
+			$retop.css({ 'opacity': 1 });
+		} 
+	});
+});
+</script>
+</head>
+
+<body>
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	[#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+</div>
+<div class="center mt10">
+     <div class="part_left fl">
+          <div class="banner">
+               <div id="fcbx" style="margin:0px auto;" >
+                    <ul id="fcimg">  
+                       [@post_list]
+                        [#list tag_list as post]
+                           <li><a href="${base}[#if !post.interUrl??]#[#else]${post.interUrl!}[/#if]" target="_blank"><img src="${root}${post.picUrl}" width="740" height="348" border="0"/></a></li>
+                        [/#list]
+                       [/@post_list]  
+                     </ul> 
+               </div>
+          </div>
+          <div class="hotKindsArea">
+              <div class="hotKindsHead">
+                 <h2>热门分类</h2>
+                     <ul>
+                    <!--   
+                    [@shop_Category_list]
+                     [#list tag_list as type]
+                      [#if type_index &lt; 6]
+                        <li><a href="${type.url!}" name="h-hot-logo" class="track">${type.name!}</a></li> 
+                      [/#if] 
+                     [/#list]
+                    [/@shop_Category_list]
+                    -->
+                    </ul> 
+              </div>
+     		 <div class="hotKindsConArea">
+		        <ul> 
+                 [@shop_Category_list]
+               	 [#list tag_list as type]
+               	 	<li>
+                		<div class="hotKindsName"><a target="_blank" href="${type.url!}" name="h-hot-1" class="track">${type.name!}</a></div> 
+                  			[@shop_Category_list parentId=type.id]
+                    	<div class="hotKindsCon">
+                        	[#list tag_list as cate]
+                         	<p><a target="_blank" href="${cate.url!}" name="h-hot-1-1" class="track">${cate.name!}</a>&nbsp;</p>
+                         	[/#list]
+                     		<div class="clear"></div>
+                		</div>     
+                 [/@shop_Category_list]
+                 </li>
+               [/#list]
+               [/@shop_Category_list]
+                <div class="clear"></div>
+	           </ul>
+	         </div>
+	         </div> 
+          </div>    
+     <div class="part1_right fr">
+     	  <div class="part1_top">
+          	   <ul class="part1_tab">
+          	   [@shop_Channel count='2']
+          	     [#list tag_list as c]
+          	     <li id="tb_1${c_index+1}"  [#if c_index==0]class="curr"[#else]class="normaltab"[/#if]
+          	      onmousemove="HoverLi(1,${c_index+1},3)" [#if c_index==1] 
+          	      style="border-right:1px solid #ccc; border-left:1px solid #ccc;"[/#if]>${c.name!}</li>
+          	     [/#list]
+          	   [/@shop_Channel]
+          	     <li id="tb_13" class="normaltab" onmousemove="HoverLi(1,3,3)">礼品</li>
+               </ul>
+               <div class="clear"></div>
+               [@shop_Channel count='2']
+          	     [#list tag_list as c]
+               <div id="tbc_1${c_index+1}" [#if c_index+1=1]class="dis"[#else]class="undis"[/#if]>
+               [@shop_ArticleList channelId=c.id count='5' ]
+                    <ul class="part1_top_list">
+                    [#list tag_list as a]
+                      <li><span><a href="${c.url!}" class="red">[${c.name!}]</a></span> <a href="${a.url!}" class="gray2">${a.title!}</a></li>
+                    [/#list]
+                    </ul>
+              [/@shop_ArticleList]
+               </div>
+                 [/#list]
+          	   [/@shop_Channel]
+          	   <div id="tbc_13" class="undis">
+               	<ul class="part1-bottom-list">
+               	[@gift_list count='6']
+               	[#list tag_list as gift]
+               	  <!--  
+               	  <li><img src="${root}${gift.giftPicture!}" width="74" height="75" />
+               	   <p> 名称：${gift.giftName!}</p>
+                   <p>积分: ${gift.giftScore!}</p>
+                 </li>
+                 -->
+                [/#list]
+               [/@gift_list]
+               </ul>
+               <div style="float:right"><a href="${base}/gift.jspx" target="_blank">更多</a></div>
+            </div>
+               <div class="ad1"><a href="#" target="_blank"><img src="${root}/u/img/right_ad1.gif" width="224"  /></a></div>
+          </div> 
+          <div class="part1_bottom">
+          	   <ul class="part1_tab2">
+               	  <li id="tb2_11"  class="curr2" onmousemove="HoverLi2(1,1,3)">热卖</li>
+                  <li id="tb2_12" class="normaltab2" onmousemove="HoverLi2(1,2,3)">新品</li>
+                  <li id="tb2_13" class="normaltab2" onmousemove="HoverLi2(1,3,3)">推荐</li>
+               </ul>
+               <div id="tbc2_11" class="dis">
+               	<ul class="part1-bottom-list">
+               	[@shop_ProductList count='6' hostSale='1']
+               	[#list tag_list as hostp]
+               	  <li><a href="${hostp.url!}"><img src="${root!}${hostp.productExt.coverImg!}" width="74" height="75" /></a><p><a href="${hostp.url!}">[#if hostp.name?length > 5]${hostp.name!?substring(0,5)}..[#else]${hostp.name!}[/#if]</a></p></li>
+                [/#list]
+               [/@shop_ProductList]
+               </ul>
+               </div>
+                <div id="tbc2_12" class="undis">
+               	<ul class="part1-bottom-list">
+               	[@shop_ProductList count='6' newProduct='1']
+               	[#list tag_list as hostp]
+               		  <li><a href="${hostp.url!}"><img src="${root!}${hostp.productExt.coverImg!}" width="74" height="75" /></a><p><a href="${hostp.url!}">[#if hostp.name?length > 5]${hostp.name!?substring(0,5)}..[#else]${hostp.name!}[/#if]</a></p></li>
+                [/#list]
+               [/@shop_ProductList]
+               </ul>
+               </div>
+                 <div id="tbc2_13" class="undis">
+               	<ul class="part1-bottom-list">
+               	[@shop_ProductList count='6' recommend='1']
+               	[#list tag_list as hostp]
+               	 	  <li><a href="${hostp.url!}"><img src="${root!}${hostp.productExt.coverImg!}" width="74" height="75" /></a><p><a href="${hostp.url!}">[#if hostp.name?length > 5]${hostp.name!?substring(0,5)}..[#else]${hostp.name!}[/#if]</a></p></li>
+                [/#list] 
+                [/@shop_ProductList]
+               </ul>
+               </div>
+          </div>
+     </div>
+     <div class="clear"></div>
+</div>
+
+<!-- ---------------------  数码 ------------------------- -->
+<div class="center mt10">
+<!-- 一级类别 -->
+[@shop_Category_list]
+  [#list tag_list as cate]
+    [#if cate_index== 0]
+	  <div class="column-name">
+     	  <h2>${cate.name!}</h2>
+     </div>
+     <div class="part3_con">
+     <div>
+     	<ul> 
+        <!-- 二级类别 -->
+     	[@shop_Category_list parentId=cate.id]
+        	[#list tag_list as type]
+            	<li>
+  					<div class="hotKindsName"><a target="_blank" href="${type.url!}" name="h-hot-1" class="track">${type.name!}</a></div>
+  					    <!-- 三级类别 -->
+  					    <!--   
+ 						[@shop_Category_list parentId=type.id]
+                    	<div class="hotKindsCon">
+                        	[#list tag_list as cate]
+                         	<p><a target="_blank" href="${cate.url!}" name="h-hot-1-1" class="track">${cate.name!}</a>&nbsp;</p>
+                         	[/#list]
+                     		<div class="clear"></div>
+                		</div>     
+                 		[/@shop_Category_list]
+                 		-->
+                 		</li>
+               			[/#list]
+               			[/@shop_Category_list]
+                <div class="clear"></div>
+	           </ul>
+      </div>
+      <ul class="part4_ullist fl">
+        [@shop_ProductList categoryId=cate.id count='8' Recommend='1']
+        	[#list tag_list as product]
+          		<li>
+               	  <div class="part4_list_img"><a href="${product.storeUrl!}" target="_blank"><img src="${root}${product.productExt.coverImg!}" onload="javascript:DrawImage(this,100,110);"/></a></div>
+                   <p>[@text_cut s=product.name len='10' append='...'/] </p>
+                  <p><span class="gray" style="text-decoration:line-through;">￥${product.marketPrice!}</span> <strong>￥${product.salePrice!}</strong></p>
+               	</li>
+               [/#list]
+        [/@shop_ProductList]   
+       </ul>
+       <!-- 数码右侧 -->
+       <!--  
+       <div class="part_list_rg fr">
+           [@shop_Category_list parentId=cate.id]
+             [#list tag_list as subcate]
+                [#if subcate_index&lt;5 && subcate_index != 0]
+          	      <div class="b"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="203" height="83" /></a></div>
+                  [/#if]
+              [/#list]
+           [/@shop_Category_list]
+          </div>
+        -->
+     </div>
+     [/#if]
+  [/#list]
+[/@shop_Category_list]
+</div>
+
+<!-- ---------------------  服装 ------------------------- -->
+<div class="center mt10">
+[@shop_Category_list]
+  [#list tag_list as cate]
+    [#if cate_index==1]
+	  <div class="column-name">
+     	  <h2>${cate.name!}</h2>
+          <ul>
+          <!--  
+            [@shop_Category_list parentId=cate.id]
+             [#list tag_list as subcate]
+          	 <li><a href="${subcate.url!}" class="gray">${subcate.name!}</a>|</li>
+          	 [/#list]
+          	[/@shop_Category_list]
+          	-->
+          </ul>
+     </div>
+     <div class="part3_con">
+     [@shop_Category_list parentId=cate.id]
+          [#list tag_list as subcate]
+           [#if subcate_index==0]
+     	  <div class="part3_con_01 fl"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="210" height="336" /></a></div>
+         [/#if]
+            [/#list]
+     [/@shop_Category_list]
+          <ul class="part4_ullist fl">
+          [@shop_ProductList categoryId=cate.id count='8' Recommend ='1']
+          	      [#list tag_list as product]
+          	   <li>
+               	  <div class="part4_list_img"><a href="${product.storeUrl!}" target="_blank"><img src="${root}${product.productExt.coverImg!}" onload="javascript:DrawImage(this,100,110);"/></a></div>
+                 <p>[@text_cut s=product.name len='8' append='...'/] </p>
+                  <p><span class="gray" style="text-decoration:line-through;">￥${product.marketPrice!}</span> <strong>￥${product.salePrice!}</strong></p>
+               </li>
+               [/#list]
+          [/@shop_ProductList]   
+          </ul>
+          <!-- 服装右侧 -->
+          <!--  
+           <div class="part_list_rg fr">
+           [@shop_Category_list parentId=cate.id]
+          [#list tag_list as subcate]
+           [#if subcate_index&lt;5 && subcate_index != 0]
+          	   <div class="b"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="203" height="83" /></a></div>
+                  [/#if]
+            [/#list]
+     [/@shop_Category_list]
+          </div>
+          -->
+     </div>
+     [/#if]
+  [/#list]
+[/@shop_Category_list]
+</div>
+
+<!-- ---------------------  鞋包服饰 ------------------------- -->
+<div class="center mt10">
+[@shop_Category_list]
+  [#list tag_list as cate]
+    [#if cate_index==2]
+	  <div class="column-name">
+     	  <h2>${cate.name!}</h2>
+          <ul>
+          <!--  
+            [@shop_Category_list parentId=cate.id]
+             [#list tag_list as subcate]
+          	 <li><a href="${subcate.url!}" class="gray">${subcate.name!}</a>|</li>
+          	 [/#list]
+          	[/@shop_Category_list]
+          	-->
+          </ul>
+     </div>
+     <div class="part3_con">
+     [@shop_Category_list parentId=cate.id]
+          [#list tag_list as subcate]
+           [#if subcate_index==0]
+     	  <div class="part3_con_01 fl"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="210" height="336" /></a></div>
+         [/#if]
+            [/#list]
+     [/@shop_Category_list]
+          <ul class="part4_ullist fl">
+          [@shop_ProductList categoryId=cate.id count='8' Recommend ='1']
+          	 [#list tag_list as product]
+          	   <li>
+               	  <div class="part4_list_img"><a href="${product.storeUrl!}" target="_blank"><img src="${root}${product.productExt.coverImg!}" onload="javascript:DrawImage(this,100,110);"/></a></div>
+                 <p>[@text_cut s=product.name len='8' append='...'/] </p>
+                  <p><span class="gray" style="text-decoration:line-through;">￥${product.marketPrice!}</span> <strong>￥${product.salePrice!}</strong></p>
+               </li>
+             [/#list]
+          [/@shop_ProductList]   
+          </ul>
+          <!-- 鞋包服饰右侧 -->
+          <!--  
+           <div class="part_list_rg fr">
+           [@shop_Category_list parentId=cate.id]
+             [#list tag_list as subcate]
+               [#if subcate_index&lt;5 && subcate_index!= 0]
+          	     <div class="b"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="203" height="83" /></a></div>
+                  [/#if]
+             [/#list]
+          [/@shop_Category_list]
+          </div>
+          -->
+     </div>
+     [/#if]
+  [/#list]
+[/@shop_Category_list]
+</div>
+
+<!-- ---------------------  日用百货 ------------------------- -->       
+<div class="center mt10">
+[@shop_Category_list]
+  [#list tag_list as cate]
+    [#if cate_index==3]
+	  <div class="column-name">
+     	  <h2>${cate.name!}</h2>
+          <ul>
+          <!--  
+            [@shop_Category_list parentId=cate.id]
+             [#list tag_list as subcate]
+          	 <li><a href="${subcate.url!}" class="gray">${subcate.name!}</a>|</li>
+          	 [/#list]
+          	[/@shop_Category_list]
+          	-->
+          </ul>
+     </div>
+     <div class="part3_con">
+     [@shop_Category_list parentId=cate.id]
+          [#list tag_list as subcate]
+           [#if subcate_index==0]
+     	  <div class="part3_con_01 fl"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="210" height="336" /></a></div>
+         [/#if]
+            [/#list]
+     [/@shop_Category_list]
+          <ul class="part4_ullist fl">
+          [@shop_ProductList categoryId=cate.id count='8' Recommend ='1']
+          	      [#list tag_list as product]
+          	   <li>
+               	  <div class="part4_list_img">
+               	    <a href="${product.storeUrl!}" target="_blank">
+               	    <img src="${root}${product.productExt.coverImg!}" onload="javascript:DrawImage(this,100,110);"/>
+               	    </a>
+               	   </div>
+                  <p>[@text_cut s=product.name len='8' append='...'/] </p>
+                  <p><span class="gray" style="text-decoration:line-through;">￥${product.marketPrice!}</span> <strong>￥${product.salePrice!}</strong></p>
+               </li>
+                  [/#list]
+          [/@shop_ProductList]      
+          </ul>
+          <!-- 日用百货右侧 -->
+          <!--  
+           <div class="part_list_rg fr">
+           [@shop_Category_list parentId=cate.id]
+          [#list tag_list as subcate]
+           [#if subcate_index &gt; 0 && subcate_index&lt;5]
+          	   <div class="b"><a href="${subcate.url!}" target="_blank"><img src="${root}${subcate.imagePath!}" width="203" height="83" /></a></div>
+         [/#if]
+            [/#list]
+     [/@shop_Category_list]
+            </div>
+           -->
+     </div>
+     [/#if]
+  [/#list]
+[/@shop_Category_list]
+</div>
+
+<!-- ---------------------  5 ------------------------- -->
+<!--
+<div class="center mt10">
+[@shop_Category_list]
+  [#list tag_list as cate]
+    [#if cate_index&gt;3&& cate_index&lt;6]
+	 <div class="part_column [#if cate_index==4]fl[#else]fr[/#if]">
+     	  <div class="column-name"><h2>${cate.name!}</h2></div>
+          <div class="part_column_con">
+          	   <div class="part_column_p20">
+          	   [@shop_Category_list parentId=cate.id]
+          [#list tag_list as subcate]
+           [#if subcate_index ==0]
+               	    <div class="part_column_con_top">
+                    	 <a href="${subcate.url!}" target="_blank" class="part_column_con_topleft"><img src="${root}${subcate.imagePath!}" width="210" height="210" /></a>
+                         <ul class="part_column_con_topright">
+                     [@shop_ProductList categoryId=cate.id count=2 Recommend = 1]
+          	        [#list tag_list as product]
+                             [#if product_index == 0]
+                         	<li><a href="${product.storeUrl!}" target="_blank"><img src="${root}${product.productExt.coverImg!}" /></a></li>
+                              [/#if]
+                             [#if product_index == 1]
+                            <li class="mt10"><a href="${product.storeUrl!}" target="_blank"><img src="${root}${product.productExt.coverImg!}" /></a></li>
+                              [/#if]
+                        [/#list]
+                     [/@shop_ProductList] 
+                         </ul> 
+                         <div class="clear"></div> 
+                    </div>
+                    [/#if]
+            [/#list]
+     [/@shop_Category_list]
+                    <ul class="part_column_con_bottom">
+                    [@shop_ProductList categoryId=cate.id count= 5 Recommend = 1]
+          	           [#list tag_list as product]
+                         [#if product_index&gt;1]
+                    	 <li>
+                         <div class="part_column_con_bottomimg"><a href="${product.storeUrl!}" target="_blank"><img src="${root}${product.productExt.coverImg!}" width="100" height="112"/></a></div>
+                             <p class="gray">[@text_cut s=product.name len='10' append='...'/] </p>
+                             <p style="color:#cb0101; font-size:14px;"><strong>￥${product.salePrice!}</strong></p>
+                         </li>
+                          [/#if]
+                       [/#list]
+                    [/@shop_ProductList]    
+                    </ul>
+               </div>
+          </div>
+     </div> 
+     
+     [/#if]
+  [/#list]
+[/@shop_Category_list]
+     <div class="clear"></div>
+</div>
+-->
+<div>
+</div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

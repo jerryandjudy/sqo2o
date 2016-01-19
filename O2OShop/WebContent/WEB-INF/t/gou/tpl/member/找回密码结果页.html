@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>找回密码结果  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/front.css" rel="stylesheet" type="text/css"/>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="column_ad"><img src="${root}/img/ad.gif" /></div>
+<div class="position">您现在的位置：<a href="${base!}">首页</a> &gt; <a href="#" class="red">找回密码结果</a></div>
+<div class="center mt10">
+	 <div class="column_title"><span>找回密码</span></div>
+     <div class="regist_active_box">
+          [#if status==0]
+	        <div class="gxzccg"><img src="${root}/img/success.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <font size="4">新密码已发送至您的邮箱</font><font color="red" size="4">${user.email}</font><font size="4">，请查阅邮箱确认。</font>
+	          <p><a href="http://mail.${emailtype!}.com" target="_blank">
+	              <img src="${root!}/img/email.jpg"  align="middle" width="182" height="34" style="margin-top:5px;"/></a>
+	           </p>
+	           </div>
+         [#elseif status==1]
+             <div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <span><font size="4">找回密码失败，用户不存在。</font></span></div>
+         [#elseif status==2]
+         	<div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <span><font size="4">找回密码失败，该用户没有邮箱。</font></span></div>
+         [#elseif status==3]
+         	  <div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <span><font size="4">找回密码失败，邮箱输入错误。</font></span></div>
+         [#elseif status==4]
+                <div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <span><font size="4">找回密码失败，邮件服务器设置不正确。</font></span></div>
+         [#elseif status==5]
+               <div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <span><font size="4">找回密码失败，邮件模板设置不正确。</font></span></div>
+         [#elseif status==100]
+            <div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	           <span><font size="4">找回密码失败，发送邮件异常：${message!}。</font></span></div>
+         [#else]
+           <div class="gxzccg"><img src="${root!}/img/fail.png" align="middle" width="50" height="42" style="margin-top:-6px;"/>
+	              <span><font size="4">找回密码失败，未知错误。</font></span></div>
+         [/#if]
+    </div>	 	 
+</div>
+[#include "../include/页脚信息栏.html"/] 
+</body>
+</html>

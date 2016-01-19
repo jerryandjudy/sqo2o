@@ -1,0 +1,133 @@
+	<!--TOP=end-->
+ [@order_page status=status count='5' code=code userName=userName paymentId=paymentId shippingId=shippingId startTime=startTime endTime=endTime pageNos=pageNos startOrderTotal=startOrderTotal endOrderTotal=endOrderTotal]
+     [#list tag_list as order]
+		<div class="am-container am-margin-top-lg">
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<div class="am-panel am-panel-default mo am-text-xs">
+						<div class="am-panel-hd">订单号：${order.code!}</div>
+						<div class="am-panel-bd c-goods-list" style="padding: 10px">
+							<div class="am-panel am-panel-default">
+								<div class="am-panel-hd" data-am-collapse="{target: '#good${order.id!}'}">
+									商品列表 <i class="cbh am-icon-chevron-down"></i>
+								</div>
+								<div id="good${order.id!}" class="am-panel-collapse am-collapse am-in">
+								   [#list order.items as item]
+									<div class="am-panel-bd am-padding-xs">
+										<div class="am-g am-padding-sm">
+											<div class="am-u-sm-3 am-text-center">
+												<img
+													src="${item.productSite.product.productExt.coverImg!}"></img>
+											</div>
+											<div class="am-u-sm-9">
+												<p>[${item.productSite.product.category.name!}]&nbsp;${item.productSite.product.name!}</p>
+												<p>
+													<span class="am-text-primary">￥${item.salePrice!}</span>x ${item.count!}
+												</p>
+											</div>
+										</div>
+										<hr></hr>
+									</div>
+										[/#list]
+								</div>
+								
+							</div>
+							<hr></hr>
+							<p>支付方式：${order.payment.name!}</p>
+							<p>下单时间：${order.createTime!}</p>
+							<p>收 货 人：${order.receiveName!}</p>
+							<p>联系电话：${order.receiveMobile!}|${order.receivePhone!}</p>
+							<p>收货地址：${order.receiveAddress!}</p>
+							<p>金额合计：${order.total!}</p>
+
+						</div>
+						 <footer class="am-panel-footer">
+ [#if (order.status==0 ||order.status==1) && order.paymentStatus==1 && order.payment.id !=3]<span class="am-padding-xs">等待付款</span>
+	  <div class="am-fr" > <a class="am-btn am-btn-xs am-btn-primary"   data-title="取消订单" href="javascript:void(0)" onclick="abolishOrder(${order.id});"  >取消订单</a></div>
+	  <div class="am-fr" style="margin-right:10px"  > <a class="am-btn am-btn-xs am-btn-primary"  data-title="付款"  href="${base}/wap/zffs.jspx?orderId=${order.id!}" >付款</a></div>
+	  [#elseif order.status==1 && order.paymentStatus==1 && order.payment.id ==3]<span class="am-padding-xs">等待卖家发货</span>
+	  <span class="am-fr"> <a class="am-btn am-btn-xs am-btn-primary"  data-title="取消订单" onclick="abolishOrder(${order.id});"  href="javascript:void(0)"  data-url="">取消订单</a></span>
+	  [#elseif order.status==3]<span class="am-padding-xs">订单已取消  </span> 
+	  [#elseif order.status==4]<span class="am-padding-xs">订单已完成  </span> 
+	  [#elseif order.shippingStatus==2 && order.status!=4]<span class="am-padding-xs">卖家已发货，等待确认收货  </span> 
+	  <span class="am-fr"> <a class="am-btn am-btn-xs am-btn-primary"  data-title="确认收货" onclick="accomplishOrder(${order.id});" href="javascript:void(0)"  >确认收货</a></span>
+	  [#elseif order.shippingStatus==1 && order.paymentStatus==2 && (order.status==0 || order.status==1) ]
+	  <span class="am-padding-xs">已支付，等待确认</span> 
+	 [#if !(order.returnOrder??)]<span class="am-fr"> <a class="am-btn am-btn-xs am-btn-primary"  data-title="退款"  href="${base}/wap/orderReturn/orderReturn.jspx?orderId=${order.id!}">退款</a></span>[#else]退款申请中[/#if]
+	 [#elseif order.shippingStatus==1 && order.paymentStatus==2 && order.status==2  ]
+	  <span class="am-padding-xs">卖家已确认，等待发货</span> 
+	 [#if (order.returnOrder??)]退款申请中[/#if]
+	  [#else]
+	  <span class="am-padding-xs">买家已付款，等待卖家发货  </span> 
+	  [/#if]
+
+						</footer> 
+					</div>
+				</div>
+				<div class="am-u-sm-12">
+					<ul id="orders"
+						class="am-pagination am-pagination-centered am-no-layout"
+						data-am-widget="pagination">
+					</ul>
+				</div>
+			</div>
+		</div> [/#list]
+           [#assign p=tag_pagination /] [#if p.pageNo gte p.totalPage]
+			<div class="am-g am-text-center" id="next-page" url="end">
+				没有更多了.... [#else]
+				<div class="am-g am-text-center" id="next-page"
+					url="/wap/waporderpage.jspx">
+					<i class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+						class="am-icon-spinner am-icon-spin"></i>...</div> [/#if]
+					<script type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										pageNos:${pageNos+1},
+										status:${status!}
+								
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script>
+				
+				<script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+				</div>
+ [/@order_page]
+

@@ -1,0 +1,67 @@
+<script type="text/javascript">
+//上传图片
+function uploadAmp(n) {
+	var of = $('#uploadFileAmp'+n);
+	//检查是否选择了图片
+	if(of.val()=='') {
+		alert('<@s.m "imageupload.error.noFileToUpload"/>');
+		return;
+	}
+	//将file移动至上传表单
+	$('#fileContentAmp').empty();
+	$('#fileContentAmp').append(of);
+	//复制一个file放至原处
+	$('#ufcAmp'+n).append(of.clone());
+	//修改属性
+	of.attr('id','');
+	
+	of.attr('name','uploadFileAmp');
+	//其他表单
+	$('#ufFileNameAmp').val($('#fileName'+n).val());
+	$('#ufWidthAmp').val($('#zoomWidthAmp'+n).val());
+	$('#ufHeightAmp').val($('#zoomHeightAmp'+n).val());
+	$('#uploadAmpNum').val(n);	
+	$('#uploadAmpForm').submit();
+}
+//剪裁图片
+function imgCut(n) {
+	if($('#uploadImgPath'+n).val()=='') {
+		alert("<@s.m "imageupload.error.noFileToCut"/>");
+		return;
+	}
+	var url = "../common/v_image_area_select.do?uploadNum="+n+"&imgSrcPath="
+		+$("#uploadImgPathAmp"+n).val()+"&zoomWidthAmp="+$("#zoomWidthAmp"+n).val()+"&zoomHeightAmp="+$("#zoomHeightAmp"+n).val();
+	window.open(url,"imgcut","height=550, width=1000, top=0, left=0, toolbar=no, menubar=no, scrollbars=auto, resizable=yes,location=no, status=no");
+}
+//清除图片
+function clearImg(n) {
+	$('#uploadImgPathAmp'+n).val("");
+	$('#preAmpImg'+n).attr("src","");
+}
+
+//预览图片
+function previewImg(n) {
+	var img = $("#uploadImgPathAmp"+n).val();
+	if(img!="") {
+		if(img.indexOf("?")==-1) {
+			$("#preAmpImg"+n).attr("src",img+"?d="+new Date()*1);
+		} else {
+			$("#preAmpImg"+n).attr("src",img+"&d="+new Date()*1);
+		}
+		if(!$("#preAmpImg"+n).attr("noResize")) {
+			$("#preAmpImg"+n).css("width","auto");
+			$("#preAmpImg"+n).css("height","auto");
+		}
+	} else {
+		$("#preAmpImg"+n).removeAttr("src");		
+	}
+}
+</script>
+<form id="uploadAmpForm" action="../common/o_upload_amp_image.do" method="post" enctype="multipart/form-data" target="hiddenIframe" style="display:none;width:0px;height:0px;">
+<span id="fileContentAmp">　</span>
+<input id="ufWidthAmp" type="hidden" name="zoomWidthAmp"/>
+<input id="ufHeightAmp" type="hidden" name="zoomHeightAmp"/>
+<input id="uploadAmpNum" type="hidden" name="uploadNum"/>
+<input id="ufFileNameAmp" type="hidden" name="fileName"/>
+</form>
+<iframe name="hiddenIframe" frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

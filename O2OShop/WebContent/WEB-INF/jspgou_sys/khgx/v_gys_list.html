@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+    <script type="text/javascript">
+    
+    var api = frameElement.api, W = api.opener;
+      
+    /* 函数ok即为上面添加按钮方法中callback回调函数调用的函数 */
+    function ok()
+    {
+    	var list= $('input:radio[name="ids"]:checked').val();
+        if(list==null){
+            alert("请选择一个供应商!");
+            return false;
+        }
+        W.document.getElementById("newCompany").value = $('#newCompany'+list).val();
+       W.document.getElementById("newCompanyId").value = list;
+       api.close();
+    }
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<form action="v_gys_list.do" method="post">
+	<input type="hidden" name="pageNo" value="${pageNo!}"/>
+   <input type="hidden" name="gys.id" value="${gyss.id!}"/>
+	 <div style="padding-top:5px">
+	供应商用户名： <input type="text" name="username" id="username" value="${username!}" style="width:150px"/>  
+	供应商公司： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="gys.id" value="${gyss.id!}"/>
+<@p.table listAction="v_gys_list.do" value=pagination;gys,i,has_next><#rt/>
+	<@p.column code="选择" width="40">
+		<input type='radio' name='ids' <#if i==0>checked</#if> value='${gys.id}'/><#t/>
+	</@p.column><#t/>
+		<input type='hidden' name='newCompany' id="newCompany${gys.id}"  value='${gys.companyName!}'/><#t/>
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商用户名">${gys.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="供应商密码">${gys.ketaUser.painPass!}</@p.column><#t/>
+	<@p.column code="联系电话">${gys.phone!}</@p.column><#t/>
+	<@p.column code="公司">${gys.companyName!}</@p.column><#t/>
+	<@p.column code="所属站点">${gys.website.name!}</@p.column><#t/>
+	<@p.column code="账户">${gys.account.id!}</@p.column><#t/>
+	<@p.column code="账户可用余额">${gys.account.money!}</@p.column><#t/>
+	<@p.column code="账户冻结金额">${gys.account.frozenMoney!}</@p.column><#t/>
+	<@p.column code="添加时间">${gys.createTime!}</@p.column><#t/>
+</@p.table>
+<input type="button" id="qd" onclick="ok();"  value="确定" />
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

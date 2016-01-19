@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	<#list list as item>
+	$("#itemColor${item_index}").colorPicker();
+	</#list>
+	$("#jvForm").validate();
+	
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 扩展属性  - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.text label="名称" colspan="1" width="50" name="name" value=exended.name required="true" class="required" maxlength="100"/>
+<@p.text label="字段名称" colspan="1" width="50" name="field" value=exended.field required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.select label="数据类型" colspan="1" width="50" id="dataType"  required="true" value="${exended.dataType}" list={"1":"下拉列表","2":"单选框"} name="dataType"/>
+<@p.text label="排序"  colspan="2" width="100" name="priority" value="${exended.priority}" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.checkboxlist label="关联商品类型" colspan="2" width="100" name="typeIds" valueList=typeIds list=ptList listKey="id" listValue="name" required="true" class="required"/><@p.tr/>
+<@p.td colspan="2">
+<div class="items">
+	&nbsp; <input type="button" value="增加属性值" onclick="addLines();"/>
+</div>
+<div id="itemsContainer">
+<#list list as item>
+<div class="items">
+属性值  : <input type="text" name="itemName" value="${item.name!}" style="width:200px"/>
+&nbsp; <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="$(this).parent().remove();"/>
+<input type="hidden" name="itemId" value="${item.id}"/>
+</div>
+</#list>
+</div>
+</@p.td><@p.tr/>
+<@p.td colspan="2" width="100">
+<@p.hidden name="id" value=exended.id/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<textarea id="itemTpl" style="display:none;">
+<div class="items">
+属性值 : <input type="text" name="itemName" style="width:200px"/>
+&nbsp; <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="$(this).parent().remove();"/>
+</div>
+</textarea>
+<script type="text/javascript">
+var tpl = $.format($("#itemTpl").val());
+var index = ${list?size}+1;
+function addLines() {
+	$("#itemsContainer").append(tpl(index++));
+	$("#itemColor"+(index-1)).colorPicker();
+}
+</script>
+</body>
+</html>

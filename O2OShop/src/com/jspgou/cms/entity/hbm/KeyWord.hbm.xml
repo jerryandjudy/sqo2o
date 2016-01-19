@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="KeyWord" table="jc_shop_keyword_q">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="native"/></id>
+		<property name="keyword" column="keyword" type="string" not-null="true" length="50"/>
+		<property name="times" column="times" type="integer" not-null="true" length="10"/>
+		
+	</class>
+</hibernate-mapping>

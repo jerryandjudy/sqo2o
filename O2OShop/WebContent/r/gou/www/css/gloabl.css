@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,div,dl,dt,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,legend,input,textarea,p,th,td,dd{ margin:0; padding:0;}
+body{color:#000000; font-family:"宋体",Verdana, Geneva,sans-serif; font-size:12px;}
+ul,ol{list-style:none;}
+ul , li { list-style-type: none; overflow: hidden;}
+img{border:0 none;}
+a{text-decoration:none;}
+a:link,a:visited{color:#000;}
+a:hover,a:active{color:#ce0000;}
+.gray{color:#999;}
+a.gray:link,a.gray:visited{color:#999999;}
+a.gray:hover,a.gray:active{color:#ce0000;}
+
+a.gray2:link,a.gray:visited{color:#666;}
+a.gray2:hover,a.gray:active{color:#ce0000;}
+
+a.white:link,a.white:visited{color:#fff;}
+
+.red{ color:#9f0100;}
+a.red:link,a.red:visited{color:#cc0000;}
+
+.clear{clear:both; height:0;overflow:hidden; }
+.center{width:980px; margin:0 auto;}
+
+.mt10{margin-top:15px;}
+
+.fl{float:left;}
+.fr{float:right;}
+
+.undis{display:none;}
+.tb-selected,a.tb-selected:link,a.tb-selected:visited{border:2px solid #ff6f0d; background:url(../img/xz.png) no-repeat 30px 20px;}
+
+/*------新加放大图效果------*/
+
+div.zoomdiv_bg {
+z-index                 : 99;
+position                : absolute;
+top:0px;
+left:0px;
+width                   : 200px;
+height                  : 200px;
+display:none;
+text-align: center;
+overflow: hidden;
+background: url( http://i1.quwan.com/themes/default/imgs/global/loading.gif) no-repeat center center;
+background-color: white;
+}
+div.zoomdiv {
+z-index                 : 100;
+position                : absolute;
+top:0px;
+left:0px;
+width                   : 200px;
+height                  : 200px;
+display:none;
+text-align: center;
+overflow: hidden; border:1px solid #ccc;
+}
+
+div.jqZoomPup {
+z-index                 : 100;
+visibility              : hidden;
+position                : absolute;
+top:0px;
+left:0px;
+width                   : 50px;
+height                  : 50px; 
+border:1px solid #fed887;
+background:url(http://i1.quwan.com/themes/default/imgs/global/mag_bg.png) no-repeat 0 0 ; 
+
+cursor:crosshair;
+}
+* html div.jqZoomPup  { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src="http://i1.quwan.com/themes/default/imgs/global/mag_bg.png"); background:none; }
+
+
+
+
+
+
+
+
+
+
+body {color:#666666; font-size:12px ;}
+ul,ol,dl,dt,dd { list-style-type:none; }
+img{ border:0;}
+.tc{ text-align:center;}
+.fl{ float:left;}
+.fr{ float:right;}
+.di{ display:inline;}
+.db{ display:block;}
+.di{ display:inline;}
+.ofh { overflow:hidden }
+#contain{ width:960px; margin:0 auto;}
+#pic_f1{ margin-top:15px;}
+.h35{ height:35px;}
+.w728{ width:728px;}
+.w193{ width:193px;}
+.w70{ width:70px;}
+.w65{width:65px;}
+.w725{ width:725px;}
+.jqzoom{cursor:pointer;height:400px; width:400px;}
+.share1{float:left; width:163px; height:21px; margin-left:100px!important; margin-left:50px;border:1px #dadada solid; line-height:19px;}
+.s_sina{ background:url(http://i1.quwan.com/themes/default/imgs/goodsnew/Detail_bg.gif) no-repeat 0px -478px; width:23px; height:21px;cursor: pointer;  }
+.s_renren{ background:url(http://i1.quwan.com/themes/default/imgs/goodsnew/Detail_bg.gif) no-repeat -23px -478px; width:23px; height:21px;cursor: pointer;  }
+.s_qq{ background:url(http://i1.quwan.com/themes/default/imgs/goodsnew/Detail_bg.gif) no-repeat -46px -478px; width:23px; height:21px;cursor: pointer;  }
+.s_qzone{ background:url(http://i1.quwan.com/themes/default/imgs/goodsnew/Detail_bg.gif) no-repeat -69px -478px; width:23px; height:21px;cursor: pointer;  }
+
+
+
+.fl{ float:left;}
+.num_dw{width:15px; height:18px; display:block;background: url("http://i1.quwan.com/themes/default/imgs/flow/bg_new.gif") no-repeat scroll -296px -157px transparent;border: 1px solid #D8D8D8; cursor: pointer;}
+.num_up {width: 15px; height:18px;background: url("http://i1.quwan.com/themes/default/imgs/flow/bg_new.gif") no-repeat scroll -296px -138px transparent; border: 1px solid #D8D8D8;cursor: pointer;}
+.num_input {border: 1px solid #D8D8D8;color: #666666;height: 18px;margin: 0 3px;text-align: center;width: 35px;}
+

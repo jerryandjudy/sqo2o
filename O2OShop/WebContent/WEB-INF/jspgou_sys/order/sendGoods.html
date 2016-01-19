@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "order.function"/> - 发货</div>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_sendGoods.do">
+物流公司名称：${order.shipping.name!}
+<input type="hidden" name="logistics_name" value="${order.shipping.name!}"/><br/>
+物流发货单号：<input size="30" name="invoice_no" /><br/>
+<@p.td>
+<input type="hidden" name="trade_no" value="${order.tradeNo!}"/>
+<input type="hidden" name="transport_type" value="EXPRESS"/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

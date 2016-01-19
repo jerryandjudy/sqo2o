@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optPriority() {
+	var f = getTableForm();
+	f.action="o_propertyPriority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shop.function.category"/> - <@s.m "productType.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt" method="post">
+		<input type="hidden" value="${typeid!}" name="typeid">
+		查找:<select name="searchType"><option value="1">商品类型</option><option value="2">属性名称</option></select>
+		<input type="text" name="searchContent">
+		<input type="submit" value="搜索" onclick="this.form.action='v_list.do';"> 
+		<input type="submit" value="添加属性" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" value="${typeid!}" name="typeid">
+<@p.table value=pagination;property,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${property.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${property.id}</@p.column><#t/>
+	<@p.column code="属性名称">
+	${property.propertyName!}
+	</@p.column><#t/>
+	<@p.column code="商品类型">${property.propertyType.name}</@p.column><#t/>
+	<@p.column code="是否必填">${property.isNotNull}</@p.column><#t/>
+	<@p.column code="是否启用">${property.isStart}</@p.column><#t/>
+	<@p.column code="排列顺序" align="center">
+		<input type="text" name="prioritys" value="${property.sort}" style="width:40px"/>
+		<input type="hidden" name="wids" value="${property.id!}"/>
+	</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="o_edit.do?propertyid=${property.id}&pageNo=${pageNo!}&typeid=${typeid!}" class="pn-opt">修改</a><#t/> |&nbsp;
+		<a href="o_delete.do?ids=${property.id}&pageNo=${pageNo!}&typeid=${typeid!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+		
+	</@p.column><#t/>
+</@p.table>
+</form>
+<div>
+	<input type="button" value="删除" onclick="optDelete();"/>
+	<input type="button" value="保存顺序" onclick="optPriority();"/>
+</div>
+
+</div>
+</body>
+</html>

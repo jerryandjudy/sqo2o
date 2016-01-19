@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无发货申请退款页 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/apply.css" type="text/css" rel="stylesheet" />
+ <link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function clickSubmit(){
+	var total=parseFloat($("#total").val());
+	var money=parseFloat($("#money").val());
+	var sellerMoney=parseFloat($("#sellerMoney").val());
+	var zonghe=money+sellerMoney;
+	if(money>total){
+          alert("退款金额应该小于订单总额");
+          return false;
+	}
+	if(sellerMoney>total){
+        alert("支付给卖家的金额应该小于订单总额");
+        return false;
+	}
+	if(zonghe!=total){
+		alert("支付给卖家的金额和退款金额应该等于订单总额");
+		 return false;
+	}
+	return true;
+}
+function clickchange(alipayId){
+	if(alipayId==33){
+        document.getElementById('alipayShow').style.display='block';
+	}
+}
+</script>
+</head>
+<body>
+[#include "image_upload.html"/]
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="w960 mt10" id="page">
+  <div class="crumbs">
+           您的位置：<a href="${base}/" style="color: #3366CC;">首页</a><span>></span>
+    <a href="${base}/shopMember/index.jspx" style="color: #3366CC;">会员中心</a><span>></span>
+     <a href="${base}/tkgl/index.htm" style="color: #3366CC;">退款管理</a>
+      <div class="phone"> 消费者热线 ：0571-88158198 </div>
+  </div>
+<!-- main START -->
+  <div id="main" >
+    <!-- 步骤条导航 START -->
+    <div class="step-container">
+			<ol  class="step-list ks-step-list grid">
+               <li class="step-list-item g-u first current" style="width: 316.667px;">
+                   <div class="sprite step-list-item">
+                      <div class="sprite item-bg-right">
+                            <div class="g-u item-content"><em class="item-number">1</em>申请退款</div>
+                      </div>
+                   </div>
+               </li>
+               <li class="step-list-item g-u" style="width: 316.667px;">
+                  <div class="step-list-item"> <em class="item-number">2</em>卖家处理退款申请</div>
+               </li>
+               <li class="step-list-item g-u last" style="width: 316.667px;">
+                  <div class="step-list-item"><em class="item-number">3</em>退款到支付宝</div>
+               </li>
+           </ol>
+	</div> 
+    <div class="content clearfix  main-left-bor ">
+        <div class="content-main bor-r f-l" >
+            <div class="main-wrap">
+              <div id="apply-form" class="rf-status ">
+	             <form id="jvForm" action="orderReturnRefer.jspx" method="post">	
+	              <input type="hidden" name="orderId" value="${order.id}"/>
+	              <input type="hidden" name="delivery" [#if delivery] value="true" [#else]value="false"[/#if]/>		
+	              <input type="hidden" id="total" name="total" value="${order.total!0}"/>
+		          <table width="100%" cellspacing="0" cellpadding="0" class="rf-table form-table">
+			        <tbody>
+			         <tr>
+                          <td align="right"><font color="red">*</font><label>商品金额</label>：</td>
+					      <td> ${order.productPrice!0}元</td>
+	                  </tr>
+	                   <tr>
+                          <td align="right"><font color="red">*</font><label>运费</label>：</td>
+					      <td>${order.freight!0}元</td>
+	                  </tr>
+	                   <tr>
+                          <td align="right"><font color="red">*</font><label>订单总额</label>：</td>
+					      <td>${order.total!0}元</td>
+	                  </tr>
+				      <tr>
+                          <td align="right"><font color="red">*</font><label>需要退款金额</label>：</td>
+					      <td> <input type="text" id="money" name="money" value="${order.total!0}"/>元(退款金额不能超过${order.total!0},如有疑问 <a>查看帮助</a>)</td>
+	                  </tr>
+	                  <tr>
+                          <td align="right"><font color="red">*</font><label>给卖家金额</label>：</td>
+					      <td> <input type="text" id="sellerMoney" name="sellerMoney" value="0"/>元</td>
+	                  </tr>
+				      <tr>
+					       <td align="right"><font color="red">*</font><label>退款原因</label>：</td>
+                          <td>
+                                 <select class="g-u text-input select required" name="reasonId">
+                                    [#list ndList as sd]
+                                    <option value="${sd.id}">${sd.name}</option>
+                                    [/#list]
+                          </td>
+				    </tr>
+				    <tr>
+					       <td align="right"><font color="red">*</font><label>退款支付类型</label>：</td>
+                          <td>
+                                 <select class="g-u text-input select required" name="payType"  onclick="clickchange(this.value);">
+                                    <option value="1">我的账户</option>
+                                    <option value="2">支付宝</option>
+                          </td>
+				    </tr>
+				     <tr id="alipayShow" style="display:none;">
+					       <td align="right"><font color="red">*</font><label>支付宝账号</label>：</td>
+                          <td>
+                             <input type="text" id="alipayId" name="alipayId" />
+                          </td>
+				    </tr>
+				    <tr>
+	                    <td align="right"><label>退款说明</label>：</td>
+	                     <td class="rf-info-contaner">
+                          <textarea name="reason" class="rf-info textarea-input" cols="66" rows="5"></textarea>0-200个字
+	                    </td>
+				    </tr>
+				    <tr>
+					       <td align="right"><font color="red">*</font><label>上传凭证</label>：</td>
+                          <td>
+                          <div><input type="button" onclick="addPicLine();" value="增加一张图片"/></div>
+                               <table id="picTable0" border="0" style="float:left;">
+                                <tr>
+                                   <td><img id="preImg0" alt="预览" noResize="true" style="width:100px;height:100px;background-color:#ccc;border:1px solid #333"/></td>
+	                               <td><div><input type="text" id="uploadImgPath0" name="picPaths" style="width:170px"/>
+	                                       <input type="hidden" id="zoomWidth0" name="zoomWidth" value="100"/>
+                                           <input type="hidden" id="zoomHeight0" name="zoomHeight" value="100"/>
+		                                  <a href="javascript:void(0);" onclick="$('#picTable0').remove();">删除</a></div>
+		                               <div><span id="ufc0"><input type="file" id="uploadFile0" size="10" style="width:150px"/></span> <input type="button" value="上传" onclick="upload(0);"/></div>
+		                               <div><textarea style="width:200px;height:60px;" name="picDescs" maxlength="255"></textarea></div>
+	                                </td>
+                                 </tr>
+                              </table>
+                                 <div id="picBefore" style="clear:both"></div>
+                          </td>				    
+				    </tr>
+				    <tr class="last">
+	                   <th></th>
+	                    <td class="grid"><input type="submit" onclick="return clickSubmit();" class="button default-btn g-u" value="提交退款申请"/> </td>
+	               </tr>
+			    </tbody>
+		     </table>
+	       </form>
+        </div>  <!-- 表单区 END -->
+     </div>
+   </div><!-- 订单 信息START -->
+   <div>
+      <div class="f-r order aside" >
+        <div class="order-header"><strong>退款的商品信息</strong></div>
+        <table cellspacing="0" cellpadding="0" class="rf-table">
+          <colgroup><col width="70"><col></colgroup>
+          <tbody>
+           [#list order.items as item]
+           <tr>
+               <th><img alt="${item.product.name}" src="${item.product.productExt.coverImg!}" class="goods-img" /></th>
+               <td><p class="goods-title">
+                   <a href="${item.product.url!}" target="_blank">
+                    [@text_cut s=item.product.name len='30' append='...'/]</a></p></td>
+           </tr>
+           [/#list]
+           <tr>
+               <th>订单编号：</th>
+               <td><a href="myOrderView.jspx?orderId=${order.id}" target="_blank">${order.code!}</a></td>
+           </tr>
+           <tr>
+               <th>商品金额：</th>
+               <td>￥${order.productPrice!0}元</td>
+           </tr>
+		    <tr>
+               <th>运费：</th>
+               <td>￥${order.freight!0}元</td>
+           </tr>
+		   <tr>
+		      <th>可获积分：</th>
+              <td>${order.score!0}</td>
+		   </tr>
+		   <tr>
+            <th>总计：</th>
+            <td>${order.total!0}元</td>
+           </tr>
+           <tr>
+            <th>成交时间：</th>
+            <td> ${order.createTime!}</td>
+           </tr>
+       </tbody>
+   </table>
+   <div class="order-header"></div>
+   </div>
+   </div>	        <!-- 订单 end-->
+   <div class="bottom-gradient"></div>
+ </div>
+    <!-- 常见问题 START -->
+	<div class="questions">
+	    <h4>常见问题看这里</h4>
+		<h5>1、申请退款我要怎么操作？</h5>
+        <p>答：在交易还未成功前，您可以再次根据您当前的实际情况申请退款，<a href="http://service.taobao.com/support/knowledge-1115556.htm?spm=1.83613.133578.1&" target="_blank">具体详情点此了解</a>。</p>
+        <h5>2、最多可退款金额怎么计算出来的？</h5>
+        <p>答：根据交易的形式以及优惠情况，计算略有不同，<a href="http://service.taobao.com/support/knowledge-1114525.htm?spm=1.83613.133578.2&" target="_blank">具体详情点此了解</a>。</p>
+        <h5>3、淘宝交易退款成功后，在哪里查询退回的钱款？</h5>
+        <p>答：退款成功后，交易款项将立即退回到您的支付宝账户，您可以登录支付宝账户查询余额或收支记录。<a href="http://service.taobao.com/support/help-3313.htm?spm=1.83613.133578.3&" target="_blank">具体详情点此了解</a>。</p>
+        <h5>4、卖家拒绝退款给我怎么办？</h5>
+        <p>答：如果卖家还未发货，卖家在处理退款申请过程中无法操作拒绝退款，只能操作同意退款或确认发货，并且，卖家发货的行为需要得到买家的同意。</p>
+        <p class="more-help"><a href="http://service.taobao.com/support/9803.htm?spm=1.83613.130830.3" target="_blank">更多帮助</a></p>
+	</div>
+    <!-- 常见问题 END -->
+</div>
+    <textarea id="picTable" style="display:none;">
+          <table id="picTable{0}" border="0" style="float:left;">
+            <tr>
+               <td><img id="preImg{0}" alt="预览" noResize="true" style="width:100px;height:100px;background-color:#ccc;border:1px solid #333"/></td>
+	            <td><div><input type="text" id="uploadImgPath{0}" name="picPaths" style="width:160px"/> 
+	            <input type="hidden" id="zoomWidth{0}" name="zoomWidth" value="100"/>
+                 <input type="hidden" id="zoomHeight{0}" name="zoomHeight" value="100"/>
+	            <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();">删除</a></div>
+	            	<div><span id="ufc{0}"><input type="file" id="uploadFile{0}" size="10" style="width:150px"/></span> <input type="button" value="上传" onclick="upload({0});"/></div>
+		            <div>&lt;textarea style="width:200px;height:60px;" name="picDescs" maxlength="255"&gt;&lt;/textarea&gt;</div>
+	             </td>
+            </tr>
+          </table>
+     </textarea>
+       <script type="text/javascript">
+         var picIndex = 1;
+         var picTpl = $.format($("#picTable").val());
+         function addPicLine() {
+	          $('#picBefore').before(picTpl(picIndex++));
+          }
+        </script>
+<!-- main END -->
+  <div class="clear"></div>
+ </div>
+ [#include "../include/页脚信息栏.html"/]
+</body>
+</html>

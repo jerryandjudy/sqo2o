@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title> <#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+	$(function() {
+		$("#jvForm").validate();
+
+	});
+</script>
+<style type="text/css">
+.gridtable {
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	color: #333333;
+	border-width: 0px;
+	border-color: #ffffff;
+	border-collapse: collapse;
+}
+
+.gridtable th {
+	border-width: 0px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ebf9fe;
+}
+
+.gridtable td {
+	border-width: 0px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+.gridtable tr {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #dedede;
+	background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+	<div class="body-box">
+		<form id="jvForm" action="jmfpays.do"
+			method="post">
+
+			<table class="gridtable" width="100%">
+
+				<tr>
+					<td colspan="4" style="background-color: #f4f4f4; color: #014070">
+						<strong>基本信息</strong>
+					</td>
+				</tr>
+				<tr>
+					<th>用户名称</th>
+					<td>${jmfRecharge.userRealname!}</td>
+					<th>充值金额</th>
+					<td>${jmfRecharge.realValue!}</td>
+				</tr>
+				<tr>
+					<th>加盟费有效期-起</th>
+					<td><#if jmfRecharge.validFrom??>
+						${jmfRecharge.validFrom?string('yyyy-MM-dd')}</#if></td>
+					<th>加盟费有效期-止</th>
+					<td><#if jmfRecharge.validUntil??>
+						${jmfRecharge.validUntil?string('yyyy-MM-dd')}</#if></td>
+				</tr>
+				<tr>
+					<td colspan="4" style="background-color: #f8f8f8; color: #014070"><strong>支付方式</strong></td>
+				</tr>
+				<tr>
+					<td colspan="4"> <#list paymentPluginsList as p>
+						<#if p.id !=4 >
+						<div
+							style="width: 200px; height: 58px; margin: 0 auto; float: left">
+							<div
+								style="width: 35px; height: 58px; float: left; line-height: 58px; vertical-align: middle;">
+								<input name="code" value="${p.code!}" 
+								<#if
+									p_index==0>checked</#if> style="margin-top: 20px;" type="radio" />
+							</div>
+							<div style="width: 165px; height: 58px; float: right">
+								<img src="${p.imgPath!}" width="165" height="58" />
+							</div>
+						</div> </#if> </#list></td>
+				</tr>
+				<tr align="center">
+					<td align="center" colspan="4"><input type="hidden"
+						name="jmfRechargeId" value="${jmfRecharge.id}" /> <input
+						type="submit" class="paymentButton" value="立即支付" /></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

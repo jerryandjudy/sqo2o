@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "category.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign errorPathExist><@s.m "category.path.pathExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.td colspan="1" width="50" label="category.parent"><#if parent??>${parent.name}<#else>顶级栏目</#if></@p.td>
+<@p.td colspan="1" width="50" label="category.type">${type.name}</@p.td><@p.tr/>
+<#assign count=0/>
+<#list itemList as item>
+<#if !item.single><#assign count=count+1/></#if>
+<#if !item.custom>
+  <#if item.field=="name">
+    <@p.text label=item.propertyName name=item.field value="${item.defValue!}" required="true" class="required" colspan=item.single?string("2","1") width="${item.single?string(100,50)}" maxlength="100"/><#if count%2==0><@p.tr/></#if>
+  <#elseif item.field=="path">
+    <@p.text label=item.propertyName name=item.field value="${item.defValue!}" required="true" maxlength="30" vld="{required:true,maxlength:100,path:true,remote:'v_checkPath.do',messages:{remote:'${errorPathExist}'}}" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  <#elseif item.field=="tplChannel">
+    <@p.select label=item.propertyName name=item.field value="${item.defValue!}" list=channelTpls headerKey="" headerValue="global.default" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  <#elseif item.field=="tplContent">
+    <@p.select label=item.propertyName name=item.field value="${item.defValue!}" list=contentTpls headerKey="" headerValue="global.default" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  <#elseif item.field=="priority">
+    <@p.text label=item.propertyName name=item.field value="${item.defValue!10}" required="true" class="required digits" maxlength="10" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+   <#elseif item.field=="icon"> 
+     <@p.td label=item.propertyName colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath2" name="icon" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(2);"/><br/>
+        <span id="ufc2"><input type="file" id="uploadFile2" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth2" value="139" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight2" value="139" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(2);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg2" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+     </@p.td><@p.tr/>
+   <#elseif item.field=="image"> 
+     <@p.td label="category.image" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath1" name="imagePath" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+        <span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="139" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="139" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+     </@p.td><@p.tr/>
+    <#elseif item.field=="title"> 
+      <@p.text label=item.propertyName name=item.field value="${item.defValue!}" size="70" maxlength="255" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="keywords"> 
+      <@p.text label=item.propertyName name=item.field value="${item.defValue!}" size="70" maxlength="255" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="description"> 
+      <@p.textarea label=item.propertyName name=item.field value="${item.defValue!}" rows="5" cols="70" maxlength="255" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="refBrand"> 
+       <@p.checkboxlist label=item.propertyName list=brandList name="brandIds" listKey="id" listValue="name" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="colorsize">
+      <@p.td label=item.propertyName colspan=item.single?string("2","1") width="${item.single?string(100,50)}" noHeight="true">
+        <label><input type="checkbox" onclick="$('#colorsize').val(this.checked);$('#msg_1').toggle(this.checked)" />开启规格<input type="hidden" id="colorsize" name="colorsize" value="false" /></label>
+       </@p.td><@p.tr/>
+       
+       
+       
+   
+       
+       
+       
+    <tr id="msg_1" style="display:none">
+    	<td width="12%" class="pn-flabel pn-flabel-h"></td>
+  		<td colspan="3" width="88%" class="pn-fcontent">
+   		<#list standardTypeList as standardType>
+  		<label><input type="checkbox" value="${standardType.id!}" name="standardTypeIds"/>${standardType.name!}[${standardType.remark!}]</label> 
+  		</#list>
+    	</td>
+    </tr>
+    
+    <#elseif item.field=="ordeRCqje">
+    <@p.text label=item.propertyName name=item.field help="订单抽成金额百分比" class="required number" value="${item.defValue!}" required="true" maxlength="30"  colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="ptFc">
+    <@p.text label=item.propertyName name=item.field help="平台占差价比重格式为整数" class="required number" value="${item.defValue!}" required="true" maxlength="30"  colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="dlsFc">
+    <@p.text label=item.propertyName name=item.field help="代理商占差价比重格式为整数" class="required number" value="${item.defValue!}" required="true" maxlength="30"  colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="isDisplay">
+    <@p.radio   label=item.propertyName name=item.field value="true" colspan=item.single?string("2","1") width="${item.single?string(100,50)}" list={"true":"global.true","false":"global.false"}  /><#if count%2==0><@p.tr/></#if>
+    <#elseif item.field=="isJp">
+    <@p.radio   label=item.propertyName name=item.field value="false" colspan=item.single?string("2","1") width="${item.single?string(100,50)}" list={"true":"global.true","false":"global.false"}  /><#if count%2==0><@p.tr/></#if>
+    
+ 
+  </#if>
+ 
+       
+       
+       
+       
+       
+<#else>
+<@p.selfDefineWidget name="attr_${item.field}" value=item.defValue list="${item.optValue!}"  rows="${item.rows!}" cols="${item.cols!}" label=item.propertyName colspan=item.single?string("2","1") width="${item.single?string(100,50)}" type="${item.dataType}"/><#if count%2==0><@p.tr/></#if>
+</#if>
+</#list>
+
+<@p.td colspan="2">
+<input type="hidden" name="root" value="${root!}"/>
+	<input type="hidden" name="typeId" value="${type.id}"/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

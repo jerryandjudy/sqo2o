@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档 - ${web.name}${web.additionalTitle!}</title>
+<script language="JavaScript" type="text/javascript" src="${root}/js/jquery.js"></script>
+<script type="text/javascript">
+ function discuss(productId){
+     $.post("haveDiscuss.jspx",{[#if types=='1']productId[#else]sqServiceId[/#if]:productId},function(data){
+            if(data=='success'){
+                $("#discussTextArea").css("display","");
+                }else if(data=='denru'){
+                     alert('请登入');
+                     var loginForm=getLoginForm();
+                     loginForm.submit();
+                    }
+                else if(data=='false'){
+                   alert('必须购买过该[#if types=="1"]产品[#else]服务[/#if]才能够评论!');
+                    }
+         });
+	 }
+
+ function getLoginForm(){
+     return document.getElementById("loginForm");
+ }
+ function insertDiscuss(productId){
+	 var disCon=$("#disContent").val();
+	 if($.trim(disCon)==""){
+             alert('评论内容不能为空！');
+             return false;
+		 }
+      $.post("insertDiscuss.jspx",{[#if types=='1']productId[#else]sqServiceId[/#if]:productId,disCon:disCon},function(data){
+                      if(data=='success'){
+                    	  alert('发表成功!');
+                    	  getTableForm().submit();
+                          }
+          })
+	 }
+
+ function getTableForm(){
+     return document.getElementById("tableForm");
+	  }
+
+</script>
+</head>
+<style>
+.pl_line { width: 710px; font-size:12px;}
+.pl_zone {color: #000000; display: block; float: left; line-height: 24px; overflow-x: hidden; overflow-y: hidden; word-wrap: break-word; border-bottom: #EAEAEA dotted 1px; padding: 10px; }
+.pl {width: 710px;}
+.pl_zone span {color: #999999;}
+UL, LI {list-style-image: none; list-style-position: outside; list-style-type: none; margin:0; padding: 0;}
+.pl_txt {color: #333333; line-height: 22px;}
+</style>
+<body>
+
+<a href="javascript:void(0)" onclick="discuss('${bean.id!}');">写评论 </a>
+               <div id="discussTextArea" style="display:none">
+               <textarea rows="6" cols="50" id="disContent"></textarea>
+               <button onclick="insertDiscuss('${bean.id}');">发表评论</button>
+               </div>
+
+
+[#list pagination.list as c]
+<div class="pl_line ">
+	<ul class="pl_zone pl">
+		<li><strong>${c.member.username!}</strong>&nbsp;&nbsp;<span>发表于 ${c.time!}</span></li>
+		<li class="pl_txt"> ${c.content!}</li>
+	</ul>
+	<div class="clear"></div>
+</div>
+[/#list]
+[@pagination_style style='8'/]
+<form id="loginForm" action="${base!}/login.jspx" method="get" target="_top"></form>
+                 <form id="tableForm" action="searchDiscussPage.jspx" method="post">
+                  <input type="hidden" value="${bean.id!}" name="[#if types=='1']productId[#else]sqServiceId[/#if]">
+                 </form> 
+</body>
+</html>

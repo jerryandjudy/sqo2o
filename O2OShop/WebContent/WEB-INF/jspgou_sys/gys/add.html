@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/thirdparty/swfupload/swfupload.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/swfupload.queue.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/fileprogress.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/handlers.js" type="text/javascript"></script>
+<link href="${base}/thirdparty/swfupload/process.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function openmap(){
+var dialog = $.dialog({title:'标注',min:false,max:false,width:'850px',height:'500px',content: 'url:../gys/v_mapadd.do'
+});
+dialog.show();
+}
+</script>
+<script type="text/javascript">
+
+$(function() {
+	$("#jvForm").validate();
+});
+
+var swfu;
+window.onload=function() {
+	var uploadPicsUrl = "../common/o_swfPicsUpload.do";
+	var uploadAttachsUrl = "../common/o_swfAttachsUpload.do";
+	//在firefox、chrome下，上传不能保留登录信息，所以必须加上jsessionid。
+	var jsessionid = $.cookie("JSESSIONID");
+	if(jsessionid) {
+		uploadPicsUrl += ";jsessionid="+jsessionid;
+		uploadAttachsUrl += ";jsessionid="+jsessionid;
+	}
+	swfu=new SWFUpload({
+		upload_url : uploadPicsUrl,
+		flash_url : "${base}/thirdparty/swfupload/swfupload.swf",
+		file_size_limit : "20 MB",
+		file_types : "*.jpg;*.gif;*.png;*.bmp",
+		file_types_description : "<@s.m 'content.picture'/>",
+		file_queue_limit : 0,
+		custom_settings : {
+			progressTarget : "fsUploadProgress",
+			cancelButtonId : "btnCancel"
+		},
+		debug: false,
+		
+		button_image_url : "${base}/res/common/img/theme/menu_search.jpg",
+		button_placeholder_id : "spanButtonPlaceHolder",
+		button_text: "<span class='btnText'><@s.m "content.pictures.upload"/></span>",
+		button_width: 52,
+		button_height: 19,
+		button_text_top_padding: 2,
+		button_text_left_padding: 0,
+		button_text_style: '.btnText{color:#666666;}',
+		
+		file_queued_handler : fileQueued,
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : uploadError,
+		upload_success_handler : uploadPicsSuccess,
+		upload_complete_handler : uploadComplete,
+		queue_complete_handler : queueComplete
+	});
+};
+function uploadPicsSuccess(file,data) {
+	var jsonData=eval("("+data+")");//转换为json对象 
+	if(jsonData.error!=null){
+		$.alert("<@s.m 'global.prompt'/>",jsonData.error);
+	}else{
+		addPicLine();
+		var index = picIndex - 1;
+		imgUrl=jsonData.imgUrl;
+		$("#preImg"+index).attr("src",""+imgUrl);
+		var imgSrc = parent.document.getElementById("preImg"+index);
+		if(!$(imgSrc).attr("noResize")) {
+			$(imgSrc).css("width","auto");
+			$(imgSrc).css("height","auto");
+		}
+		$("#uploadImgPath"+index).val(imgUrl);
+	}
+}
+function uploadAttachSuccess(file,data) {
+	var jsonData=eval("("+data+")");//转换为json对象 
+	if(jsonData.error!=null){
+		$.alert("<@s.m 'global.prompt'/>",jsonData.error);
+	}else{
+		addAttachLine();
+		var index = attachIndex - 1;
+		
+		var attachUrl=jsonData.attachUrl;
+		var attachName=jsonData.attachName;
+		$("#attachmentPaths"+index).val(attachUrl);
+		$("#attachmentNames"+index).val(attachName);
+	}
+}
+</script>
+</head>
+<body>
+<#include "/common/image_switch_upload.html"/>
+<#include "/common/image_big_upload.html"/>
+<#include "/common/image_amp_upload.html"/>
+<#include "/common/image_upload.html"/>
+<#include "/common/attachment_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 供应商添加 - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign usernameExist><@s.m "username.error.usernameExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.select  label="选择站点" colspan="2" width="100" headerKey="" headerValue="请选择" name="website.id" class="required" required="true" listKey="id"  listValue="name" list=allsite />
+<@p.tr/>
+<@p.text colspan="2" label="供应商用户名称" style="width:300px" required="true" class="required"  name="ketaUser.username" help="请尽量使用组织机构代码作为登录用户名称"  vld="{required:true}" vld="{required:true,remote:'v_checkUserName.do',messages:{remote:'${usernameExist}'}}"  /><@p.tr/>
+<@p.text colspan="2" label="供应商组织机构代码" style="width:300px" name="jgdm" class="required"   required="true"  /><@p.tr/>
+<@p.text colspan="2" label="法人" name="fr" style="width:300px" required="true" class="required"  /><@p.tr/>
+<@p.text colspan="2" label="联系人" name="lxr" style="width:300px" required="true" class="required"  maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="联系电话" name="phone" style="width:300px" required="true" class="required"  maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="公司名称" style="width:300px" name="companyName" required="false" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="办公地址" style="width:300px" readonly="readonly" id="bgdz" ondblclick="openmap();" name="bgdz" help="该数据不可直接填写,请双击输入框，然后在地图上标注" required="true" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="开户行" style="width:300px" name="khh" class="required"  required="true" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="户名" style="width:300px" name="hm" class="required"  required="true" maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" label="开户行账号" style="width:300px" name="khhzh" class="required"  required="true" maxlength="100"  /><@p.tr/>
+<@p.hidden id="attr_lng" name="mapX"    />
+<@p.hidden id="attr_lat" name="mapY"    />
+<@p.td label="工商营业执照" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath100" name="gsyyzz" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(100);"/><br/>
+        <span id="ufc100"><input type="file" id="uploadFile100" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(100);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth100" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight100" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(100);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg100" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+<@p.td label="税务登记证" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath101" name="swdjz" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(101);"/><br/>
+        <span id="ufc101"><input type="file" id="uploadFile101" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(101);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth101" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight101" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(101);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg101" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+<@p.td label="组织机构代码证" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath102" name="zzjgdmz" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(102);"/><br/>
+        <span id="ufc102"><input type="file" id="uploadFile102" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(102);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth102" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight102" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(102);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg102" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+<@p.td label="供应商授权书" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath103" name="gyssqs" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(103);"/><br/>
+        <span id="ufc103"><input type="file" id="uploadFile103" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(103);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth103" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight103" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(103);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg103" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+<@p.td label="质量保证书" colspan="1" width="50" noHeight="true">
+      <@p.text id="uploadImgPath104" name="zlbzs" size="30"/> 
+        <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(104);"/><br/>
+        <span id="ufc104"><input type="file" id="uploadFile104" size="20"/></span> 
+        <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(104);"/><br/>
+       <@s.m "global.width"/>: <input type="text" id="zoomWidth104" value="200" size="5"/> 
+       <@s.m "global.height"/>: <input type="text" id="zoomHeight104" value="150" size="5"/> 
+       <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(104);"/> 
+       </@p.td><@p.td colspan="1" width="50">
+        <img id="preImg104" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ <@p.td label="厂家授权书" colspan="2" noHeight="true">
+<div>
+<span id="spanButtonPlaceHolder"></span>
+<span style="display: none;"><input class="cancel" id="btnCancel" type="button" value="<@s.m "global.cancel"/>" onclick="swfu.cancelQueue();" disabled="disabled" /></span>
+<div id="fsUploadProgress" style="display: none;"></div>
+</div>
+<div id="picBefore" style="clear:both"></div>
+<textarea id="picTable" style="display:none;">
+<table id="picTable{0}" border="0" style="float:left;">
+<tr>
+	<td>
+		<div><input type="text" id="uploadImgPath{0}" name="picPaths" style="width:160px"/> <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"><@s.m "content.picturesDel"/></a></div>
+		<div>
+		<span id="ufc{0}" style="position:relative">
+		<input type='text' id='uploadFileText{0}' size="10"/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#uploadFileText{0}').val(this.value)" size="10" type="file" id="uploadFile{0}" class="file-button"/>
+		</span>
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="upload({0});" class="upload-button"/>
+		</div>
+		<div>&lt;textarea style="width:200px;height:60px;" name="picDescs" maxlength="255"&gt;&lt;/textarea&gt;</div>
+	</td>
+	<td><img id="preImg{0}" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:110px;height:110px;background-color:#ccc;border:1px solid #333"/></td>
+</tr>
+</table>
+</textarea>
+<script type="text/javascript">
+var picIndex = 4;
+var picTpl = $.format($("#picTable").val());
+function addPicLine() {
+	$('#picBefore').before(picTpl(picIndex++));
+}
+</script>
+</@p.td><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

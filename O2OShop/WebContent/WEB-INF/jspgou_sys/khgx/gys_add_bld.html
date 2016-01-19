@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 便利店列表 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+	<form action="v_gys_add_bld.do" method="post">
+<div class="rhead">
+	便利店： <input type="text" name="bld.companyName" id="companyName" <#if (khgx??&&khgx.bld?? && khgx.bld.companyName??) > value="${khgx.bld.companyName!}"</#if> style="width:150px"/>  
+        <input type="hidden" name="pageNo" value="${pageNo!}"/>
+      <input type="hidden" name="gys.id" <#if (khgx??&&khgx.gys?? && khgx.gys.id??) >  value="${khgx.gys.id!}"   </#if>  />
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+	<div class="clear"></div>
+</div>
+<@p.table value=paginationbld;bld,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${bld.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="便利店用户名">${bld.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="便利店密码">${bld.ketaUser.painPass!}</@p.column><#t/>
+	<@p.column code="便利店姓名">${bld.ketaUser.realname!}</@p.column><#t/>
+	<@p.column code="联系电话">${bld.ketaUser.phone!}</@p.column><#t/>
+	<@p.column code="公司">${bld.companyName!}</@p.column><#t/>
+	<@p.column code="所属站点">${bld.website.name}</@p.column><#t/>
+	<@p.column code="账户">${bld.account.id}</@p.column><#t/>
+	<@p.column code="账户余额">${bld.account.money!}</@p.column><#t/>
+	<@p.column code="添加人">${(bld.user!).username!}</@p.column><#t/>
+	<@p.column code="添加时间">${bld.createTime!}</@p.column><#t/>
+</@p.table>
+	 <input type="submit" value="<@s.m "global.saveCheckBld"/>" onclick="this.form.action='o_gys_save_bld.do';"/><font color="red" >帮助：请勾选商品点击“保存勾选便利店”，则供应商关联便利店成功</font>
+</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;khgx,i,has_next><#rt/>
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="便利店">${khgx.bld.companyName!}</@p.column><#t/>
+	<@p.column code="联系电话">${khgx.bld.phone!}</@p.column><#t/>
+	<@p.column code="添加人">${khgx.user.username!}</@p.column><#t/>
+	<@p.column code="添加时间">${khgx.createTime!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		 <a href="o_gys_delete_bld.do?id=${khgx.id}&gys.id=${khgx.gys.id}" onclick="if(!confirm('确定删除么？')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

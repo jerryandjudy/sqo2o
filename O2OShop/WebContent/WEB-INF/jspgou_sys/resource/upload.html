@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "resource.function"/> - <@s.m "resource.upload"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" labelWidth="12" action="o_upload.do" enctype="multipart/form-data">
+<@p.text label="resource.currentDir" name="relPath" value=relPath! readonly="readonly" size="50"/>
+<@p.td label="resource.file" noHeight="true">
+	<@p.file name="file1" size="70"/>
+	<@p.file name="file2" size="70"/>
+	<@p.file name="file3" size="70"/>
+	<@p.file name="file4" size="70"/>
+	<@p.file name="file5" size="70"/>
+	<@p.file name="file6" size="70"/>
+	<@p.file name="file7" size="70"/>
+	<@p.file name="file8" size="70"/>
+	<@p.file name="file9" size="70"/>
+	<@p.file name="file10" size="70"/>
+	<@p.file name="file11" size="70"/>
+	<@p.file name="file12" size="70"/>
+	<@p.file name="file13" size="70"/>
+	<@p.file name="file14" size="70"/>
+	<@p.file name="file15" size="70"/>
+</@p.td><@p.tr/>
+<@p.td>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

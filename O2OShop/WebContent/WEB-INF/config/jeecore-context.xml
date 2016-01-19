@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-lazy-init="true">
+	<!--COOKIE登录-->
+	<bean id="rememberMeService" class="com.jspgou.common.security.rememberme.TokenBasedRememberMeServices">
+		<property name="key" value="jspgou"/>
+		<!--<property name="alwaysRemember" value="true"/>-->
+		<property name="userDetailsService" ref="memberMng"/>
+	</bean>
+	
+	<!--HttpSession
+	<bean id="sessionProvider" class="com.jspgou.common.web.session.HttpSessionProvider"/>
+	-->
+	<!--缓存Session-->
+	<bean id="sessionProvider" class="com.jspgou.common.web.session.CacheSessionProvider">
+		<property name="sessionCache" ref="sessionCache"/>
+		<property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+	</bean>
+	<!--Memcached缓存
+	<bean id="sessionCache" class="com.jspgou.common.web.session.cache.MemcachedDangaCache">		
+		<property name="servers">
+			<list>
+				<value>127.0.0.1:11211</value>
+			</list>
+		</property>
+		<property name="weights">
+			<list>
+				<value>1</value>
+			</list>
+		</property>
+	</bean>
+	-->
+	<!--Ehcache缓存-->
+	<bean id="sessionCache" class="com.jspgou.common.web.session.cache.EhcacheSessionCache">
+		<property name="cache" ref="ehSessionCache"/>
+	</bean>
+	<!--SessionId生成器-->
+	<bean id="sessionIdGenerator" class="com.jspgou.common.web.session.id.JdkUUIDGenerator"/>
+	
+	<!--图片处理-->
+	<bean id="imageScale" class="com.jspgou.common.image.ImageScaleImpl" init-method="init"/>
+	<!--密码加密器-->
+	<bean id="pwdEncoder" class="com.jspgou.common.security.encoder.Md5PwdEncoder"/>
+	
+	<!--拦截器-->
+	<bean id="frontLocaleIntercept" class="com.jspgou.core.web.front.FrontLocaleInterceptor"/>
+	<bean id="adminLocaleIntercept" class="com.jspgou.core.web.admin.AdminLocaleInterceptor"/>
+	<bean id="adminSecureInterceptor" class="com.jspgou.core.web.admin.AdminSecureInterceptor">
+		<!--是否开发状态
+		<property name="develop" value="true"/>
+		-->
+	</bean>
+	<!--执行时间标签-->
+	<bean id="process_time" class="com.jspgou.core.directive.ProcessTimeDirective"/>
+	<bean id="text_cut" class="com.jspgou.common.web.freemarker.TextCutDirective"/>
+	<!--权限标签-->
+	<bean id="authorize" class="com.jspgou.core.directive.AuthorizeDirective"/>
+	<bean id="fileRepository" class="com.jspgou.common.upload.FileRepository"/>
+	<!--文件模板-->
+	<bean id="tplManager" class="com.jspgou.core.tpl.FileTplManagerImpl"/>
+
+	<bean id="realPathResolver" class="com.jspgou.common.web.springmvc.ServletContextRealPathResolver"/>
+	<bean id="coreCacheSvc" class="com.jspgou.core.cache.impl.CoreCacheSvcImpl"/>
+	<bean id="domainCacheSvc" class="com.jspgou.core.cache.impl.DomainCacheSvcImpl"/>
+
+	<bean id="memberDao" class="com.jspgou.core.dao.impl.MemberDaoImpl"/>
+	<bean id="userDao" class="com.jspgou.core.dao.impl.UserDaoImpl"/>
+	<bean id="websiteDao" class="com.jspgou.core.dao.impl.WebsiteDaoImpl"/>
+	<bean id="accountDao" class="com.jspgou.core.dao.impl.AccountDaoImpl"/>
+	<bean id="accountItemDao" class="com.jspgou.core.dao.impl.AccountItemDaoImpl"/>
+	<bean id="globalDao" class="com.jspgou.core.dao.impl.GlobalDaoImpl"/>
+	<bean id="adminDao" class="com.jspgou.core.dao.impl.AdminDaoImpl"/>
+	<bean id="roleDao" class="com.jspgou.core.dao.impl.RoleDaoImpl"/>
+	<bean id="logDao" class="com.jspgou.core.dao.impl.LogDaoImpl"/>
+	<bean id="configDao" class="com.jspgou.core.dao.impl.ConfigDaoImpl"/>
+
+	<bean id="templateMng" class="com.jspgou.core.manager.impl.TemplateMngImpl"/>
+	<bean id="memberMng" class="com.jspgou.core.manager.impl.MemberMngImpl"/>
+	<bean id="userMng" class="com.jspgou.core.manager.impl.UserMngImpl"/>
+	<bean id="websiteMng" class="com.jspgou.core.manager.impl.WebsiteMngImpl"/>
+	<bean id="accountMng" class="com.jspgou.core.manager.impl.AccountMngImpl"/>
+	<bean id="accountItemMng" class="com.jspgou.core.manager.impl.AccountItemMngImpl"/>
+	<bean id="globalMng" class="com.jspgou.core.manager.impl.GlobalMngImpl"/>
+	<bean id="adminMng" class="com.jspgou.core.manager.impl.AdminMngImpl"/>
+	<bean id="roleMng" class="com.jspgou.core.manager.impl.RoleMngImpl"/>
+	<bean id="resourceMng" class="com.jspgou.cms.manager.impl.ResourceMngImpl"/>
+	<bean id="logMng" class="com.jspgou.core.manager.impl.LogMngImpl"/>
+	<bean id="configMng" class="com.jspgou.core.manager.impl.ConfigMngImpl"/>
+</beans>

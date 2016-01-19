@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:规格管理  - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign fieldExist><@s.m "error.fieldExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do">
+<@p.text label="规格名称" colspan="2" width="100" name="name" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text label="字段名称" colspan="2" width="100" name="field" required="true" vld="{required:true,rangelength:[3,100],remote:'v_check_field.do',messages:{remote:'${fieldExist}'}}" maxlength="100"/><@p.tr/>
+<@p.text label="备注" colspan="2" width="100" name="remark" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.radio label="类型" colspan="2" width="100" name="dataType" list={"true":"图片","false":"文字"} value="false" helpPosition="2"  required="true" class="required"/><@p.tr/>
+<@p.text label="排序"  colspan="2" width="100" name="priority" value="10" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.td colspan="2">
+<div class="items">
+	&nbsp; <input type="button" value="增加规格值" onclick="addLines();"/>
+</div>
+<div id="itemsContainer">
+</div>
+</@p.td><@p.tr/>
+<@p.td colspan="2" width="100"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<textarea id="itemTpl" style="display:none;">
+<div class="items">
+规格值名称 : <input type="text" name="itemName" style="width:200px"/>
+&nbsp; 颜色:<input type="text" id="itemColor{0}" name="itemColor" value="" style="width:70px"/>(规格为颜色时使用)
+&nbsp; 排序: <input type="text" name="itemPriority" value="{0}" style="width:30px"/>
+&nbsp; <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="$(this).parent().remove();"/>
+</div>
+</textarea>
+<script type="text/javascript">
+var tpl = $.format($("#itemTpl").val());
+var index = 1;
+function addLines() {
+	$("#itemsContainer").append(tpl(index++));
+	$("#itemColor"+(index-1)).colorPicker();
+}
+</script>
+</body>
+</html>

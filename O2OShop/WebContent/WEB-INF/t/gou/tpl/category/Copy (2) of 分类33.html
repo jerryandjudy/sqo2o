@@ -1,0 +1,635 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页 - ${web.name}${web.additionalTitle!}</title>
+<meta http-equiv="keywords" content="${web.name}"/>
+<meta http-equiv="description" content="${web.name}"/>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/service.css" type="text/css" rel="stylesheet" />
+<!--  <script language="javascript" src="${root}/js/duice.js"></script> -->
+<script type="text/javascript" src="${root}/js/img.js"></script>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/main_kind.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${root}/js/index_v20.js" /></script>
+</head>
+<body>
+
+
+<!--TOP-->
+[#include "../include/页头顶栏.html"/]
+
+<!--LOGO-->
+[#include "../include/页头搜索栏.html"/]
+
+
+        
+
+
+<div id="nav" class="fl">
+<div class="area clearfix">
+<div class="separate" >	
+<div class="menu-dh">
+    	<ul>
+            <li><a href="${base}">首 页</a></li>
+        	<li><a href="${base}/sp/index.htm">休闲食品</a></li>
+            <li><a href="${base}/jsyl/index.htm">酒水饮料</a></li>
+            <li><a href="${base}/myyp/index.htm">母婴用品</a></li>
+            <li><a href="${base}/ghhz/index.htm">日用洗化</a></li>
+            <li><a href="${base}/lyfs/index.htm">粮油干货</a></li>
+            <li><a href="${base}/jjyp/index.htm">家居家饰</a></li>
+        </ul>
+    </div></div>
+<div class="category-content" id="guide_2">
+
+
+   
+              
+        
+                
+                
+<div>
+<span class="all-goods">${category.name}<em>（686310）</em></span>
+</div>
+[@shop_Category_list loadChild='0' Level=1 count=24 parentId=category.id isDisplay='1' isJp='1']
+            [#list tag_list as categorys]
+            <a href="${categorys.url!}" target="_blanlk" >${categorys.name!}</a>
+            [/#list]
+           [/@shop_Category_list]  
+
+<div class="category">
+<ul class="category-list" id="js_climit_li">
+
+  <li class="appliance js_toggle relative first">
+    <div class="category-info list-nz">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-289" href="#" target="_blank" class="ml-22" title="牛奶乳品">牛奶乳品</a></h3>
+      <p class="c-category-list limit-24">
+      <a href="#" target="_blank" title="常温奶">常温奶</a>
+      <a href="#" target="_blank" title="乳饮品">乳饮品</a>
+      <a href="#" target="_blank" title="酸奶">酸奶</a>
+      </p>
+      <em>&gt;</em>
+      </div>
+<textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    
+    <div class="sort-side">
+    <dl class="dl-sort">          
+           <dd> <a target="_blank" href="#"><span class="red">常温奶</span> </a> </dd>          
+           <dd><a target="_blank" href="#"><span>乳饮品</span></a></dd>
+           <dd><a target="_blank" href="#"><span>儿童奶</span></a></dd>
+           <dd><a target="_blank" href="#"><span>低脂奶</span></a></dd>
+           <dd><a target="_blank" href="#"><span>全脂奶</span></a></dd>
+           <dd><a target="_blank" href="#"><span>成人奶粉</span></a></dd>
+           <dd><a target="_blank" href="#"><span>酸奶</span></a></dd>
+           <dd><a target="_blank" href="#"><span class="red">豆奶</span></a></dd>
+     </dl>
+     </div>
+     
+     
+     </div>
+     </div>
+     </div>
+     </div>
+</textarea>
+  </li>
+  
+  
+  <li class="appliance js_toggle relative">
+    <div class="category-info list-nanz">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-292" href="#" target="_blank" class="ml-22" title="中外名酒">中外名酒</a></h3>
+      <p class="c-category-list limit-24">
+      <a id="s-goods-category-292-1" href="#" target="_blank" title="白酒">白酒</a>
+      <a id="s-goods-category-292-2" href="#" target="_blank" title="洋酒">洋酒</a>
+      <a id="s-goods-category-292-3" href="#" target="_blank" title="啤酒">啤酒</a>
+      <a id="s-goods-category-292-4" href="#" target="_blank" title="葡萄酒">葡萄酒</a>
+
+      </p>
+      <em>&gt;</em>
+    </div>
+    <textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    <div class="sort-side">
+      <dl class="dl-sort">
+        <dd><a target="_blank" href="#"><span class="red" >白酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span class="red" >洋酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span class="red" >啤酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span class="red" >黄酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span>葡萄酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span>鸡尾酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span>保健酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span class="red">礼品酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span>养生酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span>收藏酒</span></a></dd>
+        <dd><a target="_blank" href="#"><span>陈年老酒</span></a></dd>
+        
+      </dl>
+      
+      
+      
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</textarea>
+  </li>
+  
+  <li class="appliance js_toggle relative">
+    <div class="category-info list-tz">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-293" href="#" target="_blank" class="ml-22" title="酒具">酒具</a></h3>
+      <p class="c-category-list limit-24">
+      <a href="#" target="_blank" title="酒壶">酒壶</a>
+      <a href="#" target="_blank" title="分酒器">分酒器</a>
+      <a href="#" target="_blank" title="红酒开瓶器">红酒开瓶器</a>
+      </p>
+      <em>&gt;</em>
+      </div>
+    <textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    <div class="sort-side">
+    <dl class="dl-sort">
+    
+    <dd><a target="_blank" href="#"><span>酒壶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>酒坛</span></a></dd>
+    <dd><a target="_blank" href="#"><span>高脚杯</span></a></dd>
+    <dd><a target="_blank" href="#"><span>酒瓶塞</span></a></dd>
+    <dd><a target="_blank" href="#"><span>醒酒器</span></a></dd>
+    <dd><a target="_blank" href="#"><span class="red">分酒器</span></a></dd>
+    <dd><a target="_blank" href="#"><span class="red">酒具套装</span></a></dd>
+    <dd><a target="_blank" href="#"><span>红酒开瓶器</span></a></dd>
+    
+    </dl>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</textarea>
+  </li>
+  <li class="appliance js_toggle relative">
+    <div class="category-info list-ny">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-344" href="#" target="_blank" class="ml-22" title="茗茶">茗茶</a></h3>
+      <p class="c-category-list limit-24">
+      <a id="s-goods-category-344-1" href="#" target="_blank" title="铁观音">铁观音</a>
+      <a id="s-goods-category-344-2" href="#" target="_blank" title="普洱">普洱</a>
+      <a id="s-goods-category-344-3" href="#" target="_blank" title="龙井">龙井</a>
+      <a id="s-goods-category-344-3" href="#" target="_blank" title="红茶">红茶</a>
+      </p>
+      <em>&gt;</em>
+      </div>
+    <textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    <div class="sort-side">
+    <dl class="dl-sort">
+    
+    <dd><a target="_blank" href="#"><span>普洱</span></a></dd>
+    <dd><a target="_blank" href="#"><span>龙井</span></a></dd>
+    <dd><a target="_blank" href="#"><span>绿茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>红茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>黑茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>白茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>铁观音</span></a></dd>
+    <dd><a target="_blank" href="#"><span>乌龙茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>花草茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>花果茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>养生茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>其他茶</span></a></dd>
+    </dl>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</textarea>
+  </li>
+  <li class="appliance js_toggle relative h73">
+    <div class="category-info list-xb">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-343" href="#" target="_blank" class="ml-22" title="饮料冲调">饮料冲调</a></h3>
+      <p class="c-category-list limit-24 pdb11">
+      <a id="s-goods-category-343-1" href="#" target="_blank" title="饮用水">饮用水</a>
+      <a id="s-goods-category-343-2" href="#" target="_blank" title="果蔬饮料">果蔬饮料</a>
+      <a id="s-goods-category-343-3" href="#" target="_blank" title="奶茶">奶茶</a>
+      </p>
+      <em>&gt;</em>
+      </div>
+    <textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    <div class="sort-side">
+    <dl class="dl-sort">
+
+    <dd><a target="_blank" href="#"><span class="red">奶茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span >蜂蜜</span></a></dd>
+    <dd><a target="_blank" href="#"><span >饮用水</span></a></dd>
+    <dd><a target="_blank" href="#"><span >茶饮料</span></a></dd>
+    <dd><a target="_blank" href="#"><span >柚子茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span class="red">酸梅汤</span></a></dd>
+    <dd><a target="_blank" href="#"><span >即饮咖啡</span></a></dd>
+    <dd><a target="_blank" href="#"><span >功能软饮</span></a></dd>
+    <dd><a target="_blank" href="#"><span >碳酸饮料</span></a></dd>
+    <dd><a target="_blank" href="#"><span >果蔬饮料</span></a></dd>
+    
+    </dl>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</textarea>
+  </li>
+  <li class="appliance js_toggle relative last h73">
+    <div class="category-info list-xl">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-342" href="#" target="_blank" class="ml-22" title="冲调保健">冲调保健</a></h3>
+      <p class="c-category-list limit-24 pdb11">
+      <a id="s-goods-category-342-1" href="#" target="_blank" title="咖啡">咖啡</a>
+      <a id="s-goods-category-342-2" href="#" target="_blank" title="奶茶">奶茶</a>
+      <a id="s-goods-category-342-3" href="#" target="_blank" title="奶粉">奶粉</a>
+      <a id="s-goods-category-342-3" href="#" target="_blank" title="减肥">减肥</a>
+      </p>
+      <em>&gt;</em>
+      </div>
+    <textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    <div class="sort-side">
+    <dl class="dl-sort">
+ 
+    <dd><a target="_blank" href="#"><span>咖啡</span></a></dd>
+    <dd><a target="_blank" href="#"><span>奶茶</span></a></dd>
+    <dd><a target="_blank" href="#"><span>补肾</span></a></dd>
+    <dd><a target="_blank" href="#"><span>奶粉</span></a></dd>
+    <dd><a target="_blank" href="#"><span>麦片</span></a></dd>
+    <dd><a target="_blank" href="#"><span>减肥</span></a></dd>
+    <dd><a target="_blank" href="#"><span class="red">芝麻糊</span></a></dd>
+    <dd><a target="_blank" href="#"><span>芝麻糊</span></a></dd>
+    <dd><a target="_blank" href="#"><span>营养素</span></a></dd>
+    <dd><a target="_blank" href="#"><span>蜂产品</span></a></dd>
+    <dd><a target="_blank" href="#"><span>功能保健</span></a></dd>
+    <dd><a target="_blank" href="#"><span>冲饮谷物</span></a></dd>
+    <dd><a target="_blank" href="#"><span>保健礼盒</span></a></dd>
+    <dd><a target="_blank" href="#"><span>传统滋补</span></a></dd>
+    </dl>
+    
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</textarea>
+  </li>
+</ul>
+</div>
+
+</div>
+</div>
+<center>
+<!--focus start-->
+<div class="focus" id="focus">
+	
+	<div id="focus_m" class="focus_m">
+		<ul>
+			<li class="li_1"><a href="#" hidefocus="true"></a></li>
+			<li class="li_2"><a href="#" hidefocus="true"></a></li>
+			<li class="li_3"><a href="#" hidefocus="true"></a></li>
+		</ul>
+	</div>
+
+</div>
+<!--focus end-->
+
+<!--产品展示图组-->
+<div class="Product_group_box">
+<div style="width:991px; margin:0 auto;">
+<div class="kind_floor_titlebox">
+<div class="kind_floor_title01">牛奶乳品</div>
+<div class="kind_floor_title02">
+
+|<a href="#">常温奶</a>
+|<a href="#">乳饮品</a>
+|<a href="#">儿童奶</a>
+|<a href="#">酸奶</a>
+|<a href="#">豆奶</a>
+|<a href="#">低脂奶</a>
+|<a href="#">全脂奶</a>
+|<a href="#">成人奶粉</a>
+
+</div>
+</div>
+
+<div class="kind_floor_box">
+<div class="kind_floor_top">
+<div class="kind_floor_top1">精彩推荐</div>
+</div>
+<div class="kind_floor_probox">
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_01.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">安佳全脂250ml*24盒</a></li>
+<li class="kind_left_li"><em>¥149.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_02.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">德运全脂纯牛奶1L*10</a></li>
+<li class="kind_left_li"><em>¥77.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_right01">
+<ul>
+<li><a href="#">德亚全脂牛奶 12L整箱</a></li>
+<li class="kind_floor_right01_zz"><em>¥147.00</em></li>
+<li class="kind_floor_right01_img"><a href="#"><img src="${root}/images/kind/kind_03.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right02">
+<ul>
+<li><a href="#">旺仔牛奶125ml*20盒装</a></li>
+<li class="kind_floor_right02_zz"><em>¥46.00</em></li>
+<li class="kind_floor_right02_img"><a href="#"><img src="${root}/images/kind/kind_04.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right03">
+<ul>
+<li><a href="#">光明莫斯利安钻石包装</a></li>
+<li class="kind_floor_right03_zz"><em>¥57.80</em></li>
+<li class="kind_floor_right03_img"><a href="#"><img src="${root}/images/kind/kind_05.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right04">
+<ul>
+<li><a href="#">特仑苏纯牛奶250ml×12</a></li>
+<li class="kind_floor_right04_zz"><em>¥58.00</em></li>
+<li class="kind_floor_right04_img"><a href="#"><img src="${root}/images/kind/kind_06.jpg"/></a></li>
+</ul>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="Product_group_box">
+<div style="width:991px; margin:0 auto;">
+<div class="kind_floor_titlebox">
+<div class="kind_floor_title01">中外名酒</div>
+<div class="kind_floor_title02">
+
+|<a href="#">白酒</a>
+|<a href="#">葡萄酒</a>
+|<a href="#">洋酒</a>
+|<a href="#">鸡尾酒</a>
+|<a href="#">啤酒</a>
+|<a href="#">保健酒</a>
+|<a href="#">礼品酒</a>
+|<a href="#">养生酒</a>
+
+</div>
+</div>
+
+<div class="kind_floor_box">
+<div class="kind_floor_top">
+<div class="kind_floor_top1">精彩推荐</div>
+</div>
+<div class="kind_floor_probox">
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_07.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">45度洋河梦之蓝M1 首发买1送1</a></li>
+<li class="kind_left_li"><em>¥598.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_08.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">法德进口香槟型起泡甜白葡萄酒</a></li>
+<li class="kind_left_li"><em>¥740.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_right01">
+<ul>
+<li><a href="#">53度茅台财富贵宾酒</a></li>
+<li class="kind_floor_right01_zz"><em>¥99.00</em></li>
+<li class="kind_floor_right01_img"><a href="#"><img src="${root}/images/kind/kind_09.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right02">
+<ul>
+<li><a href="#">52度五粮液尊耀珍品级</a></li>
+<li class="kind_floor_right02_zz"><em>¥108.00</em></li>
+<li class="kind_floor_right02_img"><a href="#"><img src="${root}/images/kind/kind_10.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right03">
+<ul>
+<li><a href="#">Bailey’s百利甜力娇酒双支装</a></li>
+<li class="kind_floor_right03_zz"><em>¥155.00</em></li>
+<li class="kind_floor_right03_img"><a href="#"><img src="${root}/images/kind/kind_11.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right04">
+<ul>
+<li><a href="#">进口法国凯旋1664白啤酒 330ml*12</a></li>
+<li class="kind_floor_right04_zz"><em>¥128.00</em></li>
+<li class="kind_floor_right04_img"><a href="#"><img src="${root}/images/kind/kind_12.jpg"/></a></li>
+</ul>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="Product_group_box">
+<div style="width:991px; margin:0 auto;">
+<div class="kind_floor_titlebox">
+<div class="kind_floor_title01">茗茶名品</div>
+<div class="kind_floor_title02">
+
+|<a href="#">铁观音</a>
+|<a href="#">普洱</a>
+|<a href="#">龙井</a>
+|<a href="#">绿茶</a>
+|<a href="#">红茶</a>
+|<a href="#">乌龙茶</a>
+|<a href="#">花草茶</a>
+|<a href="#">花草茶</a>
+
+</div>
+</div>
+
+<div class="kind_floor_box">
+<div class="kind_floor_top">
+<div class="kind_floor_top1">精彩推荐</div>
+</div>
+<div class="kind_floor_probox">
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_13.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">洛神甜莓花果茶 100g</a></li>
+<li class="kind_left_li"><em>¥39.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_14.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">特级明前安吉白茶 100g</a></li>
+<li class="kind_left_li"><em>¥108.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_right01">
+<ul>
+<li><a href="#">原产地六安瓜片 250g</a></li>
+<li class="kind_floor_right01_zz"><em>¥98.00</em></li>
+<li class="kind_floor_right01_img"><a href="#"><img src="${root}/images/kind/kind_15.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right02">
+<ul>
+<li><a href="#">原产峨眉山雀舌 100g</a></li>
+<li class="kind_floor_right02_zz"><em>¥138.00</em></li>
+<li class="kind_floor_right02_img"><a href="#"><img src="${root}/images/kind/kind_16.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right03">
+<ul>
+<li><a href="#">2015新茶碧螺春茶叶绿茶</a></li>
+<li class="kind_floor_right03_zz"><em>¥99.00</em></li>
+<li class="kind_floor_right03_img"><a href="#"><img src="${root}/images/kind/kind_17.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right04">
+<ul>
+<li><a href="#">杭州特级龙井茶明前头</a></li>
+<li class="kind_floor_right04_zz"><em>¥128.00</em></li>
+<li class="kind_floor_right04_img"><a href="#"><img src="${root}/images/kind/kind_18.jpg"/></a></li>
+</ul>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="Product_group_box">
+<div style="width:991px; margin:0 auto;">
+<div class="kind_floor_titlebox">
+<div class="kind_floor_title01">饮料冲调</div>
+<div class="kind_floor_title02">
+
+|<a href="#">饮用水</a>
+|<a href="#">果蔬饮料</a>
+|<a href="#">茶饮料</a>
+|<a href="#">碳酸饮料</a>
+|<a href="#">功能软饮</a>
+|<a href="#">即饮咖啡</a>
+|<a href="#">奶茶</a>
+|<a href="#">酸梅汤</a>
+
+</div>
+</div>
+
+<div class="kind_floor_box">
+<div class="kind_floor_top">
+<div class="kind_floor_top1">精彩推荐</div>
+</div>
+<div class="kind_floor_probox">
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_19.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">新西兰进口】猕猴桃奇异果果汁</a></li>
+<li class="kind_left_li"><em>¥99.00</em></li>
+</ul>
+</div>
+<div class="kind_floor_left">
+<ul>
+<li><a href="#"><img src="${root}/images/kind/kind_20.jpg"/></a></li>
+<li class="kind_left_li"><a href="#">韩国进口饮料 乐天 芒果</a></li>
+<li class="kind_left_li"><em>¥39.90</em></li>
+</ul>
+</div>
+<div class="kind_floor_right01">
+<ul>
+<li><a href="#">红牛维生素功能饮料强化型</a></li>
+<li class="kind_floor_right01_zz"><em>¥164.00</em></li>
+<li class="kind_floor_right01_img"><a href="#"><img src="${root}/images/kind/kind_21.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right02">
+<ul>
+<li><a href="#">美国原装进口 可口可乐</a></li>
+<li class="kind_floor_right02_zz"><em>¥42.90</em></li>
+<li class="kind_floor_right02_img"><a href="#"><img src="${root}/images/kind/kind_22.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right03">
+<ul>
+<li><a href="#">泰国进口欧格尼椰汁饮料纯</a></li>
+<li class="kind_floor_right03_zz"><em>¥39.80</em></li>
+<li class="kind_floor_right03_img"><a href="#"><img src="${root}/images/kind/kind_23.jpg"/></a></li>
+</ul>
+</div>
+<div class="kind_floor_right04">
+<ul>
+<li><a href="#">全南蜂蜜柚子茶 1kg</a></li>
+<li class="kind_floor_right04_zz"><em>¥39.00</em></li>
+<li class="kind_floor_right04_img"><a href="#"><img src="${root}/images/kind/kind_24.jpg"/></a></li>
+</ul>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+<!--页脚-->
+[#include "../include/页脚信息栏.html"/]
+
+<script type="text/javascript">
+(function(){ 
+ var $menuLi =$('#nav .menu');
+ var $menuHd = $('#nav .menu-hd');
+ var $menuBd = $('#nav .menu-bd');
+ var $arrow = $('#nav .m1 i');
+ $menuBd.hover(function(){
+ $menuHd.addClass('on');
+ },function(){
+ $menuHd.removeClass('on');
+ });
+ $menuLi.hover(function(){
+ $menuHd.children('b').addClass('b-on');
+ },function(){
+ $menuHd.children('b').removeClass('b-on');
+ })
+})();
+</script>
+<script type="text/javascript" src="${root}/js/index_kind.js"></script>
+
+
+
+
+</center>
+</div>
+
+
+</body>
+</html>

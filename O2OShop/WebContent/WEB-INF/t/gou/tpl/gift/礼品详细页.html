@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JSPGOU商品 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/product.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script src="${root}/js/product.js"  type="text/javascript"></script>
+<script language="JavaScript" type="text/JavaScript">
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='spms_normal';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='spms_curr';
+}
+function addToCollect(productId){
+	$.post('${base}/collect/add_to_collect.jspx',{
+		'productId':productId
+		}, function(data){
+            if(data.status == 1){
+            	 alert('收藏成功!');
+            }else if(data.status== 2){
+                    alert('收藏过该商品');
+            }else{
+            	location.href='${base}/login.jspx';
+            }
+	   },'json');
+}
+
+function fetchGift(id,count){
+	$.post('fetchGift.jspx',{
+		'giftId' : id,
+		'giftNumb':count
+	},function(data){
+		if(data.status==1) {
+			location.href='${base}/exchange.jspx?id='+id+'&count='+count;
+		} else if(data.status==0) {
+			location.href='${loginUrl}';
+		} else {
+			alert(data.error);
+		}
+		},'json');
+}
+
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	[#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+</div>
+[#include "../include/页头广告位.html"/]
+<div class="position">您现在的位置：<a href="${base}/">首页</a>  »<a href="${base}/gift.jspx" target="_blank"> 礼品</a></div>
+<div class="center mt10">
+  <div class="produce clearfix">
+	 <div class="p_title"><h2><font id="productMainName">${gift.giftName!}</font></h2></div>
+	 <div class="property property_box coat">
+	   <div class="specific_info1">
+		  <dl class="clearfix">
+			<dt>积分：</dt>
+			<dd> ${gift.giftScore!} </dd>
+		  </dl>
+	 </div>		
+     <div class="specific_info2">	
+     	<dl id="goToBuyDistrict" class="clearfix">
+			<dt>数量：</dt>
+			<dd>
+				<div class="computing">
+					<input type="button" class="reduce" onclick="decrementAll();"/>
+					<input type="text" id="product_amount" name="productAmount" onchange ="buyButtonNumChange('product_amount')" class="num" onkeyup="inputOnlyNum(this, 1, 999);" value="1"/>
+					<input type="button" class="add" onclick="incrementAll();"/>
+				</div>
+			</dd>
+		</dl>										
+		<table> 
+		 <tr id="buyButtonsDistrict">
+			  <td width="84"> </td>
+			   <td> 
+			   <input type="button" class="add_shopping_cart" value="兑换" onclick="javascript:fetchGift(${gift.id!},$('#product_amount').val());"/>
+			   </td>
+		   </tr>
+		</table>
+										
+		
+	</div> 
+	<div class="specific_info1">		
+        <dl class="clearfix">
+			 <dt>分&nbsp;&nbsp;享&nbsp;到：</dt>
+			 <dd class="share_ico">
+	            <a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?title=【${gift.giftName!}】&url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()">新浪微博</a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${gift.giftName!}','2fc26c2514bb48ec891170ce68db2683');" >腾讯微博</a>
+            </dd>
+        </dl>			
+   </div>        
+  </div><!-- property -->
+  <div class="gallery " id="gallery_view">
+	<div class="pic" id="mainPic">
+		<a id="productImgA" class="jqzoom" href="${gift.giftPicture!}"  style="width:378px;height:378px;">
+			<img id="productImg" src="${gift.giftPicture!}" alt="${gift.giftName!}" width="378" height="378"/>
+		</a>
+	</div>
+	<div class="clear"></div>
+	<div class="pic_slide">
+		<span class="prev" id="prevBtn"></span>
+			<div class="pic_slide_box" id="sliderImgs">
+				<ul id="detailPictureSlider">
+				<li><img  class="selected" src="${gift.giftPicture!}" onmouseover="initCurrPicture(jQuery(this),'${gift.giftPicture!}','${gift.giftPicture!}')" width="58" height="58" /></li>
+				</ul>
+			</div>
+	   <span class="next" id="nextBtn"></span>
+	</div>
+  </div><!-- gallery -->
+ </div><!-- produce -->	 
+      
+ <div class="spxx">
+       <ul class="spxx_type">
+              <li class="spms_curr" id="tb_11" onclick="HoverLi(1,1,5)" style="cursor: hand"><a>礼品介绍</a></li>
+       </ul>
+       <div id="tbc_11"  class="dis">
+          <div class="intro_box">
+           ${gift.introduced!}
+          </div>
+      </div>
+ </div>  
+  <div class="clear"></div>
+</div>
+[#include "../include/页脚信息栏.html"/] 
+</body>
+</html>

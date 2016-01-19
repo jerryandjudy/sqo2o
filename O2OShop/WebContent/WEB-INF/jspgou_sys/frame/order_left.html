@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jspgou-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<ul id="lmenu">
+<li><a href="../order/v_list.do" target="rightFrame">订单管理</a></li>
+<li><a href="../orderReturn/v_list.do" target="rightFrame">退款订单</a></li> 
+<!-- <li><a href="../Gathering/v_list.do" target="rightFrame">收款管理</a></li>
+<li><a href="../Shipments/v_list.do" target="rightFrame">发货管理</a></li> -->
+<!-- <li><a href="../order/v_list.do?status=1" target="rightFrame">未确认订单</a></li> -->
+<li><a href="../order/v_list.do?status=0" target="rightFrame">未分配订单</a></li>
+<li><a href="../order/v_list.do?status=5" target="rightFrame">待支付订单</a></li>
+<li><a href="../order/v_list.do?status=1" target="rightFrame">待发货订单</a></li>
+<li><a href="../order/v_list.do?status=3" target="rightFrame">已取消订单</a></li>
+<li><a href="../order/v_list.do?status=4" target="rightFrame">已完成订单</a></li>
+<li><a href="../order/v_sqlist.do" target="rightFrame">社区服务订单</a></li>
+
+</ul>
+</body>
+</html>

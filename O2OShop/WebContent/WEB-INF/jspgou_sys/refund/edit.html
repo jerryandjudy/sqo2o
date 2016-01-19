@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  退款管理- <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.td label="退款编号" width="100" colspan="2">${refund.code!}</@p.td><@p.tr/>
+<@p.td label="订单编号" width="100" colspan="2">${refund.order.code!}</@p.td><@p.tr/>
+<@p.td label="卖家" width="100" colspan="2">${refund.store.storeName!}</@p.td><@p.tr/>
+<@p.td label="订单总额" width="100" colspan="2">${refund.total!0.0}</@p.td><@p.tr/>
+<@p.td label="退款金额" width="100" colspan="2">${refund.refundMoney!0.0}</@p.td><@p.tr/>
+<@p.td label="申请时间" width="100" colspan="2">${refund.applyTime?string("yyyy-MM-dd HH:mm:ss")!}</@p.td><@p.tr/>
+<@p.td label="处理时间" width="100" colspan="2"><#if refund.handleTime??>${refund.handleTime?string('yyyy-MM-dd HH:mm:ss')!}</#if></@p.td><@p.tr/>
+<@p.td label="平台商留言" colspan="2" width="100"><textarea name="platadditionalwords" cols="100" rows="5">${refund.platadditionalwords!}</textarea></@p.td><@p.tr/>
+
+<@p.td width="100" colspan="2"><@p.hidden name="id" value=refund.id/>
+<@p.hidden name="intervene" value=1/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>错误提示</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	<script type="text/javascript">
+		var URL = '${base}';
+		var APP = '${base}';
+		var SELF = '${base}/wap/wapindex.jspx';
+		function tiaozhun(){
+			window.location.href=SELF;
+		}
+	</script>
+	<!--TOP-->
+	[#include "headerzffs.html"]
+	<!--TOP=end-->
+	<div class="content">
+		<div class="am-container am-margin-top-lg">
+			[#if errors?size gt 0]
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<h6>错误提示</h6>
+				</div>
+				<div class="am-u-sm-12 am-form-group">
+					<ul class="am-list am-list-static am-list-border ">
+						[#list errors as error]
+						<li>${error}</li> 
+						[/#list]
+					</ul>
+				</div>
+				<div class="am-u-sm-12" style="margin-bottom: 20px;">
+					<button type="button" onclick="tiaozhuan();" class="am-btn am-btn-warning am-btn-block">返回首页</button>
+				</div>
+			</div>
+			
+			[/#if]
+		</div>
+	</div>
+	[#include "footer.html"]
+</body>
+</html>

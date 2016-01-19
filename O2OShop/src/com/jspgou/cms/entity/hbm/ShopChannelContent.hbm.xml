@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopChannelContent" table="jc_shop_channel_content" lazy="true">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="channel_id">
+			<generator class="foreign"><param name="property">channel</param></generator>
+		</id>
+		<property name="content" column="content" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<one-to-one name="channel" class="ShopChannel" constrained="true"/>
+	</class>
+</hibernate-mapping>

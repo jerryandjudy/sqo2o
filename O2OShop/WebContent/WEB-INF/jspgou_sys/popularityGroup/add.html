@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<style type="text/css">
+#one{width:200px; height:180px; float:left}
+#two{width:50px; height:180px; float:left}
+#three{width:200px; height:180px; float:left}
+.btn{width:50px; height:30px; margin-top:10px; cursor:pointer;} 
+</style>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	 //移到右边
+    $('#add').click(function() {
+    //获取选中的选项，删除并追加给对方
+        $('#select option:selected').appendTo('#productIds');
+        getList();
+    });
+    //移到左边
+    $('#remove').click(function() {
+        $('#productIds option:selected').appendTo('#select');
+        getList();
+    });
+    //全部移到右边
+    $('#add_all').click(function() {
+        //获取全部的选项,删除并追加给对方
+        $('#select option').appendTo('#productIds');
+        getList();
+    });
+    //全部移到左边
+    $('#remove_all').click(function() {
+        $('#productIds option').appendTo('#select');
+        getList();
+    });
+    //双击选项
+    $('#select').dblclick(function(){ //绑定双击事件
+        //获取全部的选项,删除并追加给对方
+        $("option:selected",this).appendTo('#productIds'); //追加给对方
+        getList();
+    });
+    //双击选项
+    $('#productIds').dblclick(function(){
+       $("option:selected",this).appendTo('#select');
+       getList();
+    });
+});
+
+function jsSelectIsExitItem(objSelect, objItemValue) {        
+    var isExit = true;        
+    for (var i = 0; i < objSelect.options.length; i++) {        
+        if (objSelect.options[i].value == objItemValue) {        
+            isExit = false;        
+            break;        
+        }        
+    }        
+    return isExit;        
+}   
+
+function getList(){
+    var list =""; 
+    for(i=0;i<document.getElementById("productIds").length;i++){   
+        list += document.getElementById("productIds").options(i).value+","; 
+    } 
+    document.getElementById("rightlist").value =list; 
+}
+function optSearch() {
+	$.post('v_search.do', {
+		"typeId" : $("#typeId").val(),
+		"brandId" : $("#brandId").val(),
+		'productName' : $('#productName').val()
+	}, function(data) {
+		document.getElementById("select").options.length=0;
+        var i=0;
+        for(var key in data){
+			var newoption=new Option(data[key],key);
+			if (jsSelectIsExitItem(document.getElementById("productIds"), key)) {        
+				document.getElementById("select").options[i]=newoption;
+				i++;
+		    }
+        }
+	}, 'json');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "popularityGroup.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do">
+<@p.text colspan="2" label="名称" name="name" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="2" label="优惠" name="privilege" required="true" class="required number" maxlength="12"/><@p.tr/>
+<@p.textarea colspan="2" label="活动描述" name="description" cols="70" rows="3"/><@p.tr/>
+<@p.td colspan="2">商品搜索：
+       <select id="typeId" name="typeId"><option value="">--所有分类--</option>
+         <#list typeList as productType>
+            <option value="${productType.id}"<#if typeId??> <#if typeId==productType.id>selected="selected"</#if></#if>>${productType.name!}</option>
+         </#list>  
+       </select>
+       <select id="brandId" name="brandId"><option value="">--所有品牌--</option>
+         <#list brandList as brand>
+            <option value="${brand.id}"<#if brandId??> <#if brandId==brand.id>selected="selected"</#if></#if>>${brand.name!}</option>
+         </#list>  
+       </select>
+       <input id="productName" type="text" name="productName" value="${productName!}" style="width:100px"/>
+       <input type="button" value="<@s.m "global.query"/>" onclick="optSearch();"/>
+</@p.td><@p.tr/>
+<@p.td colspan="2">
+<table width="500" align="center" border="0" cellpadding="0" cellspacing="0" class="newContTab">
+  <tr>
+    <td>
+      <div>
+        <div>
+          <select multiple="multiple" id="select" style="width:210px;height:200px; float:left; border:1px #A0A0A4 outset; padding:1px; ">
+          </select>
+        </div>
+        <div style="float:left;width:60px"> <span id="add">
+          <input type="button" class="btn" value=">"/>
+          </span><br />
+          <span id="add_all">
+          <input type="button" class="btn" value=">>"/>
+          </span> <br />
+          <span id="remove">
+          <input type="button" class="btn" value="<"/>
+          </span><br />
+          <span id="remove_all">
+          <input type="button" class="btn" value="<<"/>
+          </span> </div>
+        <div>
+          <select name="productIds" multiple="multiple" id="productIds" style="width: 210px;height:200px; float:lfet;border:1px #A0A0A4 outset; padding:1px;">
+          </select>
+        </div>
+      </div></td>
+  </tr>
+</table>
+<input type="hidden" id="rightlist" name="rightlist">
+</@p.td><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

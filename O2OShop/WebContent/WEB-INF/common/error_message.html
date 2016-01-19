@@ -1,0 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<h1>错误提示：</h1>
+<ul>
+	<#list errors as error>
+	<li>${error}</li>
+	</#list>
+</ul>
+<div class="foot"><#if backUrl??>【<a href="${backUrl}">点击这里返回</a>】<#else>【<a href="javascript:history.back();">点击这里返回上一页</a>】</#if></div>
+</body>
+</html>

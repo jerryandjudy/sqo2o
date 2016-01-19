@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function senderEmail(to,subject,text) {
+	$.post('o_email_send_test.do',{
+		host : $('#host').val(),
+		encoding : $('#encoding').val(),
+		username : $('#username').val(),
+		password : $('#password').val(),
+		personal : $('#personal').val(),
+		subject : subject,
+		text : text,
+		to : to
+	},function(data) {
+		if(data.success) {
+			alert('send email success!');
+		} else {
+			alert(data.message);
+		}
+	},'json');
+}
+</script>
+<style type="text/css">
+.msg-tpl{padding:3px 0}
+</style>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:33 <@s.m "shop.config.global.function"/></div>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" labelWidth="12" action="o_email_update.do">
+<@p.text colspan="1" width="50" label="emailSender.host" id="host" name="host" value=(emailSender.host)! required="true" class="required" maxlength="50" help="emailSender.host.help"/>
+<@p.text colspan="1" width="50" label="emailSender.encoding" id="encoding" name="encoding" value=(emailSender.encoding)! required="true" class="required" maxlength="20" help="emailSender.encoding.help"/><@p.tr/>
+<@p.text colspan="1" width="50" label="emailSender.username" id="username" name="username" value=(emailSender.username)! required="true" class="required" maxlength="100" help="emailSender.username.help"/>
+<@p.text colspan="1" width="50" label="emailSender.personal" id="personal" name="personal" value=(emailSender.personal)! required="true" class="required" maxlength="100" help="emailSender.personal.help"/><@p.tr/>
+<@p.password colspan="2" label="emailSender.password" id="password" name="password" value=(emailSender.password)! required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.td colspan="2" label="messageTpl.resetPassowd">
+<div class="msg-tpl"><@s.m "messageTpl.subject"/>:
+<input type="text" id="resetPasswordSubject" name="resetPasswordSubject" value="${(messageMap['resetPassword'].subject)!}" class="required" maxlength="255" size="30"/>
+&nbsp; &nbsp; <!--  <input type="button" value="<@s.m "messageTpl.sendTest"/>" onclick="senderEmail($('#resetPassswordTo').val(),$('#resetPasswordSubject').val(),$('#resetPasswordText').val());"/> <@s.m "messageTpl.sendEmail"/>: <input type="text" id="resetPassswordTo"/>--> 
+</div>
+<div class="msg-tpl"><@s.m "messageTpl.support"/>: uid username resetKey resetPwd</div>
+</@p.td><@p.tr/>
+<@p.editor colspan="2" width="100"  label="找回密码内容" name="resetPasswordText" value=(messageMap['resetPassword'].text)! /><@p.tr/>
+<@p.tr/>
+<@p.td colspan="2" width="100" label="激活用户标题">
+<input type="text" id="activeTitle" name="activeTitle" value="${(messageMap['resetPassword'].activeTitle)!}" class="required" maxlength="255" size="30"/>
+</@p.td><@p.tr/>
+<@p.editor colspan="2" width="100"  label="激活用户内容" name="activeTxt" value=(messageMap['resetPassword'].activeTxt)! /><@p.tr/>
+<@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

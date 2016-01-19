@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Dls" table="jc_core_dls">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>    
+		<id name="id" type="string" column="Id"><generator class="uuid.hex" /></id>
+		<property name="companyName" column="company_name" type="string"  length="255" />
+        <many-to-one name="website" column="site_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+        <many-to-one name="ketaUser" column="keta_user_id" class="KetaUser" not-null="true"></many-to-one>
+        <many-to-one name="user" column="user_id" class="com.jspgou.core.entity.User" not-null="true"></many-to-one>
+	    <property name="isDisabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+	    <property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+	    <property name="companyAddr" column="company_addr" type="string"  length="255" />
+	    <property name="legalPerson" column="legal_person" type="string"  length="255" />
+	    <property name="contact" column="contact" type="string"  length="255" />
+	    <property name="contactTel" column="contact_tel" type="string"  length="255" />
+	    <property name="orgCodeCert" column="org_code_cert" type="string"  length="255" />
+	    <property name="fjLlrAuthorize" column="fj_llr_authorize" type="string"  length="255" />
+	    <property name="fjShDqdlsqb" column="fj_sh_dqdlsqb" type="string"  length="255" />
+	    <property name="fjDqsqqrs" column="fj_dqsqqrs" type="string"  length="255" />
+	    <property name="fjDlht" column="fj_dlht" type="string"  length="255" />
+	    <property name="fjDlbzs" column="fj_dlbzs" type="string"  length="255" />
+	    <property name="fjQyyyzz" column="fj_qyyyzz" type="string"  length="255" />
+	    <property name="fjZzjgdm" column="fj_zzjgdm" type="string"  length="255" />
+	    <property name="fjSwdjz" column="fj_swdjz" type="string"  length="255" />
+	    <property name="fjKhxkz" column="fj_khxkz" type="string"  length="255" />
+	    <property name="fjFrFfrSfz" column="fj_fr_ffr_sfz" type="string"  length="255" />
+	    <property name="fjQyxyjt" column="fj_qyxyjt" type="string"  length="255" />
+	    <property name="fjRzkzfm" column="fj_rzkzfm" type="string"  length="255" />
+	    <property name="fjRzsqs" column="fj_rzsqs" type="string"  length="255" />
+	    <property name="fjFrFfrYhk" column="fj_fr_ffr_yhk" type="string"  length="255" />
+	    <property name="fjCsjmht" column="fj_csjmht" type="string"  length="255" />
+        <property name="khh" column="khh" type="string"  length="255" />
+		<property name="khhzh" column="khhzh" type="string"  length="255" />
+		<property name="hm" column="hm" type="string"  length="255" />
+        
+	</class>	 
+</hibernate-mapping>

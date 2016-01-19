@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<style type="text/css">
+.sel-disabled{background-color:#ccc}
+</style>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "store.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text label="store.storeName" name="storeName" colspan="1" width="50" required="true" class="required" maxlength="100"/>
+<@p.text label="store.shortName" name="shortName" colspan="1" width="50"  maxlength="100"/><@p.tr/>
+<@p.td required="true" label="store.category" colspan="2" width="100">
+<select id="categoryId" name="categoryId" required="true" onchange="channelChange(this.selectedIndex)" style="width:200px;">
+	<option value="" class="sel-disabled"><@s.m "global.pleaseSelect"/></option>
+<#if categoryList?size gt 0>
+<#assign origDeep=categoryList[0].deep+1/>
+<#list categoryList as c>
+	<#if c.child?size gt 0>
+	<option value="${c.id}"<#if c.child?size gt 0> class="sel-disabled"</#if>><#if c.deep gte origDeep><#list origDeep..c.deep as i>&nbsp;&nbsp;</#list>></#if>${c.name}</option>
+	<#else>
+	<option value="${c.id}"><#if c.deep gte origDeep><#list origDeep..c.deep as i>&nbsp;&nbsp;</#list>></#if>${c.name}</option>
+	</#if>
+</#list>
+</#if>
+</select> 
+</@p.td><@p.tr/>
+
+<@p.radio label="store.modelpermission"  name="modelpermission" value=false list={"true":"是","false":"否"}   colspan="2" width="100"/><@p.tr/>
+
+<@p.textarea label="store.intro" name="intro"  rows="3" cols="70" maxlength="255" colspan="2" width="100"/><@p.tr/>
+<@p.td label="store.licenseImg" colspan="1" width="50" noHeight="true" required="true">
+   <@p.text id="uploadImgPath2" name="licenseImg" size="30" class="required"/> 
+    <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(2);"/><br/>
+    <span id="ufc2"><input type="file" id="uploadFile2" size="20"/></span> 
+    <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);"/><br/>
+    <input type="hidden" id="zoomWidth2" value="100"/> 
+    <input type="hidden" id="zoomHeight2" value="100" /> 
+ </@p.td>
+<@p.td colspan="1" width="50">
+    <img id="preImg2" alt="<@s.m "imageupload.preview"/>"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="store.facadeImg" colspan="1" width="50" noHeight="true" required="true">
+   <@p.text id="uploadImgPath3" name="facadeImg" size="30" class="required"/> 
+    <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(3);"/><br/>
+    <span id="ufc3"><input type="file" id="uploadFile3" size="20"/></span> 
+    <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(3);"/><br/>
+    <input type="hidden" id="zoomWidth3" value="100"/> 
+    <input type="hidden" id="zoomHeight3" value="100" /> 
+ </@p.td>
+<@p.td colspan="1" width="50">
+    <img id="preImg3" alt="<@s.m "imageupload.preview"/>"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="store.reverseImg" colspan="1" width="50" noHeight="true" required="true">
+   <@p.text id="uploadImgPath4" name="reverseImg" size="30" class="required"/> 
+    <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(4);"/><br/>
+    <span id="ufc4"><input type="file" id="uploadFile4" size="20"/></span> 
+    <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(4);"/><br/>
+    <input type="hidden" id="zoomWidth4" value="100"/> 
+    <input type="hidden" id="zoomHeight4" value="100" /> 
+ </@p.td>
+<@p.td colspan="1" width="50">
+    <img id="preImg4" alt="<@s.m "imageupload.preview"/>"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+<@p.td label="store.logo" colspan="1" width="50" noHeight="true" required="true">
+   <@p.text id="uploadImgPath1" name="logoImg" size="30" class="required"/> 
+    <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+    <span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> 
+    <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+    <input type="hidden" id="zoomWidth1" value="100"/> 
+    <input type="hidden" id="zoomHeight1" value="100" /> 
+ </@p.td>
+<@p.td colspan="1" width="50">
+    <img id="preImg1" alt="<@s.m "imageupload.preview"/>"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td label="store.Ad" colspan="1" width="50" noHeight="true" required="true">
+   <@p.text id="uploadImgPath5" name="storeAdImg" size="30" class="required"/> 
+    <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(5);"/><br/>
+    <span id="ufc5"><input type="file" id="uploadFile5" size="20"/></span> 
+    <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(5);"/><br/>
+    <input type="hidden" id="zoomWidth5" value="100"/> 
+    <input type="hidden" id="zoomHeight5" value="100" /> 
+ </@p.td>
+<@p.td colspan="1" width="50">
+    <img id="preImg5" alt="<@s.m "imageupload.preview"/>"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+<@p.text label="store.mobile" name="mobile" class="digits" colspan="1" width="50"  maxlength="100"/>
+<@p.text label="store.postcode" name="postcode" class="digits" colspan="1" width="50"  maxlength="100"/><@p.tr/>
+<@p.text label="store.address" name="address" colspan="2" width="100" maxlength="100"  size="50"/><@p.tr/>
+<@p.td colspan="2" width="100"><@s.m "store.alipay"/></@p.td><@p.tr/>
+<@p.text label="store.partnerID" name="partner"  colspan="1" width="50" maxlength="150"/>
+<@p.text label="store.sellerKey" name="sellerKey" colspan="1" width="50" maxlength="150"/><@p.tr/>
+<@p.text label="store.sellerEmail" name="sellerEmail" colspan="2" width="100" maxlength="150"/><@p.tr/>
+ <@p.editor label="store.txt" name="txt" colspan="2" width="100"/><@p.tr/>
+<@p.td  colspan="2" width="100"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

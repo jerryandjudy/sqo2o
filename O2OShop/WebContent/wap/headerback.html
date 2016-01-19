@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="${base}/wapstyle/assets/css/amazeui.min.css?version=20150624">
+<link rel="stylesheet" href="${base}/wapstyle/assets/css/app.css?version=20150613">
+
+<script src="${base}/wapstyle/assets/js/jquery.min.js?version=20150613"></script>
+<script src="${base}/wapstyle/assets/js/amazeui.min.js?version=20150613"></script>
+<script src="${base}/wapstyle/assets/js/jquery.cookie.js?version=20151007"></script>
+<script src="${base}/wapstyle/assets/js/app.js?version=20151007"></script>
+<!--TOP-->
+<header data-am-widget="header" class="am-header am-header-default am-no-layout">
+[#if member?? &&member.username?? ]
+<div id="sidebar" class="am-offcanvas am-menu-offcanvas1">
+<div class="am-offcanvas-bar am-offcanvas-bar-overlay">
+<div class="am-offcanvas-content">
+<div class="am-text-center">欢迎，${member.username!}</div>
+</div>
+<ul class="am-menu-nav am-avg-sm-1">
+<li class="am-nav-header">交易管理</li>
+<li class="">
+<a target="_self" href="${base}/wap/waporderlist.jspx">我的订单</a>
+</li>
+<li class="">
+<a target="_self" href="${base}/wap/wapfworderlist.jspx">服务订单</a>
+</li>
+<li class="am-nav-header">个人设置</li>
+<li class="">
+<a target="_self" href="${base}/wap/wapaddrlist.jspx">地址管理</a>
+</li>
+<li class="">
+<a target="_self" href="${base}/wap/reset_password.jspx">修改密码</a>
+</li>
+</ul>
+<div class="am-offcanvas-content">
+<div class="am-text-right am-text-xs logout">
+<a target="_self" href="${base}/wap/waploginout.jspx?imei=${imei}">退出登录</a>
+</div>
+</div>
+</div>
+</div>
+ [/#if]
+ 
+ <div class="am-header-left am-header-nav">
+          <a href="javascript:window.history.back();" class="">
+
+              <img class="am-header-icon-custom" src="data:image/svg+xml;charset=utf-8,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 12 20&quot;&gt;&lt;path d=&quot;M10,0l2,2l-8,8l8,8l-2,2L0,10L10,0z&quot; fill=&quot;%23fff&quot;/&gt;&lt;/svg&gt;" alt=""/>
+          </a>
+      </div>
+  <h1 class="am-header-title">${headerTitle} </h1>
+   [#if member?? &&member.username??]
+    <div class="am-header-right am-header-nav"><a href="#sidebar" data-am-offcanvas="" target="_self"><i class="am-header-icon am-icon-user"></i></a></div>
+   [#else]
+    <div class="am-header-right am-header-nav"><a href="${base}/wap/waplogin.jspx?imei=${imei!}" target="_self"><i class="am-header-icon am-icon-user"></i></a></div>
+   [/#if]
+</header>
+<!--TOP=end-->

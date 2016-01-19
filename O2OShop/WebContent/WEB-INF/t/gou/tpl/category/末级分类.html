@@ -1,0 +1,262 @@
+﻿
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>${category.name!} - ${web.name}${web.additionalTitle!}</title>
+<link rel="stylesheet" type="text/css" href="${root}/css/base.css">
+<link rel="stylesheet" type="text/css" href="${root}/css/index.css">
+<link rel="stylesheet" type="text/css" href="${root}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="${root}/css/category.css">
+<script type="text/javascript" src="${root}/js/img.js"></script>
+<script type="text/javascript" src="${root}/js/category.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="${root}/js/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+<!--TOP-->
+[#include "../include/页头顶栏.html"/]
+
+<!--LOGO-->
+[#include "../include/页头搜索栏.html"/]
+
+
+
+
+<!--------------------------------------------------------▷▷商品分类★开始◁◁------------------------------------------------------>
+<div class="header-wrap">
+ <div class="navwrap">
+  <div id="nav">
+   <div class="navbar clearfix">
+    
+     <li><a href="${base}/">首 页</a></li>
+        	<li><a href="${base}/sp/index.htm">休闲零食</a></li>
+            <li><a href="${base}/jsyl/index.htm">酒水饮料</a></li>
+            <li><a href="${base}/jjyp/index.htm">家居用品</a></li>
+            <li><a href="${base}/ghhz/index.htm">个护化妆</a></li>
+            <li><a href="${base}/lyfs/index.htm">粮油干货</a></li>
+            <li><a href="${base}/wtyp/index.htm">文体用品</a></li>
+            <li><a href="${base}/sqfw/index.htm">社区服务</a></li>
+            <li><a class="" href="${base}/bldmap/index.htm">便利店网点</a></li>
+   </div>
+   <div class="pros subpage">
+    <h2>全部商品分类</h2>
+    <ul class="prosul clearfix" id="proinfo">
+    [@shop_Category_list loadChild='1' Level=2 count=20  isDisplay='1' ]
+            [#list tag_list as c]
+     <li class="goods bd-solid" mon="type=subnav&action=click"><i>&gt;</i>
+     	<a class="ti" href="${c.url!}" title="${c.title!}">${c.name!}</a>
+     	
+     	[@shop_Category_list loadChild='0' Level=2 count=100 parentId=c.id isDisplay='1' ]
+     	[#assign clist=tag_list /]
+    	  [#list tag_list as tc]
+    	  [#if tc_index<1]
+     	<a class="hot" href="${tc.url!}" title="${tc.title!}">${tc.name!}</a>
+     	 
+     	 [/#if]
+     	 [/#list]
+       	<div class="prosmore hide">
+     	[#list tag_list as tc]
+     	 [#if tc_index gte 1]
+			     	
+      		 <span><em ><a href="${tc.url!}" title="${tc.title!}">${tc.name!}</a></em></span>
+    	  [/#if] 
+    	 [/#list]
+    	  </div>
+    	[/@shop_Category_list]
+    	  
+    	  
+     </li>
+    	  [/#list]
+     
+     [/@shop_Category_list]  
+     
+     
+      
+     
+    </ul>
+   </div>
+  </div>
+ </div>
+</div>
+<!--------------------------------------------------------▷▷商品分类★结束◁◁------------------------------------------------------>
+<!---===========================================================================================================================-->
+<!--------------------------------------------------------▷▷推荐产品★开始◁◁------------------------------------------------------>
+<div style="background:#F1F1F1; width:100%">
+<div class="hot_box">
+<div class="hot-sales">
+
+<div class="hot-sales-main">
+<div class="hd">热卖商品</div>
+<div class="bd mc">
+<ul class="mc list-h" >
+	[@shop_ProductSiteList count='3' hostSale='1']
+        [#list tag_list as hostp]
+
+<li>
+
+<a href="${hostp.url!}" target="_blank" class="p-img"><img src="http://u-10017112.file.myqcloud.com${hostp.product.productExt.coverImg!}"></a>
+
+<div class="p-name"><a href="${hostp.url!}" target="_blank">${hostp.product.name!}</a></div>
+
+<div class="p-price"><span>特价：</span><strong><em class="number">￥${hostp.salePrice!}</em></strong></div>
+
+<div class="p-btnbox"><a href="${hostp.url!}" target="_blank" class="btn btn-default">立即抢购</a></div>
+
+</li>
+
+ 		[/#list]
+    [/@shop_ProductSiteList]
+
+
+
+</ul>
+</div>
+</div>
+
+<div class="hot-sales-act">
+<div class="hd"> 促销活动</div>
+<div class="bd">
+<ul>
+[@shop_ArticleList channelId=2 count='10']
+[#list tag_list as a]
+<li>· <a href="${a.url!}"  target="_blank">${a.title!}</a></li>
+[/#list]
+[/@shop_ArticleList]
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--------------------------------------------------------▷▷推荐产品★结束◁◁------------------------------------------------------>
+<!---===========================================================================================================================-->
+<!--------------------------------------------------------▷▷main★开始◁◁------------------------------------------------------>
+<div class="searchwrap w980">
+<div class="left fl">
+   
+    <div class="last-week-hot mt10">
+         <div class="tit_hot">上周热销榜 <span>HOT</span></div>
+          [@shop_topSale count=2]
+          	    [#list tag_list as topSale]
+          	    <dl>
+               	   <dt><a href="${topSale.url!}">${topSale.product.name!}</a></dt>
+                   <dd class="hot_img fl"><a href="${topSale.url!}" target="_blank"><img src="http://u-10017112.file.myqcloud.com${topSale.product.productExt.coverImg!}" style="width:63px; height:65px"/></a></dd>
+                   <dd class="hot_price fr">¥${topSale.salePrice!}</dd>
+               </dl>
+                  [/#list]
+             [/@shop_topSale] 
+             
+      </div>
+      
+     <div class="choiceness mt10">
+    </div>
+</div>
+<div id="bodyRight" class="searchColMain fr">
+
+
+
+   	 
+   	 [#include "分类查询页.html"/]
+   	  <form id="tableForm" action="${category.url!}" method="get">
+ [@shop_ProductPageChannel categoryId=category.id area=area brandId=brandId  names=names values=values count=pageSize  pageNo=pageNo orderBy=orderBy]
+  <div class="itemSearchResult">
+      <ul>
+      
+      [#list tag_pagination.list as p]
+          <li class="producteg">
+            <a class="product_pic" href="${p.url!}" target="_blank">
+                  [#if p.product.productExt.coverImg??]
+                  <img src="http://u-10017112.file.myqcloud.com${p.product.productExt.coverImg!global.defImg}" title="${p.product.name!}" width="148" height="150" />
+                  [#else]
+                  <img src="http://u-10017112.file.myqcloud.com${global.defImg!}" title="${p.product.name!}" width="160" height="160" />
+                  [/#if]
+           </a>
+          <a class="title" href="${p.url!}" target="_blank" title="${p.product.name!}">
+            [@text_cut s=p.product.name len='8' append=''/]<em></em></a>
+            
+            <p class="price">
+               <strong>
+                 [#if p.product.category.colorsize] 
+                   [#list p.product.fashions as fashion]
+                      [#if fashion.isDefault]
+                        ¥${fashion.salePrice!0}
+                      [/#if]
+                   [/#list]     
+                [#else]
+                   ¥${p.salePrice!0}
+                 [/#if]
+               </strong>
+               
+         </p>
+        
+         <p align="center">
+           <a class="button buy" href="${p.url!}" target="_blank"> 立即购买</a>
+         </p>
+       </li>
+      [/#list]
+      
+      
+      
+      
+    </ul>
+  </div> 
+    [@pagination_style sysPage='2'/]
+ [/@shop_ProductPageChannel] 
+    <div id="hisAssociated" style="clear:both;"></div>
+  </form>
+  
+ 
+ 
+  </div>
+     <div class="clear"></div>
+</div>
+<!--------------------------------------------------------▷▷main★结束◁◁------------------------------------------------------>
+
+
+<!--------------------------------------------------------▷▷页脚★开始◁◁------------------------------------------------------> 
+<!--页脚-->
+[#include "../include/页脚信息栏.html"/]
+<!--------------------------------------------------------▷▷页脚★结束◁◁------------------------------------------------------> 
+
+<script type="text/javascript">
+(function() {
+    var $subblock = $(".subpage"),
+    $head = $subblock.find('h2'),
+    $ul = $("#proinfo"),
+    $lis = $ul.find("li"),
+    inter = false;
+    $head.click(function(e) {
+        e.stopPropagation();
+        if (!inter) {
+            $ul.show();
+        } else {
+            $ul.hide();
+        }
+        inter = !inter;
+    });
+    $ul.click(function(event) {
+        event.stopPropagation();
+    });
+    $('body').click(function() {
+        $ul.hide();
+        inter = !inter;
+    });
+    $lis.hover(function() {
+        if (!$(this).hasClass('nochild')) {
+            $(this).addClass("prosahover");
+            $(this).find(".prosmore").removeClass('hide');
+        }
+    },
+    function() {
+        if (!$(this).hasClass('nochild')) {
+            if ($(this).hasClass("prosahover")) {
+                $(this).removeClass("prosahover");
+            }
+            $(this).find(".prosmore").addClass('hide');
+        }
+    });
+})();
+</script>
+</body>
+</html>

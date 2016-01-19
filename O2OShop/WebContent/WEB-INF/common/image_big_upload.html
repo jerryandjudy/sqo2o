@@ -1,0 +1,67 @@
+<script type="text/javascript">
+//上传图片
+function uploadBig(n) {
+	var of = $('#uploadFileBig'+n);
+	//检查是否选择了图片
+	if(of.val()=='') {
+		alert('<@s.m "imageupload.error.noFileToUpload"/>');
+		return;
+	}
+	//将file移动至上传表单
+	$('#fileBigContent').empty();
+	$('#fileBigContent').append(of);
+	//复制一个file放至原处
+	$('#ufcBig'+n).append(of.clone());
+	//修改属性
+	of.attr('id','');
+	
+	of.attr('name','uploadFileBig');
+	//其他表单
+	$('#ufFileNameBig').val($('#fileName'+n).val());
+	$('#ufWidthBig').val($('#zoomWidthBig'+n).val());
+	$('#ufHeightBig').val($('#zoomHeightBig'+n).val());
+	$('#uploadBigNum').val(n);	
+	$('#uploadBigForm').submit();
+}
+//剪裁图片
+function imgCut(n) {
+	if($('#uploadImgPath'+n).val()=='') {
+		alert("<@s.m "imageupload.error.noFileToCut"/>");
+		return;
+	}
+	var url = "../common/v_image_area_select.do?uploadNum="+n+"&imgSrcPath="
+		+$("#uploadImgPathBig"+n).val()+"&zoomWidthBig="+$("#zoomWidthBig"+n).val()+"&zoomHeightBig="+$("#zoomHeightBig"+n).val();
+	window.open(url,"imgcut","height=550, width=1000, top=0, left=0, toolbar=no, menubar=no, scrollbars=auto, resizable=yes,location=no, status=no");
+}
+//清除图片
+function clearImg(n) {
+	$('#uploadImgPathBig'+n).val("");
+	$('#preBigImg'+n).attr("src","");
+}
+
+//预览图片
+function previewImg(n) {
+	var img = $("#uploadImgPathBig"+n).val();
+	if(img!="") {
+		if(img.indexOf("?")==-1) {
+			$("#preBigImg"+n).attr("src",img+"?d="+new Date()*1);
+		} else {
+			$("#preBigImg"+n).attr("src",img+"&d="+new Date()*1);
+		}
+		if(!$("#preBigImg"+n).attr("noResize")) {
+			$("#preBigImg"+n).css("width","auto");
+			$("#preBigImg"+n).css("height","auto");
+		}
+	} else {
+		$("#preBigImg"+n).removeAttr("src");		
+	}
+}
+</script>
+<form id="uploadBigForm" action="../common/o_upload_big_image.do" method="post" enctype="multipart/form-data" target="hiddenIframe" style="display:none;width:0px;height:0px;">
+<span id="fileBigContent">　</span>
+<input id="ufWidthBig" type="hidden" name="zoomWidthBig"/>
+<input id="ufHeightBig" type="hidden" name="zoomHeightBig"/>
+<input id="uploadBigNum" type="hidden" name="uploadNum"/>
+<input id="ufFileNameBig" type="hidden" name="fileName"/>
+</form>
+<iframe name="hiddenIframe" frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

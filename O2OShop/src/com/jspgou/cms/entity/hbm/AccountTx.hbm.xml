@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="AccountTx" table="jc_account_tx">
+		<meta attribute="sync-DAO">false</meta>
+		
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+        <many-to-one name="ketaUser" column="keta_user_id" class="com.jspgou.cms.entity.KetaUser" not-null="true"></many-to-one>
+        <many-to-one name="website" column="site_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+	    
+	    <property name="userRealname" column="user_realname" type="string"  length="255" />
+	    <property name="organizationType" column="organization_type" type="string"  length="255" />
+	    <property name="realValue" column="real_value" type="double"  />
+	    <property name="accountBalance" column="account_balance" type="double"  />
+	    
+	    <property name="payType" column="pay_type" type="string"  length="255" />
+	    <property name="payBank" column="pay_bank" type="string"  length="255" />
+	    <property name="payHm" column="pay_hm" type="string"  length="255" />
+	    <property name="payBankAccount" column="pay_bank_account" type="string"  length="255" />
+	    <property name="payStatus" column="pay_status" type="string"  length="255" />
+	    <property name="paySuccessTime" column="pay_success_time" type="timestamp" not-null="true"/>
+	    
+	    <property name="addTime" column="add_time" type="timestamp" not-null="true"/>
+	    <property name="addPeople" column="add_people" type="string"  length="255" />
+	    <property name="addName" column="add_name" type="string"  length="255" />
+	</class>	 
+</hibernate-mapping>

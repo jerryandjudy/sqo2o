@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.core.entity">
+	<class name="Global" table="jc_core_global">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="global_id"><generator class="assigned"/></id>
+		<property name="contextPath" column="context_path" type="string" not-null="false" length="20"/>
+		<property name="port" column="port" type="integer" not-null="false" length="10"/>
+		<property name="stockWarning" column="stock_warning" type="integer" not-null="true" length="10"/>
+		<property name="defImg" column="DEF_IMG" type="string" not-null="true" length="255"/>
+		<property name="serverIp" column="server_ip" type="string"  length="255"/>
+		<property name="treaty" column="treaty" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+	    <property name="activeScore" column="activescore" type="integer" not-null="true" length="10"/>
+	    <property name="cs" column="cs" type="integer" not-null="true" length="10"/>
+	    <property name="yxq" column="yxq" type="integer" not-null="true" length="10"/>
+	</class>	
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Gathering" table="jc_shop_order_gathering">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="Id"><generator class="native"/></id>
+		<property name="bank" column="bank" type="string" not-null="true" length="100"/>
+		<property name="accounts" column="accounts" type="string" not-null="true" length="100"/>
+		<property name="money" column="money" type="double" not-null="false" length="20"/>
+		<property name="drawee" column="drawee" type="string" not-null="true" length="100"/>
+		<property name="comment" column="comment" type="string" not-null="false" length="100"/>
+		<many-to-one name="indent" column="order_id" class="Order" not-null="true"></many-to-one>
+		<many-to-one name="shopAdmin" column="admin_id" class="ShopAdmin" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

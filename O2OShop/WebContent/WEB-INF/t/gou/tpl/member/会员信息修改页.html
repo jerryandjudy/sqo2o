@@ -1,0 +1,382 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>会员信息修改页 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/front.css" rel="stylesheet" type="text/css"/>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+$(function() {
+	$("#jvForm").validate();
+	$("#jvForm1").validate();
+	$("#jvForm2").validate();
+});
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='normaltab3';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='curr3';
+}
+function checkJvForm(){
+	var mobile=$("#mobile").val();
+	if(mobile==null||mobile==""){
+		$("#checkmobile").html("请输入您的手机号码");
+	}else if(mobile.length != 11 || !/^[0-9]+$/.test(mobile)) {
+		message = "您输入的格式有误，请重新输入您的手机号码。";
+		$("#checkmobile").html(message);
+		return;
+	}else{
+		$("#checkmobile").html("");
+	}
+	
+    var flag=false;
+	 $("input[name='userDegreeId']").each(function(){
+		 if(this.checked){flag=true;}
+	 });
+	 if(!flag){
+       $("#checkUserDegreeId").html("请勾选所属身份！");
+       return;
+	 }else{
+		 $("#checkUserDegreeId").html("");
+	 }
+	
+	var incomeDescId=$("#incomeDescId").val();
+	if(incomeDescId==null|| incomeDescId==""){
+        $("#checkIncomeDescId").html("请选择个人收入状况");
+        return;
+	}else{
+		$("#checkIncomeDescId").html("");
+	}
+
+    var flagcar=false;
+	 $("input[name='isCar']").each(function(){
+		 if(this.checked){flagcar=true;}
+	 });
+	 if(!flagcar){
+      $("#checkIsCar").html("请勾选是否有车！");
+      return;
+	 }else{
+		 $("#checkIsCar").html("");
+	 }
+	
+	$("#jvForm").submit();
+}
+
+function checkJvForm1(){
+    var flag=false;
+	
+	/* var workSeniorityId=$("#workSeniorityId").val();
+	if(workSeniorityId==null|| workSeniorityId==""){
+		 $("#checkWorkSeniorityId").html("请勾选工作年限！");
+        return;
+	}else{
+		$("#checkWorkSeniorityId").html("");
+	} */
+
+   /*  var flagwork=false;
+	 $("input[name='degreeId']").each(function(){
+		 if(this.checked){flagwork=true;}
+	 });
+	 if(!flagwork){
+      $("#checkDegreeId").html("请选择个人教育程度");
+      return;
+	 }else{
+		 $("#checkDegreeId").html("");
+	 } */
+	
+	$("#jvForm1").submit();
+}
+function checkJvForm2(){
+	$("#jvForm2").submit();
+}
+
+</script>
+</head>
+<body>
+[#--
+[#include '../shop/inc_head.html'/]
+--]
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="w960 mt10">
+  [#include "会员中心_导航.html"/]
+     <div class="user_right">
+		   <ul class="ysppm_rg_ul">
+                <li class="curr3" id="tb_11" onclick="HoverLi(1,1,3);">个人信息</li>
+                <li class="normaltab3" id="tb_12" onclick="HoverLi(1,2,3);">更多个人信息</li>
+                <li class="normaltab3" id="tb_13" onclick="HoverLi(1,3,3);">兴趣爱好</li>
+           </ul>
+		  <div class="mc_content">
+		     <div id="tbc_11" class="dis">
+		       <form id="jvForm" action="${base}/shopMember/profile.jspx" method="post">
+		       <div style="float:left;width:700px;">
+				  <table width="98%" border="0" align="center" cellpadding="2" cellspacing="1">
+				   <tr>
+				      <td width="100" height="40" align="right" style="font-size:12px; color:#666666;">用户名：</td>
+				      <td width="500" height="40">&nbsp;${member.username}</td>
+				   </tr>
+				   <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					   <font color="red">*</font>邮箱 ：</td>
+					  <td height="40">&nbsp;<input type="text" id="email" name="email" value="${member.email!}" class="profile_input required email" /></td>
+				   </tr>
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     <font color="red">*</font>真实姓名：</td>
+					  <td height="40">&nbsp;<input type="text" id="realName" name="realName" value="${member.realName!}" class="profile_input required" /></td>
+			      </tr>
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     <font color="red">*</font>手机：</td>
+					  <td height="40">&nbsp;<input type="text" id="mobile" name="mobile" value="${member.mobile!}" class="profile_input required digits"/>
+					    <font color="red"> <span id="checkmobile"></span></font>
+					  </td>
+				  </tr>
+				 <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">电话：</td>
+					  <td height="40">&nbsp;<input type="text" name="tel" value="${member.tel!}" class="profile_input"/></td>
+				  </tr>
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     <font color="red">*</font>性别：</td>
+					  <td height="40">
+					      &nbsp;&nbsp;<input type="radio" name="gender" value="true"[#if member.gender??] [#if member.gender=true] checked[/#if][/#if] />男&nbsp;&nbsp;
+					      <input type="radio" name="gender" value="false" [#if member.gender??][#if member.gender=false] checked[/#if] [/#if] />女
+					  </td>
+				  </tr>
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     生日：</td>
+					  <td height="40">&nbsp;<input type="text" name="birthday" value="${member.birthday!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate " style="width:100px;"/></td>
+				  </tr>
+				   <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;"> 您的地址：</td>
+					  <td height="40">&nbsp;<input type="text" id="address" name="address" value="${member.address!}" class="profile_input1"/></td>
+				  </tr>
+				  <!-- <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     <font color="red">*</font>身份：</td>
+					  <td height="40"> 
+					     [#if userDegreeList?size>0]
+					       [#list userDegreeList as userDegree]
+					          <input type="radio" name="userDegreeId" id="userDegreeId" 
+					         [#if member.userDegree??] value="${member.userDegree.id}"[#else] value=""[/#if]
+					         [#if member.userDegree??][#if userDegree.id=member.userDegree.id] checked[/#if][/#if]/>${userDegree.name!}&nbsp;
+					        [/#list]
+					     [/#if]
+					     <font color="red"><span id="checkUserDegreeId"></span></font>
+					  </td>
+				  </tr> -->
+				   <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     <font color="red">*</font>婚姻状况：</td>
+					  <td height="40">
+					     <input type="radio" name="marriage" id="marriage" value="true" [#if member.marriage??][#if member.marriage=true] checked[/#if][/#if]/>已婚
+					     <input type="radio" name="marriage" id="marriage" value="false" [#if member.marriage??][#if member.marriage=false] checked[/#if][/#if]/>未婚
+					     <input type="radio" name="marriage" id="marriage" value="" [#if !member.marriage??]checked[/#if]/>保密
+					  </td>
+				  </tr>
+				  
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">家庭成员：</td>
+					  <td height="40">
+					     <select name="familyMembersId" id="familyMembersId">
+					       <option value="">--请选择--</option>
+					       [#if familyMembersList?size>0]
+					        [#list familyMembersList as familyMembers]
+					           <option value="${familyMembers.id}"
+					            [#if member.familyMembers??]
+					               [#if familyMembers.id=member.familyMembers.id] selected[/#if]
+					            [/#if]
+					           >${familyMembers.name!}</option>
+					        [/#list]
+					      [/#if]
+					     </select>
+					  </td>
+				  </tr>
+				   
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					  <font color="red">*</font>个人收入状况：</td>
+					  <td height="40">
+					     <select name="incomeDescId" id="incomeDescId">
+					       <option value="">--请选择--</option>
+					      [#if incomeDescList?size>0]
+					        [#list incomeDescList as incomeDesc]
+					          <option value="${incomeDesc.id}"
+					            [#if member.incomeDesc??] [#if incomeDesc.id=member.incomeDesc.id] selected[/#if][/#if]
+					           >${incomeDesc.name!}</option>
+					        [/#list]
+					      [/#if]
+					     </select><font color="red"><span id="checkIncomeDescId"></span></font>
+					  </td>
+				  </tr>
+				   <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					     <font color="red">*</font>是否有车：</td>
+					  <td height="40">
+					     <input type="radio" name="isCar" id="isCar" value="true" [#if member.isCar??][#if member.isCar=true] checked[/#if][/#if]/>是
+					     <input type="radio" name="isCar" id="isCar" value="false" [#if member.isCar??][#if member.isCar=false] checked[/#if][/#if]/>否
+					     <font color="red"><span id="checkIsCar"></span></font>
+					  </td>
+				  </tr>
+				   <tr>
+				     <td height="40">&nbsp;</td>
+				      <td height="40">
+				      <input type="hidden" name="id" value="${member.id}"/>
+				       <input type="button" value="提交" onclick="checkJvForm();" class="member_button"/>
+				        &nbsp; <input type="reset" value="重置" class="member_button"/>
+				        <input type="hidden" name="backUrl" value="${location}"/></td>
+				   </tr>
+				 </table>
+				 </div>
+				 <!--
+				 <div style="float:right;widht:100px;">
+				    <div class="user_infor">
+	        	       <div class="user_pic">
+	        	         <img id="preImg1" src="${root!}/u${member.avatar!}" width="78" height="78"/>
+	        	       </div>
+                 <span id="ufc1" style="position:relative">
+	                 <input type='hidden' id='uploadImgPath1'  name="avatar" />  
+		             <input type='button' value='编辑头像'/>
+			        <input onchange="$('#uploadImgPath1').val(this.value)" size="14" type="file" id="uploadFile1" style="height:24px;opacity:0;filter:alpha(opacity=0);position:absolute;right:5px;top:-5px; *top:50px; *left:10; _left:0px;"/>
+                       </span> <input type="button" value="上传" onclick="upload(1);" />
+
+                       
+	                   <a href="javascript:void(0)" class="edit_pic" 
+	                   onclick="javascript:document.getElementById('editp').style.display='block'">编辑头像</a>
+	            </div>
+		      </div>
+		        -->
+			</form>
+		 </div>
+	     <div id="tbc_12" class="undis">
+		    <form id="jvForm1" action="${base}/shopMember/profile.jspx" method="post">
+		         <div style=" width:700px;">
+				  <table width="98%" border="0" align="center" cellpadding="2" cellspacing="1">
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">单位名称：</td>
+					  <td height="40"><input type="text" id="company" name="company" value="${member.company!}" class="profile_input1"  /></td>
+			      </tr>
+				  
+				 <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">职位：</td>
+					  <td height="40"><input type="text" name="position" value="${member.position!}" class="profile_input1"/></td>
+				  </tr>
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;"></td>
+					  <td height="40">例如： 一般员工 经理 总监 CEO</td>
+				  </tr>
+				 <!--  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">
+					  工作年限：</td>
+					  <td height="40">
+					     <select name="workSeniorityId" id="workSeniorityId">
+					       <option value="">--请选择--</option>
+					       [#if workSeniorityList?size>0]
+					            [#list workSeniorityList as workSeniority]
+					               <option value="${workSeniority.id}"
+					               [#if member.workSeniority??]
+					                 [#if workSeniority.id=member.workSeniority.id] selected[/#if]
+					                [/#if]>${workSeniority.name!}</option>
+					             [/#list]
+					      [/#if]
+					     </select>
+					     <font color="red"><span id="checkWorkSeniorityId"></span></font>
+					  </td>
+				  </tr> -->
+				  <!-- <tr>
+					  <td height="40" align="right" style="font-size:14px; color:#666666;">
+					     教育程度：</td>
+					  <td height="40">
+					    [#if degreeList?size>0]
+					       [#list degreeList as degree]
+					       <input type="radio" name="degreeId" id="degreeId" value="${degree.id}" 
+					        [#if member.degree??][#if degree.id=member.degree.id] checked[/#if][/#if]/>${degree.name!}&nbsp;
+					     [/#list]
+					    [/#if]
+					     <font color="red"><span id="checkDegreeId"></span></font>
+					  </td>
+				  </tr> -->
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">毕业学校：</td>
+					  <td height="40"><input type="text" name="schoolTag" id="schoolTag" value="${member.schoolTag!}" class="profile_input1"/></td>
+				  </tr>
+				  <tr>
+					  <td height="40" align="right" style="font-size:12px; color:#666666;">毕业时间：</td>
+					  <td height="40"><input type="text" name="schoolTagDate" id="schoolTagDate" value="${member.schoolTagDate!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" style="width:100px;"/></td>
+				  </tr>
+				   <tr>
+				     <td height="40">&nbsp;</td>
+				      <td height="40">
+				      <input type="hidden" name="id" value="${member.id}"/>
+				       <input type="button" value="提交"  onclick="checkJvForm1();" class="member_button"/>
+				        &nbsp; <input type="reset" value="重置" class="member_button"/>
+				        <input type="hidden" name="backUrl" value="${location}"/></td>
+				   </tr>
+				 </table>
+				 </div>
+			</form>
+		  </div>
+		  <div id="tbc_13" class="undis">
+			 <form id="jvForm2" action="${base}/shopMember/profile.jspx" method="post">
+				  <table width="98%" border="0" align="center" cellpadding="2" cellspacing="1">
+				 
+				  
+				 <tr>
+					  <td height="150" align="right" style="font-size:12px; color:#666666;">最喜爱的品牌：</td>
+					  <td height="150">
+					     <textarea cols="70" rows="5" name="favoriteBrand">${member.favoriteBrand!}</textarea>
+					  </td>
+				  </tr>
+				  <tr>
+					  <td height="150" align="right" style="font-size:12px; color:#666666;">最喜爱的明星：</td>
+					  <td height="150">
+					      <textarea cols="70" rows="5" name="favoriteStar">${member.favoriteStar!}</textarea>
+					  </td>
+				  </tr>
+				  
+				  <tr>
+					  <td height="150" align="right" style="font-size:12px; color:#666666;"> 最喜爱的电影：</td>
+					  <td height="150">
+					     <textarea cols="70" rows="5" name="favoriteMovie">${member.favoriteMovie!}</textarea>
+					  </td>
+				  </tr>
+				  <tr>
+					  <td height="150" align="right" style="font-size:12px; color:#666666;">
+					     最喜爱的人物：</td>
+					  <td height="150"> 
+					     <textarea cols="70" rows="5" name="favoritePersonage">${member.favoritePersonage!}</textarea>
+					  </td>
+				  </tr>
+				   <tr>
+				      <td height="150">&nbsp;</td>
+				      <td height="150">
+				      <input type="hidden" name="id" value="${member.id}"/>
+				       &nbsp;<input type="button" value="提交" onclick="checkJvForm2();" class="member_button"/>
+				        &nbsp; <input type="reset" value="重置" class="member_button"/>
+				        <input type="hidden" name="backUrl" value="${location}"/></td>
+				   </tr>
+				 </table>
+			  </form>
+		</div>
+        </div>    
+     </div>
+     </div>
+     <div class="clear"></div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

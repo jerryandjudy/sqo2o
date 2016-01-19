@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Shipping" table="jc_shop_shipping">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="shipping_id"><generator class="native"/></id>
+		<property name="name" column="name" type="string" not-null="true" length="150"/>
+		<property name="description" column="description" type="string" not-null="false" length="255"/>
+		<property name="logisticsType" column="logistics_type" type="string" not-null="false" length="255"/>
+		
+		<property name="uniformPrice" column="uniform_price" type="double" not-null="false" length="20"/>
+		<property name="firstWeight" column="first_weight" type="integer" not-null="false" length="10"/>
+		<property name="additionalWeight" column="additional_weight" type="integer" not-null="false" length="10"/>
+		<property name="firstPrice" column="first_price" type="double" not-null="false" length="20"/>
+		<property name="additionalPrice" column="additional_price" type="double" not-null="false" length="20"/>
+		<property name="method" column="method" type="integer" not-null="true" length="10"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="isDefault" column="is_default" type="java.lang.Boolean" not-null="true"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="logistics" column="logistics_id" class="Logistics" not-null="false"></many-to-one>
+	</class>	
+</hibernate-mapping>

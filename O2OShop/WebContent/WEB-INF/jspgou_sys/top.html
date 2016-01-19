@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>后台管理 </title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+var url = location.href;
+var index = url.indexOf('jsessionid');
+if(index != -1) {
+	var sid = url.substr(index+11);
+	document.cookie = "JSESSIONID="+sid+";path=/;";
+}
+function changeSite(id) {
+       var domain=$("#site"+id).val();
+	   $("#sitelist").attr("action","http://"+domain+":${site.global.port}${site.global.contextPath}/nhaocang/admin/index.do");
+	    $("#sitelist").submit();
+}
+</script>
+</head>
+<body>
+<!--页头Begin-->
+<div id="top">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="272"><img src="${base}/res/jspgou/img/admin/logo.jpg" border="0" /></td>
+      <td background="${base}/res/jspgou/img/admin/top_bg.jpg">
+      	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        	<tr>
+          		<td height="35" align="right">
+          			<table border="0" cellspacing="0" cellpadding="0">
+	            		<tr>
+		              		<td width="17" align="center"><img src="${base}/res/jspgou/img/admin/user.gif" border="0"/></td>
+		              		<td align="left"><span style="color:#FFF; padding:0 5px 0 5px;">您好,${admin.username} </span></td>
+		              		<td align="left">
+		              		<span style="color:#FFF; padding:0 5px 0 5px;">
+		              		<#if isSuper>
+		               		         平台账户余额：${money} 元
+		               		<#else>
+							            本站账户余额：${site.account.money}元
+							</#if>
+		               		 </span>
+		               		 </td>
+		             		<td width="17" align="center"><img src="${base}/res/jspgou/img/admin/ico.gif" width="10" height="10" border="0"/></td>
+		              		<td width="80" align="left"><a href="logout.do" class="channel" onclick="return confirm('<@s.m "global.confirm.logout"/>');"><@s.m "global.admin.logout"/></a></td>
+		               		<td width="50" align="left"><a href="${base}/" target="black" class="channel">首页</a></td>
+		               		 <td align="right">
+		               		           <!-- <#if isSuper>
+                                         <form action="index.do" target="_top" method="get" id="sitelist">
+                                            <#list siteList as s>
+                                              <#if s.close==false>
+											  <input type="hidden" id="site${s.id}" value="${s.domain}" />
+											  </#if>
+								              </#list>
+											<select name="${siteParam}" onchange="changeSite(this.value)">
+											  <#list siteList as s>
+											  <#if s.close==false>
+								              <option value="${s.id}"<#if s.id==site.id> selected="selected"</#if>>${s.name}</option>
+								               </#if>
+								              </#list>
+								            </select>
+							            </form>
+							            </#if> -->
+                                    </td>
+	            		</tr>
+         		   </table>
+         	   </td>
+           </tr>
+           <tr>
+          		<td height="32">
+		  
+		  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="76" align="center"><a href="main.do" target="mainFrame"><@s.m "global.admin.home"/></a> &nbsp; </td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+			  <@authorize url="frame/category_main.do">
+			  <td width="76" align="center"><a href="frame/category_main.do" target="mainFrame"><@s.m "shop.function.category"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+             </@authorize>
+             
+			  <@authorize url="frame/product_main.do">
+              <td width="76" align="center"><a href="frame/product_main.do" target="mainFrame"><@s.m "shop.function.product"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+			  </@authorize>
+			  <@authorize url="frame/site_product_main.do">
+              <td width="76" align="center"><a href="frame/site_product_main.do" target="mainFrame"><@s.m "site.shop.function.product"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+			  </@authorize>
+			  
+			  <@authorize url="frame/order_main.do">
+			  <td width="76" align="center"><a href="frame/order_main.do" target="mainFrame"><@s.m "shop.function.order"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+			
+			<@authorize url="frame/channel_main.do">
+			  <td width="76" align="center"><a href="frame/channel_main.do" target="mainFrame"><@s.m "shop.function.channel"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+            
+            <@authorize url="frame/article_main.do">
+			  <td width="76" align="center"><a href="frame/article_main.do" target="mainFrame"><@s.m "shop.function.article"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+			
+          	<@authorize url="frame/template_main.do">
+			  <td width="76" align="center"><a href="frame/template_main.do" target="mainFrame"><@s.m "shop.function.template"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+			
+          	<@authorize url="frame/resource_main.do">
+			  <td width="76" align="center"><a href="frame/resource_main.do" target="mainFrame"><@s.m "shop.function.resource"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+            
+            <@authorize url="frame/assistant_main.do">
+			  <td width="76" align="center"><a href="frame/assistant_main.do" target="mainFrame"><@s.m "shop.function.assistant"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+			
+          	<@authorize url="frame/member_main.do">
+			  <td width="76" align="center"><a href="frame/member_main.do" target="mainFrame"><@s.m "shop.function.member"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+			
+          	<@authorize url="frame/config_main.do">
+			  <td width="76" align="center"><a href="frame/config_main.do" target="mainFrame"><@s.m "shop.function.config"/></a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+            </@authorize>
+			  <@authorize url="frame/financial_main.do"> 
+			   <td width="76" align="center"><a href="frame/financial_main.do" target="mainFrame">财务管理</a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+              </@authorize>
+<!-- 			  <@authorize url="frame/marketing_main.do"> 
+			   <td width="76" align="center"><a href="frame/marketing_main.do" target="mainFrame">营销</a></td>
+              <td width="8"><img src="${base}/res/jspgou/img/admin/top-sep.jpg" border="0" /></td>
+              </@authorize> -->
+             
+              <td width="76" align="center"></td>
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+		  
+		  
+		  </td>
+        </tr>
+      </table></td>
+    </tr>
+  </table>
+  <div style="border-top:1px solid #1879B0;"></div>
+</div>
+<!--页头End-->
+</body>
+</html>

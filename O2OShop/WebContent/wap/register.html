@@ -1,0 +1,150 @@
+﻿<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>注册页</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+	var APP = '${base}';
+    var SELF = '${base}/wap/register.jspx';
+  </script>
+  [#include "headerback.html"]
+	<!--TOP=end-->
+
+	<div class="content">
+		<div class="am-container am-margin-top-lg">
+
+
+			<div class="am-g">
+
+				<div class="am-u-sm-12">
+					<form id="reg-form" action="${base}/wap/waplogin.jspx" class="am-form am-form-horizontal"
+						method="post">
+						<div class="am-form-group">
+
+							<div class="am-u-sm-12">
+								<div class="am-form-icon">
+									<i class="am-icon-mobile-phone"> </i> <input id="account"
+										class="am-form-field" type="text" placeholder="输入有效手机号"
+										name="account"></input>
+								</div>
+							</div>
+
+						</div>
+						<div class="am-form-group">
+
+							<div class="am-u-sm-7">
+								<div class="am-form-icon">
+									<i class="am-icon-check"> </i> <input id="verify"
+										class="am-form-field" type="text" placeholder="请输入右侧验证码"
+										name="verify"></input>
+								</div>
+							</div>
+							<div class="am-u-sm-5" style="line-height: 41px">
+								<img id="verifyImg" border="0" align="absmiddle"
+									style="cursor: pointer" alt="刷新验证码" src="${base}/checkcode.svl"
+									border="1"
+									onclick="$('#verifyImg').attr('src','${base}/checkcode.svl?d'+new Date()*1);"></img>
+
+							</div>
+						</div>
+						<div class="am-form-group">
+							<div class="am-u-sm-12">
+								<button id="getCodeBtn"
+									class="am-btn-block am-btn am-btn-default am-btn-sm"
+									onclick="getCode()" type="button">获取短信验证码</button>
+							</div>
+						</div>
+						<hr></hr>
+
+						<div id="moreinfo" class="am-hide" > 
+
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="am-form-icon">
+										<i class="am-icon-phone"></i> <input id="code"
+											class="am-form-field" type="text" placeholder="请输入短信验证码"
+											name="code"></input>
+									</div>
+								</div>
+							</div>
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="am-form-icon">
+										<i class="am-icon-lock"></i> <input id="password"
+											class="am-form-field" type="password" name="password"  placeholder="请设置一个密码"
+											name="password"></input>
+									</div>
+								</div>
+							</div>
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="am-form-icon">
+										<i class="am-icon-lock"></i> <input id="repassword"
+											class="am-form-field" type="password" placeholder="请再次重复密码"
+											name="repassword"></input>
+									</div>
+								</div>
+							</div>
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="checkbox">
+										<label class="am-checkbox"> <input id="agreement"
+											class="am-ucheck-checkbox" type="checkbox" checked="checked" data-am-ucheck=""
+											name="agreement"></input> <span class="am-ucheck-icons">
+												<i class="am-icon-unchecked"></i> <i class="am-icon-checked"></i>
+										</span> 同意并接受《用户协议》。
+										</label>
+									</div>
+								</div>
+							</div>
+							<hr></hr>
+							<div class="am-form-group am-margin-bottom-sm">
+								<input id="regsubmit"
+									class="am-btn-block am-btn am-btn-primary am-btn-sm"
+									type="button" value="注册"></input>
+
+							</div>
+						</div>
+						<input type="hidden"
+							value="179d9a52f7e64a6429872428e6b22387_becd0be3793f9ade65ccd3aade193e88"
+							name="__hash__"></input>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+
+	</div>
+[#include "footer.html"]
+</body>
+</html>

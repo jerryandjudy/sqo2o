@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+    <bean id="fckAct" class="com.jspgou.cms.action.admin.FckAct"/>
+	<bean id="loginAct" class="com.jspgou.cms.action.admin.LoginAct"/>
+	<bean id="cmsLogAct" class="com.jspgou.cms.action.admin.main.CmsLogAct"/>
+	<bean id="frameAct" class="com.jspgou.cms.action.admin.FrameAct"/>
+	<bean id="imageCutAct" class="com.jspgou.cms.action.admin.ImageCutAct"/>
+    <bean id="imageUploadAct" class="com.jspgou.cms.action.admin.ImageUploadAct"/>
+	<bean id="welcomeAct" class="com.jspgou.cms.action.admin.WelcomeAct"/>
+
+    <bean id="addressAct" class="com.jspgou.cms.action.admin.main.AddressAct"/>
+    <bean id="alipayAct" class="com.jspgou.cms.action.admin.main.AlipayAct"/>
+	<bean id="shopAdminAct" class="com.jspgou.cms.action.admin.main.ShopAdminAct"/>
+	<bean id="resourceAct" class="com.jspgou.cms.action.admin.main.ResourceAct"/>
+	<bean id="shopMemberAct" class="com.jspgou.cms.action.admin.main.ShopMemberAct"/>
+	<bean id="productTypeAct" class="com.jspgou.cms.action.admin.main.ProductTypeAct"/>
+	<bean id="productAct" class="com.jspgou.cms.action.admin.main.ProductAct"/>
+	<bean id="productTagAct" class="com.jspgou.cms.action.admin.main.ProductTagAct"/>
+	<bean id="configAct" class="com.jspgou.cms.action.admin.main.ConfigAct"/>
+	<bean id="categoryAct" class="com.jspgou.cms.action.admin.main.CategoryAct"/>
+	<bean id="brandAct" class="com.jspgou.cms.action.admin.main.BrandAct"/>
+	<bean id="shopMemberGroupAct" class="com.jspgou.cms.action.admin.main.ShopMemberGroupAct"/>
+	<bean id="templateAct" class="com.jspgou.cms.action.admin.main.TemplateAct">
+	  <property name="tplManager" ref="tplManager"/>
+    </bean>
+	<bean id="shippingAct" class="com.jspgou.cms.action.admin.main.ShippingAct"/>
+	<bean id="paymentAct" class="com.jspgou.cms.action.admin.main.PaymentAct"/>
+	<bean id="orderAct" class="com.jspgou.cms.action.admin.main.OrderAct"/>
+	<bean id="shopChannelAct" class="com.jspgou.cms.action.admin.main.ShopChannelAct"/>
+	<bean id="shopArticleAct" class="com.jspgou.cms.action.admin.main.ShopArticleAct"/>
+	<bean id="messageAct" class="com.jspgou.cms.action.admin.main.MessageAct"/>
+	<bean id="discussAct" class="com.jspgou.cms.action.admin.main.DiscussAct"/>	
+	<bean id="shopMessageAct" class="com.jspgou.cms.action.admin.main.ShopMessageAct"/>	
+	<bean id="consultAct" class="com.jspgou.cms.action.admin.main.ConsultAct"/>	
+	<bean id="giftAct" class="com.jspgou.cms.action.admin.main.GiftAct"/>
+	<bean id="couponAct" class="com.jspgou.cms.action.admin.main.CouponAct"/>
+	<bean id="uploadAdminAct" class="com.jspgou.cms.action.admin.main.UnLoadAdminAct"/>
+	<bean id="productTypePropertyAct" class="com.jspgou.cms.action.admin.main.ProductTypePropertyAct"/>
+	<bean id="productStatisticsAct" class="com.jspgou.cms.action.admin.main.ProductStatisticsAct"/>
+	<bean id="posterAct" class="com.jspgou.cms.action.admin.main.PosterAct"/>
+	<bean id="adspaceAct" class="com.jspgou.cms.action.admin.main.AdspaceAct"/>
+	<bean id="advertiseAct" class="com.jspgou.cms.action.admin.main.AdvertiseAct"/>
+	<bean id="shopDictionaryAct" class="com.jspgou.cms.action.admin.main.ShopDictionaryAct"/>
+	<bean id="shopDictionaryTypeAct" class="com.jspgou.cms.action.admin.main.ShopDictionaryTypeAct"/>
+	<bean id="productColorAct" class="com.jspgou.cms.action.admin.main.ProductColorAct"/>
+	<bean id="shopScoreAct" class="com.jspgou.cms.action.admin.main.ShopScoreAct"/>
+	<bean id="orderReturnAct" class="com.jspgou.cms.action.admin.main.OrderReturnAct"/>
+	<bean id="shopMoneyAct" class="com.jspgou.cms.action.admin.main.ShopMoneyAct"/>
+	<bean id="storeAct" class="com.jspgou.cms.action.admin.main.StoreAct"/>
+	<bean id="storeModelAct" class="com.jspgou.cms.action.admin.main.StoreModelAct"/>
+	<bean id="balanceAct" class="com.jspgou.cms.action.admin.main.BalanceAct"/>
+	<bean id="refundAct" class="com.jspgou.cms.action.admin.main.RefundAct"/>
+	<bean id="reportAct" class="com.jspgou.cms.action.admin.main.ReportAct"/>
+	<bean id="roleAct" class="com.jspgou.cms.action.admin.main.RoleAct"/>
+	<bean id="promoteAct" class="com.jspgou.cms.action.admin.main.PromoteAct"/>
+	<bean id="fullGiveAct" class="com.jspgou.cms.action.admin.main.FullGiveAct"/>
+	<bean id="reportTypeAct" class="com.jspgou.cms.action.admin.main.ReportTypeAct"/>
+	<bean id="storeCategoryAct" class="com.jspgou.cms.action.admin.main.StoreCategoryAct"/>
+
+	<bean id="standardAct" class="com.jspgou.cms.action.admin.main.StandardAct"/>
+	<bean id="standardTypeAct" class="com.jspgou.cms.action.admin.main.StandardTypeAct"/>
+	
+	<bean id="aftersaleAct" class="com.jspgou.cms.action.admin.main.AftersaleAct"/>
+	<bean id="aftersaleTypeAct" class="com.jspgou.cms.action.admin.main.AftersaleTypeAct"/>
+	<bean id="aftersaleDemandAct" class="com.jspgou.cms.action.admin.main.AftersaleDemandAct"/>
+	
+	<bean id="shopOrderTypeAct" class="com.jspgou.cms.action.admin.main.ShopOrderTypeAct"/>
+	<bean id="lsfcAct" class="com.jspgou.cms.action.admin.main.LsfcAct"/>
+	<bean id="jmfAct" class="com.jspgou.cms.action.admin.main.JmfAct"/>
+	<bean id="dlsAct" class="com.jspgou.cms.action.admin.main.DlsAct"/>
+	<bean id="activitysAct" class="com.jspgou.cms.action.admin.main.ActivitysAct"/>
+	
+</beans>

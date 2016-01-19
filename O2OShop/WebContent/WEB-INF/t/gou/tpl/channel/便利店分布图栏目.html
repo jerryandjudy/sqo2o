@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>${channel.name!}</title>
+<link rel="stylesheet" type="text/css" href="${root}/css/base.css">
+<link rel="stylesheet" type="text/css" href="${root}/css/index.css">
+<link rel="stylesheet" type="text/css" href="${root}/css/layout.css">
+<link rel="stylesheet" type="text/css" href="${root}/css/category.css">
+
+</head>
+<body>
+<!--TOP-->
+[#include "../include/页头顶栏.html"/]
+
+<!--LOGO-->
+[#include "../include/页头搜索栏.html"/]
+[#include "../include/首页商品分类.html"/]
+
+
+
+
+
+<!--------------------------------------------------------▷▷main★开始◁◁------------------------------------------------------>
+<div class="map_box">
+[@shop_Bld webId=web.id count=10 ]
+<div class="map_leftbox">
+<div class="map_title">N号仓网点分布</div>
+<div class="map_list">
+<ul>
+
+[#list tag_list as bld]
+[#if bld.mapX?? && bld.mapY?? && bld.mapX!='' && bld.mapY!='' ]
+<li id="li${bld_index}"   onmouseover="openview(${bld_index})" >
+<a >
+<dl >
+<dt ><b></b>${bld.companyName!}</dt>
+<dd>地址：${bld.bldAddr!}</dd>
+</dl>
+</a>
+
+</li>
+[/#if]
+[/#list]
+
+</ul>
+<div class="map_more">
+[#assign p=tag_pagination/]
+[#list 1..p.totalPage as i]
+<a [#if p.pageNo==i] style="color:red"[/#if] href="${urlPrefix}_${i}${urlSuffix}">${i}</a>
+[/#list]
+</div>
+</div>
+
+</div>
+[/@shop_Bld]
+<div class="map_rightbox">
+<!--引用百度地图API-->
+<style type="text/css">
+    html,body{margin:0;padding:0;}
+    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+</style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oaugvH2uGm7FOtGHGt4g4MTk"></script>
+
+  <!--百度地图容器-->
+  <div style="width:773px;height:750px;border:#ccc solid 1px;" id="dituContent"></div>
+<script type="text/javascript" src="${root}/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+Array.prototype.remove = function(s) {   
+    for (var i = 0; i < this.length; i++) {   
+        if (s == this[i])   
+            this.splice(i, 1);   
+    }   
+}   
+  
+/**  
+ * Simple Map  
+ *   
+ *   
+ * var m = new Map();  
+ * m.put('key','value');  
+ * ...  
+ * var s = "";  
+ * m.each(function(key,value,index){  
+ *      s += index+":"+ key+"="+value+"/n";  
+ * });  
+ * alert(s);  
+ *   
+ * @author dewitt  
+ * @date 2008-05-24  
+ */  
+function Map() {   
+    /** 存放键的数组(遍历用到) */  
+    this.keys = new Array();   
+    /** 存放数据 */  
+    this.data = new Object();   
+       
+    /**  
+     * 放入一个键值对  
+     * @param {String} key  
+     * @param {Object} value  
+     */  
+    this.put = function(key, value) {   
+        if(this.data[key] == null){   
+            this.keys.push(key);   
+        }   
+        this.data[key] = value;   
+    };   
+       
+    /**  
+     * 获取某键对应的值  
+     * @param {String} key  
+     * @return {Object} value  
+     */  
+    this.get = function(key) {   
+        return this.data[key];   
+    };   
+       
+    /**  
+     * 删除一个键值对  
+     * @param {String} key  
+     */  
+    this.remove = function(key) {   
+        this.keys.remove(key);   
+        this.data[key] = null;   
+    };   
+       
+    /**  
+     * 遍历Map,执行处理函数  
+     *   
+     * @param {Function} 回调函数 function(key,value,index){..}  
+     */  
+    this.each = function(fn){   
+        if(typeof fn != 'function'){   
+            return;   
+        }   
+        var len = this.keys.length;   
+        for(var i=0;i<len;i++){   
+            var k = this.keys[i];   
+            fn(k,this.data[k],i);   
+        }   
+    };   
+       
+    /**  
+     * 获取键值数组(类似Java的entrySet())  
+     * @return 键值对象{key,value}的数组  
+     */  
+    this.entrys = function() {   
+        var len = this.keys.length;   
+        var entrys = new Array(len);   
+        for (var i = 0; i < len; i++) {   
+            entrys[i] = {   
+                key : this.keys[i],   
+                value : this.data[i]   
+            };   
+        }   
+        return entrys;   
+    };   
+       
+    /**  
+     * 判断Map是否为空  
+     */  
+    this.isEmpty = function() {   
+        return this.keys.length == 0;   
+    };   
+       
+    /**  
+     * 获取键值对数量  
+     */  
+    this.size = function(){   
+        return this.keys.length;   
+    };   
+       
+    /**  
+     * 重写toString   
+     */  
+    this.toString = function(){   
+        var s = "{";   
+        for(var i=0;i<this.keys.length;i++,s+=','){   
+            var k = this.keys[i];   
+            s += k+"="+this.data[k];   
+        }   
+        s+="}";   
+        return s;   
+    };   
+}   
+  
+  
+ 
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMark();//添加
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(125.313642,43.898338);//定义一个中心点坐标
+        //map.centerAndZoom(point,12);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+    
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+       
+        //向地图中添加比例尺控件
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+   function addMark(){
+	   var viewpoints = [];
+	   var maps = new Map();
+	   [@shop_Bld webId=web.id count=10 ]
+	   [#list tag_list as bld]
+	   [#if bld.mapX?? && bld.mapY?? && bld.mapX!='' && bld.mapY!='' ]
+	   var sContent${bld_index} =
+	    	"<div><h4 style='margin:0 0 0px 0;padding:0.2em 0; color: #666;'>${bld.companyName!}</h4>" + 
+	    	"<p style='margin:0;line-height:1.5;font-size:13px;'>便利店地址：${bld.bldAddr!}</p>" + 
+	    	"<img style='float:left;margin:4px' id='imgDemo' src='${root}/images/index/map_img.gif'  title='${bld.companyName!}'/>" + 
+	    	"</div>";
+	    	var point${bld_index} = new BMap.Point(${bld.mapX!},${bld.mapY!});
+	    	viewpoints.push(point${bld_index});//我添加到地图上一个的标注的位置
+	    	var marker${bld_index} = new BMap.Marker(point${bld_index});
+	    	var infoWindow${bld_index} = new BMap.InfoWindow(sContent${bld_index});  // 创建信息窗口对象
+	    	//map.centerAndZoom(point${bld_index}, 15);
+	    	map.addOverlay(marker${bld_index});
+	    	marker${bld_index}.addEventListener("click", function(){          
+	    	   this.openInfoWindow(infoWindow${bld_index});
+	    	   //图片加载完毕重绘infowindow
+	    	   document.getElementById('imgDemo').onload = function (){
+	    		   infoWindow${bld_index}.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+	    	   }
+	    	});
+	    	maps['point${bld_index}']=point${bld_index};
+	    	maps['infoWindow${bld_index}']=infoWindow${bld_index};
+	    	window.maps =maps ;
+	    	[/#if]
+	   [/#list]
+	   [/@shop_Bld]
+	    map.setViewport(viewpoints);
+   }
+    initMap();//创建和初始化地图
+    
+    function openview(bldindex){
+    	$(".map_sitecur").removeClass("map_sitecur");
+    	$("#li"+bldindex).addClass("map_sitecur");
+    	$(this).addClass("map_sitecur");
+        map.panTo(window.maps['point'+bldindex]);
+    	map.openInfoWindow(window.maps['infoWindow'+bldindex],window.maps['point'+bldindex]); //开启信息窗口
+    }
+</script>
+</html></div>
+</div>
+<!--------------------------------------------------------▷▷main★结束◁◁------------------------------------------------------>
+
+
+<!--------------------------------------------------------▷▷页脚★开始◁◁------------------------------------------------------> 
+<!--页脚-->
+[#include "../include/页脚信息栏.html"/]
+<!--------------------------------------------------------▷▷页脚★结束◁◁------------------------------------------------------> 
+
+<script type="text/javascript">
+(function() {
+    var $subblock = $(".subpage"),
+    $head = $subblock.find('h2'),
+    $ul = $("#proinfo"),
+    $lis = $ul.find("li"),
+    inter = false;
+    $head.click(function(e) {
+        e.stopPropagation();
+        if (!inter) {
+            $ul.show();
+        } else {
+            $ul.hide();
+        }
+        inter = !inter;
+    });
+    $ul.click(function(event) {
+        event.stopPropagation();
+    });
+    $('body').click(function() {
+        $ul.hide();
+        inter = !inter;
+    });
+    $lis.hover(function() {
+        if (!$(this).hasClass('nochild')) {
+            $(this).addClass("prosahover");
+            $(this).find(".prosmore").removeClass('hide');
+        }
+    },
+    function() {
+        if (!$(this).hasClass('nochild')) {
+            if ($(this).hasClass("prosahover")) {
+                $(this).removeClass("prosahover");
+            }
+            $(this).find(".prosmore").addClass('hide');
+        }
+    });
+})();
+</script>
+
+</html>
+

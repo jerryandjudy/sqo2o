@@ -1,0 +1,264 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>${category.name!} - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/main_kind.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${root}/js/index_v20.js" /></script>
+<style type="text/css">
+
+	.Slide {overflow: hidden;}
+    .Slide div {overflow: hidden;position: relative;width: 100%;height: 100%;}
+    .Slide dl {position: relative;width: 100%;height: 100%;overflow: hidden;margin: 0px;padding: 0px;}
+    .Slide dl dt {position: absolute;left: 0px;bottom: 20px;background-color: #EEF2F9;width: 100%;text-align: center;font-weight: bold;font-size: 16px;color: #FF2200;margin: 0px;padding: 0px;filter: alpha(opacity=30);opacity: 0.3;}
+    .Slide dl dt:hover {filter: alpha(opacity=70);opacity: 0.7;}
+    .Slide ul, .Slide ul li {list-style-type: none;padding: 0px;margin: 0px;}
+    .Slide ul {position: absolute;right: 10px;bottom: 50px;z-index: 10;width: 30px;}
+    .Slide ul li {background-color: #FFFFFF;border-radius: 20px 20px 20px 20px;color: #DE7D4B;cursor: pointer;float: left;font-size: 13px;height: 20px;line-height: 20px;margin: 3px;overflow: visible;text-align: center;width: 20px;filter: alpha(opacity=60); opacity: 0.6;}
+	.Slide ul li:hover, .Slide ul li.Activate {background-color: #FF6600;color: White;font-weight: bold;filter: alpha(opacity=80);opacity: 0.8;}
+
+</style>
+</head>
+<body>
+
+<!--TOP-->
+[#include "../include/页头顶栏.html"/]
+
+<!--LOGO-->
+[#include "../include/页头搜索栏.html"/]
+
+
+
+<div id="nav" class="fl">
+<div class="area clearfix">
+<div class="separate" >	
+<div class="menu-dh">
+    	<ul>
+            <li><a href="${base}/">首 页</a></li>
+            [@shop_Category_list loadChild='0' Level=1 count=7 parentId=category.parent.id isDisplay='1' isJp='1' ]
+             [#list tag_list as categorys]
+        		<li><a href="${categorys.url!}" target="_blank" >${categorys.name!}</a></li>
+        	[/#list]
+           [/@shop_Category_list]
+        </ul>
+    </div>
+    </div>
+<div class="category-content" id="guide_2">
+<div>
+<span class="all-goods">${category.name}<em></em></span>
+</div>
+
+</div>
+<div class="category">
+<ul class="category-list" id="js_climit_li">
+
+[@shop_Category_list loadChild='0' Level=1 count=6 parentId=category.id isDisplay='1' ]
+            [#list tag_list as categorys]
+            [#if categorys_index<6]
+
+  <li class="appliance js_toggle relative first">
+    <div class="category-info list-nz">
+      <h3 class="category-name b-category-name"><i></i><a id="s-category-289" href="${categorys.url!}" target="_blank" class="ml-22" title="${categorys.title!}">${categorys.name!}</a></h3>
+      <p class="c-category-list limit-24">
+      [@shop_Category_list loadChild='0' Level=1 count=24 parentId=categorys.id isDisplay='1' ]
+      [#assign othercate=tag_list /]
+      		[#list tag_list as tc]
+      		[#if tc_index<3]
+      		<a href="${tc.url!}" target="_blank" title="${tc.title!}">${tc.name!}</a>
+     		[/#if]
+      		[/#list]
+       		[/@shop_Category_list]  
+      </p>
+      <em>&gt;</em>
+      </div>
+<textarea class="menu-item-wrap none">
+    <div class="menu-item menu-in top">
+    <div class="area-in">
+    <div class="area-bg">
+    <div class="menu-srot">
+    
+    <div class="sort-side">
+    <dl class="dl-sort">
+    				 [#list othercate as oc]
+           <dd><a target="_blank" href="${oc.url!}"><span [#if oc.isJp==true] class="red" [/#if] >${oc.name!}</span> </a> </dd>      
+           			 
+      				 [/#list]
+         
+     </dl>
+     </div>
+     
+     
+     </div>
+     </div>
+     </div>
+     </div>
+</textarea>
+  </li>
+  [/#if]
+   [/#list]
+           [/@shop_Category_list]  
+  
+ 
+</ul>
+</div>
+
+</div>
+
+<center>
+<!--focus start-->
+<div class="focus-newbox" id="#">
+<div class="seltion" style="width:1280px; margin:0 auto; ">
+<div class="seltab-box">
+<ul class="seltab clearfix" style="background:#f7f7f7; width:1280px;">
+    [@shop_Category_list loadChild='0' Level=1 count=10 parentId=category.parent.id isDisplay='1' ]
+        [#list tag_list as categorys]
+    <li class="first-tab [#if category.id==categorys.id]seltab-on[/#if]"><a href="${categorys.url!}?provinceId=${provinceId!}&cityId=${cityId!}&countryId=${countryId!}&streetId=${streetId!}">${categorys.name} </a></li>
+    	[/#list]
+   [/@shop_Category_list]  
+</ul>
+</div>
+<div class="seltion-cont">
+<dl class="selitem clearfix">
+
+    <dt>省份:</dt>
+    <dd style="text-align:left;">
+    <a class="a-circle  "   href="${category.url}"><em class="a-circle [#if provinceId?? ][#else]a-circle-on[/#if] ">不限</em></a>
+    [@address_page count=50  ]
+    [#list tag_list as province]
+    <a  class="a-circle  "   href="${category.url}?provinceId=${province.id}" ><em class="[#if provinceId?? && provinceId==province.id]a-circle-on[/#if]">${province.name}</em></a>
+    [/#list]
+    [/@address_page]
+    </dd>
+  
+</dl>
+<dl class="selitem clearfix">
+
+    <dt>市:</dt>
+    <dd style="text-align:left;">
+     <a class="a-circle  "   href="${category.url}?provinceId=${provinceId!}"><em class="a-circle [#if cityId?? ][#else]a-circle-on[/#if] ">不限</em></a>
+    [#if provinceId??]
+    [@address_page count=50 parentId=provinceId ]
+    [#list tag_list as city]
+    <a  class="a-circle  "   href="${category.url}?provinceId=${provinceId}&cityId=${city.id}" ><em class="[#if cityId?? && cityId==city.id]a-circle-on[/#if]">${city.name}</em></a>
+    [/#list]
+    [/@address_page]
+    [/#if]
+    </dd>
+  
+</dl>
+
+<dl class="selitem clearfix">
+
+    <dt>区/县:</dt>
+    <dd style="text-align:left;">
+        <a class="a-circle  "   href="${category.url}?provinceId=${provinceId!}&cityId=${cityId!}"><em class="a-circle [#if countryId?? ][#else]a-circle-on[/#if] ">不限</em></a>
+    [#if cityId??]
+    [@address_page count=50 parentId=cityId ]
+    [#list tag_list as country]
+    <a  class="a-circle  "   href="${category.url}?provinceId=${provinceId}&cityId=${cityId}&countryId=${country.id}" ><em class="[#if countryId?? && countryId==country.id]a-circle-on[/#if]">${country.name}</em></a>
+    [/#list]
+    [/@address_page]
+    [/#if]
+    </dd>
+  
+</dl>
+
+<dl class="selitem clearfix">
+
+    <dt>小区:</dt>
+    <dd style="text-align:left;">
+     <a class="a-circle  "   href="${category.url}?provinceId=${provinceId!}&cityId=${cityId!}&countryId=${countryId!}"><em class="a-circle [#if streetId?? ][#else]a-circle-on[/#if] ">不限</em></a>
+    [#if countryId??]
+    [@address_page count=50 parentId=countryId ]
+    [#list tag_list as street]
+    <a  class="a-circle  "   href="${category.url}?provinceId=${provinceId}&cityId=${cityId}&countryId=${countryId}&streetId=${street.id!}" ><em class="[#if streetId?? && streetId==street.id]a-circle-on[/#if]">${street.name}</em></a>
+    [/#list]
+    [/@address_page]
+    [/#if]
+    </dd>
+  
+</dl>
+</div>
+
+
+</div>
+
+</div>
+<!--focus end-->
+</center>
+<!--产品展示图组-->
+
+
+
+
+<div class="Product_group_box">
+<div style="width:1280px; margin:0 auto;">
+[@sqservice_page status=1 ctId=category.id provinceId=provinceId  cityId=cityId  countryId=countryId streetId=streetId count=10 ]
+[#list tag_list as sqservice]
+
+
+<div class="list">
+<ul>
+<li class="list-img" >
+
+<div class="txt" style="margin:10px 0;">
+<p class="t" style="text-align:left;">
+
+<a class="f14 list-info-title"  href="${sqservice.url!}" target="_blank">
+${sqservice.name!}(${(sqservice.category!).name!})
+
+</a>
+</p>
+
+</div>
+<div class="list-r-area fangxin-icon" >
+<a   href="${sqservice.url!}" target="_blank"> <p class="tel"> ${sqservice.ketaUser.phone!}</p></a>
+</div>
+</li>
+</ul>
+</div>
+[/#list]
+ [@pagination_style sysPage='11'/]
+[/@sqservice_page]
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+<!--页脚-->
+[#include "../include/页脚信息栏.html"/]
+
+<script type="text/javascript">
+(function(){ 
+ var $menuLi =$('#nav .menu');
+ var $menuHd = $('#nav .menu-hd');
+ var $menuBd = $('#nav .menu-bd');
+ var $arrow = $('#nav .m1 i');
+ $menuBd.hover(function(){
+ $menuHd.addClass('on');
+ },function(){
+ $menuHd.removeClass('on');
+ });
+ $menuLi.hover(function(){
+ $menuHd.children('b').addClass('b-on');
+ },function(){
+ $menuHd.children('b').removeClass('b-on');
+ })
+})();
+</script>
+
+</div>
+</body>
+</html>

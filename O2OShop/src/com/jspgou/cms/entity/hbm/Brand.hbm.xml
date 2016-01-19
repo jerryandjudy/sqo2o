@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Brand" table="jc_shop_brand">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="brand_id"><generator class="native"/></id>
+		<property name="name" column="name" type="string" not-null="true" length="100"/>
+		<property name="alias" column="alias" type="string" not-null="false" length="255"/>
+		<property name="webUrl" column="web_url" type="string" not-null="false" length="255"/>
+		<property name="logoPath" column="logo_path" type="string" not-null="false" length="255"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="sift" column="is_sift" type="java.lang.Boolean" not-null="true" length="3"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true" length="3"/>
+		<property name="firstCharacter" column="firstcharacter" type="string" not-null="false" length="255"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<set name="categorys" table="jc_shop_category_brand" inverse="true">
+			<cache usage="read-write"/>
+			<key column="brand_id"/>
+			<many-to-many column="category_id" class="Category"/>
+		</set>
+		
+		<set name="brandTextSet" inverse="true" cascade="delete">
+			<cache usage="read-write"/>
+			<key column="brand_id"/>
+			<one-to-many class="BrandText"/>
+		</set>
+	</class>
+</hibernate-mapping>

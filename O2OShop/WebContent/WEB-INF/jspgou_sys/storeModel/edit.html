@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "storeModel.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<input type="hidden" name="pageNo" value="${pageNo!}" />
+<@p.text label="storeModel.modelName" name="modelName" value=storeModel.modelName colspan="2" width="100" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text label="storeModel.path" name="path" value=storeModel.path  colspan="2" width="100" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.td label="storeModel.logo" colspan="1" width="50" noHeight="true" required="true">
+   <@p.text id="uploadImgPath1" name="modelImg" value=storeModel.modelImg size="30" class="required"/> 
+    <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+    <span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> 
+    <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+    <input type="hidden" id="zoomWidth1" value="100"/> 
+    <input type="hidden" id="zoomHeight1" value="100" /> 
+ </@p.td>
+<@p.td colspan="1" width="50">
+    <img id="preImg1" alt="<@s.m "imageupload.preview"/>" src="${uploadRoot!}${storeModel.modelImg!}" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+<@p.radio label="storeModel.defaultModel"  name="defaultModel" value=storeModel.defaultModel list={"true":"是","false":"否"} colspan="2" width="100" /><@p.tr/>
+<@p.td colspan="2" width="100"><@p.hidden name="id" value=storeModel.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

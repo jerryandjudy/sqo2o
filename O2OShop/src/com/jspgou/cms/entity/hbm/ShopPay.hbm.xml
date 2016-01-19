@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopPay" table="jc_shop_pay">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="native"/></id>
+		<property name="address" column="address" type="string" not-null="false" length="100"/>
+		<property name="bankNum" column="bankNum" type="string" not-null="false" length="100"/>
+		<property name="bankid" column="bankid" type="string" not-null="false" length="100"/>
+		<property name="bankkey" column="bankkey" type="string" not-null="false" length="100"/>
+		</class>
+</hibernate-mapping>

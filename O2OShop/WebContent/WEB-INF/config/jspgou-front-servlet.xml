@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="0"/>
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/languages/jeecore_front/messages</value>
+				<value>/WEB-INF/languages/jspgou_front/messages</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--
+			<property name="maxUploadSize" value="8388608"/>
+			-->
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class=" com.jspgou.common.web.springmvc.BindingInitializer"/>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="frontContextIntercept"/>
+				<ref bean="frontLocaleIntercept"/>
+				<!-- <ref bean="frontSecureInterceptor"/> -->
+			</list>
+		</property>
+	</bean>	
+	<bean id="frontContextIntercept" class="com.jspgou.core.web.FrontContextInterceptor"/>
+	<bean id="frontLocaleIntercept" class="com.jspgou.core.web.FrontLocaleInterceptor"/>
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="clientlanguage"/>
+		<property name="cookieMaxAge" value="-1"/>
+	</bean>
+	<!-- <bean id="frontSecureInterceptor" class="com.jspgou.cms.web.FrontSecureInterceptor">
+		<property name="loginUrl" value="/login.jspx"/>
+	</bean> -->
+
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.bind.MissingServletRequestParameterException">/WEB-INF/common/requiredParameter.html</prop>
+				<prop key="org.springframework.beans.TypeMismatchException">/WEB-INF/common/mismatchParameter.html</prop>
+				<prop key="org.springframework.web.bind.ServletRequestBindingException">/WEB-INF/common/bindException.html</prop>
+			</props>
+		</property>
+	</bean>
+	<!--
+		<bean id="freemarkerViewResolver" class="com.jspgou.common.web.springmvc.RichFreeMarkerViewResolver">
+			<property name="suffix" value=".html"/>
+			<property name="contentType" value="text/html; charset=UTF-8"/>
+			<property name="exposeRequestAttributes" value="false"/>
+			<property name="exposeSessionAttributes" value="false"/>
+			<property name="exposeSpringMacroHelpers" value="true"/>
+		</bean>
+		-->
+	<bean id="freemarkerViewResolver" class="com.jspgou.common.web.springmvc.SimpleFreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8"/>
+		<property name="exposeRequestAttributes" value="false"/>
+		<property name="exposeSessionAttributes" value="false"/>
+		<property name="exposeSpringMacroHelpers" value="true"/>
+	</bean>
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="pagination_style" value-ref="pagination_style"/>
+				<entry key="process_time" value-ref="process_time"/>
+				<entry key="text_cut" value-ref="text_cut"/>
+				<entry key="shop_Category_list" value-ref="shop_Category_list"/>
+				<entry key="shop_WebsiteList" value-ref="shop_WebsiteList"/>
+				<entry key="shop_Category" value-ref="shop_Category"/>
+				<entry key="sqservice_list" value-ref="sqservice_list"/>
+				<entry key="sqservice_page" value-ref="sqservice_page"/>
+				<entry key="sqorder_page" value-ref="sqorder_page"/>
+				<entry key="address_page" value-ref="address_page"/>
+				<entry key="shop_Bld" value-ref="shop_Bld"/>
+				<entry key="shop_Category_brand" value-ref="shop_Category_brand"/>
+				<entry key="shop_Channel" value-ref="shop_Channel"/>
+				<entry key="shop_ProductList" value-ref="shop_ProductList"/>
+				<entry key="shop_ProductSiteList" value-ref="shop_ProductSiteList"/>
+				<entry key="shop_ProductPage" value-ref="shop_ProductPage"/>
+				<entry key="shop_ProductPageChannel" value-ref="shop_ProductPageChannel"/>
+				<entry key="shop_ArticleList" value-ref="shop_ArticleList"/>
+				<entry key="shop_ArticlePage" value-ref="shop_ArticlePage"/>
+				<entry key="shop_BrandList" value-ref="shop_BrandList"/>
+				<entry key="shop_productTypeList" value-ref="shop_productTypeList"/>
+				<entry key="shop_typeofCategoryList" value-ref="shop_typeofCategoryList"/>
+				<entry key="shop_productTagList" value-ref="shop_productTagList"/>
+				<entry key="shop_topSale" value-ref="shop_topSale"/>
+				<entry key="shop_lucene_page" value-ref="shop_lucene_page"/>
+				<entry key="isRecommend_product" value-ref="isRecommend_product"/>
+				<entry key="cate_brand" value-ref="cate_brand"/>
+				<entry key="cate_brand_searchname" value-ref="cate_brand_searchname"/>
+				<entry key="sift_brand" value-ref="sift_brand"/>
+				<entry key="post_list" value-ref="post_list"/>
+				<entry key="cart_list" value-ref="cart_list"/>
+				<entry key="keyword_list" value-ref="keyword_list"/>
+				<entry key="alone_channel" value-ref="alone_channel"/>
+				<entry key="footer_channel" value-ref="footer_channel"/>
+				<entry key="history_record" value-ref="history_record"/>
+				<entry key="gift_page" value-ref="gift_page"/>
+				<entry key="collect_page" value-ref="collect_page"/>
+				<entry key="order_page" value-ref="order_page"/>
+				<entry key="fworder_page" value-ref="fworder_page"/>
+				<entry key="score_page" value-ref="score_page"/>
+				<entry key="money_page" value-ref="money_page"/>
+				<entry key="customerService_list" value-ref="customerService_list"/>
+				<entry key="shop_coupon_page" value-ref="shop_coupon_page"/>
+				<entry key="shop_bargain_page" value-ref="shop_bargain_page"/>
+				<entry key="shop_advertising" value-ref="shop_advertising"/>
+				<entry key="shop_advertising_space" value-ref="shop_advertising_space"/>
+			</map>
+		</property>
+		<property name="templateLoaderPath" value=""/>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="tag_syntax">auto_detect</prop>
+				<prop key="template_update_delay">0</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="number_format">0.######</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<prop key="auto_import">/WEB-INF/ftl/pony/index.ftl as p,/WEB-INF/ftl/spring.ftl as s</prop>
+			</props>
+		</property>
+	</bean>
+	<!--
+		<context:component-scan base-package="com.jspgou.cms.action.front" use-default-filters="false">
+			<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		</context:component-scan>
+		-->
+	<!--Controller-->
+	<context:annotation-config/>
+	<bean id="dynamicPageAct" class="com.jspgou.cms.action.front.DynamicPageAct"/>
+	<bean id="wapPageAct" class="com.jspgou.cms.action.front.WapPageAct"/>
+	<bean id="searchAct" class="com.jspgou.cms.action.front.SearchAct"/>
+	<bean id="cartAct" class="com.jspgou.cms.action.front.CartAct"/>
+	<bean id="orderAct" class="com.jspgou.cms.action.front.OrderAct"/>
+	<bean id="myInfomationAct" class="com.jspgou.cms.action.front.MyInfomationAct"/>
+	<bean id="productFormAct" class="com.jspgou.cms.action.front.ProductFormAct"/>
+	<bean id="memberCouponAct" class="com.jspgou.cms.action.front.MemberCouponAct"/>
+	<bean id="collectAct" class="com.jspgou.cms.action.front.CollectAct"/>
+	<bean id="advertiseAct" class="com.jspgou.cms.action.front.AdvertiseAct"/>
+    <bean id="giftAct" class="com.jspgou.cms.action.front.GiftAct"/>
+	<bean id="shopScoreAct" class="com.jspgou.cms.action.front.ShopScoreAct"/>
+	<bean id="orderReturnAct" class="com.jspgou.cms.action.front.OrderReturnAct"/>
+	<bean id="shopMoneyAct" class="com.jspgou.cms.action.front.ShopMoneyAct"/>
+	<bean id="couponAct" class="com.jspgou.cms.action.front.CouponAct"/>
+    <bean id="alipayAct" class="com.jspgou.cms.action.front.AlipayAct"/>
+		
+    <bean id="forgotPasswordAct" class="com.jspgou.cms.action.member.ForgotPasswordAct"/>
+	<bean id="imageCutAct" class="com.jspgou.cms.action.member.ImageCutAct"/>
+	<bean id="imageUploadAct" class="com.jspgou.cms.action.member.ImageUploadAct"/>
+	
+	<bean id="loginJspgouAct" class="com.jspgou.cms.action.member.LoginAct"/>
+	<bean id="registerAct" class="com.jspgou.cms.action.member.RegisterAct"/>
+	<bean id="shopMemberAct" class="com.jspgou.cms.action.member.ShopMemberAct"/>
+	<bean id="shopMenberAddressAct" class="com.jspgou.cms.action.member.ShopMenberAddressAct"/>
+</beans>

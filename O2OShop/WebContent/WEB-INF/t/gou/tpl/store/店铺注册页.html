@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>店铺注册页 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${sysResRoot}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/ckeditor/ckeditor.js" type="text/javascript"></script>
+<style type="text/css">
+.sel-disabled{background-color:#ccc}
+</style>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function channelChange(categoryId) {
+	if(categoryId=="") {
+		return;
+	}
+	$.getJSON("../topic/by_channel.do",{categoryId:categoryId},function(topics) {
+		var ts = $("#topics");
+		ts.empty();
+		var len = topics.length;
+		for(var i=0;i<len;i++) {
+			ts.append("<label><input type='checkbox' name='topicIds' value='"+topics[i].id+"'/>"+topics[i].name+"</label> ");
+		}
+		ts.parent().toggle(len>0);
+	});
+}
+function onSubmit(){
+	if(!$("#contract").attr("checked")==true){ 
+		alert("请阅读注册协议!");
+		return ;
+	}
+	$("#jvForm").submit();
+}
+</script>
+</head>
+<body>
+[#include "../include/店铺页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+</div>
+[#include "../common/image_upload.html"/]
+<div class="center mt10">
+	 <div class="column_title"><span>注册店铺</span></div>
+ <div class="regist_storebox">
+    <form id="jvForm" action="${base}/storeRegister.jspx" method="post">
+          <div class="regist_box_left">
+               <table width="100%" border="0" cellspacing="2" cellpadding="0">
+                 <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>店铺名称：</td>
+                    <td width="648"><input type="text" id="storeName" name="storeName" class="regist_input" vld="{required:true,rangelength:[3,20],remote:'storename_unique.jspx',messages:{remote:'店铺名已存在'}}"/></td>
+                 </tr>
+			    <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;">店铺简称：</td>
+                    <td width="648"><input type="text" id="shortName" name="shortName" class="regist_input" /></td>
+                </tr>
+                <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>店铺类目：</td>
+                    <td width="648">
+                      <select id="categoryId" name="categoryId" style="width:200px;" onchange="channelChange(this.value)">
+                         <option value="">--请选择--</option>
+                         [#if categoryList?size gt 0]
+                          [#assign origDeep=categoryList[0].deep+1/]
+                             [#list categoryList as c]
+	                            [#if c.child?size gt 0]
+	                              <option value="${c.id}" class="sel-disabled">${c.name}</option>
+	                            [#else]
+	                            <option value="${c.id}">
+	                                [#if c.deep gte origDeep]
+	                                [#list origDeep..c.deep as i]&nbsp;&nbsp;[/#list]>[/#if]${c.name}</option>
+	                            [/#if]
+                             [/#list]
+                          [/#if]
+                     </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;">店铺简介：</td>
+                    <td width="648"><textarea name="intro" rows="5" cols="50"></textarea></td>
+                </tr>
+                  <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>营业执照图片：</td>
+                     <td width="648">
+                       <img id="preImg2" alt="预览"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/><br/>
+                       <input type="text" id="uploadImgPath2" name="licenseImg" class="required" size="30"/>        
+                        <input type="button" value="清空" onclick="clearImg(2);"/><br/>
+                        <span id="ufc2"><input type="file" id="uploadFile2" size="20"/></span> 
+                        <input type="button" value="上传" onclick="upload(2);"/><br/>
+                        <input type="hidden" id="zoomWidth2" value="100"/> 
+                         <input type="hidden" id="zoomHeight2" value="100" /> 
+                   </td>
+                 </tr>
+                  <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>身份证正面图片：</td>
+                      <td width="648">
+                       <img id="preImg3" alt="预览"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/><br/>
+                       <input type="text" id="uploadImgPath3" name="facadeImg" class="required" size="30"/>        
+                        <input type="button" value="清空" onclick="clearImg(3);"/><br/>
+                        <span id="ufc3"><input type="file" id="uploadFile3" size="20"/></span> 
+                        <input type="button" value="上传" onclick="upload(3);"/><br/>
+                        <input type="hidden" id="zoomWidth3" value="100"/> 
+                         <input type="hidden" id="zoomHeight3" value="100" /> 
+                   </td>
+                 </tr>
+                  <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>身份证反面图片：</td>
+                    <td width="648">
+                       <img id="preImg4" alt="预览"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/><br/>
+                       <input type="text" id="uploadImgPath4" name="reverseImg" class="required" size="30"/>        
+                        <input type="button" value="清空" onclick="clearImg(4);"/><br/>
+                        <span id="ufc4"><input type="file" id="uploadFile4" size="20"/></span> 
+                        <input type="button" value="上传" onclick="upload(4);"/><br/>
+                        <input type="hidden" id="zoomWidth4" value="100"/> 
+                         <input type="hidden" id="zoomHeight4" value="100" /> 
+                   </td>
+                 </tr>
+                  <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;">公司详细地址：</td>
+                    <td width="648"><input type="text" id="address" name="address" class="regist_input"/></td>
+                 </tr>
+                  <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;">公司固定电话：</td>
+                    <td width="648"><input type="text" id="mobile" name="mobile" class="regist_input"/></td>
+                 </tr>
+                 <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;">邮政编码：</td>
+                    <td width="648"><input type="text" id="postcode" name="postcode" value="${member.address!}" class="digits profile_input1"/></td>
+                 </tr>
+                 <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>店铺LOGO：</td>
+                    <td width="648">
+                       <img id="preImg1" alt="预览"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/><br/>
+                       <input type="text" id="uploadImgPath1" name="logoImg" class="required" size="30"/>        
+                        <input type="button" value="清空" onclick="clearImg(1);"/><br/>
+                        <span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> 
+                        <input type="button" value="上传" onclick="upload(1);"/><br/>
+                        <input type="hidden" id="zoomWidth1" value="100"/> 
+                         <input type="hidden" id="zoomHeight1" value="100" /> 
+                   </td>
+                 </tr>
+                 <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>店铺广告图片：</td>
+                    <td width="648">
+                       <img id="preImg5" alt="预览"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/><br/>
+                       <input type="text" id="uploadImgPath5" name="storeAdImg" class="required" size="30"/>        
+                        <input type="button" value="清空" onclick="clearImg(5);"/><br/>
+                        <span id="ufc5"><input type="file" id="uploadFile5" size="20"/></span> 
+                        <input type="button" value="上传" onclick="upload(5);"/><br/>
+                        <input type="hidden" id="zoomWidth5" value="100"/> 
+                         <input type="hidden" id="zoomHeight5" value="100" /> 
+                   </td>
+                 </tr>
+                <tr>
+                    <td height="35" width="257" align="right" style="font-size:14px; color:#666666;">店铺介绍：</td>
+                    <td width="648">
+                           <textarea id="txt" name="txt"></textarea>  
+				       <script type="text/javascript">
+					     $(function() {
+					   	  CKEDITOR.replace( 'txt' ,
+					   			{
+							   		filebrowserUploadUrl : '${base}/fck/upload.jspx',  
+							   		filebrowserImageUploadUrl : '${base}/fck/upload.jspx?Type=Image',  
+							   		filebrowserFlashUploadUrl : '${base}/fck/upload.jspx?Type=Flash',
+							   		filebrowserMediaUploadURL : '${base}/fck/upload.jspx?Type=Media'
+					   		     }
+					   	 );  
+					   });
+				       </script>
+                   </td>
+                 </tr>
+                 <tr>
+                    <td height="55" width="257" align="right" style="font-size:14px; color:#666666;"><font color="red">*</font>验证码：</td>
+                    <td width="648"><input type="text" name="checkcode"  class="regist_input" style="width:150px;height:25px;" vld="{required:true}"/>
+                       <img id="checkcode" src="${base}/checkcode.svl" border="1" style="height:40px;width:100px;"onclick="$('#checkcode').attr('src','${base}/checkcode.svl?d'+new Date()*1);"/>
+				       <a href="javascript:void(0);" class="xieyi" onclick="$('#checkcode').attr('src','${base}/checkcode.svl?d'+new Date()*1);return false">看不清，换一张 </a>
+                    </td>
+                 </tr>
+                  <tr>
+                    <td height="35" width="257" align="right">&nbsp;</td>
+                    <td width="648">
+                     <input type="checkbox" id="contract" name="contract" checked="checked"/>
+                     <a href="javascript:void(0);" onclick="window.open('${base}/storeTreaty.jspx','','height=600,width=600,scrollbars=1');" class="xieyi">已阅读并接受《${web.name}店铺注册协议 》</a></td>
+                 </tr>
+                  <tr>
+                    <td height="35" width="257" align="right">&nbsp;</td>
+                    <td width="648"><input type="button" onclick="onSubmit();" value=" " class="regist-submit"/>
+                    </td>
+                 </tr>
+              </table>
+          </div>
+    </form>          
+ </div>
+</div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>
+

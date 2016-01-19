@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ProductSite" table="jc_shop_site_product">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="marketPrice" column="market_price" type="double" not-null="true" length="20"/>
+		<property name="salePrice" column="sale_price" type="double" not-null="true" length="20"/>
+		<property name="costPrice" column="cost_price" type="double" not-null="true" length="20"/>
+		<property name="viewCount" column="view_count" type="java.lang.Long" not-null="true" length="19"/>
+		<property name="saleCount" column="sale_count" type="integer" not-null="true" length="19"/>
+		<property name="stockCount" column="stock_count" type="integer" not-null="true" length="19"/>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+		<property name="expireTime" column="expire_time" type="timestamp" not-null="false"/>
+		<property name="special" column="is_special" type="java.lang.Boolean" not-null="true"/>
+		<property name="recommend" column="is_recommend" type="java.lang.Boolean" not-null="true"/>
+		<property name="hotsale" column="is_hotsale" type="java.lang.Boolean" not-null="true"/>
+		<property name="newProduct" column="is_newProduct" type="java.lang.Boolean" not-null="true"/>
+		<property name="onSale" column="on_sale" type="java.lang.Boolean" not-null="true"/>
+		<property name="lackRemind" column="lack_remind" type="java.lang.Boolean" not-null="true"/>
+		<property name="alertInventory" column="alert_inventory" type="integer" not-null="false" length="19"/>
+		<property name="liRun" column="li_run" type="double"  length="20"/>
+		<property name="ptFc" column="pt_fc" type="double"  length="20"/>
+		<property name="dlsFc" column="dls_fc" type="double" length="20"/>
+		<!--系统原来的属性-->
+		<property name="score" column="score" type="integer" not-null="false" length="10"/>
+		<property name="shareContent" column="shareContent" type="string" not-null="false" length="254"/>
+        <!-- <set name="activitys" cascade="none" >
+			<cache usage="read-write"/>
+			<key column="buy_product_id"/>
+			<one-to-many class="Activitys"/>
+		</set> -->
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="product" column="product_id" class="com.jspgou.cms.entity.Product" not-null="true"></many-to-one>
+
+	</class>
+</hibernate-mapping>

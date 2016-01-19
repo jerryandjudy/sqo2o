@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script>
+<#if restart=1>
+$(document).ready(function(){
+	$.messager.show('系统更新消息', '系统已更新需重启WEB服务器后生效！', 0);
+});
+</#if>
+
+</script>
+</head>
+<body> 
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "global.admin.home"/> - <@s.m "global.admin.index"/></div>
+	<div class="clear"></div>
+</div>
+<div class="welcom-con">
+			 <div class="we-txt">
+             	  <p>
+                 您好,${admin.username!}！<br />
+                   <br />
+                  您上次登录的时间是：${admin.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')}<br />
+                  已用内存：<span style="color:#0078ff;">${(usedMemory/1024/1024)?string("0.##")}MB</span>&nbsp;&nbsp;&nbsp;&nbsp;剩余内存：<span style="color:#ff8400;">${(useableMemory/1024/1024)?string("0.##")}MB </span>&nbsp;&nbsp;&nbsp;&nbsp;最大内存：<span style="color:#00ac41;">${(maxMemory/1024/1024)?string("0.##")}MB</span>
+                  </p>
+             </div>
+             <ul class="ms">
+             	<li class="wxx">订单统计</li>
+             </ul>
+             <div class="ms-xx">
+              	<table class="pn-ltable1" style="" width="100%" height="100%" cellspacing="1" cellpadding="0" border="0">
+					<tr><td width="25%" height="50%">未完成订单数</td><td width="25%">${c[1]}</td><td width="25%">本月订单数</td><td width="25%">${c[2]}</td></tr>
+  					<tr><td width="25%" height="50%">总订单数</td><td width="25%">${c[0]}</td><td width="25%">今日订单数</td><td width="25%">${c[3]}</td></tr>
+   			    </table>
+             </div>  
+              <ul class="ms">
+             	<li class="wxx">商品统计</li>
+             </ul>
+             <div class="ms-xx">
+               <table class="pn-ltable1" style="" width="100%" height="100%" cellspacing="1" cellpadding="0" border="0">
+  				 <tr><td width="25%" height="50%">总商品数</td><td width="25%">${c[4]}</td><td width="25%">本月商品数</td><td width="25%">${c[5]}</td></tr>
+ 				 <tr><td width="25%" height="50%">今日商品数</td><td width="25%">${c[6]}</td><td width="25%">上架商品数</td><td width="25%">${c[11]}</td></tr>
+              </table>
+             </div>  
+              <ul class="ms">
+             	<li class="wxx">会员统计</li>
+             </ul>
+             <div class="ms-xx">
+               <table class="pn-ltable1" style="" width="100%"  height="100%" cellspacing="1" cellpadding="0" border="0">
+				 <tr><td colspan="4" class="pn-lthead"></td></tr>
+  				<tr><td width="25%" height="50%">总会员数</td><td width="25%">${c[7]}</td><td width="25%">本月会员数</td><td width="25%">${c[8]}</td></tr>
+  				<tr><td width="25%" height="50%">今日会员数</td><td width="25%">${c[9]}</td><td width="25%">最近七天会员数</td><td width="25%">${c[10]}</td></tr>
+   			   </table>
+             </div>  
+  </div>
+
+ 
+ 
+
+
+</div>
+</body>
+</html>

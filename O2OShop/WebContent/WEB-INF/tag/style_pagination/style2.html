@@ -1,0 +1,14 @@
+[#if tag_pagination.totalPage gt 1]
+<div[#if pageClass??] class="${pageClass}"[/#if][#if pageStyle??] style="${pageStyle}"[/#if]>
+	[#if !tag_pagination.firstPage]
+		<a href="${urlPrefix}[#if tag_pagination.prePage gt 1]_${tag_pagination.prePage}[/#if]${urlSuffix}">[上一页]</a>[#t/]
+	[/#if]
+	[#list 1..tag_pagination.totalPage as i]
+		<a href="${urlPrefix}[#if i gt 1]_${i}[/#if]${urlSuffix}">[[#t/]
+		[#if tag_pagination.pageNo == i]<span class="p2-crr">${i}</span>[#else]${i}[/#if]]</a>&nbsp;[#t/]
+	[/#list]
+	[#if !tag_pagination.lastPage]
+		<a href="${urlPrefix+'_'+tag_pagination.nextPage+urlSuffix}">[下一页]</a>[#lt/]
+	[/#if]
+</div>
+[/#if]

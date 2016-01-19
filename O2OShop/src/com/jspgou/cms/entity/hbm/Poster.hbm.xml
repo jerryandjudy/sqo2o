@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Poster" table="jc_shop_poster">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="native"/></id>
+		<property name="picUrl" column="picUrl" type="string" not-null="true" length="254"/>
+		<property name="time" column="time" type="timestamp" not-null="false" length="19"/>
+		<property name="interUrl" column="interUrl" type="string" not-null="false" length="100"/>
+	</class>
+</hibernate-mapping>

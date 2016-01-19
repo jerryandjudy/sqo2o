@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "store.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+
+<@p.td required="true" label="store.storeName" colspan="1" width="50">${store.storeName!}</@p.td>
+<@p.td required="true" label="store.shortName"  colspan="1" width="50">${store.shortName!}</@p.td><@p.tr/>
+
+<@p.td required="true" label="store.category" colspan="1" width="50">${store.category.name}</@p.td>
+<@p.td required="true" label="store.category" colspan="1" width="50">${store.examine?string("是","否")}</@p.td><@p.tr/>
+
+<@p.td required="true" label="store.manager" colspan="1" width="50">${store.member.username!}</@p.td>
+<@p.td required="true" label="store.intro" colspan="1" width="50">${store.intro!}</@p.td><@p.tr/>
+<@p.td label="store.licenseImg" colspan="1" width="50">
+    <img id="preImg2" alt="<@s.m "imageupload.preview"/>"  src="${uploadRoot!}${store.licenseImg!}"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td>
+ 
+<@p.td label="store.facadeImg"  colspan="1" width="50">
+    <img id="preImg3" alt="<@s.m "imageupload.preview"/>"   src="${uploadRoot!}${store.facadeImg!}" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+<@p.td label="store.reverseImg" colspan="1" width="50">
+    <img id="preImg4" alt="<@s.m "imageupload.preview"/>"  src="${uploadRoot!}${store.reverseImg!}" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td>
+ 
+<@p.td  label="store.logo" colspan="1" width="50">
+    <img id="preImg1" alt="<@s.m "imageupload.preview"/>" src="${uploadRoot!}${store.logoImg!}" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+
+<@p.td  label="store.Ad" colspan="2" width="100">
+    <img id="preImg5" alt="<@s.m "imageupload.preview"/>" src="${uploadRoot!}${store.storeAdImg!}" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+ </@p.td><@p.tr/>
+ 
+ <@p.td required="true" label="store.mobile" colspan="1" width="50">${store.mobile!}</@p.td>
+<@p.td required="true" label="store.postcode" colspan="1" width="50">${store.postcode!}</@p.td><@p.tr/>
+
+<@p.td required="true" label="store.address" colspan="2" width="100">${store.address!}</@p.td><@p.tr/>
+<@p.td colspan="2" width="100"><@s.m "store.alipay"/></@p.td><@p.tr/>
+<@p.td label="store.partnerID" colspan="1" width="50">${store.partner!}</@p.td>
+<@p.td label="store.sellerKey" colspan="1" width="50">${store.sellerKey!}</@p.td><@p.tr/>
+<@p.td label="store.sellerEmail" colspan="2" width="100">${store.sellerEmail!}</@p.td><@p.tr/>
+<@p.td label="store.txt" colspan="2" width="100">${store.txt!}</@p.td><@p.tr/>
+</@p.form>
+</div>
+</body>
+</html>

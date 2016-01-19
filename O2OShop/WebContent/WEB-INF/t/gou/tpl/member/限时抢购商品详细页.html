@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<title>Insert title here - ${web.name}${web.additionalTitle!}</title>
+<script type="text/javascript">
+   function order(id){
+	   var numb=$("#numb").val();
+      $.post("orderLimitProduct.jspx",{id:id,numbe:numb},function(data){
+                      alert(data);
+          });
+	   }
+</script>
+</head>
+<body>
+<table>
+<a href="shopping_cart.jspx">查看购物车</a>
+   <tr><td colspan="3">秒杀进行中，已有</td></tr>
+   <tr><td>
+           <table>
+             <tr>
+               <td><img src="${rootUrl}${product.picture!}"></td>
+               <td>
+                 <table>
+                   <tr><td><a href="">${product.name!}</a></td></tr>
+                   <tr><td><strike>${product.price!}</strike></td></tr>
+                   <tr><td>${product.salePrice!}</td></tr>
+                   <tr><td>${product.salePrice-product.productExt.seckillprice!}</td></tr>
+                   <tr><td><select name="numb" id="numb">
+                    [#list 1..10 as i]
+                     <option value="${i}">${i}</option>
+                     [/#list]
+                   </select></td></tr>
+                 </table>
+               </td>
+             </tr>
+             <tr><td><a href="javascript:void(0)"onclick="order(${product.id!});">立即购买</a></td></tr>
+           </table>
+   </td></tr>
+</table>
+  
+</body>
+</html>

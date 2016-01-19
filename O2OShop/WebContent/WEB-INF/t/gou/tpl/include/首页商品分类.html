@@ -1,0 +1,56 @@
+<!--------------------------------------------------------▷▷商品分类★开始◁◁------------------------------------------------------>
+<div class="header-wrap">
+ <div class="navwrap">
+  <div id="nav">
+   <div class="navbar clearfix">
+    
+     <a class="" href="${base}/">首页</a>
+     <a class="" href="${base}/sp/index.htm">休闲食品</a>
+     <a class="" href="${base}/jsyl/index.htm">酒水饮料</a>
+     <a class="" href="${base}/jjyp/index.htm">家居用品</a>
+     <a class="" href="${base}/ghhz/index.htm">个护化妆</a>
+     <a class="" href="${base}/lyfs/index.htm">粮油干货</a>
+     <a class="" href="${base}/sqfw/index.htm">社区服务</a>
+     <a class="" href="${base}/wtyp/index.htm">文体用品</a>
+   </div>
+   <div class="pros subpage">
+    <h2>全部商品分类</h2>
+    <ul class="prosul clearfix" id="proinfo">
+    [@shop_Category_list loadChild='1' Level=2 count=20  isDisplay='1' ]
+            [#list tag_list as c]
+     <li class="goods bd-solid" mon="type=subnav&action=click"><i>&gt;</i>
+     	<a class="ti" href="${c.url!}" title="${c.title!}">${c.name!}</a>
+     	
+     	[@shop_Category_list loadChild='0' Level=2 count=100 parentId=c.id isDisplay='1' ]
+     	[#assign clist=tag_list /]
+    	  [#list tag_list as tc]
+    	  [#if tc_index<1]
+     	<a class="hot" href="${tc.url!}" title="${tc.title!}">${tc.name!}</a>
+     	 
+     	 [/#if]
+     	 [/#list]
+       	<div class="prosmore hide">
+     	[#list tag_list as tc]
+     	 [#if tc_index gte 1]
+			     	
+      		 <span><em ><a href="${tc.url!}" title="${tc.title!}">${tc.name!}</a></em></span>
+    	  [/#if] 
+    	 [/#list]
+    	  </div>
+    	[/@shop_Category_list]
+    	  
+    	  
+     </li>
+    	  [/#list]
+     
+     [/@shop_Category_list]  
+     
+     
+      
+     
+    </ul>
+   </div>
+  </div>
+ </div>
+</div>
+<!--------------------------------------------------------▷▷商品分类★结束◁◁------------------------------------------------------>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="GiftExchange" table="jc_shop_gift_exchange">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="score" column="score" type="integer" not-null="false" length="10"/>
+		<property name="amount" column="amount" type="integer" not-null="false" length="10"/>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+		<property name="totalScore" column="total_score" type="integer" not-null="false" length="10"/>
+		<property name="detailaddress" column="detailaddress" type="string" not-null="false" length="100"/>
+		<property name="status" column="status" type="integer" not-null="true" length="10"/>
+		<property name="waybill" column="waybill" type="string" not-null="false" length="100"/>
+		<many-to-one name="member" column="member_id" class="ShopMember" not-null="true"></many-to-one>
+		<many-to-one name="gift" column="gift_id" class="Gift" not-null="true"></many-to-one>
+		</class>
+</hibernate-mapping>

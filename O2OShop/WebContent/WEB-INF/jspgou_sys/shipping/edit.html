@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	methodChange();
+	$("#jvForm").validate();
+});
+function methodChange() {
+var method = $("input[name=method]:checked").val();
+if(method=="1") {
+	$('#uniformDiv').show();
+	$('#weightDiv').hide();
+}else if(method=="2") {
+	$('#uniformDiv').hide();
+	$('#weightDiv').show();	
+}
+return true;
+}
+</script>
+<style type="text/css">
+.method-div{padding:2px 1px;}
+.hidden{display:none;}
+.country-price{border:1px solid #ccc;padding:2px;margin:2px 0px;}
+</style>
+</head>
+<body>
+<textarea id="tpl" style="display:none">
+	<div id="cp{0}" class="country-price">
+		<div><@s.m "shipping.firstPrice"/>: <input type="text" name="firstPrice{0}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='3';},number:true,maxlength:20}" size="7"/> &nbsp; &nbsp; <@s.m "shipping.additionalPrice"/>: <input type="text" name="additionalPrice{0}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='3';},number:true,maxlength:20}" size="7"/> &nbsp; <input type="button" value="<@s.m "shipping.deleteLine"/>" onclick="$('#cp{0}').remove();"/></div>
+	</div>
+</textarea>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shipping.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.text label="shipping.name" name="name" value=shipping.name required="true" class="required" size="40" maxlength="150"/>
+<@p.select  label="物流公司" name="logisticsId" value=((shipping.logistics!).id!) list=list listKey="id" listValue="name" required="true"/>
+<@p.select  label="物流类型" name="logisticsType" required="true" value=shipping.logisticsType list={"EXPRESS":"快递","POST":"平邮","EMS":"EMS"} />
+<@p.td label="shipping.method" required="true">
+	<!--  <@p.radio name="method" required="true" value=shipping.method list={"1":"shipping.uniformPrice","2":"shipping.byWeight","3":"shipping.byCountry"} onclick="methodChange();"/>-->
+<@p.radio name="method" required="true" value=shipping.method list={"1":"shipping.uniformPrice","2":"shipping.byWeight"} onclick="methodChange();"/>
+<div id="uniformDiv" class="method-div hidden"><@s.m "shipping.uniformPrice"/>: <input type="text" name="uniformPrice" value="${shipping.uniformPrice!}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='1';},number:true,maxlength:20}"/></div>
+<div id="weightDiv" class="hidden">
+	<div class="method-div"><@s.m "shipping.firstWeight"/>: <input type="text" name="firstWeight" value="${shipping.firstWeight!}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='2'||m=='3';},digits:true,maxlength:10}" size="7"/> g &nbsp; <@s.m "shipping.additionalWeight"/>: <input type="text" name="additionalWeight" value="${shipping.additionalWeight!}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='2'||m=='3';},digits:true,maxlength:10}" size="7"/> g</div>
+	<div class="method-div"><@s.m "shipping.firstPrice"/>: <input type="text" name="firstPrice" value="${shipping.firstPrice!}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='2'||m=='3';},number:true,maxlength:20}" size="7"/> &nbsp; &nbsp; <@s.m "shipping.additionalPrice"/>: <input type="text" name="additionalPrice" value="${shipping.additionalPrice!}" vld="{required:function(){var m=$('input[name=method]:checked').val(); return m=='2'||m=='3';},number:true,maxlength:20}" size="7"/></div>
+</div>
+</@p.td><@p.tr/>
+<@p.text label="shipping.priority" name="priority" value=shipping.priority required="true" class="required digits" size="7" maxlength="10"/>
+<@p.radio label="shipping.disabled" name="disabled" value=shipping.disabled required="true" list={"false":"global.true","true":"global.false"}/>
+<@p.radio label="是否默认" name="isDefault" list={"true":"global.true","false":"global.false"} value=shipping.isDefault required="true" class="required"/>
+<@p.textarea label="shipping.description" name="description" value=shipping.description cols="70" rows="3" maxlength="255"/>
+<@p.td><input type="hidden" name="id" value="${shipping.id}"/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

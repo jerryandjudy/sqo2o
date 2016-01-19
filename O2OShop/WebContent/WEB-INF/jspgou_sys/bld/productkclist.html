@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function opens(path){
+var dialog = $.dialog({title:'详细',min:false,max:false,width:'850px',height:'500px',content: 'url:'+path
+});
+dialog.show();
+}
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<form action="v_productkc_list.do" id="tableForm" method="post" >
+<div class="rhead">
+	
+	 <div style="padding-top:5px">
+	便利店名称： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+	
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	<div class="clear"></div>
+</div>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table  listAction="v_productkc_list.do" value=pagination;jxcBldGoodsNum,i,has_next><#rt/>
+	<@p.column code="便利店名称">${jxcBldGoodsNum.ketaUser.realname!}</@p.column><#t/>
+	<@p.column code="商品名称"><#if jxcBldGoodsNum.goodsMinNnum-jxcBldGoodsNum.goodsNum gt -1  > <font color=red>${jxcBldGoodsNum.product.name!}</font><#else>${jxcBldGoodsNum.product.name!}</#if></@p.column><#t/>
+	<@p.column code="警戒库存">${jxcBldGoodsNum.goodsMinNnum!}</@p.column><#t/>
+	<@p.column code="库存"><#if jxcBldGoodsNum.goodsMinNnum-jxcBldGoodsNum.goodsNum gt -1  > <font color=red>${jxcBldGoodsNum.goodsNum!}</font><#else>${jxcBldGoodsNum.goodsNum!}</#if></@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

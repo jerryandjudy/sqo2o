@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="KetaUser" table="keta_user">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="Id"><generator class="native"/></id>
+		<property name="email" column="email" type="string"   />
+		<property name="password" column="password" type="string"  />
+		<property name="phone" column="phone" type="string"  />
+		<property name="status" column="status" type="string"  />
+		<property name="realname" column="realname" type="string"  />
+		<property name="salt" column="salt" type="string"  />
+		<property name="username" column="username" type="string" not-null="true" />
+        <many-to-one name="organization" column="organization_id" class="Organization" not-null="true"></many-to-one>
+	    <property name="userType" column="user_type" type="string" />
+	    <property name="painPass" column="pain_pass" type="string" />
+	    <property name="yhyxq" column="yhyxq" type="date" />
+        <property name="createTime" column="create_time" type="timestamp" />
+        
+	</class>	 
+</hibernate-mapping>

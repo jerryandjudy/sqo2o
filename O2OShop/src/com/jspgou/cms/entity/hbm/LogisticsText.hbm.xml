@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="LogisticsText" table="jc_shop_logistics_text">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="logistics_id">
+			<generator class="foreign"><param name="property">logistics</param></generator>
+		</id>
+		<property name="text" column="text" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<one-to-one name="logistics" class="Logistics" constrained="true"/>
+	</class>
+</hibernate-mapping>

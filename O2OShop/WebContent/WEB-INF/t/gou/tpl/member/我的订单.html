@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的订单 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/order.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+function checkType(status){
+	 if(status==0){
+		 $("#status").attr("value",'');
+	 }else{
+       $("#status").attr("value",status);
+	 }
+     $("#jvForm").submit();
+  }
+function HoverLi(m,n,counter){
+		for(var i=1;i<=counter;i++){
+			g('tb_'+m+i).className='dd_normal';
+			g('tbc_'+m+i).className='undis';
+		}
+		g('tbc_'+m+n).className='dis';
+		g('tb_'+m+n).className='';
+}
+
+function addCart(orderId){
+	$("#orderId").val(orderId);
+    $("#jvForm").attr("action","${base}/cart/add_orderItem1.jspx");
+	$("#jvForm").submit();
+}
+
+function payOrderAgain(orderId){
+	$("#orderId").val(orderId);
+    $("#jvForm").attr("action","${base}/order/order_payAgain.jspx");
+	$("#jvForm").submit();
+}
+
+function deleteOrder(orderId){
+	$.post('${base}/order/deleteOrder.jspx', {
+		'orderId' : orderId
+	}, function(data) {
+		if(data.success){
+			location.reload();
+		}else{
+			alert('订单不可删除');
+			location.reload();
+		}
+	},'json');
+}
+
+function abolishOrder(orderId){
+	$.post('${base}/order/abolishOrder.jspx', {
+		'orderId' : orderId
+	}, function(data) {
+		if(data.success){
+			location.reload();
+		}else{
+			alert('订单取消错误');
+			location.reload();
+		}
+	},'json');
+}
+
+
+
+function accomplishOrder(orderId){
+	$.post('${base}/order/accomplishOrder.jspx', {
+		'orderId' : orderId
+	}, function(data) {
+		if(data.success){
+			location.reload();
+		}
+	},'json');
+}
+
+function showHide(pd){
+	if(pd==0){
+	  $("#J_MoreControl").hide();
+	  $("#moreFilter").show();
+	  $("#lessFilter").hide();
+	}else{
+		$("#J_MoreControl").show();
+		$("#moreFilter").hide();
+		$("#lessFilter").show();
+	}
+}
+</script>
+</head>
+<body>
+
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="w960 mt10">
+	[#include "会员中心_导航.html"/]
+	<div id="container" class="user_right clearfix">
+		<div class="usercenter_position"><span>我的订单</span> </div> <br/>    
+	    <form id="jvForm" action="myorder.jspx" method="post" class="skin-gray clearfix bought-search bought-search-more">
+	       <input type="hidden" id="status" name="status" [#if status??] value="${status}"[#else] value=""[/#if]/> 
+           <input type="hidden" id="orderId" name="orderId" />
+           <label>订单编号：</label>
+           <input id="code" type="text" maxlength="30" value="" name="code" size="50"/>
+           <button class="J_MakePoint button search-btn"  type="submit"><font color="#000000">搜索</font></button>
+           <span>
+           		[#if startTime??||endTime??||userName??||paymentId??||startOrderTotal??||endOrderTotal??||shippingId??]
+            	<a class="less-filter" id="lessFilter" href="javascript:void(0);" onclick="showHide(0);">精简筛选条件</a>
+            	<a class="more-filter" id="moreFilter" href="javascript:void(0);" onclick="showHide(1);" style="display:none;">更多筛选条件</a>
+           		[#else]
+            	<a class="more-filter" id="moreFilter" href="javascript:void(0);" onclick="showHide(1);">更多筛选条件</a>
+           		<a class="less-filter" id="lessFilter" href="javascript:void(0);" onclick="showHide(0);" style="display:none;">精简筛选条件</a>
+           		[/#if]
+          </span>
+          <ul id="J_MoreControl" class="search-filter"
+        [#if !(startTime??||endTime??||userName??||paymentId??||startOrderTotal??||endOrderTotal??||shippingId??)]style="display:none;"[/#if]>
+           <li class="col1"><label>下单时间:</label>
+             <input type="text" name="startTime" value="${startTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:80px" size="10"/>到
+             <input type="text" name="endTime"  value="${endTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:80px" size="10"/>
+           </li>
+           <li class="col2">
+             <label for="userName">收货人：</label>
+                <input id="userName" type="text"name="userName" value="${userName!}" size="15"/>
+            </li>
+            <li class="col3">
+               <label for="paymentId">支付方式：</label>
+               <select id="paymentId" name="paymentId">
+                 <option value="">--支付方式--</option>
+                  [#list paymentList as payment]
+                    <option value="${payment.id}"[#if paymentId??] [#if paymentId==payment.id]selected="selected"[/#if][/#if]>${payment.name!}</option>
+                  [/#list]
+              </select>
+           </li>
+           
+           <li class="col1">
+           <label>订单金额:</label>
+	        <input type="text" name="startOrderTotal" value="${startOrderTotal!}" style="width:80px"/>至
+	        <input type="text" name="endOrderTotal" value="${endOrderTotal!}" style="width:80px"/>
+	        </li>
+          <li class="col2">
+              <label for="shippingId">配送方式：</label>
+              <select id="shippingId" name="shippingId">
+                  <option value="">--配送方式--</option>
+                 [#list shippingList as shipping]
+                    <option value="${shipping.id}"[#if shippingId??] [#if shippingId==shipping.id]selected="selected"[/#if][/#if]>${shipping.name!}</option>
+                [/#list]
+              </select>
+         </li>
+         <li class="col3">&nbsp;</li>
+      </ul>
+       
+       <div class="columnright">
+        <div id="myOrderList" class="tab_tb">
+           <div class="odrTab clearfix">
+             <ul class="ul_select odrTabUl mb10">
+              
+                   <li [#if !(status??)] class="first cur" [/#if] onclick="checkType(0);""> 全部[@order_page status='' count='3'](${tag_pagination.totalCount})[/@order_page]</li>
+				   <li [#if status??&status==5] class="first cur" [/#if] onclick="checkType(5);">待支付[@order_page status='5' count='3'](${tag_pagination.totalCount})[/@order_page]</li>
+				   <li [#if status??&status==6] class="first cur" [/#if] onclick="checkType(6);">待收货[@order_page status='6' count='3'](${tag_pagination.totalCount})[/@order_page]</li>
+                   <li [#if status??&status==4] class="first cur" [/#if] onclick="checkType(4);">已完成[@order_page status='4' count='3'](${tag_pagination.totalCount})[/@order_page]</li>
+                   <li [#if status??&status==3] class="first cur" [/#if] onclick="checkType(3);">已取消[@order_page status='3' count='3'](${tag_pagination.totalCount})[/@order_page]</li>
+           
+           
+               </ul>
+           </div>
+          
+            </div>
+          </div>
+        </form>
+          <div class="orderlist">
+        
+           [@order_page status=status count='3' code=code userName=userName paymentId=paymentId shippingId=shippingId startTime=startTime endTime=endTime startOrderTotal=startOrderTotal endOrderTotal=endOrderTotal]
+               [#if tag_list?size gt 0]
+               [#list tag_list as order]
+                 <div class="or_box">
+                      <div class="or_info order_dr">
+                           <p><span>订单号：</span>
+                               <a href="myOrderView.jspx?orderId=${order.id}" target="_blank">${order.code!}</a>
+                            </p>
+                             <p><span>订购日期：</span>${order.createTime?string('yyyy-MM-dd HH:mm:ss')!}</p>
+                             <p><span>收件人：</span>${order.receiveName!}</p>
+                             <p><span>支付方式：</span>${order.payment.name!}</p>
+                             <p><span>配送方式：</span>[#if order.shipping??]${order.shipping.name}[/#if]</p>
+                             <p><span>订单总计：</span><b>¥${order.total}</b></p>
+                             <p><span>可获积分：</span>${order.score!0}[#if order.status==20](可用积分)[#else](冻结中)[/#if]</p>
+                             <p><span>订单状态：</span>
+                             [#if order.status=3][@s.m "order.status.${order.status}"/][#elseif order.status=4][@s.m "order.status.${order.status}"/]
+                             [#elseif order.paymentStatus=1][#if order.payment.id=3 ][@s.m "order.paymentStatus.0"/][#else][@s.m "order.paymentStatus.${order.paymentStatus}"/][/#if]&nbsp;[@s.m "order.shippingStatus.${order.shippingStatus}"/]
+                             [#elseif order.paymentStatus=2][@s.m "order.paymentStatus.${order.paymentStatus}"/]&nbsp;[@s.m "order.shippingStatus.${order.shippingStatus}"/][/#if]
+                             </p>
+                             <p><span>备注：</span></p>
+                             <p style="color:red">[#if order.sysComment??]${order.sysComment!}[/#if]</p>
+                             <p><a class="aBlu" href="myOrderView.jspx?orderId=${order.id}" target="_blank">订单详情</a></p>
+                             <button class="y90 mr5 orderListAgain"  onclick="addCart(${order.id});">再放进购物车</button>
+                             [#if order.status=3  ]
+                             [#if order.child?size lt 1]
+                             <button class="w90 payItem netPayButton" onclick="deleteOrder(${order.id});" >删除订单</button>
+                             [/#if]
+                             [#elseif order.status=4]
+                             <button class="w90 payItem netPayButton" onclick="deleteOrder(${order.id});" >删除订单</button>
+                            [#if !(order.returnOrder??)] <!-- <a class="w90 payItem netPayButton"  href="../orderReturn/orderReturn.jspx?orderId=${order.id}&delivery=1">申请退货</a> -->[/#if]
+                             [#elseif order.shippingStatus=1]
+                             [#if order.paymentStatus=1]
+                             [#if order.payment.id!=3 ]
+                             <button class="w90 payItem netPayButton"  onclick="payOrderAgain(${order.id});">立即支付</button>
+                             [/#if]
+                             <button class="w90 payItem netPayButton"  onclick="abolishOrder(${order.id});" >取消订单</button>
+                             [#elseif order.paymentStatus=2 && (order.status<2)]
+                            [#if !(order.returnOrder??)] <a class="w90 payItem netPayButton" href="../orderReturn/orderReturn.jspx?orderId=${order.id}&delivery=0" target="_blank">申请退款</a>[#else]退款申请中[/#if]
+                             [/#if]
+                             [#elseif order.shippingStatus=2]
+                             [#if order.paymentStatus=1 &&order.payment.id!=3]
+                             <button class="w90 payItem netPayButton"  onclick="payOrderAgain(${order.id});">立即支付</button>
+                             [#elseif order.paymentStatus=2 || order.payment.id=3]
+                              <button class="w90 payItem netPayButton" onclick="accomplishOrder(${order.id});">确认收货</button>
+                             [/#if]
+                             [/#if]
+                               
+                       </div>
+                       <div class="or_list or_listrf">
+                          <dl>
+                           [#list order.items as item]
+                            <dd>
+                              <div class="fr">
+                                <a class="aBlu againBuy"  href="${item.productSite.url!}" target="_blank">查看详情</a> <br/>
+                              </div>
+                              <a target="_blank" href="${item.productSite.url}">
+                               <img src="${item.productSite.product.productExt.coverImg!}" height="40" width="40"/></a>
+                              <a class="aGrey" target="_blank" href="${item.productSite.url}">${item.productSite.product.name}</a> <br/>
+                              <em> ¥[#if item.productFash??]${item.productFash.salePrice!}[#else]${item.productSite.salePrice!}[/#if]</em>× ${item.count}
+                           </dd>
+                         [/#list]
+                        </dl>
+                     </div>
+                     <div class="clear"></div>
+              </div>
+              [/#list]
+           <div  align="center">[@pagination_style sysPage='5'/]</div>
+               [#else]
+                 <div  align="center">暂无订单 ，这就去<a href="${base}/" target="_self">商城</a>挑选商品。</div>
+               [/#if]
+           [/@order_page]
+            </div>
+     </div>
+     <div class="clear"></div>
+ </div>
+ [#include "../include/页脚信息栏.html"/]
+</body>
+</html>

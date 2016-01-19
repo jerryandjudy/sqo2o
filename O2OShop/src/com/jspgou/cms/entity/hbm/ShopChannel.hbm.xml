@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopChannel" table="jc_shop_channel" dynamic-update="true">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="channel_id"><generator class="native"/></id>
+		<property name="lft" column="lft" type="integer" not-null="true" length="10"/>
+		<property name="rgt" column="rgt" type="integer" not-null="true" length="10"/>
+		<property name="type" column="type" type="integer" not-null="true" length="10"/>
+		<property name="name" column="name" type="string" not-null="true" length="100"/>
+		<property name="path" column="path" type="string" not-null="false" length="100"/>
+		<property name="outerUrl" column="outer_url" type="string" not-null="false" length="255"/>
+		<property name="tplChannel" column="tpl_channel" type="string" not-null="false" length="50"/>
+		<property name="tplContent" column="tpl_content" type="string" not-null="false" length="50"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="blank" column="is_blank" type="java.lang.Boolean" not-null="false"/>
+		<property name="display" column="is_display" type="java.lang.Boolean" not-null="false"/>
+		<property name="param1" column="param1" type="string" not-null="false" length="255"/>
+		<property name="param2" column="param2" type="string" not-null="false" length="255"/>
+		<property name="param3" column="param3" type="string" not-null="false" length="255"/>
+		<one-to-one name="channelContent" class="ShopChannelContent" cascade="delete"/>
+		<many-to-one name="parent" column="parent_id" class="ShopChannel" not-null="false"></many-to-one>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<set name="child" inverse="true" cascade="delete" sort="com.jspgou.common.hibernate3.PriorityComparator">
+			<cache usage="read-write"/>
+			<key column="parent_id"/>
+			<one-to-many class="ShopChannel"/>
+		</set>
+	</class>
+</hibernate-mapping>

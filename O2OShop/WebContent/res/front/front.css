@@ -1,0 +1,3 @@
+/*###/common_res/css/front.css###*/
+label.error{background:url(unchecked.gif) no-repeat 0px 0px;padding-left:16px;margin-left:3px; color:red;}
+label.success{background:url(checked.gif) no-repeat 0px 0px;padding-left:16px;margin-left:3px;}

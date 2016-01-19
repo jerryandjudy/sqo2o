@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopMessage" table="jc_shop_message">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="content" column="content" type="string" not-null="true" length="255"/>
+		<property name="contactName" column="contact_name" type="string" not-null="false" length="100"/>
+		<property name="contactTel" column="contact_tel" type="string" not-null="false" length="20"/>
+		<property name="time" column="time" type="timestamp" not-null="false" length="19"/>
+	</class>
+</hibernate-mapping>

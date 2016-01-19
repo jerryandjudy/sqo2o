@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function addx(){
+	var aa = $("#context").html();
+	$("#cc").before(aa);
+}
+function dele(a){
+	var b =$(a).parent();
+	$(b).parent().remove();
+	
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+<div class="rpos"><@s.m "global.position"/>: 款式 - 增加</div>
+<form class="ropt">
+	<input type="hidden" name="productid" value="${pro.id}" /> 
+	<input type="hidden" name="ctgId" value="${ctgId}" />  
+	<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_findFashion.do';"/></form>
+<div class="clear"></div>
+</div>
+
+<@p.form id="jvForm" action="o_saveFashion.do" method="post" enctype="multipart/form-data"> 
+	<input type="hidden" name="productid" value="${pro.id}" />  
+	<input type="hidden" name="ctgId" value="${ctgId}" />  
+	<!-- 
+	<@p.text width="50" label="商品编号" size="25" name="productCode" required="true" class="required"/> 
+	<@p.text width="50" label="成本价" size="25" name="marketPrice" required="true" class="required"/> 
+	<@p.text width="50" label="销售价" size="25" name="salePrice" required="true" class="required"/> 
+	 -->
+	<@p.text width="50" label="库存" size="25" name="stockCount" required="true" class="required" maxlength="11"/> 
+	<@p.file width="50" label="款式图片" size="30" name="file"/>
+<#if pro.fashions?size==0>
+<td class="pn-flabel pn-flabel-h""><input type="button"
+	onclick="addx()" value="增加"></td>
+<td class="pn-fcontent">左边填写分类名(如:颜色,大小),右边填写对应的值(如:红,蓝;36,38)</td>
+</tr>
+<td class="pn-flabel pn-flabel-h"><input type="text"
+	style="text-align: right;" name="pro_name"></td>
+<td class="pn-fcontent"><input type="text" name="pro_value"></td>
+</tr>
+<#else> 
+<#list pro.fashions[0].propertysName as pname>
+<td class="pn-flabel pn-flabel-h"><span style="text-align: right;">${pname}:</span><input
+	type="hidden" style="text-align: right;" value="${pname}"
+	name="pro_name"></td>
+<td class="pn-fcontent"><input type="text" name="pro_value"></td>
+</tr>
+</#list> </#if>
+<tr id="cc">
+	<@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset
+	code="global.reset"/></@p.td> </@p.form>
+</div>
+<div id="context" style="display: none;">
+<tr>
+	<td class="pn-flabel pn-flabel-h""><input type="text"
+		style="text-align: right;" name="pro_name"></td>
+	<td class="pn-fcontent"><input type="text" name="pro_value"><a
+		href="javascript:void(0);" onclick="dele(this)">删除</a></td>
+</tr>
+</div>
+</body>
+</html>

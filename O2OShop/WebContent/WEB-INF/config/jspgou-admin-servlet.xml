@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="0"/>
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/languages/jeecore_admin/messages</value>
+				<value>/WEB-INF/languages/jspgou_admin/messages</value>
+				<value>/WEB-INF/languages/fck/messages</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--
+			<property name="maxUploadSize" value="8388608"/>
+			-->
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class=" com.jspgou.common.web.springmvc.BindingInitializer"/>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="adminContextInterceptor"/>
+				<ref bean="adminLocaleIntercept"/>
+				<!-- <ref bean="adminSecureInterceptor"/> -->
+			</list>
+		</property>
+	</bean>
+	<bean id="adminContextInterceptor" class="com.jspgou.cms.web.AdminContextInterceptor">
+		<!--开发状态下指定管理员ID
+		<property name="developAdminId" value="1"/>
+		-->
+		<property name="auth" value="true"/>
+		<property name="excludeUrls">
+			<list>
+				<value>/login.do</value>
+				<value>/logout.do</value>
+				<value>/orderReturn/aliReturn.do</value>
+				<value>/accountTx/aliReturn.do</value>
+				<value>/jmfrecharge/aliReturn.do</value>
+				<value>/accountcz/aliReturn.do</value>
+				<value>/accountcz/wxReturn.do</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="clientlanguage"/>
+		<property name="cookieMaxAge" value="-1"/>
+	</bean>
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.bind.MissingServletRequestParameterException">/common/requiredParameter</prop>
+				<prop key="org.springframework.beans.TypeMismatchException">/common/mismatchParameter</prop>
+				<prop key="org.springframework.web.bind.ServletRequestBindingException">/common/bindException</prop>
+				<prop key="org.springframework.dao.DataIntegrityViolationException">/common/integrityViolation</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="freemarkerViewResolver" class="com.jspgou.common.web.springmvc.RichFreeMarkerViewResolver">
+		<property name="prefix" value="/jspgou_sys/"/>
+		<property name="suffix" value=".html"/>
+		<property name="contentType" value="text/html; charset=UTF-8"/>
+		<property name="exposeRequestAttributes" value="false"/>
+		<property name="exposeSessionAttributes" value="false"/>
+		<property name="exposeSpringMacroHelpers" value="true"/>
+	</bean>
+	<!--
+		<bean id="freemarkerViewResolver" class="com.jspgou.common.web.springmvc.SimpleFreeMarkerViewResolver">
+			<property name="prefix" value=""/>
+			<property name="suffix" value=".html"/>
+			<property name="contentType" value="text/html; charset=UTF-8"/>
+			<property name="exposeRequestAttributes" value="false"/>
+			<property name="exposeSessionAttributes" value="false"/>
+			<property name="exposeSpringMacroHelpers" value="false"/>
+		</bean>
+		-->
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF"/>
+		<property name="freemarkerVariables">
+			<map>
+				<!--在FCK编辑器中需要用到appBase，以确定connector路径。-->
+				<entry key="appBase" value="/nhaocang/admin"/>
+				<entry key="authorize" value-ref="authorize"/>
+			</map>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="number_format">0.######</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<prop key="auto_import">/ftl/pony/index.ftl as p,/ftl/spring.ftl as s</prop>
+			</props>
+		</property>
+	</bean>
+	<!--
+		<context:component-scan base-package="com.jspgou.cms.action.admin" use-default-filters="false">
+			<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		</context:component-scan>
+		-->
+	<!--Controller
+		-->
+	<context:annotation-config/>
+	<bean id="fckAct" class="com.jspgou.cms.action.admin.FckAct"/>
+	<bean id="loginAct" class="com.jspgou.cms.action.admin.LoginAct"/>
+	<bean id="frameAct" class="com.jspgou.cms.action.admin.FrameAct"/>
+	<bean id="imageCutAct" class="com.jspgou.cms.action.admin.ImageCutAct"/>
+    <bean id="imageUploadAct" class="com.jspgou.cms.action.admin.ImageUploadAct"/>
+	<bean id="welcomeAct" class="com.jspgou.cms.action.admin.WelcomeAct"/>
+	<bean id="swfUploadAct" class="com.jspgou.cms.action.admin.SwfUploadAct"/>
+	
+	<bean id="websiteAct" class="com.jspgou.cms.action.admin.main.WebsiteAct"/>
+	<bean id="accountAct" class="com.jspgou.cms.action.admin.main.AccountAct"/>
+	<bean id="logAct" class="com.jspgou.cms.action.admin.main.LogAct"/>
+	<bean id="cmsLogAct" class="com.jspgou.cms.action.admin.main.CmsLogAct"/>
+    <bean id="alipayAct" class="com.jspgou.cms.action.admin.main.AlipayAct"/>
+    <bean id="addressAct" class="com.jspgou.cms.action.admin.main.AddressAct"/>
+	<bean id="shopAdminAct" class="com.jspgou.cms.action.admin.main.ShopAdminAct"/>
+	<bean id="resourceAct" class="com.jspgou.cms.action.admin.main.ResourceAct"/>
+	<bean id="shopMemberAct" class="com.jspgou.cms.action.admin.main.ShopMemberAct"/>
+	<bean id="productTypeAct" class="com.jspgou.cms.action.admin.main.ProductTypeAct"/>
+	<bean id="productAct" class="com.jspgou.cms.action.admin.main.ProductAct"/>
+	<bean id="productTagAct" class="com.jspgou.cms.action.admin.main.ProductTagAct"/>
+	<bean id="configAct" class="com.jspgou.cms.action.admin.main.ConfigAct"/>
+	<bean id="categoryAct" class="com.jspgou.cms.action.admin.main.CategoryAct"/>
+	<bean id="brandAct" class="com.jspgou.cms.action.admin.main.BrandAct"/>
+	<bean id="logisticsAct" class="com.jspgou.cms.action.admin.main.LogisticsAct"/>
+	<bean id="shopMemberGroupAct" class="com.jspgou.cms.action.admin.main.ShopMemberGroupAct"/>
+	<bean id="templateAct" class="com.jspgou.cms.action.admin.main.TemplateAct">
+	  <property name="tplManager" ref="tplManager"/>
+    </bean>
+	<bean id="shippingAct" class="com.jspgou.cms.action.admin.main.ShippingAct"/>
+	<bean id="paymentAct" class="com.jspgou.cms.action.admin.main.PaymentAct"/>
+	<bean id="orderAct" class="com.jspgou.cms.action.admin.main.OrderAct"/>
+	<bean id="shopChannelAct" class="com.jspgou.cms.action.admin.main.ShopChannelAct"/>
+	<bean id="shopArticleAct" class="com.jspgou.cms.action.admin.main.ShopArticleAct"/>
+	<bean id="messageAct" class="com.jspgou.cms.action.admin.main.MessageAct"/>
+	<bean id="discussAct" class="com.jspgou.cms.action.admin.main.DiscussAct"/>	
+	<bean id="shopMessageAct" class="com.jspgou.cms.action.admin.main.ShopMessageAct"/>	
+	<bean id="consultAct" class="com.jspgou.cms.action.admin.main.ConsultAct"/>	
+	<bean id="giftAct" class="com.jspgou.cms.action.admin.main.GiftAct"/>
+	<bean id="giftExchangeAct" class="com.jspgou.cms.action.admin.main.GiftExchangeAct"/>
+		
+	<bean id="couponAct" class="com.jspgou.cms.action.admin.main.CouponAct"/>
+	<bean id="uploadAdminAct" class="com.jspgou.cms.action.admin.main.UnLoadAdminAct"/>
+	<bean id="productTypePropertyAct" class="com.jspgou.cms.action.admin.main.ProductTypePropertyAct"/>
+	<bean id="productStatisticsAct" class="com.jspgou.cms.action.admin.main.ProductStatisticsAct"/>
+	<bean id="posterAct" class="com.jspgou.cms.action.admin.main.PosterAct"/>
+	<bean id="adspaceAct" class="com.jspgou.cms.action.admin.main.AdspaceAct"/>
+	<bean id="advertiseAct" class="com.jspgou.cms.action.admin.main.AdvertiseAct"/>
+	<bean id="pluginsAct" class="com.jspgou.cms.action.admin.main.PaymentPluginsAct"/>
+
+	<bean id="shopDictionaryAct" class="com.jspgou.cms.action.admin.main.ShopDictionaryAct"/>
+	<bean id="shopDictionaryTypeAct" class="com.jspgou.cms.action.admin.main.ShopDictionaryTypeAct"/>
+	<bean id="orderReturnAct" class="com.jspgou.cms.action.admin.main.OrderReturnAct"/>
+	<bean id="shopMoneyAct" class="com.jspgou.cms.action.admin.main.ShopMoneyAct"/>
+	<bean id="customerServiceAct" class="com.jspgou.cms.action.admin.main.CustomerServiceAct"/>
+	<bean id="roleAct" class="com.jspgou.cms.action.admin.main.RoleAct"/>
+
+	<bean id="exendedAct" class="com.jspgou.cms.action.admin.main.ExendedAct"/>
+	<bean id="standardTypeAct" class="com.jspgou.cms.action.admin.main.StandardTypeAct"/>
+	<bean id="gatheringAct" class="com.jspgou.cms.action.admin.main.GatheringAct"/>
+	<bean id="shipmentsAct" class="com.jspgou.cms.action.admin.main.ShipmentsAct"/>
+	<bean id="popularityGroupAct" class="com.jspgou.cms.action.admin.main.PopularityGroupAct"/>
+	
+	<bean id="shopOrderTypeAct" class="com.jspgou.cms.action.admin.main.ShopOrderTypeAct"/>
+	<bean id="lsfcAct" class="com.jspgou.cms.action.admin.main.LsfcAct"/>
+	<bean id="jmfAct" class="com.jspgou.cms.action.admin.main.JmfAct"/>
+	<bean id="dlsAct" class="com.jspgou.cms.action.admin.main.DlsAct"/>
+	<bean id="gysAct" class="com.jspgou.cms.action.admin.main.GysAct"/>
+	<bean id="bldAct" class="com.jspgou.cms.action.admin.main.BldAct"/>
+	<bean id="fwsAct" class="com.jspgou.cms.action.admin.main.FwsAct"/>
+	<bean id="jmfRechargeAct" class="com.jspgou.cms.action.admin.main.JmfRechargeAct"/>
+	<bean id="accountczAct" class="com.jspgou.cms.action.admin.main.AccountczAct"/>
+	<bean id="accountTxAct" class="com.jspgou.cms.action.admin.main.AccountTxAct"/>
+	<bean id="khgxAct" class="com.jspgou.cms.action.admin.main.KhgxAct"/>
+	<bean id="activitysAct" class="com.jspgou.cms.action.admin.main.ActivitysAct"/>
+</beans>

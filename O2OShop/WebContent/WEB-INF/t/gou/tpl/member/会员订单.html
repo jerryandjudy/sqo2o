@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户中心欢迎页 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+  function checkType(type){
+     $("#type").attr("value",type);
+     $("#jvForm").submit();
+  }
+  function HoverLi(m,n,counter){
+		for(var i=1;i<=counter;i++){
+			g('tb_'+m+i).className='dd_normal';
+			g('tbc_'+m+i).className='undis';
+		}
+		g('tbc_'+m+n).className='dis';
+		g('tb_'+m+n).className='dd_curr';
+	}
+</script>
+<style type="text/css">
+<!--
+.user_left a.current1{ color:#cd0001;background:url(${root}/img/red_arrow.gif) no-repeat 20px center; }
+-->
+</style>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+</div>
+<div class="w960">
+	 <div class="buy_position">您当前的位置：<a href="" target="_blank">首页</a>&nbsp;&gt;&nbsp;用户中心&nbsp;&gt;&nbsp;欢迎页</div>
+</div>
+<div class="w960 mt10">
+	 [#include "会员中心_导航.html"/]
+     <div class="user_right">
+        <form id="jvForm" action="my_order.jspx">
+     	  <div class="usercenter_position">
+          	   <span>我的订单</span> 
+          </div>
+          <br/>      
+          <div>
+	   收货人: <input type="text" name="userName" value="${userName!}" style="width:100px"/>  
+	  订单金额:
+	 <input type="text" name="startOrderTotal" value="${startOrderTotal!}" style="width:100px"/>
+	    &nbsp;至&nbsp;<input type="text" name="endOrderTotal" value="${endOrderTotal!}" style="width:100px"/>
+	        <select name="paymentId">
+            <option value="">--支付方式--</option>
+         [#list paymentList as payment]
+            <option value="${payment.id}"[#if paymentId??] [#if paymentId==payment.id]selected="selected"[/#if][/#if]>${payment.name!}</option>
+         [/#list]
+       </select>
+       <select name="shoppingId">
+            <option value="">--配送方式--</option>
+         [#list shippingList as shopping]
+            <option value="${shopping.id}"[#if shoppingId??] [#if shoppingId==shopping.id]selected="selected"[/#if][/#if]>${shopping.name!}</option>
+         [/#list]
+       </select>
+       <br/> <br/>
+               下单时间:
+         <input type="text" name="startTime" value="${startTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+	    &nbsp;至&nbsp;<input type="text" name="endTime" value="${endTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+        <input type="hidden" id="type" name="type" value="${type!}"/>
+		<input type="submit"  class="ropt" value="&nbsp;查询&nbsp;" style="background:url(../memeber/dd_curr.gif) no-repeat; width:52px; height:26px; float:right;"/>
+          </div>
+            <div class="dd_list">
+                     <ul class="dd_list_top">
+                          <li [#if type=="all"] class="dd_curr" [#else] class="dd_normal"[/#if] onclick="checkType('all');">所有订单</li>
+                          <li [#if type=="pending"] class="dd_curr" [#else] class="dd_normal"[/#if] onclick="checkType('pending');">待付款订单</li>
+                          <li [#if type=="processing"] class="dd_curr" [#else] class="dd_normal"[/#if] onclick="checkType('processing');">正在处理订单</li>
+                          <li [#if type=="delivered"] class="dd_curr" [#else] class="dd_normal"[/#if] onclick="checkType('delivered');">待收货</li>
+                          <li [#if type=="complete"] class="dd_curr" [#else] class="dd_normal"[/#if] onclick="checkType('complete');">已完成</li>
+                       </ul>
+                       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #d8d8d8;">
+                         <tr>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">订单编号</td>
+                           <td height="28" colspan="2" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8; padding-left:100px;">订单商品</td>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">收货人</td>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">订单金额</td>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">支付方式</td>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">下单时间</td>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">配送方式</td>
+                           <td height="28" align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">订单状态</td>
+                            <td  height="28"  align="center" bgcolor="#f3f3f3" style="border-bottom:1px solid #d8d8d8;">操作</td>
+                         </tr>
+                        [#if pagination.list?size gt 0]
+                        [#list pagination.list as order]
+                        <tr>
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8;"><a href="" target="_blank" class="bianhao">${order.id}</a></td>
+                              [#list order.items as item]
+                              [#if item_index==0]
+                              <td width="8%" height="60" align="center" ><img src="${item.product.minImgUrl!}" width="50" height="50" /></td>
+                                   <td style="border-right:1px solid #d8d8d8;">${item.productName}</td>
+                              [/#if]     
+                              [/#list]
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8;">${member.username!}</td>
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8;"><span style="color:#000;">￥${order.total}</span></td>
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8;">${order.payment.name}</td>
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8;"><p style="line-height:15px;">${order.createTime?substring(0,10)}</p>
+                               <p style="line-height:15px;">${order.createTime?substring(11,19)}</p></td>
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8;">${order.shipping.name}</td>
+                               <td height="60" align="center" style="border-right:1px solid #d8d8d8; color:#a30100;">[#if order.status==10]等待付款[#elseif order.status==11]付款失败[#elseif order.status==12]待审核[#elseif order.status==20]正在处理[#elseif order.status==30]已发货[#elseif order.status==31]待收货[#elseif order.status==40]完成[#elseif order.status==41]退回[#elseif order.status==42]拒付[#elseif order.status==43]取消[/#if]</td>
+                               <td height="60" align="center" ><p style="line-height:15px;"><a href="my_order_view.jspx?orderId=${order.id}">查看</a></p><p style="line-height:15px;"><!-- <a href="">删除</a> --></p></td>
+                       </tr>
+                       [/#list]
+                       <tr>
+                               <td height="60" colspan="9" align="center" >[@pagination_style style='3'][/@pagination_style]</td>
+                        </tr>
+                       [#else]
+                         <tr>
+                           <td height="60" colspan="9" align="center" style="border-right:1px solid #d8d8d8; color:#000;">暂无订单 <!--  ，这就去<a href="${base}/">JSPGOU商城</a>挑选商品。--></td>
+                         </tr>
+                       [/#if]
+                      </table>
+            </div>
+            <div class="dd_list">
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #d8d8d8; border-bottom:0 none;">
+              </table>
+            </div>
+        </form>
+     </div>
+     <div class="clear"></div>
+</div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

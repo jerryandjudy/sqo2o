@@ -1,0 +1,193 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	<script type="text/javascript">
+		var APP = '${base}';
+		var SELF = '${base}/wap/reset_password.jspx';
+	</script>
+	[#include "headerback.html"]
+	<!--TOP=end-->
+	<form action="${base}/wap/wapfworderlist.jspx" method="get" id="jvForm" >
+	<input type="hidden" name="pageNos" id="pageNos" value="${pageNos!}" />
+	<input type="hidden" id="status" name="status"  value="${status!}"/> 
+	<div class="content">
+	<div class="am-g">
+    <input id="cat_id" type="hidden" value="1"></input>
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-bd am-padding-sm am-bg-gray">
+            <ul class="am-avg-sm-3 am-text-center">
+                <li><a  [#if !(status??)] class="am-text-secondary"  [/#if] onclick="checkType(0);" href="javascript:void(0)">全部[@sqorder_page status='' count='1'](${tag_pagination.totalCount})[/@sqorder_page]</a></li>
+                <li><a [#if status??&status==1] class="am-text-secondary" [/#if] onclick="checkType(1);"  href="javascript:void(0)">未完成[@sqorder_page status='1' count='1'](${tag_pagination.totalCount})[/@sqorder_page]</a></li>
+                <li><a [#if status??&status==2] class="am-text-secondary"  [/#if] onclick="checkType(2);"  href="javascript:void(0)">已完成[@sqorder_page status='2' count='1'](${tag_pagination.totalCount})[/@sqorder_page]</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+	
+ [@sqorder_page status=status count='10'  pageNos=pageNos]
+    [#list tag_list
+as sqOrder]
+<div class="am-container am-margin-top-lg">
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<div class="am-panel am-panel-default mo am-text-xs">
+				<div class="am-panel-hd">订单号：${sqOrder.code!}</div>
+				<div class="am-panel-bd c-goods-list" style="padding: 10px">
+					<p>服务名称：${sqOrder.sqService.name!}</p>
+					<p>服务描述：${sqOrder.sqService.descriptions!}</p>
+					<p>服务商：${sqOrder.seller.realname!}</p>
+					<p>下单时间：${sqOrder.createTime!}</p>
+					<p>结单时间：${sqOrder.finishedTime!}</p>
+					<p>收 货 人：${sqOrder.receiveName!}</p>
+					<p>联系电话：${sqOrder.receiveTel!}</p>
+					<p>收货地址：${sqOrder.receiveAddress!}</p>
+					<p>订单备注：${sqOrder.comments!}</p>
+
+				</div>
+				<footer class="am-panel-footer">
+					[#if sqOrder.status==1 ]<span class="am-padding-xs">未完成</span>
+					[#else] <span class="am-padding-xs">已完成 </span> [/#if]
+
+				</footer>
+			</div>
+		</div>
+		<div class="am-u-sm-12">
+			<ul id="orders"
+				class="am-pagination am-pagination-centered am-no-layout"
+				data-am-widget="pagination">
+			</ul>
+		</div>
+	</div>
+</div>
+[/#list]
+           [#assign p=tag_pagination /] 
+           [#if p.pageNo gte p.totalPage]
+			<div class="am-g am-text-center" id="next-page" url="end">
+				没有更多了.... 
+			[#else]
+				<div class="am-g am-text-center" id="next-page"
+					url="/wap/wapfworderpage.jspx">
+					<i class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+						class="am-icon-spinner am-icon-spin"></i>...
+		   [/#if]
+					<script type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										pageNos:${pageNos!+1},
+										status:[#if status??]${status}[#else]''[/#if]
+								
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+				<div id="gc"></div>
+        [/@sqorder_page]
+        </div>
+		<script type="text/javascript">
+			function confrimed(id) {
+				window.location.href = APP + '/Member/cancelorder.html?id='
+						+ id.attr('data-id') + '&pageNum=';
+			}
+			function abolishOrder(orderId){
+				$.post('${base}/order/abolishOrder.jspx', {
+					'orderId' : orderId
+				}, function(data) {
+					if(data.success){
+						location.reload();
+					}
+				},'json');
+			}
+			function accomplishOrder(orderId){
+				$.post('${base}/order/accomplishOrder.jspx', {
+					'orderId' : orderId
+				}, function(data) {
+					if(data.success){
+						location.reload();
+					}
+				},'json');
+			}
+			function checkType(status){
+				 if(status==0){
+					 $("#status").attr("value",'');
+				 }else{
+			       $("#status").attr("value",status);
+				 }
+			     $("#jvForm").submit();
+			  }
+		</script>
+
+	</div>
+	</form>
+	[#include "footer.html"]
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 服务列表 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="返回" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=list;sqService,i,has_next><#rt/>
+	<@p.column code="服务">${sqService.name!}</@p.column><#t/>
+	<@p.column code="服务类别">${sqService.category.name!}</@p.column><#t/>
+	<@p.column code="价格">${sqService.price!}</@p.column><#t/>
+	<@p.column code="服务描述">${sqService.descriptions!}</@p.column><#t/>
+	<@p.column code="服务人">${sqService.servicePersonName!}</@p.column><#t/>
+	<@p.column code="联系方式">${sqService.contactTel!}</@p.column><#t/>
+	<@p.column code="状态">${(sqService.status==true)?string('可用','不可用')}</@p.column><#t/>
+	<@p.column code="所属站点">${sqService.website.name!}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

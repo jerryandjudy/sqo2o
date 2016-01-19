@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<ul id="lmenu">
+<li><a href="right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+<!-- <@authorize url="productStatistics/v_productLack.do"> 
+<li><a href="productStatistics/v_productLack.do?status=1" target="rightFrame">库存预警</a></li>
+</@authorize> -->
+<@authorize url="productStatistics/v_productSaleTop.do"> 
+<li><a href="productStatistics/v_productSaleTop.do" target="rightFrame">销量排行</a></li>
+</@authorize>
+<!-- <@authorize url="productStatistics/v_productProfitTop.do"> 
+<li><a href="productStatistics/v_productProfitTop.do" target="rightFrame">利润排行</a></li>
+</@authorize> -->
+<@authorize url="discuss/v_list.do"> 
+<li><a href="discuss/v_list.do" target="rightFrame"><@s.m "product.discuss"/></a></li>
+</@authorize>
+<@authorize url="shopMessage/v_list.do"> 
+<li><a href="shopMessage/v_list.do" target="rightFrame">平台留言</a></li>
+</@authorize>
+<@authorize url="consult/v_list.do"> 
+<li><a href="consult/v_list.do" target="rightFrame"><@s.m "customer.consult"/></a></li>
+</@authorize>
+
+
+</ul>
+</body>
+</html>

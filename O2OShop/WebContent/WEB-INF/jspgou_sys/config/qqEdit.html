@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 在线客服 - 修改 </div>
+	
+	<form class="ropt">
+		<input type="submit" value="返回" onclick="this.form.action='v_qqList.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="tableForm" action="o_qqUpdate.do">
+<input type="hidden" name="id" value="${qq.id}">
+<@p.td label="QQ号">
+	<@p.text name="content" value="${qq.content!}" required="true" class="required" maxlength="11"/>
+</@p.td><@p.tr/>
+<@p.td>
+	<@p.submit code="global.submit"/>
+</@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

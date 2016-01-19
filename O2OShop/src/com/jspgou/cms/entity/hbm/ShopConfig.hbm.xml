@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopConfig" table="jc_shop_config">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="config_id"><generator class="foreign"><param name="property">website</param></generator></id>
+		<property name="shopPriceName" column="shop_price_name" type="string" not-null="true" length="50"/>
+		<property name="marketPriceName" column="market_price_name" type="string" not-null="true" length="50"/>
+		<property name="favoriteSize" column="favorite_size" type="integer" not-null="true" length="10"/>
+		<property name="registerAuto" column="register_auto" type="java.lang.Boolean" not-null="true"/>
+		<one-to-one name="website" class="com.jspgou.core.entity.Website" constrained="true" cascade="all"/>
+		<many-to-one name="registerGroup" column="register_group_id" class="ShopMemberGroup" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

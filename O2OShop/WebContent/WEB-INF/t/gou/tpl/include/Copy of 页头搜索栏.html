@@ -1,0 +1,46 @@
+<div class="head">
+     	  <a href="${base}/" class="logo"><img src="${root}/img/JSPGO_logo.gif"  /></a>
+          <div class="search">
+          	   <div>
+               <form id="searchForm" action="${base}/search.jspx">
+                   <input name="q" id="q" value="${q!'请输入关键词'}" type="text" 
+                   onfocus="if(this.value=='请输入关键词')this.value=''" 
+                   onblur="if(this.value=='')this.value='请输入关键词'" maxlength="24"
+                    style="width:275px;height:17px;"/>
+                  <span id="fid_box">
+		             <select name="ctgId">
+		                 <option value="">所有信息</option>
+		                    [@shop_Category_list]
+		                       [#list tag_list as ctg]
+		                            <option value="${ctg.id}" [#if ctgId??] [#if ctgId==ctg.id]selected="selected"[/#if][/#if]>${ctg.name}</option>
+		                       [/#list]
+	                         [/@shop_Category_list] 
+		            </select>
+		         </span>
+                 <input type="submit" value="搜索"/>
+                </form>
+                </div>
+             <div class="hot_key">
+             <span class="red">热门关键词:</span>
+             [@keyword_list count= 6]
+              [#if tag_list?size gt 0]
+               [#list tag_list as kw]
+                <a style="cursor: hand;" id="${kw.keyword}" onclick="parssKey(this);" class="gray">${kw.keyword}</a> 
+               [/#list]
+              [#else]
+              [/#if]
+             [/@keyword_list]
+             </div>
+
+          </div>
+          <div class="tel"><img src="${root}/img/JSPGO_tel.gif" width="195"  /></div>
+               <div class="clear"></div>
+     </div>
+   <script type="text/javascript">
+
+function parssKey(o){
+	var v=o.id;
+	$("#q").val(v);
+	document.getElementById("searchForm").submit();
+}
+</script>

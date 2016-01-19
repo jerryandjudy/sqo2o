@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 销售统计 - 库存预警 </div>
+	<form class="ropt">
+		<input type="radio" name="status" <#if status>checked="checked"</#if> value="1" />提醒
+		<input type="radio" name="status" <#if !status>checked="checked"</#if> value="0" />不提醒
+		库存预警值:<input type="text"  name="count" value="${count!}" />
+		<input type="submit" value="查找" onclick="this.form.action='v_productLack.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="ctgId" value="${ctgId!}"/>
+<input type="hidden" name="count" value="${count!}"/>
+<input type="hidden" name="status" value="${status?string('true','false')}"/>
+<@p.table listAction="v_productLack.do" value=pagination;product,i,has_next>
+	<@p.column code="product.name">${product.name!}</@p.column><#t/>
+	<@p.column code="product.category">${product.category.name!}</@p.column><#t/>
+	<@p.column code="product.type">${product.type.name!}</@p.column><#t/>
+	<@p.column code="销售量">${product.saleCount!}</@p.column><#t/>
+	<@p.column code="库存">${product.stockCount!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<#if product.lackRemind>
+		<a href="o_updateRemind.do?productId=${product.id!}&status=false">不再提醒</a>
+		<#else>
+		<a href="o_updateRemind.do?productId=${product.id!}&status=true">提醒</a>
+		</#if>
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

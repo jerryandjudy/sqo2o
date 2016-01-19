@@ -1,0 +1,16 @@
+<div id="top">
+[#include "../include/header_register.html"/]
+  <div class="topright">
+    <span><a href="http://localhost:8080/goudzd/" target="_self">网站首页    |</a></span>
+    <span><a href="${base}/shopMember/index.jspx" target="_self">会员中心   |</a></span> 
+    <span>[#if store??]<a href="${base}/store/index.jspx" target="_self">卖家中心  |</a>
+          [#else]<a href="${base}/registerStore.jspx" target="_self">我的开店   |</a>[/#if]
+    </span> 
+    <span><a href="${base}/cart/shopping_cart.jspx">购物车<span id="cart_total_items"></span>件    |</a></span>
+    <span>
+         <a href="javascript:void(0);" target="_blank">帮助中心</a>   |  
+         <a href="javascript:void(0);" onclick="window.external.addFavorite('http://demo2.11077.net','jspgou-国内专业、开源、免费的JAVA (JSP)版网上商城管理系统')">加入收藏</a>  |
+         <a href="javascript:void(0);" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://localhost:8080/gou/');">设为主页</a>
+    </span>  
+  </div>
+</div>

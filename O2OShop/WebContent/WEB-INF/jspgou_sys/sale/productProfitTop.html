@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 利润统计 - 利润排行 </div>
+		
+	<form class="ropt">
+	<input type="submit" onclick="this.form.action='o_resetProfitTop.do';" value="重置">
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="ctgId" value="${ctgId!}"/>
+<@p.table listAction="v_productSaleTop.do" value=pagination;productId,i,has_next><#rt/>
+	<@p.column code="product.name">${productId.name}</@p.column><#t/>
+	<@p.column code="product.category">${productId.category.name}</@p.column><#t/>
+	<@p.column code="product.type">${productId.type.name}</@p.column><#t/>
+	<@p.column code="利润">${productId.liRun}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

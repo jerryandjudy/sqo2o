@@ -1,0 +1,263 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+        <title>采集坐标 </title>
+        <!--[if IE 6]>
+            <script type="text/javascript" src="http://dev.baidu.com/wiki/static/map/tuan/js/DD_belatedPNG_0.0.8a-min.js"></script>
+            <script>DD_belatedPNG.fix("#float_search_bar");</script>
+       <![endif]-->
+       <style>
+            #preview{
+                border: 1px solid #bfd2e1;
+				margin: 0 auto;
+                width: 790px;
+                height: 468px;
+                font-family: Arial, Helvetica, sans-serif,"宋体";
+            }
+            #map_container{
+                height: 468px;
+            }
+             #float_search_bar{
+                z-index: 2012;
+                position: absolute;
+                width: 780px;
+                height: 61px;
+                background-position: 0 -21px;
+                padding: 3px 0 0 10px;
+            }
+            #float_search_bar label, #float_search_bar span{
+                color: red;
+                font-size: 14px;
+            }
+            /*#float_search_bar input{
+                width: 180px;
+                height: 16px;
+                margin-top: 1px;
+            }
+            #float_search_bar input:focus{
+                outline: none;
+            } */
+           #l-map{height:10px;width:100%;}
+		   #r-result{width:100%;}
+        </style>
+   </head>
+   
+   <body>
+   <div id="preview">
+        <div id="float_search_bar">
+            <div id="l-map"></div>
+            请输入:<input type="text" id="keyword" />
+			
+            <!-- <button id="search_button">查找</button> -->
+			
+			<input type="button" id="qd" onclick="ok();"  value="确定" />
+            <span>提示：输入条件下拉选择位置或直接在地图点击，然后”确定“</span>
+        </div>
+        <div id="map_container"></div>
+    </div>
+	<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+    <div id="result" style="margin-top: 4px;color:red"> <#if bld??  && bld.mapX??&&bld.mapY??>所在位置：${bld.mapX},${bld.mapY};${bld.bldAddr}</#if></div>
+    <input  id="mapaddr" name="mapaddr" type="hidden" value="<#if bld?? && bld.bgdz??>${bld.bgdz}</#if>">
+    <input  id="addr_lng" name="addr_lng" type="hidden" value="<#if bld?? && bld.mapX??>${bld.mapX}</#if>">
+    <input  id="addr_lat" name="addr_lat" type="hidden" value="<#if bld??&&bld.mapY?? >${bld.mapY}</#if>">
+    <script src="${base}/res/common/js/jquery.js" type="text/javascript"></script>
+    <script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oaugvH2uGm7FOtGHGt4g4MTk"></script>
+    <script type="text/javascript">
+    
+    var api = frameElement.api, W = api.opener;
+      
+    /* 函数ok即为上面添加按钮方法中callback回调函数调用的函数 */
+    function ok()
+    {
+    	var mapaddr=document.getElementById('mapaddr').value;
+    	var attr_lng=document.getElementById('addr_lng').value;
+    	var attr_lat=document.getElementById('addr_lat').value;
+    	if(mapaddr==""){
+    		alert("请选择位置");
+    		return;
+    	}
+        W.document.getElementById("bldAddr").value = mapaddr;
+        W.document.getElementById("attr_lng").value = attr_lng;
+        W.document.getElementById("attr_lat").value = attr_lat;
+        api.close();
+       // W.document.getElementById('attr_lng').value = attr_lng;
+        //W.document.getElementById('attr_lat').value = attr_lat;
+    }
+    
+	function G(id) {
+		return document.getElementById(id);
+	}
+	var map;
+        function getUrlParas(){
+            var hash = location.hash,
+                para = {},
+                tParas = hash.substr(1).split("&");
+            for(var p in tParas){
+                if(tParas.hasOwnProperty(p)){
+                    var obj = tParas[p].split("=");
+                    para[obj[0]] = obj[1];
+                }
+            }
+            return para;
+        }
+        var para = getUrlParas(),
+            center = para.address?decodeURIComponent(para.address) : "长春市",
+            city = para.city?decodeURIComponent(para.city) : "长春市";
+    
+       // document.getElementById("keyword").value = center;
+    
+        var marker_trick = false;
+        map=new BMap.Map("map_container");
+		map.centerAndZoom("长春市",12); 
+        map.enableScrollWheelZoom();
+        var geoc = new BMap.Geocoder();    
+        var marker = new BMap.Marker(new BMap.Point(124.391382, 43.175525), {
+            enableMassClear: false,
+            raiseOnDrag: true
+		 });
+
+       
+        <#if bld?? && bld.mapX??&&bld.mapY??>
+        marker = new BMap.Marker(new BMap.Point(${bld.mapX}, ${bld.mapY}), {
+            enableMassClear: false,
+            raiseOnDrag: true
+		 });
+        map.addOverlay(marker);
+        </#if>
+        marker.enableDragging();
+        map.addEventListener("click", function(e){
+            if(!(e.overlay)){
+                map.clearOverlays();
+                map.addOverlay(marker);
+                marker.setPosition(e.point);
+				var pt = e.point;
+		       geoc.getLocation(pt, function(rs){
+			var addComp = rs.addressComponents;
+			setResult(e.point.lng, e.point.lat,addComp.province+ addComp.city+addComp.district  + addComp.street + addComp.streetNumber);
+		         });     
+                
+            }
+        });
+        marker.addEventListener("dragend", function(e){
+		var pt = e.point;
+		 geoc.getLocation(pt, function(rs){
+		 
+			var addComp = rs.addressComponents;
+			 setResult(e.point.lng, e.point.lat,addComp.province  + addComp.city  + addComp.district  + addComp.street  + addComp.streetNumber);
+		         });   
+           
+        });
+   
+        var local = new BMap.LocalSearch(map, {
+            renderOptions:{map: map},
+			 pageCapacity: 1
+        });
+		
+		
+
+		
+       // local.setSearchCompleteCallback(function(results){
+        //    if(local.getStatus() !== BMAP_STATUS_SUCCESS){
+        //        alert("无结果");
+        //    } else {
+		//	     marker.hide();
+		//		 setResult('','','');
+		//	 }
+       // });
+       // local.setMarkersSetCallback(function(pois){
+       //     for(var i=pois.length; i--; ){
+       //         var marker = pois[i].marker;
+        //        marker.addEventListener("click", function(e){
+        //            marker_trick = true;
+        //            var pos = this.getPosition();
+         //           setResult(pos.lng, pos.lat,'');
+         //       });
+        //   }
+       // });
+    
+     //   window.onload = function(){
+           // local.search(center);
+           //document.getElementById("search_button").onclick = function(){
+           //     local.search(document.getElementById("keyword").value);
+           // };
+        //    document.getElementById("keyword").onkeyup = function(e){
+        //        var me = this;
+        //        e = e || window.event;
+        //        var keycode = e.keyCode;
+        //        if(keycode === 13){
+        //            local.search(document.getElementById("keyword").value);
+        //        }
+         //   };
+       // };
+        function a(){
+            document.getElementById("float_search_bar").style.display = "none";
+        }
+        
+        /*
+         * setResult : 定义得到标注经纬度后的操作
+         * 请修改此函数以满足您的需求
+         * lng: 标注的经度
+         * lat: 标注的纬度
+         */
+        function setResult(lng, lat,addr){
+            document.getElementById("result").innerHTML ="你的位置："+ lng+","  + lat+";"+addr;
+            document.getElementById("mapaddr").value=addr;
+            document.getElementById("addr_lng").value=lng;
+            document.getElementById("addr_lat").value=lat;
+            
+        }
+		
+		var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "keyword",
+		"location" : map
+	    });
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		//alert(str);
+		G("searchResultPanel").innerHTML = str;
+	});
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace(myValue);
+	});
+
+	function setPlace(myValue){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			
+            setResult(pp.lng, pp.lat,myValue);
+			map.centerAndZoom(pp, 18);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+		
+   </script>
+    </body>
+</html>

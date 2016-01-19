@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+
+function chgStatus() {
+	var status = $("input[name=status]:checked").val();
+	location.href="v_list.do?status=" + status;
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "orderReturn.function"/> - <@s.m "global.list"/></div>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_list.do">
+	   <div style="padding-top:5px">
+         <label><input type="radio" name="status" value="" onclick="chgStatus();" <#if !(status??)> checked="checked"</#if>/>所有</label>
+         <label><input type="radio" name="status" value="1" onclick="chgStatus();" <#if status??&&status=1> checked="checked"</#if>/>待审</label>
+         <label><input type="radio" name="status" value="2" onclick="chgStatus();" <#if status??&&status=2> checked="checked"</#if>/>已退款</label>
+         <label><input type="radio" name="status" value="3" onclick="chgStatus();" <#if status??&&status=3> checked="checked"</#if>/>拒绝</label>
+      </div>
+	</form>
+	<div class="clear"></div>
+</div>
+
+
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;orderReturn,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${orderReturn.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="订单编号">${orderReturn.order.code}</@p.column><#t/>
+	<@p.column code="会员名"><#if orderReturn.order.ordeRType==1>${orderReturn.order.member.username!}<#else>${orderReturn.order.bld.companyName!}</#if></@p.column><#t/>
+	<@p.column code="order.createTime" style="width:100px;">${orderReturn.order.createTime}</@p.column><#t/>
+	<@p.column code="order.shipping"><#if orderReturn.order.shipping??>${orderReturn.order.shipping.name}</#if></@p.column><#t/>
+	<@p.column code="order.payment"><#if orderReturn.order.payment??>${orderReturn.order.payment.name!}</#if></@p.column><#t/>
+	<@p.column code="order.status"><@s.m "order.status.${orderReturn.order.status}"/></@p.column><#t/>
+	<@p.column code="order.paymentStatus"><@s.m "order.paymentStatus.${orderReturn.order.paymentStatus}"/></@p.column><#t/>
+	<@p.column code="order.shippingStatus"><@s.m "order.shippingStatus.${orderReturn.order.shippingStatus}"/></@p.column><#t/>
+	<@p.column code="退款类型"><@s.m "orderReturn.returnType.${orderReturn.returnType!}"/></@p.column><#t/>
+	<@p.column code="申请时间">${orderReturn.createTime?string('yyyy-MM-dd HH:mm:ss')}</@p.column><#t/>
+	<@p.column code="完成时间"><#if orderReturn.finishedTime??> ${orderReturn.finishedTime?string('yyyy-MM-dd HH:mm:ss')}</#if></@p.column><#t/>
+	<@p.column code="状态"><@s.m "orderReturn.status.${orderReturn.status}"/></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_view.do?id=${orderReturn.id}&pageNo=${pageNo!}">查看</a>|<#rt/>
+		<!-- <a href="o_delete.do?ids=${orderReturn.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/> -->
+	</@p.column><#t/>
+</@p.table>
+<!-- <div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div> -->
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

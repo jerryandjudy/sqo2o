@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档  - ${web.name}${web.additionalTitle!}</title>
+<script language="JavaScript" type="text/javascript" src="${root}/js/jquery.js"></script>
+<script type="text/javascript">
+  function insertConsult(pid,mid){
+	  var content=$("#goods_question_contens_box").val();
+        $.post("insertConsult.jspx",{
+            productId:pid,content:content
+            },function(data){
+                if(data=='false'){
+              alert('请先登入！');
+              var loginForm=getLoginForm();
+              loginForm.submit();
+                    }else if(data=='sameUsually'){
+                   alert('请在30秒后发表');
+                        }
+                    else if(data=='success'){
+                    	 alert('成功');
+                    }
+                });
+	  }
+
+  function getLoginForm(){
+     return document.getElementById("loginForm");
+	  }
+  function getTableForm(){
+	     return document.getElementById("tableForm");
+		  }
+  
+</script>
+</head>
+<style>
+.pl_line { width: 710px; font-size:12px;}
+.pl_zone {color: #000000; display: block; float: left; line-height: 24px; overflow-x: hidden; overflow-y: hidden; word-wrap: break-word; border-bottom: #EAEAEA dotted 1px; padding: 10px 10px 5px 10px; }
+.pl {width: 710px;}
+.pl_zone span {color: #999999;}
+UL, LI {list-style-image: none; list-style-position: outside; list-style-type: none; margin:0; padding: 0;}
+.pl_txt {color: #333333; line-height: 22px;}
+
+.re_txt {
+    color: #999999;
+    line-height: 18px;
+    margin-top: 5px !important;
+	margin-top: 0;
+	margin-left:0;
+}
+.re_txt dd span {
+    color: #C90809;
+}
+.re_txt dd {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-bottom: #DBDBDB solid 1px;
+    border-left: #C90809 solid 2px;
+    border-right: #DBDBDB solid 1px;
+    border-top: #DBDBDB solid 1px;
+    height: 100%;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+    position: relative;
+}
+.re_txt dd div {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url(bg.gif);
+    background-origin: padding-box;
+    background-position: -647px -58px;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    font-size: 0;
+    height: 8px;
+    left: 12px;
+    line-height: 0;
+    position: absolute;
+    top: -8px;
+    width: 14px;
+}
+.clear/*清除两端*/{clear:both; height:0; overflow:hidden;}
+</style>
+<body>
+<div class="pl_line ">
+  [#list pagination.list as c]
+  <ul class="pl_zone" style="width:715px;">
+    <li><strong>${c.member.username!}</strong>&nbsp;&nbsp;<span>[${c.time}]</span></li>
+    <li class="pl_txt">${c.consult!}</li>
+     
+     [#if c.adminReplay??]
+        <li>
+        <dl class="re_txt">
+            <dd><span>客服：</span>${c.adminReplay}<div></div></dd>
+        </dl>     
+        </li>    
+     [#else]
+        <li>
+        <dl class="re_txt">
+           <div class="clear"></div>
+        </dl>     
+        </li>    
+     [/#if]   
+  </ul>
+  [/#list]
+  [@pagination_style style='8'/] 
+  <div class="clear"></div>
+   <form id="loginForm" action="${base!}/login.jspx" method="get" target="_top"></form>
+               <form id="tableForm" action="consultProduct.jspx" method="post">
+                <input type="hidden" value="${product.id!}" name="productId">
+               </form>
+       		 <ul class="wenti_box">
+                  <li>你有什么购买问题及产品意见？</li>
+                  <li>
+                    <textarea rows="6" cols="50" id="goods_question_contens_box" name="content" class="wenti_input"></textarea>
+             </li></ul> 
+                <input type="button" value="提交" onclick="insertConsult('${product.id}');"/> 
+</div>
+</body>
+</html>

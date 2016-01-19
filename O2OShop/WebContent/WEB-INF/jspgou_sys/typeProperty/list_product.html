@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSave() {
+	var f = getTableForm();
+	f.action="o_save_list.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+function backToList(o) {
+	o.form.action='../type/v_list.do';
+	$('#typeId').attr('disabled','disabled');
+	$('#isCategroy').attr('disabled','disabled');
+}
+function disInput(o) {
+	if(o.checked) {
+		$(o).parent().parent().find('.dis').each(function(){$(this).removeAttr('disabled');});
+	} else {	
+		$(o).parent().parent().find('.dis').each(function(){$(this).attr('disabled','disabled');});
+	}
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 商品模型管理 - <@s.m "global.list"/> - <span style="color:red">${pType.name}</span></div>
+	<form class="ropt">
+		<input id="typeId" type="hidden" name="typeId" value="${typeId}"/>
+		<input id="isCategory" type="hidden" name="isCategory" value="${isCategory?string("true","false")}"/>
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+&nbsp; <input type="submit" value="<@s.m "global.backToList"/>" onclick="backToList(this);"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" value="${typeId!}" name="typeId">
+<input id="isCategory" type="hidden" name="isCategory" value="${isCategory?string("true","false")}"/>
+<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
+<thead class="pn-lthead">
+<tr>
+	<th width="20"><input type='checkbox' onclick='Pn.checkbox("ids",this.checked)'/></th>
+	<th>字段</th>
+	<th>数据类型</th>
+	<th>属性名称</th>
+	<th>排序</th>
+	<th>独占一行</th>
+	<th>操作选项</th>
+</tr>
+</thead>
+<tbody class="pn-ltbody">
+<#list list as item>
+<tr>
+	<td><input type="checkbox" name="ids" value="${item.id}"/></td>
+	<td align="center">${item.field}</td>
+	<td align="center"><@s.m "property.type${item.dataType}"/></td>
+	<td align="center"><input type="text" name="propertyName" value="${item.propertyName}" style="width:100px"/></td>
+	<td align="center">
+		<input type="text" name="sort" value="${item.sort}" style="width:40px"/>
+		<input type="hidden" name="wids" value="${item.id}"/>
+	</td>
+	<td align="center">
+		<input type="checkbox" onclick="$('#s${item_index}').val(this.checked)"<#if item.single> checked="checked"</#if>/>
+		<input type="hidden" id="s${item_index}" name="single" value="${item.single?string('true','false')}"/>
+	</td>
+	<td align="center">
+		<a href="v_edit.do?id=${item.id}" class="pn-opt"><@s.m "global.edit"/></a> |
+		<a href="o_delete.do?ids=${item.id}&typeId=${typeId}&isCategory=${isCategory?string('true','false')}" class="pn-opt" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a>
+ 	</td>
+</tr>
+</#list>
+<#assign i=1/>
+<tr id="sysDefModel" style="display:none;"><td colspan="8">系统默认字段:</td></tr>
+<#if !fieldList?seq_contains('name')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">name</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.name"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="name"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('categoryId')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">categoryId</td>
+	<td align="center"><@s.m "property.type6"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.category"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="categoryId"/>
+		<input class="dis" type="hidden" name="dataTypes" value="6"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('brandId')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">brandId</td>
+	<td align="center"><@s.m "property.type6"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.brand"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="brandId"/>
+		<input class="dis" type="hidden" name="dataTypes" value="6"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('price')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">price</td>
+	<td align="center"><@s.m "property.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.price"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="price"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('stockCount')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">stockCount</td>
+	<td align="center"><@s.m "property.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.stockCount"/> " style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="stockCount"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('weight')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">weight</td>
+	<td align="center"><@s.m "property.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.weight"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="weight"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('attr')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">attr</td>
+	<td align="center"><@s.m "property.type7"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.attr"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="attr"/>
+		<input class="dis" type="hidden" name="dataTypes" value="7"/>
+	</td>
+</tr>
+
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('score')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">score</td>
+	<td align="center"><@s.m "property.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.score"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="score"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('alertInventory')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">alertInventory</td>
+	<td align="center"><@s.m "property.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.alertInventory"/> " style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="alertInventory"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('tagIds')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">tagIds</td>
+	<td align="center"><@s.m "property.type7"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.tags"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="tagIds"/>
+		<input class="dis" type="hidden" name="dataTypes" value="7"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('coverImg')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">coverImg</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.coverImg"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="coverImg"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('minImg')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">minImg</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.minImg"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="minImg"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('productstyle')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">productstyle</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.productstyle"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="false"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="productstyle"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('shareContent')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">shareContent</td>
+	<td align="center"><@s.m "property.type4"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.shareContent"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked"  onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="shareContent"/>
+		<input class="dis" type="hidden" name="dataTypes" value="4"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('mtitle')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">mtitle</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.mtitle"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="mtitle"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('productKeywords')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">productKeywords</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.keywords"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="productKeywords"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('mkeywords')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">mkeywords</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.mkeywords"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="mkeywords"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('mdescription')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">mdescription</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.mdescription"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="mdescription"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('text')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">text</td>
+	<td align="center"><@s.m "property.type4"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.text"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="text"/>
+		<input class="dis" type="hidden" name="dataTypes" value="4"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('text1')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">text1</td>
+	<td align="center"><@s.m "property.type4"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.text1"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="text1"/>
+		<input class="dis" type="hidden" name="dataTypes" value="4"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+
+
+<#if !fieldList?seq_contains('barcode')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">barcode</td>
+	<td align="center"><@s.m "property.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="<@s.m "product.barcode"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="barcode"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('parent')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">parent</td>
+	<td align="center"><@s.m "property.type0"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="对应单品" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="parent"/>
+		<input class="dis" type="hidden" name="dataTypes" value="0"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('parentCount')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center">parentCount</td>
+	<td align="center"><@s.m "property.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="propertyNames" value="对应单品数量" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="sorts" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="parentCount"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+</tbody>
+</table>
+</form>
+<div>
+<#if i gt 1>
+	<input type="button" value="保存系统默认字段" onclick="optSave();"/>
+&nbsp;<script type="text/javascript">$('#sysDefModel').show();</script>
+</#if>
+<input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/>
+&nbsp; <input type="button" value="保存内容" onclick="optSaveOrder();"/>
+</div>
+
+</div>
+</body>
+</html>

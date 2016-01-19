@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>店铺模板修改页  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/collect.css" type="text/css" rel="stylesheet" />
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+function ajaxSubmit() {
+	$.post("o_update.jspx", {
+		"roott" : $("#roott").val(),
+		"name" : $("#name").val(),
+		"source" : $("#source").val()
+	}, function(data) {
+		if (data.success) {
+			alert("保存成功");
+		} else {
+			alert(data.msg);
+		}
+	}, "json");
+}
+</script>
+</head>
+<body>
+<div class=" mt10">
+  <div class="mc_content">   
+     <div class="right_line">
+    <form method="post" action="o_ajaxUpdate.jspx" id="jvForm" onsubmit="ajaxSubmit();return false;">
+         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
+          <tr>
+              <td width="15%" class="pn-flabel pn-flabel-h">文件名:</td>
+              <td width="85%" class="pn-fcontent">
+                <input type="text" value="${template.filename}" readonly="readonly" size="40" class="disabled"/>
+                 <span class="pn-fhelp">按 ctrl+s 保存</span></td></tr>
+             <tr>
+                <td colspan="2" class="pn-fbutton">
+                <textarea id="source" wrap="off" name="source" style="width:90%;height:350px" maxlength="1232896" onkeydown="if((event.keyCode==115||event.keyCode==83)&&event.ctrlKey){ajaxSubmit();return false;}">
+                   ${template.source!}
+                 </textarea>
+               </td></tr>
+             <tr><td colspan="2" class="pn-fbutton">
+                  <input type="hidden" id="name" name="name" value="${template.name!}"/>
+                   <input type="hidden" id="roott" name="roott" value="${roott!}"/>
+	               <input type="submit" value="提交" class="submit" class="submit"/> &nbsp;
+	                <input type="reset" value="重置" class="reset" class="reset"/>
+            </td></tr>
+         </table>
+    </form>
+          </div>
+    </div>
+</div>
+ <div class="clear"></div>
+</body>
+</html>

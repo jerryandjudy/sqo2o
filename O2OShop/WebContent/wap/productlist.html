@@ -1,0 +1,247 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>商品列表</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png"
+	href="${base}/wapstyle/assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	<script type="text/javascript">
+		var URL = '${base}';
+		var APP = '${base}';
+		var SELF = '${base}/wap/productlist.jspx';
+	</script>
+	[#include "headerback.html"]
+	<form action="${base}/wap/productlist.jspx" id="jvfrom" method="get">
+		<div class="content">
+			<div class="am-g">
+				<input type="hidden" name="orderBy" id="orderBy" value="${orderBy!}" />
+				<input type="hidden" name="q" id="q" value="${q!}" />
+				[#if special??]<input type="hidden" name="special" id="special" value="${special!}" />[/#if]
+				[#if recommend??]<input type="hidden" name="recommend" id="recommend" value="${special!}" />[/#if]
+				<input type="hidden" name="pageNos" id="pageNos" value="${pageNos!}" />
+				<input id="categoryId" name="categoryId" type="hidden"
+					value="${category.id!}"></input>
+				<div class="am-panel am-panel-default">
+					<div class="am-panel-bd am-padding-sm am-bg-gray">
+						<ul
+							class="am-avg-sm-[#if category?? && category.id??]4[#else]3[/#if] am-text-center">
+							<li><a [#if orderBy==0]class=
+								"am-text-secondary"[/#if] href="javascript:void(0)"
+								onclick="clickOrderBy(0);"><i class="am-icon-list"></i>默认</a></li>
+							<li><a [#if orderBy==4 || orderBy==5
+								]class="am-text-secondary" [/#if] href="javascript:void(0)" [#if
+								orderBy==4 ] onclick="clickOrderBy(5);"
+								[#else]  onclick="clickOrderBy(4);"[/#if] >[#if orderBy==5
+									]<i class="am-icon-arrow-up"></i>[#else]<i
+									class="am-icon-arrow-down"></i>[/#if]销量
+							</a></li>
+							<li><a [#if orderBy==6 || orderBy==7
+								]class="am-text-secondary" [/#if] href="javascript:void(0)" [#if
+								orderBy==6 ] onclick="clickOrderBy(7);"
+								[#else]  onclick="clickOrderBy(6);"[/#if] >[#if orderBy==7
+									]<i class="am-icon-arrow-up"></i>[#else]<i
+									class="am-icon-arrow-down"></i>[/#if]售价
+							</a></li> [#if category?? && category.id??]
+							<li><a href="#"  onclick="openlist();"><i
+									class="am-icon-th-large"></i>筛选</a></li>[/#if]
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			[@shop_ProductPageChannel recommend=recommend special=special categoryId=category.id q=q area=area
+			brandId=brandId count=10 pageNos=pageNos orderBy=orderBy] [#list
+			tag_pagination.list as productSite]
+
+			<div class="am-g good-detial">
+				<div class="am-u-sm-3">
+					<a 
+						data-title="商品详情" 
+						href="${base}/wap/productself.jspx?id=${productSite.id}"> <img 
+						alt="${productSite.product.name!}" 
+						src="http://u-10017112.file.myqcloud.com${productSite.product.minImg!web.global.defImg}"></img>
+					</a>
+
+				</div>
+				<div class="am-u-sm-9">
+
+					<p class="am-text-truncate am-text-sm good-name">
+						<a 
+							data-title="商品详情" 
+							href="${base}/wap/productself.jspx?id=${productSite.id}">[${productSite.product.category.name!}]&nbsp;${productSite.product.name!}</a>
+					</p>
+					<p class="am-text-truncate am-text-xs am-text-danger"></p>
+
+					<p class="good-price">
+
+						<!--   <strong class="am-text-secondary"></strong> -->
+						<span class="am-text-primary am-text-sm">￥${productSite.salePrice!}
+							(总销量：${productSite.product.saleCount!})  </span> <a
+							class="am-fr am-text-xs am-text-danger good-cart"
+							onclick="addcart(this)" data-price="${productSite.salePrice!}"
+							data-goodid="${productSite.id!}"
+							data-name="${productSite.product.name!}" data-store="5"
+							href="javascript:void(0)"><i
+							class="am-icon-shopping-cart am-text-primary"></i></a>
+					</p>
+				</div>
+
+
+			</div>
+			<hr class="am-margin-top-sm am-margin-bottom-sm"></hr>
+			[/#list] [#assign p=tag_pagination /] [#if p.pageNo gte p.totalPage]
+			<div class="am-g am-text-center" id="next-page" url="end">
+				没有更多了.... [#else]
+				<div class="am-g am-text-center" id="next-page"
+					url="/wap/productpage.jspx">
+					<i class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+						class="am-icon-spinner am-icon-spin"></i>... [/#if]
+					<script type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										orderBy : '${orderBy!}',
+										q : $('#q').val(),
+										pageNos:${pageNos+1},
+										brandId:'${brandId!}',
+										categoryId : $("#categoryId").val()
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+				<div id="gc"></div>
+				[/@shop_ProductPageChannel]
+
+			</div>
+
+
+			<!-- 筛选 -->
+			[#if category?? && category.id??]
+			[#assign parentId=0]
+			[#if category.child?size gt 0]
+			[#assign parentId=category.id]
+			[#else]
+			[#assign parentId=category.parent.id]
+			
+			[/#if]
+			<div id="list-select" class="am-offcanvas">
+				<div class="am-offcanvas-bar am-offcanvas-bar-flip">
+					<div class="am-offcanvas-content am-form">
+						<div class="am-form-group am-form-select">
+							<label for="cats">分类</label> <select id="cat_id"  data-am-selected name="cat">
+								[@shop_Category_list loadChild='0' Level=1 count=20
+								parentId=parentId isDisplay='1' ]
+								<option value="${parentId}">所有分类</option> [#list tag_list as categorys]
+								<option value="${categorys.id}" [#if categorys.id=category.id] selected[/#if] >${categorys.name}</option>
+								[/#list] [/@shop_Category_list]
+							</select>
+						</div>
+						<div class="am-form-group am-form-select">
+							<label for="brand">品牌</label> <select  data-am-selected id="brandId" name="brandId">
+								[@shop_Category_brand id=category.id ]
+								<option value="">所有品牌</option> [#list tag_list as brand]
+								<option value="${brand.id}">${brand.name!}</option> [/#list]
+								[/@shop_Category_brand]
+							</select>
+						</div>
+						<div class="am-form-group">
+							<button id="selectsubmit"
+								class="am-btn-block am-btn am-btn-primary" name="selectsubmit"
+								type="button">确定</button>
+						</div>
+								<div class="am-form-group">
+							<button  onclick="closelist();"
+								class="am-btn-block am-btn am-btn-primary" 
+								type="button">取消</button>
+								
+						</div>
+					</div>
+				</div>
+
+			</div>
+			[/#if]
+			</div>
+	</form>
+
+	[#include "footer.html"]
+
+
+
+
+
+
+	<!--<![endif]-->
+	<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+</body>
+</html>

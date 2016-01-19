@@ -1,0 +1,125 @@
+<script type="text/javascript">
+ var productIds = HistoryRecord.record();
+ function g(o){
+		return document.getElementById(o);
+	}
+ function HoverLiGuide(m,n,counter){
+			g('tbg_'+m+n).className='current';
+	}
+
+ function displayed(i){
+   $("#ul"+i).toggle();
+   if($("#ss"+i).attr("class")=="user_ss"){
+	   $("#ss"+i).attr("class","user_tt");
+   }else{
+	     $("#ss"+i).attr("class","user_ss");
+   }
+ }
+</script>
+<div class="user_left">
+  <img src="${root}/u/memeber/usercenter.jpg" />
+   <div class="user_ss" id="ss1" onclick="displayed(1);">交易管理</div>
+        <ul id="ul1">
+        [@cms_perm url="/product"]
+        <li class="current" id="tbg_11" onclick="HoverLiGuide(1,1,13);"><a href="${base}/product/sold.jspx" target="_self">已卖出的商品</a></li> 
+        [/@cms_perm]
+        [@cms_perm url="/store"]
+        <li class="sep" id="tbg_12" onclick="HoverLiGuide(1,2,13);"><a href="${base}/store/discussList.jspx" target="_self">评价管理</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/store"]
+        <li class="sep" id="tbg_12" onclick="HoverLiGuide(1,3,13);"><a href="${base}/store/consultList.jspx" target="_self">咨询管理</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/sell"]
+        <li class="sep" id="tbg_12" onclick="HoverLiGuide(1,3,13);"><a href="${base}/sell/list.jspx" target="_self">销售统计</a></li>
+        [/@cms_perm]
+        </ul>
+        
+        <div class="user_ss" id="ss2" onclick="displayed(2);">宝贝管理</div>
+        <ul id="ul2">
+        [@cms_perm url="/product"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/product/v_category.jspx" target="_self">发布宝贝</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/product"]
+        <li class="sep" id="tbg_19" onclick="HoverLiGuide(1,9,13);"><a href="${base}/product/v_list.jspx" target="_self">出售中的宝贝</a></li>
+        [/@cms_perm]
+       [@cms_perm url="/customerService"]
+        <li class="sep" id="tbg_19" onclick="HoverLiGuide(1,9,13);"><a href="${base}/customerService/list.jspx" target="_self">在线客服</a></li>
+        [/@cms_perm]
+        </ul>
+        
+        <div class="user_ss" id="ss3" onclick="displayed(3);">订单管理</div> 
+        <ul id="ul3">
+         [@cms_perm url="/product"]    
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/orderSt/list.jspx" target="_self">订单列表</a></li>
+        [/@cms_perm]
+         [@cms_perm url="/orderSt"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/aftersaleSt/list.jspx" target="_self">售后列表</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/adspace"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/adspace/list.jspx" target="_self">广告版位列表</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/advertise"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/advertise/list.jspx" target="_self">广告列表</a></li>
+        [/@cms_perm]
+        </ul>
+        <div class="user_ss" id="ss4" onclick="displayed(4);">物流管理</div>
+        <ul id="ul4">
+         [@cms_perm url="/orderSt"]
+        <li class="sep" id="tbg_13" onclick="HoverLiGuide(1,3,13);"><a href="${base}/orderSt/deliverList.jspx" target="_self">发货订单</a></li>
+         [/@cms_perm]
+         [@cms_perm url="/shippingFro"]
+        <li class="sep" id="tbg_14" onclick="HoverLiGuide(1,4,13);"><a href="${base}/shippingFro/list.jspx" target="_self">物流工具</a></li>
+        [/@cms_perm]
+        </ul>
+        <div class="user_ss" id="ss5" onclick="displayed(5);">促销管理</div>
+        <ul id="ul5">
+        [@cms_perm url="/promoteFro"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/promoteFro/list.jspx" target="_self">折扣管理</a></li>
+        [/@cms_perm]
+        [@cms_perm url="/fullGiveFro"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/fullGiveFro/list.jspx" target="_self">满就送管理</a></li>
+        [/@cms_perm]
+        </ul>
+        <div class="user_ss" id="ss6" onclick="displayed(6);">店铺管理</div>
+        <ul id="ul6">
+        [@cms_perm url="/roleFro"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/roleFro/list.jspx" target="_self">店铺角色管理</a></li>
+        [/@cms_perm]
+         [@cms_perm url="/employee"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/employee/list.jspx" target="_self">子账号管理</a></li> 
+        [/@cms_perm]
+        [@cms_perm url="/store"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/store/edit.jspx" target="_self">店铺基本设置</a></li>
+        [/@cms_perm]
+         [@cms_perm url="/type"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/type/list.jspx" target="_self">商品分类管理</a></li>
+        [/@cms_perm]
+         [@cms_perm url="/balanceFro"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/balanceFro/list.jspx" target="_self">店铺结算记录</a></li>
+        [/@cms_perm]
+        [@cms_perm url="/refund"]
+         <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/refund/refund_list.jspx" target="_self">店铺退款管理</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/storeCategory"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/storeCategory/list.jspx" target="_self">店铺类目管理</a></li>
+         [/@cms_perm]
+        [@cms_perm url="/report"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/report/list.jspx" target="_self">店铺举报投诉管理</a></li>
+        [/@cms_perm]
+        </ul>
+        <div class="user_ss"  id="ss7" onclick="displayed(7);">店铺装修</div>
+        <ul id="ul7">
+         [@cms_perm url="/template"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/template/main.jspx" target="_self">模板定制</a></li>
+       [/@cms_perm]
+        [@cms_perm url="/resource"]
+        <li class="sep" id="tbg_18" onclick="HoverLiGuide(1,8,13);"><a href="${base}/resource/main.jspx" target="_self">资源定制</a></li>
+        [/@cms_perm]
+       </ul>
+       <div class="clear"></div>
+     </div>
+     <script type="text/javascript">
+       function checkClass(o){
+           o.className="current1";
+        }
+     </script>

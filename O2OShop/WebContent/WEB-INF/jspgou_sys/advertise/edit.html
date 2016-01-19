@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	
+	//$("#textColor").colorPicker();
+	$("#jvForm").validate();
+});
+var attr_all=["image","flash","text","code"];
+function attrChange(value) {
+	for(var attr in attr_all) {
+		if(attr_all[attr]==value) {
+			showAttr(attr_all[attr]);
+		} else {
+			hideAttr(attr_all[attr]);
+		}
+	}
+}
+function hideAttr(value) {
+	var name = "#attr_"+value;
+	$(name).hide();
+	$(name+" input,"+name+" select,"+name+" textarea").each(function() {
+		$(this).attr("disabled","disabled");
+	});
+}
+function showAttr(value) {
+	var name = "#attr_"+value;
+	$("#attr_"+value).show();
+	$(name+" input,"+name+" select,"+name+" textarea").each(function() {
+		$(this).removeAttr("disabled");
+	});
+}
+</script>
+<style type="text/css">
+.attr{padding:3px;margin:0;}
+</style>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "advertise.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="advertise.name" name="name" value=advertise.name required="true" class="required" maxlength="100"/>
+<@p.select colspan="1" width="50" label="adspace.name" name="adspaceId" value=advertise.adspace.id list=adspaceList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.select  label="关联商品分类" colspan="2" width="100" headerKey="" headerValue="请选择" 
+  name="categoryId" value=advertise.categoryId listKey="id"  listValue="name" 
+ list=categorys />
+<@p.tr/>
+<@p.td colspan="2" label="advertise.txt" required="true">
+<div id="attr_image">
+	<p class="attr"><@s.m "global.imageUrl"/>: <input type="text" id="uploadImgPath1" name="attr_image_url" value="${(attr.image_url)!?html}" class="required" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "global.imageUpload"/>: <span id="ufc1"><input type="file" id="uploadFile1"/></span> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><input type="hidden" id="mark1" value="false"/></p>
+	<p class="attr"><@s.m "global.imageSize"/>(暂未使用): <input type="text" name="attr_image_width" value="${(attr.image_width)!?html}" maxlength="50" style="width:70px;"/> * <input type="text" name="attr_image_height" value="${(attr.image_height)!?html}" maxlength="50" style="width:70px;"/> <span class="pn-fhelp"><@s.m "global.widthHeight"/></span></p>
+	<p class="attr"><@s.m "global.linkUrl"/>: <input type="text" name="attr_image_link" value="${(attr.image_link)!'http://'?html}" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "global.linkTitle"/>:(暂未使用) <input type="text" name="attr_image_title" value="${(attr.image_title)!?html}" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "global.linkTarget"/>: <@p.radio name="attr_image_target" value="${(attr.image_target)!'_blank'?html}" list={"_blank":"global.blank","_self":"global.self"}/></p>
+</div>
+</@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="global.startTime" name="startTime" value=advertise.startTime style="width:120px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text colspan="1" width="50" label="global.endTime" name="endTime" value=advertise.endTime style="width:120px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/><@p.tr/>
+<@p.text colspan="1" width="50" label="global.clickCount" name="clickCount" value=advertise.clickCount required="true" class="required digits" style="width:70px"/>
+<@p.text colspan="1" width="50" label="global.displayCount" name="displayCount" value=advertise.displayCount required="true" class="required digits" style="width:70px"/><@p.tr/>
+<@p.text colspan="1" width="50" label="advertise.weight" name="weight" value=advertise.weight required="true" class="required digits" style="width:70px"/>
+<!-- <@p.text colspan="1" width="50" label="排序" name="priority" value=advertise.priority required="true" class="required digits" style="width:70px"/> -->
+<@p.radio colspan="1" width="50" label="global.enabled" name="enabled" value=advertise.enabled list={"true":"global.true","false":"global.false"} required="true"/><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=advertise.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

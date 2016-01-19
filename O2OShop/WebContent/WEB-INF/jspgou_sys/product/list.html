@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<!-- <link rel="stylesheet" href="${base}/res/common/ztree/css/zTreeStyle.css" type="text/css">
+<script src="${base}/res/common/ztree/js/jquery.ztree.core-3.5.min.js" type="text/javascript"></script>
+<script src="${base}/res/common/ztree/js/jquery.ztree.excheck-3.5.min.js" type="text/javascript"></script>-->
+<script type="text/javascript">
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = document.getElementById('tableForm');
+	f.action="o_delete.do";
+	f.submit();
+}
+
+function getTableForm(){
+	return document.getElementById("tableForm");
+}
+</script>
+<!-- <SCRIPT type="text/javascript">
+		
+		var setting = {
+			check: {
+				enable: true,
+				chkStyle: "radio",
+				radioType: "all"
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				onClick: onClick,
+				onCheck: onCheck
+			}
+		};
+
+		var zNodes =[
+			{id:1, pId:0, name:"北京"},
+			{id:2, pId:0, name:"天津"},
+			{id:3, pId:0, name:"上海"},
+			{id:6, pId:0, name:"重庆"},
+			{id:4, pId:0, name:"河北省", open:true, nocheck:true},
+			{id:41, pId:4, name:"石家庄"},
+			{id:42, pId:4, name:"保定"},
+			{id:43, pId:4, name:"邯郸"},
+			{id:44, pId:4, name:"承德"},
+			{id:5, pId:0, name:"广东省", open:true, nocheck:true},
+			{id:51, pId:5, name:"广州"},
+			{id:52, pId:5, name:"深圳"},
+			{id:53, pId:5, name:"东莞"},
+			{id:54, pId:5, name:"佛山"},
+			{id:6, pId:0, name:"福建省", open:true, nocheck:true},
+			{id:61, pId:6, name:"福州"},
+			{id:62, pId:6, name:"厦门"},
+			{id:63, pId:6, name:"泉州"},
+			{id:64, pId:6, name:"三明"}
+		 ];
+
+		function onClick(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+
+		function onCheck(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#citySel");
+			cityObj.attr("value", v);
+			hideMenu();
+		}
+
+		function showMenu() {
+			var cityObj = $("#citySel");
+			var cityOffset = $("#citySel").offset();
+			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+		
+	</SCRIPT>
+	<style type="text/css">
+	input.radio {margin: 0 2px 0 8px;}
+input.radio.first {margin-left:0;}
+input.empty {color: lightgray;}
+code {color: #2f332a;}
+.highlight_red {color:#A60000;}
+.highlight_green {color:#A7F43D;}
+li {list-style: circle;font-size: 12px;}
+li.title {list-style: none;}
+ul.list {margin-left: 17px;}
+
+div.content_wrap {width: 600px;height:380px;}
+div.content_wrap div.left{float: left;width: 250px;}
+div.content_wrap div.right{float: right;width: 340px;}
+div.zTreeDemoBackground {width:250px;height:362px;text-align:left;}
+
+ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
+ul.log {border: 1px solid #617775;background: #f0f6e4;width:300px;height:170px;overflow: hidden;}
+ul.log.small {height:45px;}
+ul.log li {color: #666666;list-style: none;padding-left: 10px;}
+ul.log li.dark {background-color: #E3E3E3;}
+
+/* ruler */
+div.ruler {height:20px; width:220px; background-color:#f0f6e4;border: 1px solid #333; margin-bottom: 5px; cursor: pointer}
+div.ruler div.cursor {height:20px; width:30px; background-color:#3C6E31; color:white; text-align: right; padding-right: 5px; cursor: pointer}
+	</style>  -->
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shop.function.product"/> - <@s.m "product.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<#if category??>
+		<input type="hidden" name="ctgId" value="${category.id}"/>
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+		<#else>
+		<div style="padding:5px 0 0 0"><@s.m "product.selectCategory"/></div>
+		</#if>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm"  action="v_list.do" method="post">
+<div class="rhead">
+	<!-- 商品分类:<input id="citySel" type="text" readonly value="" style="width:120px;" onclick="showMenu();" />
+		<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+     </div> -->
+	<@s.m "product.name"/>:<input type="text" name="productName" value="${productName!}" style="width:100px"/>
+	品牌名称: <input type="text" name="brandName" value="${brandName!}" style="width:100px"/>  
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+	<div class="clear"></div>
+</div>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="ctgId" value="${ctgId!}"/>
+<@p.table listAction="v_list.do" value=pagination;product,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${product.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID" width="20">${product.id!}</@p.column><#t/>
+	<@p.column code="product.name">${product.name}</@p.column><#t/>
+	<@p.column code="product.category">${product.category.name}</@p.column><#t/>
+	<@p.column code="product.type">${product.type.name}</@p.column><#t/>
+	<@p.column code="product.brand"><#if product.brand??>${(product.brand.name)!}</#if></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?id=${product.id}&pageNo=${pageNo!}&ctgId=${(product.category.id)!}"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${product.id}&pageNo=${pageNo!}&ctgId=${(product.category.id)!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

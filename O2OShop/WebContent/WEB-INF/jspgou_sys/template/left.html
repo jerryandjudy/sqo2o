@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	$("#browser").treeview({
+		url: "v_tree.do"
+	});
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="lttop">
+	<a href="javascript:location.reload()"><@s.m "global.refresh"/></a>
+&nbsp;	<a href="v_solution.do" target="rightFrame"><@s.m "template.solution.function"/></a>
+</div>
+<hr/>
+<ul id="browser" class="filetree"></ul>
+
+</body>
+</html>

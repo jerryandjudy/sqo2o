@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>店铺限时打折列表页  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${sysResRoot}/front.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/res/common/css/jquery.ui.css" rel="stylesheet" type="text/css"/>
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+[#include "../include/店铺页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+     [#include "../include/页头导航栏.html"/]
+</div>
+<div class="w960 mt10">
+  [#include "店铺中心_导航.html"/]
+   <div class="user_right">
+     <div class="mc_content">
+     	 <div class="usercenter_position"><span>店铺打折列表</span><a href="add.jspx">添加限时打折</a>      
+               <form id="tableForm" method="post">
+                  <div class="listtool list_head">
+  					<table width="100%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#cccccc" style="font-size:12px;">
+                       <tr>
+                        <td height="30" align="center" bgcolor="#f0f0f0"><input type='checkbox' onclick='Pn.checkbox("ids",this.checked)'/></td>
+                        <td align="center" bgcolor="#f0f0f0">名称</td>
+                        <td align="center" bgcolor="#f0f0f0">折扣比</td>
+                        <td align="center" bgcolor="#f0f0f0">限购数量</td>
+                        <!--  
+                        <td width="200" align="center">活动开始时间</td>
+                        <td width="200" align="center">活动结束时间</td>
+                         -->
+                        <td align="center" bgcolor="#f0f0f0">禁用</td>
+                        <td align="center" bgcolor="#f0f0f0">操作</td>
+                       </tr>
+                     </table>
+                  </div>
+                   [@promote_page storeId=store.id deleted='0' count="20" pageNo=pageNo]
+                   <table  cellspacing="0" cellpadding="0" width="100%" border="0">
+                         [#if tag_list?size gt 0]
+                            [#list tag_list as promote]
+                              <tr>
+                                 <td width="150"  align="center"><input type="checkbox" name="ids" value="${promote.id}"/></td>
+                                 <td width="150" align="center">${promote.name!}</td>
+                                 <td width="150" align="center">${promote.discount!}</td>
+                                 <td width="150" align="center">${promote.limitCount!}</td>
+                                 <!--  <td width="200" align="center">${promote.startDate!}</td>
+                                 <td width="200" align="center">${promote.endDate!}</td>-->
+                                 <td width="100" align="center">${promote.disable?string("是","否")}</td>
+                                 <td width="150" align="center">
+                                    <a href="edit.jspx?id=${promote.id}&pageNo=${pageNo}" >修改</a>|
+                                    <a href="delete.jspx?id=${promote.id}&pageNo=${pageNo}">删除</a>
+                                    </td>
+                              </tr>
+                             [/#list]
+                           [#else]
+								<div align="center">暂无数据</div>
+                           [/#if]
+                     </table>
+                     <div align="center">[@pagination_style sysPage='3'/]</div>
+                     [/@promote_page]
+                   </form>
+		</div>
+    </div>
+</div>
+<div class="clear"></div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页-${store.storeName!} - ${web.name}${web.additionalTitle!}</title>
+<link href="${storeRoot}/css/dianpu.css" rel="stylesheet" type="text/css" />
+<link href="${storeRoot}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${storeRoot}/css/layout.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+[#include "../include/在线咨询.html"/]
+[#include "../include/页头顶栏.html"/]
+<div id="divStay"  class="width980">
+[#include "../include/页头搜索栏.html"/]
+[#include "../include/页头导航栏.html"/]   
+
+    <div class="dpcon_left">
+    	<div class="dplm1">
+    		<div class="dplm1tit">客服中心</div>
+    		<div class="dplm1box">
+            	<div style="border-bottom:1px dashed #dcdcdc; padding-bottom:10px; margin-bottom:10px;">
+                <b>工作时间</b><br />
+                &nbsp;&nbsp;周一至周五：9:00-23:00<br />
+                &nbsp;&nbsp;周六至周日：9:00-23:00<br />
+                </div>
+                <div style="border-bottom:1px dashed #dcdcdc; padding-bottom:10px;">
+                <b>在线咨询</b><br />&nbsp;&nbsp;客服中心
+                </div>
+            </div>
+        </div>
+    [#include "../include/页面搜索页.html"/]
+    [#include "../include/宝贝分类页.html"/]
+    </div>
+    
+    <div class="dpcon_right">
+    <div class="dplm2">
+    		<div class="dplm2tit">
+            	<span>掌柜推荐宝贝</span>
+                <a href="#" target="_blank">所有宝贝</a>
+            </div>
+    		<div class="dplm2box" style="height:435px;">
+              <ul>
+                [@shop_ProductList  recommend='1' count='8' storeId=store.id]
+                    [#list tag_list as product]
+               	 	   <li>
+               	 	  <p><a href="${product.url!}" target="_blank">
+               	 	    [#if product.productExt.coverImg??]
+                         <img src="${root!}${product.productExt.coverImg!global.defImg}" title="${product.name!}" width="160" height="160" />
+                        [#else]
+                          <img src="${root!}${global.defImg}" title="${product.name!}" width="160" height="160" />
+                         [/#if]
+               	 	  <p><a href="${product.url!}" target="_blank">[@text_cut s=product.name len='12' append='...'/]</a></p>
+               	 	  <p class="price"><strong>
+                         [#if product.category.colorsize] 
+                           [#list product.fashions as fashion]
+                             [#if fashion.isDefault]¥${fashion.salePrice!0}[/#if]
+                           [/#list]     
+                         [#else]
+                            ¥${product.salePrice!0}
+                         [/#if]
+                      </strong>
+                      <del>
+                         [#if product.category.colorsize] 
+                            [#list product.fashions as fashion]
+                              [#if fashion.isDefault]¥${fashion.marketPrice!0}[/#if]
+                            [/#list]     
+                        [#else]
+                          ¥${product.marketPrice!0}
+                        [/#if]
+                     </del>
+                   </p>
+                   <p align="center">
+                       <a class="button buy" href="${product.url}" target="_blank"> 立即购买</a>
+                    </p>
+               	  </li>
+                    [/#list] 
+                [/@shop_ProductList]
+              </ul>
+           </div>
+      </div>
+       <div class="dplm2">
+    		<div class="dplm2tit">
+            	<span>新品宝贝</span>
+                <a href="#" target="_blank">所有宝贝</a>
+            </div>
+    		<div class="dplm2box" style="height:435px;">
+              <ul>
+                [@shop_ProductList  newProduct='1' count='8' storeId=store.id]
+                    [#list tag_list as product]
+               	 	  <li>
+               	 	  <p><a href="${product.url!}" target="_blank">
+               	 	    [#if product.productExt.coverImg??]
+                         <img src="${root!}${product.productExt.coverImg!global.defImg}" title="${product.name!}" width="160" height="160" />
+                        [#else]
+                          <img src="${root!}${global.defImg}" title="${product.name!}" width="160" height="160" />
+                         [/#if]
+               	 	  <p><a href="${product.url!}" target="_blank">[@text_cut s=product.name len='12' append='...'/]</a></p>
+               	 	  <p class="price"><strong>
+                         [#if product.category.colorsize] 
+                           [#list product.fashions as fashion]
+                             [#if fashion.isDefault]¥${fashion.salePrice!0}[/#if]
+                           [/#list]     
+                         [#else]
+                            ¥${product.salePrice!0}
+                         [/#if]
+                      </strong>
+                      <del>
+                         [#if product.category.colorsize] 
+                            [#list product.fashions as fashion]
+                              [#if fashion.isDefault]¥${fashion.marketPrice!0}[/#if]
+                            [/#list]     
+                        [#else]
+                          ¥${product.marketPrice!0}
+                        [/#if]
+                     </del>
+                   </p>
+                   <p align="center">
+                       <a class="button buy" href="${product.url}" target="_blank"> 立即购买</a>
+                    </p>
+               	  </li>
+                 [/#list] 
+                [/@shop_ProductList]
+              </ul>
+           </div>
+      </div>
+     <div class="dplm2">
+    		<div class="dplm2tit">
+            	<span>热门宝贝</span>
+                <a href="#" target="_blank">所有宝贝</a>
+            </div>
+    		<div class="dplm2box" style="height:435px;">
+              <ul>
+                [@shop_ProductList  hostSale='1' count='8' storeId=store.id]
+                    [#list tag_list as product]
+               	 	  <li>
+               	 	  <p><a href="${product.url!}" target="_blank">
+               	 	    [#if product.productExt.coverImg??]
+                         <img src="${root!}${product.productExt.coverImg!global.defImg}" title="${product.name!}" width="160" height="160" />
+                        [#else]
+                          <img src="${root!}${global.defImg}" title="${product.name!}" width="160" height="160" />
+                         [/#if]
+               	 	  <p><a href="${product.url!}" target="_blank">[@text_cut s=product.name len='12' append='...'/]</a></p>
+               	 	  <p class="price"><strong>
+                         [#if product.category.colorsize] 
+                           [#list product.fashions as fashion]
+                             [#if fashion.isDefault]¥${fashion.salePrice!0}[/#if]
+                           [/#list]     
+                         [#else]
+                            ¥${product.salePrice!0}
+                         [/#if]
+                      </strong>
+                      <del>
+                         [#if product.category.colorsize] 
+                            [#list product.fashions as fashion]
+                              [#if fashion.isDefault]¥${fashion.marketPrice!0}[/#if]
+                            [/#list]     
+                        [#else]
+                          ¥${product.marketPrice!0}
+                        [/#if]
+                     </del>
+                   </p>
+                   <p align="center">
+                       <a class="button buy" href="${product.url}" target="_blank"> 立即购买</a>
+                    </p>
+               	  </li>
+                    [/#list] 
+                [/@shop_ProductList]
+              </ul>
+           </div>
+      </div>
+        <div class="dplm2">
+    		<div class="dplm2tit">
+            	<span>店铺交流区</span>
+                <div style="width:70px; float:right;">
+                <a href="#" target="_blank">我要发贴</a>
+                </div>
+                <div style="width:70px; float:right;">
+                <a href="#" target="_blank">全部贴子</a>
+                </div>
+            </div>
+    		<div class="dplm2box" style="height:200px;"></div>
+        </div>
+    </div>
+
+
+        <div class="clear"></div>
+
+     [#include "../include/页脚信息栏.html"/]  
+</div>
+</body>
+</html>

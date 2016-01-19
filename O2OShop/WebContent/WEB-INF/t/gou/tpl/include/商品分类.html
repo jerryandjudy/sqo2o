@@ -1,0 +1,234 @@
+<!--------------------------------------------------------▷▷商品分类★开始◁◁------------------------------------------------------>
+<div class="tmall_box">
+	<div class="menu">
+		<ul>
+			<li><a href="${base}/sp/index.htm">休闲零食</a></li>
+			<li><a href="${base}/jsyl/index.htm">酒水饮料</a></li>
+			<li><a href="${base}/jjyp/index.htm">家居用品</a></li>
+			<li><a href="${base}/ghhz/index.htm">个护化妆</a></li>
+			<li><a href="${base}/lyfs/index.htm">粮油干货</a></li>
+			<li><a href="${base}/wtyp/index.htm">文体用品</a></li>
+			<li><a href="${base}/sqfw/index.htm">社区服务</a></li>
+			<li><a href="${base}/bldmap/index.htm">便利店网点</a></li>
+		</ul>
+	</div>
+	<div id="tmall_nav">
+		<!--左侧栏目开始-->
+		<div class="tmall_cat_nav fl">
+			<div class="tmall_mod_title">商品服务分类</div>
+			<ul class="cate_nav"   >
+				<!-- <li>
+                	<div class="cat_0_nav">
+                    	<s class="cat-nav-icon fp-iconfont">&#x3451;</s>
+                        精选市场
+                    </div>
+                </li> -->
+                <li style="display: none" ></li>
+				[#assign categorys=1 /] [@shop_Category_list count=13 isDisplay='1']
+				[#assign categorys=tag_list /] [#list tag_list as type]
+				<li>
+					<div class="cat_${type_index}_nav">
+						<s class="cat-nav-icon "><img class="mar_T05" height="17px"
+							width="14px" src="${type.icon!}" /></s> 
+							<a style="font-size:14px; font-weight: bold;" href="${type.url!}"
+							target="_blank">${type.name}</a>
+					</div>
+				</li> [/#list] [/@shop_Category_list]
+
+			</ul>
+		</div>
+		<!--左侧栏目结束-->
+		<!--右侧内容开始-->
+		<div class="tmall_cat_content fl" >
+		      <div class="cat_pannel clearfix" >
+		      <div class="fl cat_banner" style="width: 834px"  >
+                    <ul class="cat_banner_pic">
+                    [@shop_advertising_space id=22  count=6]
+				
+					[#list tag_list as ad]  
+						 <li ><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}"><img class="lazyload" style="display:none" width="834px" height="482px" 
+						src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}" title="${ad.attr.image_title!}" /></a></li>
+					[/#list]
+
+				[/@shop_advertising_space]
+                    </ul>
+                    <a class="prev_pic" href="javascript:void(0)"></a>
+                    <a class="next_pic" href="javascript:void(0)"></a>
+                    <div class="num">
+                        <ul></ul>
+                    </div>
+                    </div>
+                </div>
+		
+			[#list categorys as type]
+			<div class="cat_pannel clearfix"  >
+				<div class="fl cat_detail grid_col_${type_index}">
+					<h3 class="cat_title">${type.name!}</h3>
+					<ul class="cat_label_list clearfix">
+						[@shop_Category_list loadChild='1' Level=2 count=24
+						parentId=type.id isDisplay='1' isJp='1'] [#list tag_list as
+						category]
+						<li [#if category_index%2!=0] class="second_label"[/#if] ><a
+							href="${category.url!}" target="_blanlk"
+							title="${category.name!}">[@text_cut s=category.name len=4
+								/]</a></li> [/#list] [/@shop_Category_list]
+					</ul>
+					[@shop_advertising_space id=16 count=3]
+					<div class="cat_brand">
+						<ul class="cat_slide_brand">
+							[#list tag_list as ad]
+							<li><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}"><img
+									src="${ad.attr.image_url!}" title="${ad.attr.image_title!}"
+									width="120px" height="80px" /></a></li> [/#list]
+						</ul>
+						<ul class="cat_slide_nav">
+							[#list tag_list as ad]
+							<li>•</li> [/#list]
+						</ul>
+					</div>
+					[/@shop_advertising_space]
+				</div>
+				[@shop_advertising_space id=4 categoryId=type.id count=6]
+				<div class="fl cat_banner">
+					[#list tag_list as ad] [#if ad_index lt 3] <a
+						class="[#if ad_index gt 0]fl[/#if] banner-grid-b${ad_index+1}"
+						href="http://u-10017112.file.myqcloud.com/${ad.attr.image_link!}" target="${ad.attr.image_target!}"><img
+						src="http://u-10017112.file.myqcloud.com/${ad.attr.image_url!}" title="${ad.attr.image_title!}" /></a>
+					[/#if] [/#list]
+
+				</div>
+                 <ul class="fl cat_small_banner">
+                 [#list tag_list as ad]
+                 [#if ad?size>3]
+                 [#if ad_index gt 2]
+                	<li><a href="${ad.attr.image_link!}" target="_blank" ><img src="${ad.attr.image_url!}" title="${ad.attr.image_title!}"  width="190" height="160" /></a></li>
+                 [/#if]
+                 [/#if]
+                  [/#list]
+                </ul>
+				[/@shop_advertising_space]
+			</div>
+			[/#list]
+
+		</div>
+		<!--右侧内容结束-->
+		<div class="fl" style="width: 252px;">
+			<div class="lifeserv11">
+				<div class="lifeserv">
+					<ul class="lifeserv-current">
+						<li class="fore1 current" data-idx="0" style="width: 125px;">
+							<a class="cw-icon" href="javascript:void(0)"
+							style="padding-top: 0px; width: 125px;"> <span>社区新闻</span>
+						</a>
+						</li>
+						<li class="fore1 " data-idx="1" style="width: 125px;"><a
+							class="cw-icon" href="javascript:void(0)"
+							style="padding-top: 0px; width: 125px;"> <span>网站公告</span>
+						</a></li>
+					</ul>
+				</div>
+				<div class="news">
+					<ul>
+					    [@shop_ArticleList channelId=13 count='8']
+						 [#list tag_list as a]
+						<li><a href="${a.url!}" target="_blank">${a.title!}</a></li>
+						[/#list] 
+						[/@shop_ArticleList]
+					</ul>
+					<ul style="display: none">
+						[@shop_ArticleList channelId=2 count='8']
+						 [#list tag_list as a]
+						<li><a href="${a.url!}" target="_blank">${a.title!}</a></li>
+						[/#list] 
+						[/@shop_ArticleList]
+					</ul>
+				</div>
+
+
+
+
+			</div>
+			<div class="lifeserv">
+				<ul>
+				[@shop_Category_list loadChild='1' Level=2 count=12
+							parentId=584 isDisplay='1' ] [#list tag_list as category]
+							<li><a class="cw-icon"
+								href="${category.url}"
+								target="_blank"><i
+							class="ci-left"><img alt="" width="30px" height="30px" src="[#if !category.icon??|| category.icon=='']${web.global.defImg}[#else] ${category.icon!}[/#if]">
+							</i>
+							<span style=" font-size:12px;">${category.name!}</span></a></li> 
+							[/#list]
+							[/@shop_Category_list]
+				</ul>
+			</div>
+
+			<div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<script type="text/javascript">
+		
+
+			$(function() {
+				$("img.lazyload").show(); 
+				$(".cat_banner").hover(function() {
+					$(this).find(".prev_pic,.next_pic").fadeTo("show", 0.2);
+				}, function() {
+					$(this).find(".prev_pic,.next_pic").hide();
+				})
+				$(".prev_pic,.next_pic").hover(function() {
+					$(this).fadeTo("show", 0.5);
+				}, function() {
+					$(this).fadeTo("show", 0.2);
+				})
+				$(".cat_banner").slide({
+					titCell : ".num ul",
+					mainCell : ".cat_banner_pic",
+					effect : "left",
+					prevCell : ".prev_pic",
+					nextCell : ".next_pic",
+					autoPlay : true,
+					interTime : 3000,
+					delayTime : 500,
+					autoPage : true
+				});
+				$(".cat_small_banner li").hover(function() {
+					$(this).animate({
+						"left" : -5
+					}, 200);
+				}, function() {
+					$(this).animate({
+						"left" : 0
+					}, 200);
+				});
+				$(".cat_brand").slide({
+					titCell : ".cat_slide_nav li",
+					mainCell : ".cat_slide_brand",
+					effect : "left",
+					autoPlay : true,
+					interTime : 3000,
+					delayTime : 700
+				});
+				$("#tmall_nav").slide({
+					titCell : ".cate_nav li",
+					mainCell : ".tmall_cat_content",
+					autoPlay : false,
+					interTime : 7400,
+					delayTime : 0,
+					returnDefault:true
+				});
+				// 点击任意 li,全部 li 变色
+				$(".lifeserv-current li").mouseover(function(e) {
+					$(".lifeserv-current li.current").removeClass();
+					$(this).addClass('current');
+					var index = $(".lifeserv-current li").index(this);
+					$(".news ul").hide();
+					$(".news ul:eq(" + index + ")").show();
+				});
+				// 移除li,全部 li 变色
+
+			});
+		</script>
+		<!--------------------------------------------------------▷▷商品分类★结束◁◁------------------------------------------------------>

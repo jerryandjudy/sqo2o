@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function opens(path){
+var dialog = $.dialog({title:'详细',min:false,max:false,width:'850px',height:'500px',content: 'url:'+path
+});
+dialog.show();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 服务提供商管理 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_list.do" method="post">
+	 <div style="padding-top:5px">
+	服务商名称： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;fws,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${fws.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="电话账号">${fws.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="服务商密码">${fws.ketaUser.painPass!}</@p.column><#t/>
+	<@p.column code="姓名">${fws.ketaUser.realname!}</@p.column><#t/>
+	<@p.column code="联系电话">${fws.ketaUser.phone!}</@p.column><#t/>
+	<@p.column code="名称">${fws.companyName!}</@p.column><#t/>
+	<@p.column code="所属站点">${fws.website.name!}</@p.column><#t/>
+	<@p.column code="账户">${fws.account.id!}</@p.column><#t/>
+	<@p.column code="账户可用余额">${fws.account.money!}</@p.column><#t/>
+	<@p.column code="账户冻结金额">${fws.account.frozenMoney!}</@p.column><#t/>
+	<@p.column code="添加人">${(fws.user!).username!}</@p.column><#t/>
+	<@p.column code="类型">${(fws.fwsType==1)?string('物业公司','个体')}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		 <a href="v_edit.do?id=${fws.id}"><@s.m "global.edit"/></a> | <#rt/> 
+		 <a href="v_fwlist.do?ketaUserId=${fws.ketaUser.id}">提供服务</a> | <#rt/> 
+		 <a href="javascript:opens('../account/qt_list.do?accountId=${fws.account.id}')">账单</a> | <#rt/> 
+		 <a href="o_delete.do?id=${fws.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

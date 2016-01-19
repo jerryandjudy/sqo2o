@@ -1,0 +1,91 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>支付方式</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	<script type="text/javascript">
+		var URL = '${base}';
+		var APP = '${base}';
+		var SELF = '${base}/wap/wapindex.jspx';
+		function tiaozhun(){
+			window.location.href='${base}/wap/waporderlist.jspx';
+		}
+	</script>
+	<!--TOP-->
+	[#include "header.html"]
+	<!--TOP=end-->
+	<div class="content">
+		<div class="am-container am-margin-top-lg">
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<form class="am-form" action="">
+						<fieldset>
+							<legend>退款申请已提交，请等待商家处理。</legend>
+							<div class="am-form-group">
+								<label>退款编号：${orderReturn.code!}</label>
+							</div>
+							<div class="am-form-group">
+								<label>申请时间：${orderReturn.createTime?string("yyyy-MM-dd
+									HH:mm:ss")!}</label>
+							</div>
+							<div class="am-form-group">
+								<label>退款类型：[@s.m
+									"orderReturn.status.${orderReturn.orderReturnStatus!}"/]</label>
+							</div>
+							<div class="am-form-group">
+								<label>退款状态：退款申请等待商家确认中 </label>
+							</div>
+							<div class="am-form-group">
+								<label>退款金额：<span style="color: #F00">${orderReturn.money!0}</span>元
+								</label>
+							</div>
+							<div class="am-form-group">
+								<label>退款支付类型：${((orderReturn.order!).payment!).name}</label>
+							</div>
+							<div class="am-form-group">
+								<label>退款原因：${orderReturn.shopDictionary.name!}</label>
+							</div>
+							<div class="am-form-group">
+								<label>退款说明：</label>${orderReturn.reason!}
+							</div>
+							
+				</div>
+				<div class="am-u-sm-12" style="margin-bottom: 20px;">
+								<button type="button" onclick="tiaozhun();" class="am-btn am-btn-warning am-btn-block">我的订单</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	[#include "footer.html"]
+</body>
+</html>

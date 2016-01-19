@@ -1,0 +1,13 @@
+<div class="i-title">
+	<p>[${(sqService.category!).name!}]&nbsp;${sqService.name!}</p>
+	<p class="am-text-right">
+		<a href="${base}/wap/fworder.jspx?sqServiceId=${sqService.id!}" class="am-btn am-btn-xs am-btn-warning">加入订单</a>
+	</p>
+</div>
+<hr>
+<div class="i-detial">
+	<p>服务价：${sqService.price!}</p>
+	<p>联系电话：${sqService.ketaUser.phone!}</p>
+	<p>详情：${sqService.descriptions!}</p>
+	<hr>
+</div>

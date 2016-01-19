@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here  - ${web.name}${web.additionalTitle!}</title>
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var nMS;
+$(function(){getLimitTime()});
+function getLimitTime(){
+	$.post("getLimitTime.jspx",{},function(data){
+	if(data==22000){
+          document.getElementById("limPro").style.display="none";
+          document.getElementById("noneLimiPro").style.display="block";
+          
+		}else{
+			document.getElementById("limPro").style.display="block";
+	          document.getElementById("noneLimiPro").style.display="none";
+			}
+		nMS=data;
+	});
+}
+//alert(nMS);
+function GetRTime() {
+   
+    if (nMS == 1000)
+        location.reload(true);
+    nMS = nMS - 1000;
+    var nD = Math.floor(nMS / (1000 * 60 * 60 * 24));
+    var nH = Math.floor(nMS / (1000 * 60 * 60)) % 24;
+    var nM = Math.floor(nMS / (1000 * 60)) % 60;
+    var nS = Math.floor(nMS / 1000) % 60;
+    if (nH > 0 || nM > 0 || nS > 0) {
+        if (document.getElementById("RemainD")) {
+            document.getElementById("RemainD").innerHTML = nD;
+        }
+        if (document.getElementById("RemainH")) {
+            document.getElementById("RemainH").innerHTML = nH;
+        }
+        if (document.getElementById("RemainM")) {
+            document.getElementById("RemainM").innerHTML = nM;
+        }
+        if (document.getElementById("RemainS")) {
+            document.getElementById("RemainS").innerHTML = nS;
+        }
+    }
+    else {
+        document.getElementById("CountMsg").innerHTML = "秒杀活动已开始！";
+        //if (document.getElementById("qg_img"))document.getElementById("qg_img").src = 'images/buy_o.gif';
+        if (document.getElementById("group_url"))document.getElementById("group_url").href = 'javascript:stopBuy()';
+        //if (document.getElementById("qg_url"))document.getElementById("qg_url").style.cursor = 'default';
+    }
+}
+window.setInterval(function() {
+	if(!isNaN(nMS))
+    GetRTime();
+}, 1000);
+function stopBuy() {
+    alert("本次秒杀活动已开始！");
+}
+</script>
+</head>
+<body>
+<H3>限时秒杀</H3>
+<UL class=sy11_seckill_item style="block" id="limPro">
+  <LI class=seckill_item_time style="PADDING-BOTTOM: 8px"><IMG 
+  src="http://image.chinadrtv.com/images/20110601/ico07.gif" 
+  align=absMiddle>&nbsp;剩余: <SPAN id=CountMsg><B id=RemainD>0</B>天<B 
+  id=RemainH>2</B>小时<B id=RemainM>48</B>分<B id=RemainS>15</B>秒</SPAN> 
+  <LI class=seckill_item_pic><A href="/promotion/zqhd/miaosha/" 
+  target=_blank><IMG height=100 alt=卡西欧石英男表 hspace=0 
+  src="http://image.chinadrtv.com/shishangyongpin/images/pic414waw2l.jpg" 
+  width=100 border=0></A> 
+  <LI class=seckill_item_tip><A href="/promotion/zqhd/miaosha/" 
+  target=_blank>卡西欧石英男表</A> 
+  <LI><B class="sy11_wordtyle03 sy11_line"><strike>￥99.0</strike></B>&nbsp;&nbsp;<SPAN 
+  class=sy11_wordtyle04><font color="red">￥23.0</font></SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<A 
+  href="${base}/limitProductList.jspx" target=_blank><IMG alt=抢购 
+  src="http://image.chinadrtv.com/images/20110601/buttom_qg.jpg" 
+  align=absMiddle></A> </LI></UL></DIV-->
+  <div id="noneLimiPro" style="none">赞无限时购品</div>
+<DIV class="sy11_recommend spacing_top01">
+<UL class=lh_title id=lh_title>
+  <LI class=lh_01 onmouseover="changeTab('lh_title','0','lh_tit_div')">新品推荐 
+  <LI class=lh_02 onmouseover="changeTab('lh_title','1','lh_tit_div')">特价抢购 
+  <LI class=lh_02 onmouseover="changeTab('lh_title','2','lh_tit_div')">热门畅销 
+</LI></UL>
+
+
+
+
+
+
+
+        <style type="text/css">
+            #timer{
+                padding:3px;
+                background-color:blue;
+                color:#FFFFFF;
+                font-size:1.2em;
+            }
+        </style>
+        <script type="text/javascript">
+            var CUR_TIME = 0;
+            var END_TIME = 45 * 60;
+            
+            var LEFT_TIME;
+            var M_LABEL;
+            var S_LABEL;
+            var ID;
+            function timer() {
+                if(ID) {
+                    window.clearTimeout(ID);
+                }
+                if(!S_LABEL || !M_LABEL) {
+                    M_LABEL = document.getElementById("m");
+                    S_LABEL = document.getElementById("s");
+                }
+                LEFT_TIME = END_TIME - CUR_TIME;
+                if(LEFT_TIME > 0) {
+                    M_LABEL.innerHTML = format(parseInt(LEFT_TIME / 60));
+                    S_LABEL.innerHTML = format((LEFT_TIME % 60));
+                    CUR_TIME ++;
+                } else {
+                    return 0;
+                }
+                ID = window.setTimeout(timer, 1000);
+            }
+            function format(time) {
+                if(time < 10) {
+                    return ('0' + time);
+                } else {
+                    return time;
+                }
+            }
+        </script>
+   <!-- 
+        <div style="width:200px;">离考试结束还有：<span id="timer"><b id="m">00</b><b>:</b><b id="s">00</b></span></div>
+        <input type="button" value="开始考试" onclick="javascript:(this).disabled = true;timer();"/>
+    -->
+    </body>
+</html> 

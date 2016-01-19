@@ -1,0 +1,30 @@
+<div class="dplm1">
+  <div class="dplm1tit">搜索店内宝贝</div>
+  <div class="dplm1box">
+    <form  action="${base}/searchStore.jspx">
+       <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="50" height="30" align="right"> 关键字：</td>
+                    <td colspan="3">
+                    <input type="text" name="q" value="${q!'请输入关键词'}" onfocus="if(this.value=='请输入关键词')this.value=''" 
+                   onblur="if(this.value=='')this.value='请输入关键词'" maxlength="50" style="height:15px; line-height:15px; width:138px; background-color:#FFFFFF;"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="30" align="right"> 价格：</td>
+                    <td>
+                    <input type="text" name="beginPrice"  maxlength="50" style="height:15px; line-height:15px; width:55px;background-color:#FFFFFF;"/>
+                    </td>
+                    <td align="left">到</td>
+                    <td align="center">
+                    <input type="text" name="endPrice" maxlength="50" style="height:15px; line-height:15px; width:55px;background-color:#FFFFFF;"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="30">&nbsp;</td>
+                    <td colspan="3"><input type="submit"  value="" class="dpsearchmenu3"/></td>
+                  </tr>
+                </table>
+       </form>
+   </div>
+</div>

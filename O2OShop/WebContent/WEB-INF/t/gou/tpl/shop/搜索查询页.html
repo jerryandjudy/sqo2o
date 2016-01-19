@@ -1,0 +1,115 @@
+
+   	 <div class="searchColMainItem searchResultOp">
+        <dl>
+            <dt>品牌：</dt>
+              <input type="hidden" name="q" value="${q!}"/>
+              <input type="hidden" name="brandId" id="brandId" value="${brandId!0}"/>
+              <input type="hidden" name="isShow" id="isShow" value="${isShow!}"/>
+              [@cate_brand_searchname searchName=q ]
+              <dd><span class="all"><a [#if !(brandId??)]class="cur"[#else][#if brandId==0]class="cur"[/#if][/#if] onclick="clickBrand(0,0);">全部</a></span>
+                  <span class="selection fashion" id="FacetBrandsAll" >
+                  [#list tag_list as brd]
+                  	 [#if brd_index lt 12]
+                    	<a [#if brandId??][#if brandId==brd.id]class="cur"[/#if][/#if] onclick="clickBrand(${brd.id},0);">${brd.name!}</a>
+                     [#else]
+                        <a [#if brandId??][#if brandId==brd.id]class="cur"[/#if][/#if]  onclick="clickBrand(${brd.id},1);" [#if isShow??][#if isShow==0] style="display:none"[/#if][/#if]>${brd.name!}</a>
+                     [/#if]
+                   [/#list]
+                  </span>
+              </dd>
+              <dd class="more">
+                [#if !(tag_list?size lt 12)]
+                     <a [#if isShow??][#if isShow==1]class="pack" style="display:none"[/#if][/#if] id="FacetBrandsMoreBtn" onclick="showMore('FacetBrandsAll','more')" href="javascript:void(0)" >更多</a>
+                     <a [#if isShow??][#if isShow==0]class="pack" style="display:none"[/#if][#else]class="pack" style="display:none"[/#if] id="FacetBrandsBackBtn" onclick="showMore('FacetBrandsAll','back')" href="javascript:void(0)" >收起</a>
+                 [/#if]
+              </dd>
+          [/@cate_brand_searchname]  
+          </dl>
+          <!--判断是要被隐藏的属性部分是否有被选中的属性，如果有则显示隐藏部分-->
+          [#list  map?keys as mykey]
+          [#assign mlist=map[mykey]] 
+          [#assign st=map1[mykey]]
+          [#if st.name=='品牌']
+          [#if 0<(fields?size)]
+             <dl class="last">
+             <dt>${st.name!}：</dt>
+             <dd>
+           		 [#list fields as field]
+            	 [#if field==st.field]
+					[#list zhis as zhi]
+                  	 [#if field_index==zhi_index]
+                 	 <span class="all">
+                     	<a [#if zhi=="0"]class="cur" [/#if] onclick="clickchang('exended_${st.field}','');">全部</a>
+                 	 </span>
+                  	 <span class="selection">
+                     	<input type="hidden" id="exended_${st.field}" name="exended_${st.field}"  value="${zhi}"  />
+                    	[#list mlist as m]
+                    	 	<a [#if zhi=="${m.id}"]class="cur" [/#if] onclick="clickchang('exended_${st.field}','${m.name}');">${m.name!}</a>
+                    	[/#list]
+                 	 </span>
+                  	[/#if]
+                 	[/#list]
+                [/#if]
+               	[/#list]
+              </dd>
+         </dl>
+	 		[#else]
+			<dl class="last">
+		              <dt>${st.name!}：</dt>
+		              <dd>
+		                  <span class="all">
+		                     <a class="cur"onclick="clickchang('exended_${st.field}','');">全部</a>
+		                  </span>
+		                  <span class="selection">
+		                     <input type="hidden" id="exended_${st.field}" name="exended_${st.field}"  value=""  />
+		                    [#list mlist as m]
+		                     <a  onclick="clickchang('exended_${st.field}','${m.id}');">${m.name!}</a>
+		                    [/#list]
+		                  </span>
+		              </dd>
+	        </dl>
+	 		[/#if]
+	 		[/#if]
+          [/#list]
+    </div>
+<!-- 排序方式与布局方式切换区 -->
+   <div class="rankOp clearfix">
+       <input type="hidden" name="orderBy" id="orderBy" value="${orderBy!}"/>
+       <ul class="rank clearfix">
+        <!-- 排序方式 -->
+        <li [#if orderBy==0]class="normal"[/#if]><a onclick="clickOrderBy(0);">默认排序</a></li>
+        <li [#if orderBy==1]class="down"[#else]class="default"[/#if]><a onclick="clickOrderBy(1);"><span>销量</span></a></li>
+        [#if orderBy==3]
+        <li class="defaultPrice priceUp"><a onclick="clickOrderBy(4);"><span>价格</span></a></li>
+       [#elseif orderBy==4]
+       <li class="defaultPrice priceDown"><a onclick="clickOrderBy(3);"><span>价格</span></a></li>
+       [#else]
+       <li class="defaultPrice"><a onclick="clickOrderBy(4);" > <span>价格</span></a></li>
+       [/#if]
+       
+        <li  class="default [#if orderBy==5]down [/#if]"  ><a onclick="clickOrderBy(5);"><span>访问</span></a></li>
+        <li [#if orderBy==2]class="down"[#else]class="default"[/#if]><a onclick="clickOrderBy(2);"><span>上架时间</span></a></li>
+      </ul>
+  </div>
+ <!-- 配送地址筛选 --> 
+<div class="store_sh" >
+<ul class="list1" >
+	<li class="summary-stock">
+		<div class="dt">配&nbsp;送&nbsp;至：</div>
+		<div class="dd" style="margin-top:5px; ">
+			<div id="store-selector">
+				<div class="text"><div>${areaName!}</div><b></b></div>                   
+				<div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
+			</div>
+			<div class="store-prompt"><strong></strong></div>
+		</div>
+	</li>
+</ul>
+<input type="hidden" name="area" value="${area!}" id="area"/>
+<script type="text/javascript">
+var base='${base}';
+</script>
+<script language="JavaScript" src="${root}/js/jquery-1.9.1.min.js"  type="text/javascript"></script>
+<script language="JavaScript" src="${root}/js/location.js"  type="text/javascript"></script>
+</div> 
+ <!-- 配送地址筛选 --> 

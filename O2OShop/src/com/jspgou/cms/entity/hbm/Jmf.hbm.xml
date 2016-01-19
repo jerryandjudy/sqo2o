@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Jmf" table="jc_core_jmf">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>    
+		<id name="id" type="java.lang.Long" column="Id"><generator class="native"/></id>
+		
+		
+		<property name="je" column="je" type="double" not-null="false" />
+		<property name="ptFc" column="pt_fc" type="double" not-null="false" />
+		<property name="dlsFc" column="dls_fc" type="double" not-null="false" />
+		<property name="bl" column="bl" type="double" not-null="false" />
+		
+        <many-to-one name="jmftypeId" column="jmftype_id" class="com.jspgou.cms.entity.ShopDictionary" not-null="false"></many-to-one>
+        
+        <many-to-one name="website" column="site_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+        <many-to-one name="user" column="user_id" class="com.jspgou.core.entity.User" not-null="true"></many-to-one>
+	    <property name="isDisabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+	    <property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+        
+        
+	</class>	 
+</hibernate-mapping>

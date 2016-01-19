@@ -1,0 +1,43 @@
+
+<link href="${root}/css/lanrenzhijia.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${root}/js/lanrenzhijia.js"></script>
+ <div id=page style="width:800px; float:right ">
+	<div class="chl-poster simple" id=header>
+		<div id=site-nav>
+			<UL class=quick-menu style="overflow:visible;">
+			[#if member??]
+    <LI><a href="${base}/logout.jspx">退出登录</a></LI>
+    <LI><a href="${base}/shopMember/index.jspx" target="_self"><font color="red">${member.username!}</font></a></LI>
+    <LI><a>您好，欢迎来到便利店网上超市！</a></LI>    
+ [#else]
+ <LI class=home><a>您好，欢迎来到便利店网上超市！</a></LI>    
+  <LI class=home><a href="${base}/login.jspx" target="_self">[登陆]</a></LI>
+  <LI><a href="${base}/registergys.jspx" target="_self">[供应商注册]</a></LI>
+ <LI><a href="${base}/registerbld.jspx" target="_self">[便利店注册]</a></LI>
+  <LI><a href="${base}/register.jspx" target="_self">[会员免费注册]</a></LI>
+ [/#if]
+			  <LI class="mytaobao menu-item" style="overflow:visible;" >
+				  <div class=menu>
+					  <A class=menu-hd  target=_top rel=nofollow>掌上N号仓<B></B></A> 
+					  <div class=menu-bd>
+						  <div class=menu-bd-panel>
+							  <div style="float: left; width:100px; height:100px;"> <img src="${root}/app/2wm.png"></div>
+                              <div style="float: left; width:100px; height:40px; margin-top:10px; text-indent:10px;">N号仓客户端</div>
+                              <div style="float: left; width:50px; height:50px;">
+                              <a href="http://itunes.apple.com/cn/app/id1023643350" target="_blank" ><img src="${root}/app/ios.png"></a> 
+                              </div>
+                              <div style="float: left; width:50px; height:50px;">
+                              <a href="http://www.nhaocang.com/appversion/N.apk" target="_blank"><img src="${root}/app/and.png"></a> 
+                              </div>
+						  </div>
+						  <S class=r></S><S class=rt></S><S class=lt></S><S class=b></S><S class="b b2"></S><S class=rb></S><S class=lb></S>
+					  </div>
+				  </div>
+			  </LI>
+		    </UL>
+		</div>
+	</div>
+</div>
+ <SCRIPT type=text/javascript>
+	TB.Header.init();
+</SCRIPT>

@@ -1,0 +1,96 @@
+   <form id="jvForm" action="${urlPrefix}${urlSuffix}">
+   <div class="searchColMainItem searchResultOp">
+        <dl>
+            <dt>品牌：</dt>
+              <input type="hidden" name="brandId" id="brandId" value="${brandId!}"/>
+              <input type="hidden" name="isShow" id="isShow" value="${isShow!}"/>
+              [@cate_brand categoryId=category.id]
+             <dd><span class="all"><a [#if !(brandId??)]class="cur"[/#if] onclick="clickBrand('');">全部</a></span>
+                 <span class="selection fashion" id="FacetBrandsAll" >
+                        [#list tag_list as brd]
+                          [#if brd_index lt 10]
+                           <a [#if brandId??][#if brandId==brd.id]class="cur"[/#if][/#if] onclick="clickBrand(${brd.id},0);">${brd.name!}</a>
+                          [#else]
+                          <a [#if brandId??][#if brandId==brd.id]class="cur"[/#if][/#if]  onclick="clickBrand(${brd.id},1);" [#if isShow==0] style="display:none"[/#if]>${brd.name!}</a>
+                          [/#if]
+                        [/#list]
+                </span>
+             </dd>
+              <dd class="more">
+                [#if !(tag_list?size lt 10)]
+                     <a [#if isShow==1]class="pack" style="display:none"[/#if] id="FacetBrandsMoreBtn" onclick="showMore('FacetBrandsAll','more')" href="javascript:void(0)" >更多</a>
+                     <a [#if isShow==0]class="pack" style="display:none"[/#if] id="FacetBrandsBackBtn" onclick="showMore('FacetBrandsAll','back')" href="javascript:void(0)" >收起</a>
+                 [/#if]
+              </dd>
+          [/@cate_brand]  
+          </dl>
+		 <!--判断是要被隐藏的属性部分是否有被选中的属性，如果有则显示隐藏部分-->
+         [#list map?keys as mykey]
+           [#assign mlist=map[mykey]] 
+           [#assign st=map1[mykey]]
+           [#if fields??]
+          <dl class="last">
+              <dt>${st.name!}：</dt>
+              <dd>
+              [#list fields as field]
+               [#if field==st.field]
+                 [#list zhis as zhi]
+                   [#if field_index==zhi_index]
+                  <span class="all">
+                     <a [#if zhi=="0"]class="cur" [/#if] onclick="clickchang('stand_${st.field}','');">全部</a>
+                  </span>
+                  <span class="selection">
+                     <input type="hidden" id="stand_${st.field}" name="stand_${st.field}"  value="${zhi}"  />
+                    [#list mlist as m]
+                     <a [#if zhi=="${m.id}"]class="cur" [/#if] onclick="clickchang('stand_${st.field}','${m.id}');">${m.name!}</a>
+                    [/#list]
+                  </span>
+                  [/#if]
+                 [/#list]
+                [/#if]
+               [/#list]
+              </dd>
+         </dl>
+         [#else]
+            <dl class="last">
+              <dt>${st.name!}：</dt>
+              <dd>
+                  <span class="all">
+                     <a class="cur"onclick="clickchang('stand_${st.field}','');">全部</a>
+                  </span>
+                  <span class="selection">
+                     <input type="hidden" id="stand_${st.field}" name="stand_${st.field}"  value=""  />
+                    [#list mlist as m]
+                     <a  onclick="clickchang('stand_${st.field}','${m.id}');">${m.name!}</a>
+                    [/#list]
+                  </span>
+              </dd>
+         </dl>
+         [/#if]
+          [/#list]
+    </div>
+   <!-- 排序方式与布局方式切换区 -->
+   <div class="rankOp clearfix">
+       	<input type="hidden" name="orderBy" id="orderBy" value="${orderBy!}"/>
+       	<input type="hidden" name="pageSize" id="pageSize" value="${pageSize!2}"/>   
+       	<ul class="rank clearfix">
+         <!-- 排序方式 -->
+        <li [#if orderBy==4]class="down"[#else]class="default"[/#if]><a onclick="clickOrderBy(4);"><span>销量</span></a></li>
+        [#if orderBy==7]
+        <li class="defaultPrice priceUp"><a onclick="clickOrderBy(6);"><span>价格</span></a></li>
+       	[#elseif orderBy==6]
+       	<li class="defaultPrice priceDown"><a onclick="clickOrderBy(7);"><span>价格</span></a></li>
+       	[#else]
+       	<li class="defaultPrice"><a onclick="clickOrderBy(7);" ><span>价格</span></a></li>
+       	[/#if]
+        <li class="default"><a onclick="clickOrderBy(1);"><span>评价</span></a></li>
+        <li [#if orderBy==2]class="down"[#else]class="default"[/#if]><a onclick="clickOrderBy(2);"><span>上架时间</span></a></li>
+      	</ul>
+     	<ul class="page clearfix">    	    	  
+          <li><a href="javascript:void(0);">每页显示数量：</a></li>
+          <li><a [#if pageSize==2] class="cur"[/#if] onclick="clickPageSize(2);">2</a></li>
+          <li><a [#if pageSize==4] class="cur"[/#if] onclick="clickPageSize(4);">4</a></li>
+          <li><a [#if pageSize==6] class="cur"[/#if] onclick="clickPageSize(6);">6</a></li>                
+     	</ul>
+  	</div>
+ </form>

@@ -1,0 +1,739 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<link href="${base}/res/jspgou/css/product.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='normaltab3';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='curr3';
+}
+function clickchange(i){
+	$("input[id^='isDefaultes']").each(function(){
+           $(this).val(false);
+	});
+	$("#isDefaultes"+i).val(true);
+}
+
+$(function() {
+	$("#jvForm").validate();
+	//栏目权限对话框
+	$("#channelDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 420,
+		height: 420,
+		position: ["center",20],
+		buttons: {
+			"确定": function() {
+				$(this).dialog("close");
+			}
+		},
+		close: function(event, ui) {
+			var names =new Array(<#list standardTypeList as standardType>new Array()<#if standardType_has_next>,</#if></#list>);
+			var ids=new Array(<#list standardTypeList as standardType>new Array()<#if standardType_has_next>,</#if></#list>);
+			var index=0;
+			<#list standardTypeList as standardType>
+		    $("#${standardType.field}Container").css("display","");	
+			$("#${standardType.field}ItemContainer").html("");
+			<#if standardType.dataType>
+			var tableContent="<tr>";
+			$("input[name='${standardType.field}']:checked").each(function(){tableContent+="<td align='center'><input type='checkbox' id='${standardType.field}size' name='picture' onclick='standardAdd(this);'"+"value='"+$(this).val()+"'nameAttr='"+$(this).attr("nameAttr")+"' checked='checked'/>"+$(this).attr("nameAttr")+"</td>";});tableContent+="</tr><tr>";
+			$("input[name='${standardType.field}']:checked").each(function(){
+				tableContent+="<td align='center'><div>";
+				tableContent+="<img id='preImg"+index+"' alt='43*43' style='width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333'/><br/>";
+				tableContent+="<input type='text' id='uploadImgPath"+index+"' name='colorImg' size='10'/><br/>"+
+               "<span id='ufc"+index+"'><input type='file' id='uploadFile"+index+"' size='2'/></span> "+
+               "<input type='hidden' id='zoomWidth"+index+"' value='100'/> "+
+               "<input type='hidden' id='zoomHeight"+index+"' value='100' />"+ 
+               " <input type='button' value='上传' onclick='upload("+index+");'/></div></td>";
+				index++;
+			});
+			tableContent+="</tr>";	
+			$("#${standardType.field}ItemContainer").append(tableContent);
+			<#else>
+			$("input[name='${standardType.field}']:checked").each(function(){$("#${standardType.field}ItemContainer").append("<input type='checkbox' id='${standardType.field}size' name='character' onclick='standardAdd(this);'"+"value='"+$(this).val()+"'nameAttr='"+$(this).attr("nameAttr")+"' checked='checked'/>"+$(this).attr("nameAttr"));});
+			</#if>
+			</#list>
+			$("#onlyFashion").css("display",""); 
+			var len=0;
+			<#list standardTypeList as standardType>
+				<#if standardType_index=0>
+				len += $("input[id='${standardType.field}size']:checked").length;
+				<#else>
+				len = len*($("input[id='${standardType.field}size']:checked").length);
+				</#if>
+			</#list>
+			var tableSpec=new Array();
+			var dtable=document.getElementById("tableSpec");
+			var rowNum=dtable.rows.length;
+			for(var k=0;k<rowNum;k++) {
+				tableSpec.push(dtable.rows[k].id);
+			} 
+			if(len==0){
+				for(var kk=rowNum-1;kk>=0;kk--){
+			    	if(dtable.rows[kk].id!="it"&&dtable.rows[kk].id!="tbeSpec"){
+			        	$("#"+dtable.rows[kk].id).remove();
+			        }
+				}
+				$("#onlyFashion").css("display","none"); 
+			}else{
+				<#list standardTypeList as standardType>
+				    $("input[id='${standardType.field}size']:checked").each(function(){names[${standardType_index}].push($(this).attr("nameAttr"));ids[${standardType_index}].push($(this).val());});
+			    </#list>
+				var tbeSpec="";
+					for(var i=0;i<len;i++){
+						var x =1;
+						var m;
+						var str=""
+							for(var j = 0; j < ${standardTypeList?size}; j++){
+								x = x * (names[j].length);
+							    m =parseInt(i/(len/x));
+							    if(j==0){
+							    	str=ids[j][m%(names[j].length)];
+								}else{
+									str=str+"_"+ids[j][m%(names[j].length)];
+								}
+								
+						    }
+						var temp=1;
+						var n;
+						var pd=false;
+						for(var zz=0;zz<tableSpec.length;zz++){
+				   			if(tableSpec[zz]=="item_"+str){pd=true;}
+						}
+						if(!pd){
+							tbeSpec +="<tr id='item_"+str+"'>";
+							tbeSpec +="<td align='center' width='60'>";
+							tbeSpec +="<input type='radio'  name='checkDefaults' onclick='clickchange("+'"'+str+'"'+")' />";
+							tbeSpec +="<input type='hidden' id='isDefaultes"+str+"' name='isDefaults' value='false'/>";
+							tbeSpec +="<input type='hidden' name='nature' value='"+str+"'/></td>";
+							for(var j = 0; j < ${standardTypeList?size}; j++){
+								temp = temp * (names[j].length);
+							    n =parseInt(i/(len/temp));
+								tbeSpec +="<td align='center' width='100'>"+names[j][n%(names[j].length)]+"</td>";
+						    }				    
+							tbeSpec +="<td align='center' width='120'><input name='stockCounts' type='text' onchange='addStocks();' size='10' value='0' class='required digits'/></td>";
+							tbeSpec +="<td align='center' width='120'><input name='salePrices' type='text' size='10' class='required digits'/></td>";
+							tbeSpec +="<td align='center' width='120'><input name='marketPrices' type='text' size='10' class='required digits'/></td>";
+							tbeSpec +="<td align='center' width='120'><input name='costPrices' type='text' size='10' class='required digits'/></td>";
+							tbeSpec +="<td align='center' width='40'><img src='../../../res/jspgou/img/admin/icon_delete.gif' onclick='deleteItem(this);'/></td></tr>";
+						}
+					}
+				$("#tbeSpec").before(tbeSpec);
+				var rowNum1=dtable.rows.length;
+				var tableSpec1=new Array();
+				for(k=0;k<rowNum1;k++) {
+					tableSpec1.push(dtable.rows[k].id);
+				} 
+				for(zz=rowNum1-1;zz>=0;zz--){
+					var ppd=false;
+					if(tableSpec1[zz]=="it"){
+						 ppd=true;
+					}else if(tableSpec1[zz]=="tbeSpec"){
+						 ppd=true;
+					}else{
+					   for(i=0;i<len;i++){
+						   var x =1;
+							var m;
+							var str=""
+								for(var j = 0; j < ${standardTypeList?size}; j++){
+									x = x * (names[j].length);
+								    m =parseInt(i/(len/x));
+								    if(j==0){
+								    	str=ids[j][m%(names[j].length)];
+									}else{
+										str=str+"_"+ids[j][m%(names[j].length)];
+									}
+									
+							    }
+							if(tableSpec1[zz]=="item_"+str){
+								ppd=true;
+							}
+					   }
+				    }
+				    if(!ppd){$("#"+tableSpec1[zz]).remove();}
+			    }
+			}
+		}
+	});
+	var channels_opened = false;
+	$('#channel').click(function(){
+		//第一次打开，需要获取数据。
+		if(!channels_opened) {
+			//获取数据
+			channels_opened = true;
+		}
+		$('#channelDialog').dialog('open');
+		return false;
+	});	
+});
+
+
+function standardAdd(checkname){
+	$("#onlyFashion").css("display",""); 
+	var len=0;
+	<#list standardTypeList as standardType>
+		<#if standardType_index=0>
+		len += $("input[id='${standardType.field}size']:checked").length;
+		<#else>
+		len = len*($("input[id='${standardType.field}size']:checked").length);
+		</#if>
+	</#list>
+	var names =new Array(<#list standardTypeList as standardType>new Array()<#if standardType_has_next>,</#if></#list>);
+	var ids=new Array(<#list standardTypeList as standardType>new Array()<#if standardType_has_next>,</#if></#list>);
+	var tableSpec=new Array();
+	var dtable=document.getElementById("tableSpec");
+	var rowNum=dtable.rows.length;
+	for(var k=0;k<rowNum;k++) {
+		tableSpec.push(dtable.rows[k].id);
+	} 
+	if(len==0){
+		for(var kk=rowNum-1;kk>=0;kk--){
+	    	if(dtable.rows[kk].id!="it"&&dtable.rows[kk].id!="tbeSpec"){
+	        	$("#"+dtable.rows[kk].id).remove();
+	        }
+		}
+		$("#onlyFashion").css("display","none"); 
+	}else{
+		<#list standardTypeList as standardType>
+		    $("input[id='${standardType.field}size']:checked").each(function(){names[${standardType_index}].push($(this).attr("nameAttr"));ids[${standardType_index}].push($(this).val());});
+	    </#list>
+		var tbeSpec="";
+			for(var i=0;i<len;i++){
+				var x =1;
+				var m;
+				var str=""
+					for(var j = 0; j < ${standardTypeList?size}; j++){
+						x = x * (names[j].length);
+					    m =parseInt(i/(len/x));
+					    if(j==0){
+					    	str=ids[j][m%(names[j].length)];
+						}else{
+							str=str+"_"+ids[j][m%(names[j].length)];
+						}
+						
+				    }
+				var temp=1;
+				var n;
+				var pd=false;
+				for(var zz=0;zz<tableSpec.length;zz++){
+		   			if(tableSpec[zz]=="item_"+str){pd=true;}
+				}
+				if(!pd){
+					tbeSpec +="<tr id='item_"+str+"'>";
+					tbeSpec +="<td align='center' width='60'>";
+					tbeSpec +="<input type='radio'  name='checkDefaults' onclick='clickchange("+'"'+str+'"'+")' />";
+					tbeSpec +="<input type='hidden' id='isDefaultes"+str+"' name='isDefaults' value='false'/>";
+					tbeSpec +="<input type='hidden' name='nature' value='"+str+"'/></td>";
+					for(var j = 0; j < ${standardTypeList?size}; j++){
+						temp = temp * (names[j].length);
+					    n =parseInt(i/(len/temp));
+						tbeSpec +="<td align='center' width='100'>"+names[j][n%(names[j].length)]+"</td>";
+				    }				    
+					tbeSpec +="<td align='center' width='120'><input name='stockCounts' type='text' onchange='addStocks();' size='10' value='0' class='required digits'/></td>";
+					tbeSpec +="<td align='center' width='120'><input name='salePrices' type='text' size='10' class='required digits'/></td>";
+					tbeSpec +="<td align='center' width='120'><input name='marketPrices' type='text' size='10' class='required digits'/></td>";
+					tbeSpec +="<td align='center' width='120'><input name='costPrices' type='text' size='10' class='required digits'/></td>";
+					tbeSpec +="<td align='center' width='40'><img src='../../../res/jspgou/img/admin/icon_delete.gif' onclick='deleteItem(this);'/></td></tr>";
+				}
+			}
+		$("#tbeSpec").before(tbeSpec);
+		var rowNum1=dtable.rows.length;
+		var tableSpec1=new Array();
+		for(k=0;k<rowNum1;k++) {
+			tableSpec1.push(dtable.rows[k].id);
+		} 
+		for(zz=rowNum1-1;zz>=0;zz--){
+			var ppd=false;
+			if(tableSpec1[zz]=="it"){
+				 ppd=true;
+			}else if(tableSpec1[zz]=="tbeSpec"){
+				 ppd=true;
+			}else{
+			   for(i=0;i<len;i++){
+				   var x =1;
+					var m;
+					var str=""
+						for(var j = 0; j < ${standardTypeList?size}; j++){
+							x = x * (names[j].length);
+						    m =parseInt(i/(len/x));
+						    if(j==0){
+						    	str=ids[j][m%(names[j].length)];
+							}else{
+								str=str+"_"+ids[j][m%(names[j].length)];
+							}
+							
+					    }
+					if(tableSpec1[zz]=="item_"+str){
+						ppd=true;
+					}
+			   }
+		    }
+		    if(!ppd){$("#"+tableSpec1[zz]).remove();}
+	    }
+	}
+}
+function deleteItem(rowNames){
+	$(rowNames).parent().parent().remove();
+}
+
+
+function addStocks(){
+	var stockCounts=0;
+	$("input[name='stockCounts']").each(function(){
+		 if($(this).val()!=""||$(this).val()!=null){ 
+            stockCounts+=parseInt($(this).val());
+		 }
+	});
+	$("#stockCount").val(stockCounts);
+}
+
+function addSales(){
+	var saleCounts=0;
+	$("input[name='saleCounts']").each(function(){
+		 if($(this).val()!=""||$(this).val()!=null){ 
+		    saleCounts+=parseInt($(this).val());
+		 }
+	});
+	$("#saleCount").val(saleCounts);
+}
+
+function checkSubmit(){
+	 if($("#colorSize").val()=="true"){
+		 if($("input[name='stockCounts']").length<=0){
+			 alert("请开启颜色尺寸");
+	         return;
+		 }
+		 var pd1=false;
+		$("input[name='isDefaults']").each(function(){
+			if($(this).val()=="true"){pd1=true;}
+		});
+		if(!pd1){alert("请选择默认款式！");return;}
+		 var pd=false;
+		$("input[name='stockCounts']").each(function(){
+	        if($(this).val()==""||$(this).val()==null){pd=true;}
+		});
+		if(pd){alert("请必须填写款式库存");return;}
+		$("input[name='saleCounts']").each(function(){
+	        if($(this).val()==""||$(this).val()==null){ pd=true;}
+		});
+		if(pd){ alert("请必须填写款式销量"); return;}
+		$("input[name='salePrices']").each(function(){
+	        if($(this).val()==""||$(this).val()==null){ pd=true; }
+		});
+		if(pd){ alert("请必须填写款式 销售价"); return;}
+		$("input[name='marketPrices']").each(function(){
+	        if($(this).val()==""||$(this).val()==null){ pd=true; }
+		});
+		if(pd){ alert("请必须填写款式市场价");return;}
+		$("input[name='costPrices']").each(function(){
+	        if($(this).val()==""||$(this).val()==null){pd=true; }
+		});
+		if(pd){ alert("请必须填写款式成本价");return;}
+	 }
+		$("#jvForm").submit();
+	}
+
+function delFash(id,productId){
+var messages;
+var boo;
+	$.post("o_delFashion.do",{id:id,productId:productId},function(data){
+		messages=data.message;
+		boo=data.boo;
+                 alert(messages);
+         if(boo==false){
+             location.href=location.href;
+             }
+		},'json');
+}
+
+</script>
+<style type="text/css">
+.ckl{padding-right:12px;}
+</style>
+</head>
+<body>
+<#include "/common/image_switch_upload.html"/>
+<#include "/common/image_big_upload.html"/>
+<#include "/common/image_amp_upload.html"/>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shop.function.product"/> - <@s.m "product.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" name="ctgId" value="${ctgId!}"/>
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="var f=this.form;f.action='v_site_list.do';f.submit();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#include "/common/image_upload.html"/>
+<@p.form id="jvForm" action="o_site_update.do" labelWidth="12" >
+<#assign count=0/>
+<#list itemList as item>
+<#if !item.single><#assign count=count+1/></#if>
+<#if !item.custom>
+  <#if item.field=="name">
+  	<@p.td colspan="2" width="50" label=item.propertyName>${product.name}</@p.td><@p.tr/>
+    
+  <#elseif item.field="categoryId">
+  	<@p.td colspan="1" width="50" label=item.propertyName>${product.category.name}</@p.td>
+    
+  <#elseif item.field="brandId">
+  	<@p.td colspan="1" width="50" label=item.propertyName>${((product.brand!).name!)}</@p.td><@p.tr/>
+    
+    <#elseif item.field="price">
+    <#if !category.colorsize>
+      <@p.td label=item.propertyName required="true" colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+        <@s.m "productsite.costPrice"/>: ${productsite.costPrice} (元)&nbsp;
+        <@s.m "productsite.marketPrice"/>:${productsite.marketPrice} (元)&nbsp;
+        <@s.m "productsite.salePrice"/>: ${productsite.salePrice} (元)&nbsp;
+     </@p.td><@p.tr/>
+    </#if>
+    
+  
+   <@p.td  label="利润" colspan="2" >${productsite.liRun} (元)</@p.td> <@p.tr/>
+  <!-- <#elseif item.field="stockCount">
+     <#if !category.colorsize>
+      <@p.text label=item.propertyName id=item.field name=item.field value=productsite.stockCount size="10"  required="true" class="required digits" maxlength="10"  help="" helpPosition="2" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  </#if> -->
+  <#elseif item.field="attr">
+     <@p.td label=item.propertyName colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+      <label class="ckl">
+	    <input type="checkbox" disabled="disabled" onclick="$('#onSale').val(this.checked)"<#if productsite.onSale> checked="checked"</#if>/>
+	    <@s.m "product.onSale"/><input type="hidden" id="onSale" name="onSale" value="${productsite.onSale?string('true','false')}"/>
+     </label>
+     <label class="ckl">
+	   <input type="checkbox" disabled="disabled" onclick="$('#recommend').val(this.checked)"<#if productsite.recommend> checked="checked"</#if>/>
+	  <@s.m "product.recommend"/><input type="hidden" id="recommend" name="recommend" value="${productsite.recommend?string('true','false')}"/>
+    </label>
+    <label>
+	  <input type="checkbox" disabled="disabled" onclick="$('#special').val(this.checked)"<#if productsite.special> checked="checked"</#if>/>
+	  <@s.m "product.special"/><input type="hidden" id="special" name="special" value="${productsite.special?string('true','false')}"/>
+   </label>
+   <label>
+	 <input type="checkbox" disabled="disabled" onclick="$('#hotsale').val(this.checked)"<#if productsite.hotsale> checked="checked"</#if>/>
+	  <@s.m "product.hotsale"/><input type="hidden" id="hotsale" name="hotsale" value="${productsite.hotsale?string('true','false')}"/>
+   </label>
+   <label>
+	 <input type="checkbox" disabled="disabled" onclick="$('#newProduct').val(this.checked)"<#if productsite.newProduct> checked="checked"</#if>/>
+	  <@s.m "product.newProduct"/><input type="hidden" id="newProduct" name="newProduct" value="${productsite.newProduct?string('true','false')}"/>
+    </label>
+   </@p.td><#if count%2==0><@p.tr/></#if>
+   
+   <#elseif item.field="alertInventory">   
+     <#if count%2==0><@p.tr/></#if>
+   <#elseif item.field="productKeywords">
+   <@p.td label=item.propertyName  colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       ${product.productKeywords!} 
+      </@p.td><@p.tr/>  
+   <#elseif item.field="score">   
+     <@p.td label=item.propertyName  colspan="2" width="${item.single?string(100,50)}">${product.score}</@p.td><#if count%2==0><@p.tr/></#if>
+   <#elseif item.field="weight">
+      <@p.td label=item.propertyName   colspan="2">${product.weight!} 克(g)</@p.td><#if count%2==0><@p.tr/></#if>
+   <#elseif item.field="tagIds">  
+     <@p.checkboxlist label=item.propertyName disabled="disabled" name="tagIds" valueList=product.tagIds  list=tagList listKey="id" listValue="name" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  
+   <#elseif item.field="coverImg">  
+     <@p.td label=item.propertyName colspan="2"  noHeight="true" >
+         
+            <img id="preImg100" alt="<@s.m "imageupload.preview"/>160*160" src="${product.productExt.coverImg!}"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+        </@p.td><#if count%2==0><@p.tr/></#if>
+     <#elseif item.field="productstyle">  
+      <tr><td width="12%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>商品款式集:</td>
+          <td colspan="3" width="48%" class="pn-fcontent">
+         <#list product.pictures as pic>
+		   <table id="picTable${pic_index+1}" border="0" style="float: left;">
+		     <!-- <#if pic_index=0>
+		     <tr>
+               <td align="left" colspan="3"> <input type="button" value="增加款式" onclick="addPicLine()"/> </td>
+             </tr>
+             </#if> -->
+		     <tr>
+               <td align="center"> 切换图片预览60*60</td>
+               <td align="center"> 大图片预览380*380</td>
+              <td align="center"> 放大图片预览600*600</td>
+           </tr>
+		   <tr>
+			  <td align="center">
+			    <div>
+		    	 <img id="preSwitchImg${pic_index+1}" alt="预览" src="${pic.picturePath!}"  style="width:60px;height:60px;background-color:#ccc;border:1px solid #333"/>
+			     <br/> <br/><br/>
+			     <#if pic_index!=0> <a href="javascript:void(0);" onclick="$('#picTable${pic_index+1}').remove();" class="pn-opt">删除</a></#if>
+			    <!--   <span class="pn-frequired">*</span>
+				 <input type="text" id="uploadImgPathSwitch${pic_index+1}" name="fashionSwitchPic" value="${pic.picturePath!}" style="width: 160px" /></div>
+		         <div><span id="ufcSwitch${pic_index+1}">
+		              <input type="file" id="uploadFileSwitch${pic_index+1}" size="10" style="width: 150px" /></span> 
+					  <input type="button" value="上传" onclick="uploadSwitch(${pic_index+1});"/></div> -->
+			  </td>
+			  <td align="center">
+			  <div>
+		    	<img id="preBigImg${pic_index+1}" alt="预览" src="${pic.bigPicturePath!}"  style="width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+			    <br/>
+			    <!-- <span class="pn-frequired">*</span>
+				<input type="text" id="uploadImgPathBig${pic_index+1}" name="fashionBigPic" value="${pic.bigPicturePath!}" style="width: 160px" /></div>
+		         <div><span id="ufcBig${pic_index+1}">
+		             <input type="file" id="uploadFileBig${pic_index+1}" size="10" style="width: 150px" /></span> 
+					 <input type="button" value="上传" onclick="uploadBig(${pic_index+1});"/></div> -->
+			 </td>
+			<td align="center">
+			  <div>
+		    	<img id="preAmpImg${pic_index+1}" alt="预览" src="${pic.appPicturePath!}"  style="width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+			    <br/>
+			     <!-- <span class="pn-frequired">*</span>
+				<input type="text" id="uploadImgPathAmp${pic_index+1}" name="fashionAmpPic" value="${pic.appPicturePath!}" style="width: 160px" /></div>
+		        <div><span id="ufcAmp${pic_index+1}">
+		             <input type="file" id="uploadFileAmp${pic_index+1}" size="10" style="width: 150px" /></span> 
+					 <input type="button" value="上传" onclick="uploadAmp(${pic_index+1});"/></div> -->
+			</td>
+		</tr>
+		</table>
+    </#list>
+    <div id="picBefore" style="clear:both"></div>
+    </td>
+    </tr>
+     <#list  map?keys as mykey>  
+     <#assign mapUser=map[mykey]>  
+     <#assign st=map1[mykey] >  
+     <#if st.dataType==1>
+        <@p.select name="exended_${st.field}" value=map2[st.field] label=st.name list=mapUser  listKey="id" listValue="name" colspan="2" width="100"  headerKey="" headerValue="global.none"/><@p.tr/>
+     <#else>
+        <@p.radio name="exended_${st.field}" value=map2[st.field] label=st.name list=mapUser listKey="id" listValue="name" colspan="2" width="100" /><@p.tr/>
+     </#if>
+    </#list>
+    <#if category.colorsize>
+    	<tr id="channelIdsContainer">
+        	<td width="12%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>规格:</td>
+            <td colspan="3" width="88%" class="pn-fcontent">
+	          <input id="channel" type="button" value="开启规格"/>	
+	               <div id="channelDialog" title="规格列表" style="display:none;">
+	                   <span id="channels">
+	                      <div class="mc_content">
+                               <ul class="ysppm_rg_ul">
+                               <#list standardTypeList as standardType>
+ 	  								<li <#if standardType_index=0>class="curr3"<#else>class="normaltab3"</#if> id="tb_1${standardType_index+1}" onclick="HoverLi(1,'${standardType_index+1}','${standardTypeList?size}');">${standardType.name}</li>
+ 								</#list>  
+                                </ul>  
+                           </div>
+        				<div class="mc_content">
+ 	                    	<#list standardTypeList as standardType>
+							<div id="tbc_1${standardType_index+1}" <#if standardType_index=0>class="dis"<#else>class="undis"</#if>>
+	   						<#list standardType.standardSet as standard>
+          						<input type="checkbox" id="${standardType.field!}" name="${standardType.field!}" value="${standard.id!}" nameAttr="${standard.name!}" 
+          							<#list psList as ps>
+                                      <#if standard.id==ps.standard.id>checked="checked"</#if>
+                                    </#list>
+          						/>
+         						 <span class="colorSize">${standard.name!}</span><br/>
+       						</#list>
+							</div>
+							</#list>
+						</div>
+	             </span>
+	        </div>
+          <div style="clear:both"></div>
+        </td>
+     </tr>
+     <#list standardTypeList as standardType>
+     <#if standardType.dataType>
+     	 <tr id="${standardType.field}Container">
+         <td width="12%" class="pn-flabel pn-flabel-h">${standardType.name}</td>
+         <td colspan="3" width="88%" class="pn-fcontent">
+           <table id="${standardType.field}ItemContainer" border="0" style="float: left;">
+                <tr>
+                  <#list psList as ps>
+                  <#if standardType.id=ps.type.id>
+                  <td align="center">
+                  	<input type="checkbox" id='${standardType.field}size' name='picture' onclick="standardAdd(this);" value="${ps.standard.id}" nameAttr="${ps.standard.name}" checked="checked"/>${ps.standard.name}
+                  </td>
+                  </#if>
+                  </#list>
+               </tr>
+               <tr>
+                  <#list psList as ps>
+               	  <#if standardType.id=ps.type.id>
+                  <td align="center">
+                  	<div>
+                    	<img id="preImg${ps_index}" alt="43*43" src="${ps.imgPath!}"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/><br/>
+                    	<input type='text' id="uploadImgPath${ps_index}" name="colorImg" value="${ps.imgPath!}" size="10" /><br/>
+                     	<span id="ufc${ps_index}"><input type="file" id="uploadFile${ps_index}" size="2"/></span>
+                        <input type="hidden" id="zoomWidth${ps_index}" value="100"/> 
+                        <input type="hidden" id="zoomHeight${ps_index}" value="100" /> 
+	               		<input type="button" value="上传" onclick="upload(${ps_index});"/>
+	            	</div>
+	              </td>
+	              </#if>
+                  </#list>
+              	</tr>
+      		</table>
+    	</td>
+  	 	</tr>
+     <#else>
+       <tr id="${standardType.field}Container"><td width="12%" class="pn-flabel pn-flabel-h">${standardType.name}</td>
+          <td colspan="3" width="88%" class="pn-fcontent">
+              <span id="${standardType.field}ItemContainer">
+               <#list psList as ps>
+               <#if standardType.id=ps.type.id>
+                   <input type="checkbox" id='${standardType.field}size' name='character' onclick="standardAdd(this);" value="${ps.standard.id}" nameAttr="${ps.standard.name}" checked="checked"/>${ps.standard.name}&nbsp;&nbsp;
+                </#if>
+                </#list>
+            </span>
+          </td>
+      </tr>
+     </#if>
+  </#list>
+  <tr id="onlyFashion">
+   <td width="12%" class="pn-flabel pn-flabel-h"></td>
+   <td colspan="3" width="88%" class="pn-fcontent">
+     <table id="tableSpec" cellspacing="0" cellpadding="5" border="0" class="tb-color">
+        <tr id="it">
+         <th align="center" width="60">默认款式</th>
+         <#list standardTypeList as standardType>
+			<th align="center" width="120">${standardType.name}</th>
+		 </#list>
+         <th align="center" width="120">商品库存</th>
+         <th align="center" width="120">销售价</th>
+         <th align="center" width="120">市场价</th>
+         <th align="center" width="120">成本价</th>
+         <th align="center" width="40">移除</th>
+      </tr>
+      <#list product.fashions as fash>
+      <tr id="item_${fash.nature!}">
+       <input type="hidden" value="${fash.id!}" name="fashId"/>
+       <input type="hidden" name='nature' value="${fash.nature!}"/>
+       <td align="center" width="60">
+		<input type="radio" name="checkDefaults" onclick="clickchange('${fash.nature!}');" <#if fash.isDefault!> checked</#if>/>
+        <input type="hidden" id="isDefaultes${fash.nature!}" name="isDefaults" <#if fash.isDefault> value="true"<#else>value="false"</#if>/>
+       </td>
+       <#list standardTypeList as standardType>
+	   <td align="center" width="100">                
+			<#list fash.standards as standard>
+			<#if standard.type.id=standardType.id>
+			${standard.name!}
+			</#if>
+			</#list>
+		</td>
+		 </#list>
+         <td align="center" width="120"><input name="stockCounts" onchange="addStocks();" type="text" size="10" class="required digits" value="${fash.stockCount!}"/></td>
+         <td align="center" width="120"><input name="salePrices" type="text"  size="10" class="required digits" value="${fash.salePrice!}"/></td>
+         <td align="center" width="120"><input name="marketPrices" type="text"  size="10" class="required digits" value="${fash.marketPrice!}"/></td>
+         <td align="center" width="120"><input name="costPrices" type="text"  size="10" class="required digits" value="${fash.costPrice!}"/></td>
+         <td align="center" width="40"><img src="../../../res/jspgou/img/admin/icon_delete.gif" onclick="deleteItem(this);"/></td>
+      </tr>
+      </#list>
+      <tr id="tbeSpec" style="display:none;"><td colspan="8" height="1"></td></tr>
+     </table>
+    </td>
+   </tr>
+  </#if>
+  <#elseif item.field="shareContent">  
+       <@p.textarea label=item.propertyName disabled="disabled" name="shareContent" value=product.shareContent!  rows="3" cols="70" maxlength="255" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  <#elseif item.field="mtitle">
+   <@p.td label=item.propertyName  colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       ${product.mtitle!} 
+      </@p.td><@p.tr/>  
+  <#elseif item.field="mkeywords">  
+  <@p.td label=item.propertyName  colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       ${product.mkeywords!} 
+      </@p.td><@p.tr/>
+  <#elseif item.field="mdescription">  
+   <@p.td label=item.propertyName  colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       ${product.mdescription!} 
+      </@p.td><@p.tr/>
+  <#elseif item.field="islimitTime">  
+        <@p.radio label=item.propertyName disabled="disabled" name="islimitTime"  value=product.productExt.islimitTime! list={"true":"是","false":"否"} onclick="seeTime(this.value);" id="limTime" colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+  <#elseif item.field="timeLimit">  
+       <@p.td label=item.propertyName colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+        <#if isLimit??&&isLimit>
+          <table id="limitTimeTab${product.id}" style="display: block">
+       <#else>
+        <table id="limitTimeTab${product.id}" style="display: none">
+      </#if>
+      <tr>
+        <td colspan="1"><input type="text" name="timeLimit" disabled="disabled" value="<#if product.productExt.timeLimit??>${(product.productExt.timeLimit!)?string('yyyy-MM-dd HH:mm:ss')}</#if>"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/></td>
+      </tr>
+     </table>
+    </@p.td><#if count%2==0><@p.tr/></#if>
+     <#elseif item.field="isLimit">   
+       <@p.td  label=item.propertyName colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       <#if isLimit??&&isLimit>
+        <table id="priceTab${product.id}" style="display: block">
+      <#else>
+       <table id="priceTab${product.id}" style="display: none">
+     </#if>
+      <tr>
+        <td colspan="1"><input type="text" name="seckillprice" value="${product.productExt.seckillprice!}" /></td>
+      </tr>
+      </table> 
+     </@p.td><#if count%2==0><@p.tr/></#if>
+     <#elseif item.field="text">   
+     <@p.td label=item.propertyName  colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       ${product.text!} 
+      </@p.td><@p.tr/>
+     <#elseif item.field="text1">   
+        <@p.td label=item.propertyName  colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+       ${product.text1!} 
+      </@p.td><@p.tr/>
+    </#if>
+<#else>
+<@p.selfDefineWidget name="attr_${item.field}" value=product.attr[item.field] list="${item.optValue!}"  rows="${item.rows!}" cols="${item.cols!}" label=item.propertyName colspan=item.single?string("2","1") width="${item.single?string(100,50)}" type="${item.dataType}"/><#if count%2==0><@p.tr/></#if>
+</#if>
+</#list>
+
+
+</@p.form>
+</div>
+
+<textarea id="picTable" style="display: none;">
+<table id="picTable{0}" border="0" style="float: left;">
+<tr>
+	<td align="center">
+      <div>
+	   <img id="preSwitchImg{0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		<br/>
+		<a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt">删除</a>
+		<input type="text" id="uploadImgPathSwitch{0}" name="fashionSwitchPic" style="width: 160px"/>
+		 <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"></a></div>
+	    <div><span id="ufcSwitch{0}"><input type="file" id="uploadFileSwitch{0}" size="10" style="width: 150px" /></span> 
+		     <input type="button" value="上传" onclick="uploadSwitch({0});"/></div>
+	  </td>
+	  <td align="center">
+		<div>
+		   <img id="preBigImg{0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		  <br/>
+		   <input type="text" id="uploadImgPathBig{0}" name="fashionBigPic" style="width: 160px" />
+		    <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"></a></div>
+	        <div><span id="ufcBig{0}"><input type="file" id="uploadFileBig{0}" size="10" style="width: 150px" /></span> 
+		     <input type="button" value="上传" onclick="uploadBig({0});"/></div>
+	 </td>
+	 <td align="center">
+		  <div>
+		     <img id="preAmpImg{0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		     <br/>
+		    <input type="text" id="uploadImgPathAmp{0}" name="fashionAmpPic" style="width: 160px"/>
+		    <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"></a></div>
+	      <div><span id="ufcAmp{0}"><input type="file" id="uploadFileAmp{0}" size="10" style="width: 150px" /></span> 
+		   <input type="button" value="上传" onclick="uploadAmp({0});"/></div>
+	  </td>
+</tr>
+</table>
+</textarea>
+<script type="text/javascript">
+var picIndex = ${product.pictures?size}+1;
+	var picTpl = $.format($("#picTable").val());
+	function addPicLine() {
+		$('#picBefore').before(picTpl(picIndex++));
+	}
+</script>
+</body>
+</html>

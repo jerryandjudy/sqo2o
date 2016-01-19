@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>会员优惠劵管理  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/buy.css" type="text/css" rel="stylesheet" />
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+function check(){
+	$("#xingxi").css("display","block");
+}
+function checkDis(){
+	$("#xingxi").css("display","none");
+}
+</script>
+</head>
+<body>
+[#--
+[#include '../shop/inc_head.html'/]
+--]
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+     [#include "../include/页头导航栏.html"/]
+</div>
+<div class="w960 mt10">
+  [#include "会员中心_导航.html"/]
+     <div class="user_right">
+     	  <div class="usercenter_position">
+          	   <span>我的优惠劵</span> &nbsp;&nbsp;&nbsp;&nbsp;<span><a href="javascript:void(0)" onclick="check();">查看优惠劵信息</a></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><a href="javascript:void(0)" onclick="checkDis();">关闭优惠劵信息</a></span>
+          </div>      
+            <div class="dd_list">
+                           <ul>
+                              <li class="dd_normal"><a href="#wx">我的优惠劵</a></li>
+                           </ul>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #d8d8d8;">
+							<tr><td>面值</td><td>最小订单金额</td><td>有效期</td><td>状态</td></tr>
+							[#if couList?size gt 0]
+							[#list couList as c]
+							 <tr><td>${c.coupon.couponPrice!}</td><td>${c.coupon.leastPrice!}</td><td>${c.coupon.couponTime}--${c.coupon.couponEndTime!}</td><td>[#if c.isuse]已使用[#else]未使用[/#if]</td></tr>
+							[/#list]
+							[#else]
+							<tr><td align="center" colspan="4"> 暂无优惠劵,快去<a href="">jspgou商城</a>领取吧</td></tr>
+							[/#if]
+							</table>
+            </div>
+            <div class="clear"></div>
+            <p/><br/>
+   
+   <div id="xingxi" style="display:none">        
+<div class="question_title" id="4"><span> 优惠券使用规则</span></div>
+<div class="help_text_box">
+<p>◆ 购物车的商品金额总计满足一定金额时，优惠券才能使用。比如：购物车的商品金额总计超过50元时，5元优惠券可用；<br />
+◆ 每张订单只能使用一张优惠券，使用后若放弃支付订单，该优惠券不可重新使用；<br />
+◆ 优惠券必须在有效期内使用，过期作废，优惠券不能兑换现金；<br />
+◆ 使用优惠券支付的订单，发生退货由用户自行承担运费，退款结算按照实际结算金额退款，优惠券不能用来抵扣商品运费；<br />
+</div>
+                  </div>
+                </div>  
+      <div class="intro_box"> </div>
+     <div class="clear"></div>
+ [#include "../include/页脚信息栏.html"/]
+</body>
+</html>

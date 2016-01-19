@@ -1,0 +1,38 @@
+<div class="left fl">
+   <div class="itemChoose">
+      <h2>商品分类</h2>
+      <div class="itemChooseBox">
+      <div style="width:210px; margin-left:7px;">
+      <input type="hidden" name="ctgId" id="ctgId" value="${ctgId!}"/>
+      	 [@shop_Category_list count=12 isDisplay='1']
+         	[#list tag_list as category]
+         	[#if category.child?size&gt;0]
+            <li class="child">
+              <a class="icon_btn" href="javascript:void(0);"></a>
+              <a onclick="clickctg(${category.id});" title="${category.name!}">${category.name!}</a>
+              <ul>
+              [@shop_Category_list parentId=category.id loadChild='1' Level=2 count=24  isDisplay='1' ]
+              [#list tag_list as ctg]
+              
+             
+               <li>
+              	<a class="icon_btn" href="javascript:void(0);"></a>
+              	<a onclick="clickctg(${ctg.id});" title="${ctg.name!}">${ctg.name!}</a>
+              </li>
+              [/#list]
+              [/@shop_Category_list] 
+              </ul>
+            </li>
+            [#else]
+               <li>
+               <a class="icon_btn" href="javascript:void(0);"></a>
+               <a onclick="clickctg(${category.id});" title="${category.name!}">${category.name!}</a>
+               </li>
+            [/#if]
+            [/#list]
+         [/@shop_Category_list] 
+        </div>
+      </div>
+    </div>
+    
+</div>

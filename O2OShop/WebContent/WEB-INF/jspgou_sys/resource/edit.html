@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function ajaxSubmit() {
+	$.post('o_update.do', {
+		'name' : '${name!}',
+		'content' : $('#content').val()
+	}, function(data) {
+		if (data) {
+			alert("<@s.m 'global.success.save'/>");
+		} else {
+			alert("<@s.m 'global.failed.save'/>");
+		}
+	}, 'json');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "resource.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12" onsubmit="ajaxSubmit();return false;">
+<@p.text label="resource.name" id="filename" name="filename" value=filename size="30" readonly="readonly"/>
+<@p.textarea label="resource.content" id="content" name="content" value=content wrap="off" style="width:99%" rows="20" cols="70" maxlength="131072" help="resource.content.help" helpPosition="1" onkeydown="if((event.keyCode==115||event.keyCode==83)&&event.ctrlKey){ajaxSubmit();return false;}"/>
+<@p.td>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

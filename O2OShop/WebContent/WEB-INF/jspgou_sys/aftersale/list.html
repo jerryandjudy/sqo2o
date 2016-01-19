@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "aftersale.function"/> - <@s.m "global.list"/></div>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;aftersale,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${aftersale.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${aftersale.id}</@p.column><#t/>
+	<@p.column code="订单编号">${aftersale.order.code}</@p.column><#t/>
+	<@p.column code="买家">${aftersale.order.code}</@p.column><#t/>
+	<@p.column code="售后原因">${aftersale.type.name!}</@p.column><#t/>
+	<@p.column code="状态"> <#if aftersale.status==1>申请售后成功，等待卖家处理
+     <#elseif aftersale.status==2>同意售后要求
+     <#else>不同意售后要求</#if></@p.column><#t/>
+	<@p.column code="申请时间">${aftersale.applyTime?string('yyyy-MM-dd HH:mm')!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<#if aftersale.intervene><a href="v_edit.do?id=${aftersale.id}&pageNo=${pageNo!}">介入</a> 
+		<#else>
+		  <a href="v_view.do?id=${aftersale.id}&pageNo=${pageNo!}">查看</a> 
+		</#if>| <#rt/>
+		<a href="o_delete.do?ids=${aftersale.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

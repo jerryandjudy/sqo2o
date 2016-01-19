@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 站点商品列表 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_gysjysp_add.do" id="tableForm" method="post">
+	 <select name="typeId">
+            <option value="">--商品分类--</option>
+         <#list typeList as productType>
+            <option value="${productType.id}"<#if typeId??> <#if typeId==productType.id>selected="selected"</#if></#if>>${productType.name!}</option>
+         </#list>  
+       </select>
+	<@s.m "product.name"/>:<input type="text" name="productName" value="${productName!}" style="width:100px"/>
+	品牌名称: <input type="text" name="brandName" value="${brandName!}" style="width:100px"/>  
+    <label class="ckl">
+	     <input type="checkbox" id="isRecommend" name="isRecommend" value="true" <#if isRecommend?? && isRecommend> checked="checked"</#if>/><@s.m "product.recommend"/>
+    </label>
+    <label class="ckl">
+	      <input type="checkbox" id="isSpecial" name="isSpecial" value="true" <#if isSpecial?? && isSpecial> checked="checked"</#if>/><@s.m "product.special"/>
+    </label>
+    <label class="ckl">
+	     <input type="checkbox" id="isHotsale" name="isHotsale" value="true" <#if isHotsale?? && isHotsale> checked="checked"</#if>/> 热卖
+    </label>
+    <label>
+	    <input type="checkbox" id="isNewProduct" name="isNewProduct" value="true"<#if isNewProduct?? && isNewProduct> checked="checked"</#if> /> 新品
+     </label>
+        <input type="hidden" name="pageNo" value="${pageNo!}"/>
+      <input type="hidden" name="ctgId" value="${ctgId!}"/>
+      <input type="hidden" name="gys.id" value="${gys.id!}"/>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+	<div class="clear"></div>
+</div>
+<@p.table listAction="v_gysjysp_add.do" value=sitepropage;productSite,i,has_next><#rt/>
+	<@p.column title=" " width="20">
+		<input type='checkbox' name='ids' <#if productSite.product.parent?? && productSite.product.parent.id?? >disabled</#if> value='${productSite.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID" width="20">${productSite.id!}</@p.column><#t/>
+	<@p.column code="product.name"><a href="${productSite.url}" target="_blank">${productSite.product.name}</a></@p.column><#t/>
+	<@p.column code="product.category">${productSite.product.category.name}</@p.column><#t/>
+	<@p.column code="product.type">${productSite.product.type.name}</@p.column><#t/>
+	<@p.column code="productsite.salePrice"><#if productSite.product.productFashion??>${productSite.salePrice!}<#else>${productSite.salePrice!}</#if><input type="hidden" name="wids" value="${productSite.id}"/></@p.column><#t/>
+	<@p.column code="productsite.marketPrice">${productSite.marketPrice!}</@p.column><#t/>
+	<@p.column code="productsite.costPrice">${productSite.costPrice!}</@p.column><#t/>
+	<@p.column code="product.stockCount">${productSite.stockCount}</@p.column><#t/>
+	<@p.column code="product.brand"><#if productSite.product.brand??>${(productSite.product.brand.name)!}</#if></@p.column><#t/>
+	<@p.column code="product.recommend">
+		  <#if productSite.recommend> 是 <#else>否 </#if>
+	</@p.column><#t/>
+	<@p.column code="product.special">
+		<#if productSite.special> 是 <#else>否 </#if>
+	</@p.column><#t/>
+	<@p.column code="product.hotsale">
+		<#if productSite.hotsale> 是 <#else>否 </#if>
+	</@p.column><#t/>
+	<@p.column code="product.newProduct">
+		<#if productSite.newProduct> 是 <#else>否 </#if>
+	</@p.column><#t/>
+</@p.table>
+	 <input type="submit" value="<@s.m "global.saveCheckProduct"/>" onclick="this.form.action='o_gysjysp_save.do';"/><font color="red" >帮助：请勾选商品点击“保存勾选商品”，则供应商经营商品添加成功</font>
+</form>
+
+<div class="rhead">
+	<div class="rpos"> 供应商经营商品 </div>
+	<div class="clear"></div>
+</div>
+<form  method="post">
+<input type="hidden" name="gys.id" value="${gys.id!}"/>
+<@p.table value=pagination.list;jysp,i,has_next><#rt/>
+	
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商姓名">${jysp.gys.ketaUser.realname}</@p.column><#t/>
+	<@p.column code="联系电话">${jysp.gys.ketaUser.phone}</@p.column><#t/>
+	<@p.column code="公司">${jysp.gys.companyName}</@p.column><#t/>
+	<@p.column code="所属站点">${jysp.gys.website.name}</@p.column><#t/>
+	<@p.column code="经营商品">${jysp.productName}</@p.column><#t/>
+	<@p.column code="添加人">${jysp.username!}</@p.column><#t/>
+	<@p.column code="添加时间">${jysp.createTime!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<#if jysp.productSite.product.parent?? && jysp.productSite.product.parent.id?? >不可操作<#else><a href="o_gysjysp_delete.do?id=${jysp.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/></#if> 
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

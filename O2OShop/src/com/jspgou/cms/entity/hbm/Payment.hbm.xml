@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Payment" table="jc_shop_payment">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="payment_id"><generator class="native"/></id>
+		<property name="name" column="name" type="string" not-null="true" length="150"/>
+		<property name="type" column="type" type="java.lang.Byte" not-null="false" length="10"/>
+		<property name="description" column="description" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="isDefault" column="is_default" type="java.lang.Boolean" not-null="true"/>
+		<property name="introduce" column="introduce" type="string" not-null="false" length="255"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<set name="shippings" table="jc_shop_payment_shipping">
+			<key column="payment_id"/>
+			<many-to-many column="shipping_id" class="Shipping"/>
+		</set>
+	</class>
+</hibernate-mapping>

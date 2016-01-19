@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="lttop">
+	<a href="javascript:location.reload()"><@s.m "global.refresh"/></a>
+</div>
+<hr/>
+<#if treeRoot??>
+<@p.tree root=treeRoot showDeep=3 url="v_list" durl="v_list"
+	dparams={"ctgId":"id"} params={"ctgId":"id"} childName="child" treeName="name"/>
+<#else>
+	<div style="color:red;font-weight:bolt;text-align:center;">请先添加栏目</div>
+</#if>
+</body>
+</html>

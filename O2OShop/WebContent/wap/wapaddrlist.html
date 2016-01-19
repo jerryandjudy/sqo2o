@@ -1,0 +1,95 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	<script type="text/javascript">
+		var APP = '${base}';
+		var SELF = '${base}/wap/reset_password.jspx';
+	</script>
+	[#include "header.html"]
+	<!--TOP=end-->
+
+	<div class="content">
+		<div class="am-container am-margin-top-lg">
+
+
+			<div class="am-g">
+
+				<div class="am-u-sm-12 am-margin-bottom-sm">
+					<a class="am-btn am-btn-sm am-btn-primary"
+						href="${base}/wap/addradd.jspx?returnUrl=${base}/wap/wapaddrlist.jspx"  data-title="添加新地址"
+						 type="button">添加新地址</a>
+				</div>
+				[#if smalist?size gt 0] [#list smalist as sma]
+				<div class="am-u-sm-12">
+					<ul class="am-avg-sm-1 coupon-list am-text-xs">
+
+						<li>
+							<p>收货人：${sma.username!}</p>
+							<p>联系电话：${sma.tel!}|${sma.phone!}</p>
+							<p>收货地址：${sma.province.name!}/${sma.city.name!}/${sma.country.name!}/${sma.street.name!}(${sma.detailaddress!})</p>
+							<p class="am-text-right">
+								<a class="am-icon-close am-margin-right-sm"
+									onclick="showconfirm('你确定删除这个地址吗？',this)" data-id="${sma.id}"
+									href="javascript:void(0)">删除</a><!--  <a class="am-icon-pencil"
+									data-url="${base}/wap/addradd.jspx"  data-title="编辑地址"
+									data-toggle="modalhelper" href="javascript:void(0)">编辑</a> -->
+							</p>
+						</li>
+					</ul>
+				</div>
+				[/#list] [/#if]
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			function confrimed(id){
+				$.get(APP+'/wap/wapaddrdel.jspx?id='+id.attr('data-id'), function(result) {
+					if(result.status){
+						window.location.href = APP+'/wap/wapaddrlist.jspx';
+						return;
+					}else{
+						if(result.info=='nologin'){
+							window.location.href = APP+'/wap/waplogin.jspx';
+							return;
+						}
+						showalert(result.info);
+					}
+				},'json');
+			}
+		</script>
+
+	</div>
+	[#include "footer.html"]
+</body>
+</html>

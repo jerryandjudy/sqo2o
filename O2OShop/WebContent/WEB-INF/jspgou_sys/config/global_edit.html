@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shop.config.global.function"/></div>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_global_update.do">
+<@p.text label="global.setting.contextPath" name="contextPath" value=global.contextPath maxlength="20" help="global.setting.contextPath.help"/>
+<@p.text label="global.setting.port" name="port" value=global.port class="digits" maxlength="10" help="global.setting.port.help"/><@p.tr/>
+<@p.text label="服务器ip或域名" name="serverIp" value=global.serverIp  /><@p.tr/>
+<@p.text label="global.setting.activeScore" name="activeScore" value=global.activeScore class="required digits" maxlength="10" help="global.setting.activeScore.help"/><@p.tr/>
+<@p.text label="global.setting.stockWarning" name="stockWarning" value=global.stockWarning class="required digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="2" label="global.setting.defImg" name="defImg" value=global.defImg style="width:300px" required="true" class="required" maxlength="100" help="global.defImg.help"/><@p.tr/>
+<@p.text colspan="2" label="同一号码获取验证码次数" name="cs" value=global.cs style="width:300px" required="true" class="required" maxlength="100" help="整型数据"/><@p.tr/>
+<@p.text colspan="2" label="验证码有效期" name="yxq" value=global.yxq style="width:300px" required="true" class="required" maxlength="100" help="单位分钟"/><@p.tr/>
+<@p.editor label="global.setting.treaty" name="treaty" value=global.treaty! /><@p.tr/>
+<@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

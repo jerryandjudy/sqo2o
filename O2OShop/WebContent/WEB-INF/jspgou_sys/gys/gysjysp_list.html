@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 供应商配送区域管理 - <@s.m "global.list"/></div>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_gysjysp_list.do" method="post">
+	 <div style="padding-top:5px">
+	供应商姓名： <input type="text" name="username" id="username" value="${username!}" style="width:150px"/>  
+	供应商公司： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	商品名称： <input type="text" name="productName" id="productName" value="${productName!}" style="width:150px"/>  
+	 <select name="typeId">
+            <option value="">--商品分类--</option>
+         <#list typeList as productType>
+            <option value="${productType.id}"<#if typeId??> <#if typeId==productType.id>selected="selected"</#if></#if>>${productType.name!}</option>
+         </#list>  
+       </select>
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table listAction="v_gysjysp_list.do" value=pagination;jysp,i,has_next><#rt/>
+	
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商姓名">${jysp.gys.ketaUser.realname}</@p.column><#t/>
+	<@p.column code="联系电话">${jysp.gys.ketaUser.phone}</@p.column><#t/>
+	<@p.column code="公司">${jysp.gys.companyName}</@p.column><#t/>
+	<@p.column code="所属站点">${jysp.gys.website.name}</@p.column><#t/>
+	<@p.column code="经营商品"><#if jysp.goodsMinNum-jysp.goodsNum gt -1  > <font color=red>${jysp.productName}</font><#else>${jysp.productName}</#if></@p.column><#t/>
+	<@p.column code="商品分类">${jysp.productTypeName}</@p.column><#t/>
+	<@p.column code="出厂价格(元)">${jysp.goodsPrice!}</@p.column><#t/>
+	<@p.column code="所属仓库">${jysp.repertoryName!}</@p.column><#t/>
+	<@p.column code="警戒库存">${jysp.goodsMinNum!}</@p.column><#t/>
+	<@p.column code="库存数量"><#if jysp.goodsMinNum-jysp.goodsNum gt -1  > <font color=red>${jysp.goodsNum!}</font><#else>${jysp.goodsNum!}</#if></@p.column><#t/>
+	<@p.column code="添加人">${jysp.username!}</@p.column><#t/>
+	<@p.column code="添加时间">${jysp.createTime!}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

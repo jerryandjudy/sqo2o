@@ -1,0 +1,125 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>商品详情</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png"
+	href="${base}/wapstyle/assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+		var URL = '${base}';
+		var APP = '${base}';
+		var SELF = '${base}/wap/productlist.jspx';
+	</script>
+
+[#include "headerback.html"]
+<script type="text/javascript">
+$(function(){
+	$.post("${base}/historyRecord.jspx",{productId:"${productSite.id}"},function(data){});
+});
+function addToCollect(productSiteId){
+	$.post('${base}/collect/add_to_collect.jspx',{
+		'productId':productSiteId
+		}, function(data){
+            if(data.status == 1){
+            	 showalert('收藏成功!');
+            	 return;
+            }else if(data.status== 2){
+            	showalert('收藏过该商品');
+            	return;
+            }else{
+            	showalert('您未登录不能收藏该商品');
+            	return;
+            }
+	   },'json');
+}
+</script>
+<div class="am-text-center">
+	<img  class="scrollLoading" style="max-height: 200px"
+						alt="${productSite.product.name!}" src="${productSite.product.minImg!web.global.defImg}" 
+						data-url="http://u-10017112.file.myqcloud.com${productSite.product.coverImg!web.global.defImg}"
+		>
+</div>
+<hr>
+<div  >
+	<p>[${productSite.product.category.name!}]&nbsp;${productSite.product.name!}</p>
+	<p>商品编码：${productSite.product.barcode!}</p>
+	<p>销售价：￥${productSite.salePrice!}</p>
+	<p>
+	 品牌：${((productSite.product.brand!).name)!}
+	</p>
+	<p>
+	浏览量：${productSite.viewCount!}
+	</p>
+	<p class="am-text-right">
+		<button class="am-btn am-btn-xs am-btn-primary" type="button"
+			data-store="5"  data-price="${productSite.salePrice!}"
+							data-goodid="${productSite.id!}"
+							data-name="${productSite.product.name!}" onClick="addcart(this)">
+			<i class="am-icon-shopping-cart"></i> 加入购物车
+		</button>
+		<a href="javascript:void(0);" onclick="javascript:addToCollect(${productSite.id});" class="am-btn am-btn-xs am-btn-warning">收藏</a> 
+	</p>
+</div>
+<hr>
+<div class="i-detial"  >
+	
+	<div class="am-text-center">
+	
+   ${productSite.product.text!}
+  
+	</div>
+	
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</div>
+	[#include "footer.html"]
+
+
+
+
+
+
+	<!--<![endif]-->
+	<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+</body>
+<style>
+table tr td{
+text-align:left;
+padding:3px;
+}
+</style>
+</html>

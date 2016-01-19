@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!--
+	<property name="log.base" value="${jeecms.root}/WEB-INF/logs/jspgou"/>
+	-->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+		</layout>
+	</appender>
+	<!--
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.base}.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</layout>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${log.base}.log</file>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%msg%n</Pattern>
+		</layout>
+	</appender>
+	-->
+	<!--
+	-->
+	<logger name="com.jspgou">
+		<level value="ERROR" />
+	</logger>
+	<logger name="com.jspgou.common.web.ProcessTimeFilter">
+		<level value="ERROR" />
+	</logger>
+	<logger name="com.jspgou.common.developer">
+		<level value="ERROR" />
+	</logger>
+	<logger name="com.jspgou.common">
+		<level value="ERROR" />
+	</logger>
+	<logger name="com.jspgou.common.hibernate3.TreeIntercptor">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.springframework">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.springframework.web">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.hibernate">
+		<level value="ERROR" />
+	</logger>
+	<root>
+		<level value="ERROR" />Z<!--WARN-->
+		<appender-ref ref="STDOUT" />
+		<!--<appender-ref ref="FILE" />-->
+	</root>
+</configuration>
+

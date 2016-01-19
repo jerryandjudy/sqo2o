@@ -1,0 +1,461 @@
+.element.style{
+	margin-right:12px;
+}
+ul, ol {
+    list-style: none outside none;
+}
+.crumbs {
+    position: relative;
+}
+.crumbs .phone {
+    color: #808080;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.crumbs a {
+    background: url("http://a.tbcdn.cn/sys/common/img/crumb_bg.gif") no-repeat scroll 100% 50% transparent;
+    margin-right: 1px;
+    padding-right: 8px;
+}
+a {
+    color: #3366CC;
+    text-decoration: none;
+}
+.grid {
+    letter-spacing: -0.31em;
+    word-spacing: -0.43em;
+}
+.grid .g-u {
+    display: inline-block;
+    letter-spacing: normal;
+    vertical-align: top;
+    word-spacing: normal;
+}
+.grid .g-u input {}
+
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {}
+#page .main-left-bor {
+    background-position: 718px 0;
+}
+.step-container {
+    background-color: #ECECEC;
+    border-bottom: 2px solid #FF9900;
+    color: #A8A8A8;
+    display: block;
+    font-size: 12px;
+    height: 35px;
+    line-height: 35px;
+    margin-top: 10px;
+    text-align: center;
+}
+.step-container li {
+    float: left;
+    position: relative;
+    width: 25%;
+    z-index: 10;
+}
+.step-container span.seven-return {
+    background: url("http://img03.taobaocdn.com/tps/i3/T1he85XfRIXXXXXXXX-24-160.png") no-repeat scroll 0 -120px transparent;
+    height: 17px;
+    line-height: 17px;
+    margin: 10px 6px 0 0;
+    text-indent: -9999px;
+    white-space: nowrap;
+    width: 16px;
+}
+
+.ks-step-list.num4 li {
+    width: 25%;
+}
+.ks-step-list li .item-number {
+    color: #B6B6B6;
+    font-size: 20px;
+    font-style: italic;
+    margin-right: 8px;
+    vertical-align: top;
+}
+.ks-step-list li.current .step-list-item {
+    background-color: #FF9900;
+    color: #FFFFFF;
+}
+.ks-step-list li.current .item-content {
+    font-weight: bold;
+}
+.ks-step-list li.current .item-content .ks-countdown {
+    font-weight: normal;
+}
+.step-container .item-content {
+    height: 35px;
+    overflow: hidden;
+}
+.ks-step-list li.current .item-bg-right {
+    background-position: right -35px;
+}
+.ks-step-list li.current .item-number {
+    color: #FFEBCC;
+}
+
+.sprite {
+    background: url("../img/member/T1he85XfRIXXXXXXXX-24-160.png") no-repeat scroll 0 0 transparent;
+}
+.required-tip {
+    position: absolute;
+    right: 0;
+    top: -5px;
+}
+
+.content {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: url("http://img02.taobaocdn.com/tps/i2/T1RoejXeBvXXXXXXXX-1-1.gif") repeat-y scroll 0 0 #FFFFFF;
+    border-color: -moz-use-text-color #CCCCCC #CCCCCC;
+    border-image: none;
+    border-right: 1px solid #CCCCCC;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    position: relative;
+    z-index: 3;
+}
+.content .bottom-gradient {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 718px;
+    z-index: -1;
+}
+.content .content-main {
+    position: relative;
+    width: 668px;
+}
+.content .content-main .main-wrap {
+    padding: 10px 0px;
+}
+.bor-r {
+    margin-right: 1px;
+}
+.f-l {
+    float: left;
+}
+#apply-form, .form-wrapper {
+    position: relative;
+}
+.required-tip {
+    position: absolute;
+    right: 0;
+    top: -5px;
+}
+.required-tip em {
+    color: #FF0000;
+    margin-right: 5px;
+}
+.form-table {
+    margin-top: 10px;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: inherit;
+}
+.rf-table th {
+    padding-top: 10px;
+}
+.rf-status th {
+    display: block;
+    width: 110px;
+}
+.form-table th, .form-table td.address {
+    word-spacing: 6px;
+}
+.form-table th, .form-table td {
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 14px;
+    vertical-align: top;
+}
+.rf-table th {
+    color: #404040;
+    font-weight: normal;
+    padding: 5px 0;
+    text-align: right;
+}
+.rf-table th em {
+    color: red;
+    font-size: 12px;
+    vertical-align: middle;
+}
+.rf-status .rf-table td {
+    padding-top: 10px;
+}
+.form-table td {
+    padding-left: 10px;
+}
+.form-table th, .form-table td {
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 14px;
+    vertical-align: top;
+}
+.rf-table td {
+    padding: 6px 0;
+}
+
+.control-area .default-btn, .content input.default-btn {
+    background-color: #F99113;
+}
+.grid .g-u {
+    display: inline-block;
+    letter-spacing: normal;
+    vertical-align: top;
+    word-spacing: normal;
+}
+input.default-btn {
+    padding-bottom: 4px;
+}
+.default-btn {
+    border: 1px solid #F47602;
+    font-weight: bold;
+    height: 28px;
+    line-height: 27px;
+    outline: medium none;
+    padding: 0 10px;
+    vertical-align: middle;
+}
+.button {
+    background: -moz-linear-gradient(center top , #FA9515, #F47602) repeat scroll 0 0 transparent;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 1px 1px 2px #DEDEDE;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    text-align: center;
+}
+
+.order {
+    position: relative;
+    white-space: normal;
+    width: 239px;
+}
+.f-r {
+    float: right;
+}
+
+.order .order-header {
+    background-color: #F2F2F2;
+    border-bottom: 1px solid #E8E8E8;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 8px;
+    position: relative;
+}
+.rf-table {
+    line-height: 24px;
+}
+
+.order .rf-table .goods-img {
+    border: 1px solid #F2F2F2;
+    height: 50px;
+    margin: 10px 8px 0 0;
+    width: 50px;
+}
+
+.order .rf-table tr {
+    border-bottom: 1px solid #EBEBEB;
+}
+.order .order-header {
+    background-color: #F2F2F2;
+    border-bottom: 1px solid #E8E8E8;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 8px;
+    position: relative;
+}
+
+
+.order .order-header a.a-order-detail {
+    background: url("http://img04.taobaocdn.com/tps/i4/T1ZaukXaJnXXXXXXXX-9-34.gif") no-repeat scroll right 2px transparent;
+    display: block;
+    height: 14px;
+    line-height: 14px;
+    padding-right: 14px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+a {
+    color: #3366CC;
+    text-decoration: none;
+}
+
+.order .rf-table {
+    border: medium none;
+    margin: 0 8px;
+    table-layout: fixed;
+    width: 205px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.rf-table {
+    line-height: 24px;
+}
+.hidden {
+    display: none;
+}
+.questions {
+    border: 1px solid #E6E6E6;
+    color: #808080;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 12px 16px;
+    width: 926px;
+}
+.questions h4 {
+    font-family: tahoma,arial,宋 体;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+.questions h5 {
+    font-size: 12px;
+    margin-bottom: 6px;
+    margin-top: 20px;
+}
+.questions h5, .questions p {
+    color: #404040;
+}
+.questions p {
+    line-height: 24px;
+}
+.questions p.answer {
+    border-bottom: 1px solid #E6E6E6;
+    margin-bottom: 16px;
+    margin-top: 14px;
+    padding-bottom: 16px;
+}
+.questions p.more {
+    background: none repeat scroll 0 0 transparent;
+    margin-top: 10px;
+}
+.questions .box .rc-tp, .questions .box .rc-bt, .questions .box .rc-tp span, .questions .box .rc-bt span {
+    background: none repeat scroll 0 0 transparent;
+}
+.questions .bd {
+    background-color: transparent;
+    border: medium none;
+    margin-top: -15px;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+.questions .bd h4 {
+    margin-bottom: 0;
+}
+.questions .bd h4 a, .questions .bd p {
+    color: #404040;
+    font-size: 12px;
+    line-height: 24px;
+    margin-bottom: 0;
+}
+.questions .bd h4 a:hover {
+    cursor: auto;
+    text-decoration: none;
+}
+
+
+#main .success-status {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #F0FFE5;
+    border-color: -moz-use-text-color #4DBF00 #4DBF00;
+    border-image: none;
+    border-right: 1px solid #4DBF00;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+}
+#main .success-status .status-text {
+    background: url("http://img04.taobaocdn.com/tps/i4/T1AGikXXRuXXXXXXXX-38-34.png") no-repeat scroll 0 0 transparent;
+    color: #404040;
+    font-size: 14px;
+    font-weight: bold;
+    height: 34px;
+    line-height: 34px;
+    padding-left: 45px;
+}
+.flow-status {
+    padding: 20px;
+}
+.flow-status p {
+    line-height: 24px;
+}
+.control-area {
+    padding: 10px 4px 26px;
+    position: relative;
+}
+.control-area .button {
+    margin-right: 20px;
+}
+.control-area .control-tip {
+    line-height: 28px;
+}
+.control-area .control-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+.control-area .ctrl-btn-wrapper {
+    margin-top: 28px;
+}
+.control-area .grid a.g-u {
+    margin-right: 20px;
+}
+.control-area .grid .g-u {
+    vertical-align: middle;
+}
+.control-area .gray-btn {
+    background-color: #BFBFBF;
+}
+.control-tip {
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+.control-tip em {
+    color: #FF5500;
+}
+.gray-btn {
+    background: -moz-linear-gradient(center top , #FAFAFA, #E5E5E5) repeat scroll 0 0 transparent;
+    border: 1px solid #BFBFBF;
+    color: #404040;
+}
+
+.service-progress-wrapper {
+    position: relative;
+}
+.content-main .refund-status {
+    border-top: 1px dashed #CCCCCC;
+    padding-top: 24px;
+}
+.content-main .refund-status .rf-table th, .content-main .refund-status .rf-table td {
+    color: #7F7F7F;
+    padding: 2px 0;
+}
+.content-main .refund-status .rf-table td {
+    padding-left: 6px;
+}
+.rf-table {
+    line-height: 24px;
+}
+.rf-table .price {
+    color: #FF5500;
+    font-weight: bold;
+}

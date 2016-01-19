@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function opens(path){
+var dialog = $.dialog({title:'详细',min:false,max:false,width:'850px',height:'500px',content: 'url:'+path
+});
+dialog.show();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 供应商管理 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_list.do" method="post">
+	 <div style="padding-top:5px">
+	供应商姓名： <input type="text" name="username" id="username" value="${username!}" style="width:150px"/>  
+	供应商公司： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+	状态：<select name="organizationName">
+            <option value="">--请选择--</option>
+              <option value="供应商注册" <#if organizationName?? && organizationName=='供应商注册'>selected="selected"</#if>>未审核</option>
+              <option value="供应商" <#if organizationName??&&organizationName=='供应商'>selected="selected"</#if>>已审核</option>
+       </select>
+	
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;gys,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${gys.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商用户名">${gys.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="供应商密码">${gys.ketaUser.painPass!}</@p.column><#t/>
+	<@p.column code="联系电话">${gys.phone!}</@p.column><#t/>
+	<@p.column code="公司">${gys.companyName!}</@p.column><#t/>
+	<@p.column code="所属站点">${gys.website.name!}</@p.column><#t/>
+	<@p.column code="账户">${gys.account.id!}</@p.column><#t/>
+	<@p.column code="账户可用余额">${gys.account.money!}</@p.column><#t/>
+	<@p.column code="账户冻结金额">${gys.account.frozenMoney!}</@p.column><#t/>
+	<!-- <@p.column code="添加人">${(gys.user!).username!}</@p.column><#t/> -->
+	<@p.column code="添加时间">${gys.createTime!}</@p.column><#t/>
+	<@p.column code="状态"><#if gys.ketaUser.organization.name=='供应商'> 已审核<#else>  <a style="color:red" href="v_gyssh.do?id=${gys.id}">审核</a></#if></@p.column><#t/>
+	
+	<@p.column code="global.operate" align="center">
+		 <a href="v_edit.do?id=${gys.id}"><@s.m "global.edit"/></a> | <#rt/> 
+		 <a href="v_gysjysp_add.do?gys.id=${gys.id}">经营商品</a> | <#rt/> 
+		 <a href="v_gysps_add.do?id=${gys.id}">配送区域</a> | <#rt/> 
+		 <a href="../gys/v_gys_add_bld.do?gys.id=${gys.id}">关联便利店</a> | <#rt/> 
+		 <a href="../gys/v_gys_th_bld.do?gys.id=${gys.id}">批量替换</a> | <#rt/> 
+		 <a href="javascript:opens('../account/qt_list.do?accountId=${gys.account.id}')">账单</a> | <#rt/> 
+		 <a href="o_delete.do?id=${gys.id}" onclick="if(!confirm('确定删除么？删除将禁用该用户所有信息')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

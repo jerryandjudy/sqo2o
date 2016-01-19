@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<style type="text/css">
+.pt5{padding-top:5px}
+</style>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "shopChannel.function"/> - <@s.m "global.edit"/></div>
+		<form class="ropt">
+	    <input type="hidden" name="root" value="${shopChannel.id!}"/>
+		<input type="hidden" id="type" name="type" value="1"/>
+		<input type="submit" value="<@s.m "global.add"/><@s.m "shopChannel.type.1"/>" onclick="this.form.action='v_add.do';$('#type').val(1);"/>
+		<input type="submit" value="<@s.m "global.add"/><@s.m "shopChannel.type.2"/>" onclick="this.form.action='v_add.do';$('#type').val(2);"/>
+		<input type="submit" value="<@s.m "global.add"/><@s.m "shopChannel.type.3"/>" onclick="this.form.action='v_add.do';$('#type').val(3);"/>
+	    <input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign type=shopChannel.type/>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.select colspan="1" width="50" label="shopChannel.parent" name="parentId" list=parentList value=(shopChannel.parent.id)! listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="global.none" required="true"/>
+<@p.td colspan="1" width="50" label="shopChannel.type"><@s.m "shopChannel.type.${type}"/></@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="shopChannel.name" name="name" value=shopChannel.name required="true" class="required" maxlength="100"/>
+<#if type==1>
+<@p.text colspan="1" width="50" label="shopChannel.path" name="path" value=shopChannel.path required="true" class="required" maxlength="50"/><@p.tr/>
+<@p.select colspan="2" label="shopChannel.tpl" name="tplChannel" value=shopChannel.tplChannel! list=channelTpls headerKey="" headerValue="global.default"/><@p.tr/>
+<#elseif type==2>
+<@p.text colspan="1" width="50" label="shopChannel.path" name="path" value=shopChannel.path! required="true" class="required" maxlength="50"/><@p.tr/>
+<@p.select colspan="1" width="50" label="shopChannel.tplChannel" name="tplChannel" value=shopChannel.tplChannel! list=channelTpls headerKey="" headerValue="global.default"/>
+<@p.select colspan="1" width="50" label="shopChannel.tplContent" name="tplContent" value=shopChannel.tplContent! list=contentTpls headerKey="" headerValue="global.default"/><@p.tr/>
+<#elseif type==3>
+<@p.text colspan="1" width="50" label="shopChannel.outerUrl" name="outerUrl" value=shopChannel.outerUrl! size="40" required="true" class="required" maxlength="255"/><@p.tr/>
+</#if>
+<@p.text colspan="2" label="shopChannel.priority" name="priority" value=shopChannel.priority required="true digits" class="required" maxlength="10"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="shopChannel.display" name="display" required="true" value=shopChannel.display list={"true":"global.true","false":"global.false"}/>
+<@p.radio colspan="1" width="50" label="shopChannel.blank" name="blank" required="true" value=shopChannel.blank list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<#if type==1||type==2>
+<@p.td colspan="2" label="shopChannel.extendData">
+<@s.m "shopChannel.data"/>1: <@p.text name="param1" value=shopChannel.param1! maxlength="255"/> &nbsp;
+<@s.m "shopChannel.data"/>2: <@p.text name="param2" value=shopChannel.param2! maxlength="255"/> &nbsp;
+<@s.m "shopChannel.data"/>3: <@p.text name="param3" value=shopChannel.param3! maxlength="255"/>
+</@p.td><@p.tr/>
+<@p.editor colspan="2" label="shopChannel.content" name="content" value=shopChannel.content!/><@p.tr/>
+</#if>
+<@p.td colspan="2"><@p.hidden name="id" value=shopChannel.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

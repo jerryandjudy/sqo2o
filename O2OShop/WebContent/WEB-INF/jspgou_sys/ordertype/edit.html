@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	<#if shopOrderType.logoPath??>
+	$("#preImg1").css("width","139").css("height","139").attr("src","${shopOrderType.logoPath}?d="+new Date()*1);
+	</#if>
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 订单超时设置 - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign typecodeExist><@s.m "shopOrderType.error.typecodeExist"/></#assign>
+
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.td width="50" colspan="2" label="订单类型名称">${shopOrderType.typeName}</@p.td><@p.tr/>
+<@p.text colspan="2" width="100" label="订单类型编码" name="typeCode" value=shopOrderType.typeCode size="50" maxlength="255"  rvalue=shopOrderType.typeCode vld="{required:true}" vld="{required:true,remote:'v_checkTypeCode.do',messages:{remote:'${typecodeExist}'}}"/><@p.tr/>
+
+
+
+<@p.text colspan="2" width="100" label="备注" name="remark" value=shopOrderType.remark size="50" maxlength="255"/><@p.tr/>
+<@p.text colspan="2" width="100" label="超时时间单位秒" name="timeOut" value=shopOrderType.timeOut class="required number" size="50" maxlength="255"/><@p.tr/>
+
+<@p.select  label="是否启用" colspan="2" width="100"  name="isDisabled" value="${shopOrderType.isDisabled?string}"  required="true" list={"false":"是","true":"否"} /><@p.tr/>
+
+
+<@p.text colspan="2" width="100" label="排列顺序" name="priority" value=shopOrderType.priority required="true" class="required digits" maxlength="10"/><@p.tr/>
+
+
+<@p.td colspan="2"><@p.hidden name="id" value=shopOrderType.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

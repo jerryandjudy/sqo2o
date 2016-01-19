@@ -1,0 +1,8 @@
+.undis{display:none;}
+.dis{display:block;}
+.mc_content{height:auto; margin-top:5px;}
+.ysppm_rg_ul{height:40px; clear:both;}
+.ysppm_rg_ul li{float:left;margin-right:6px; display:inline; margin-top:6px; cursor:pointer;}
+.curr3{margin-top:5px;background:#d1cd9e; width:50px; height:22px; font-weight:bold; color:#fff; font-size:14px; text-align:center; line-height:22px;}
+.normaltab3{margin-top:5px;background:#e0dcb7; width:50px; height:22px;color:#656005;font-size:14px;text-align:center;line-height:22px; }
+.colorSize{height:18px;line-height:18px;padding:0 9px;background-color:#fff;vertical-align:top;display:inline-block;margin:1px;border:1px solid #ccc;color:#333;}

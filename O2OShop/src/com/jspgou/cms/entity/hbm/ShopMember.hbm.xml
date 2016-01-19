@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopMember" table="jc_shop_member">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="member_id">
+			<generator class="foreign"><param name="property">member</param></generator>
+		</id>
+		<property name="realName" column="realname" type="string" not-null="false" length="100"/>
+		<property name="gender" column="gender" type="java.lang.Boolean" not-null="false"/>
+		<property name="score" column="score" type="integer" not-null="false" length="10"/>
+		<property name="freezeScore" column="freezeScore" type="integer" not-null="false" length="10"/>
+		<property name="money" column="money" type="java.lang.Double" not-null="false" length="20"/>
+		<property name="birthday" column="birthday" type="date" not-null="false"/>
+	    <property name="tel" column="tel" type="string" not-null="false" length="30"/>
+		<property name="mobile" column="mobile" type="string" not-null="false" length="30"/>
+        <property name="avatar" column="avatar" type="string" not-null="false" length="100"/>
+        <property name="marriage" column="marriage" type="java.lang.Boolean" not-null="false"/>
+        <property name="company" column="company" type="string" not-null="false" length="100"/>
+        <property name="isCar" column="is_car" type="java.lang.Boolean" not-null="false"/>
+        <property name="position" column="position" type="string" not-null="false" length="255"/>
+        <property name="address" column="address" type="string" not-null="false" length="255"/>
+        <property name="schoolTag" column="schoolTag" type="string" not-null="false" length="255"/>
+        <property name="schoolTagDate" column="schoolTagDate" type="date" not-null="false"/>
+        <property name="favoriteBrand" column="favoriteBrand" type="string" not-null="false" length="255"/>
+        <property name="favoriteStar" column="favoriteStar" type="string" not-null="false" length="255"/>
+        <property name="favoriteMovie" column="favoriteMovie" type="string" not-null="false" length="255"/>
+        <property name="favoritePersonage" column="favoritePersonage" type="string" not-null="false" length="255"/>
+		<one-to-one name="member" class="com.jspgou.core.entity.Member" constrained="true" cascade="all" />
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="userDegree" column="userdegree_id" class="ShopDictionary" not-null="false"></many-to-one>
+		<many-to-one name="familyMembers" column="familymembers_id" class="ShopDictionary" not-null="false"></many-to-one>
+		<many-to-one name="incomeDesc" column="incomedesc_id" class="ShopDictionary" not-null="false"></many-to-one>
+		<many-to-one name="workSeniority" column="workseniority_id" class="ShopDictionary" not-null="false"></many-to-one>
+		<many-to-one name="degree" column="degree_id" class="ShopDictionary" not-null="false"></many-to-one>
+		<many-to-one name="group" column="group_id" class="ShopMemberGroup" not-null="true"></many-to-one>
+		
+		<set name="favorites" table="jc_shop_member_favorite">
+			<cache usage="read-write"/>
+			<key column="member_id"/>
+			<many-to-many column="product_id" class="Product"/>
+		</set>
+	</class>
+</hibernate-mapping>

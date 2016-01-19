@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopAdmin" table="jc_shop_admin">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="admin_id">
+			<generator class="foreign"><param name="property">admin</param></generator>
+		</id>
+		<property name="firstname" column="firstname" type="string" not-null="false" length="100"/>
+		<property name="lastname" column="lastname" type="string" not-null="false" length="100"/>
+		<one-to-one name="admin" class="com.jspgou.core.entity.Admin" constrained="true" cascade="all"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="CustomerService" table="jc_online_customerservice">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="name" column="name" type="string" not-null="true" length="255"/>
+		<property name="type" column="type" type="string" not-null="true" length="255"/>
+		<property name="content" column="content" type="string" not-null="true" length="255"/>
+		<property name="priority" column="priority" type="java.lang.Integer" not-null="true" length="10" />   
+		<property name="disable" column="is_disable" type="java.lang.Boolean" not-null="true" />
+	    <many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+	</class>	
+</hibernate-mapping>

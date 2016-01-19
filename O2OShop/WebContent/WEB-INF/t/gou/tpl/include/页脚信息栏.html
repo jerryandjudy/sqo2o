@@ -1,0 +1,96 @@
+<!--椤佃剼-->
+<div class="footer_box">
+<div class="foot_991">
+<div class="footdiv_01">
+<div class="tc mar_center" style="width:127px; height:118px;"><img src="${root}/images/foot/foot_01.jpg" width="127" height="118" /></div>
+<div class="service_box"> 
+[@customerService_list]
+[#list tag_list as cs]
+<div class="service"><a [#if cs.type=='QQ'] href="tencent://message/?uin=${cs.content}&amp;Site=鍦ㄧ嚎瀹㈡湇&amp;Menu=yes"[#else]  href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${cs.content}&site=cntaobao&s=1&charset=utf-8"[/#if] target="_blank" >${cs.name}</a></div>
+[/#list]
+[/@customerService_list]
+</div>
+</div>
+<div class="footdiv_01">
+<div class="tc mar_center" style="width:127px; height:86px;"><img src="${root}/images/foot/foot_02.jpg" width="127" height="86" /></div>
+<div class="members"> 
+<ul>
+[@shop_ArticleList channelId=1 count='6']
+[#list tag_list as a]
+<li><a href="${a.url!}"  target="_blank">${a.title!}</a></li>
+[/#list]
+[/@shop_ArticleList]
+</ul>
+</div>
+</div>
+<div class="footdiv_02">
+<div class="tc mar_center" style="width:173px; height:86px;"><img src="${root}/images/foot/foot_03.jpg" width="173" height="86" /></div>
+<div class="members">
+<ul>
+[@shop_ArticleList channelId=3 count='6']
+[#list tag_list as a]
+<li><a href="${a.url!}"  target="_blank">${a.title!}</a></li>
+[/#list]
+[/@shop_ArticleList]
+</ul>
+</div>
+
+</div>
+<!-- <div class="footdiv_001">
+<div class="foot_title"><a class="font_red01">鏈�柊</a>鍏憡</div>
+<div class="foot_newlist">
+<ul>
+[@shop_ArticleList channelId=2 count='3']
+[#list tag_list as a]
+<li> <a href="${a.url!}"  target="_blank">${a.title!}</a></li>
+[/#list]
+[/@shop_ArticleList]
+</ul>
+</div>
+</div>
+<div class="footdiv_001">
+<div class="foot_title"><a class="font_red01">鏈嶅姟</a>鐑嚎</div>
+<div class="foot_ph">
+<div class="foot_ph_a">
+400-800-4222
+</div>
+<div class="foot_ph_a2">
+am 09:00 - pm 05:00  <a>lunch am 11:30 - pm 12:30</a>
+</div>
+</div>
+</div>
+<div class="footdiv_002">
+<div class="foot_title"><a class="font_red01">绔欏唴</a>鎼滅储</div>
+<div class="foot_ph">
+<form id="searchForms" action="${base}/search.jspx">
+<div class="fl mar_T20"><input name="q" placeholder="璇疯緭鍏ユ偍鎵�渶" value="" type="text" class="ss_001" /></div>
+<div class="fl mar_L10 mar_T20"><a href="javascript:$('#searchForms').submit();" ><img src="${root}/images/foot/foot_ss_btn.gif"/></a></div>
+</form>
+</div>
+ -->
+</div>
+</div>
+<div class="foot_100">
+<div class="foot_991">
+<div class="foot_nav">
+                
+                
+<ul>
+<li>  [@shop_Category_list count=12 isDisplay='1']
+      [#list tag_list as type]
+      <li>|<a  href="${type.url!}" target="_blank">${type.name}</a> </li>
+      [/#list]
+     [/@shop_Category_list]
+</ul>
+
+</div>
+</div>
+</div>
+<div class="foot_991">
+<div class="copyright">
+${web.copyright!}  ${web.recordCode!} All Rights Reserved.  ${web.company!}   ${web.phone!}
+
+</div> 
+ </div>
+ <div style="display: none" ><script src="http://s11.cnzz.com/z_stat.php?id=1256554094&web_id=1256554094" language="JavaScript"></script>
+</div>

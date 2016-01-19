@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Area" table="jc_core_wap_area">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="imei" column="imei" type="string" not-null="true" length="255" />
+        <property name="lastTime" column="last_time" type="timestamp" />
+        <many-to-one name="street" column="street_id" class="Address" not-null="false"></many-to-one>
+        <many-to-one name="website" column="site_id" class="com.jspgou.core.entity.Website" not-null="false"></many-to-one>
+	</class>	 
+</hibernate-mapping>

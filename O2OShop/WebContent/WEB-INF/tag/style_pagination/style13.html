@@ -1,0 +1,46 @@
+[#--
+栏目翻页样式
+
+pageClass: 翻页DIV class
+pageStyle: 翻页DIV style
+--]
+[#assign p=tag_pagination/]
+<div[#if pageClass??] class="${cssClass!}"[/#if][#if pageStyle??] style="${cssStyle!}"[/#if]>
+共${p.totalCount}条记录 ${p.pageNo}/${p.totalPage}页
+[#if p.firstPage]&nbsp;<input type="button" value="首页" disabled="disabled"> <input type="button" value="上一页" disabled="disabled">[#t/]
+[#else]&nbsp;<input type="button" value="首页" onclick="check('searchProduct.jspx?pageNo=1&chnlName=${chnlName}&categoryId=${category.id}&lodoId=${lodgId!}&price=${price!}&price1=${price1}&price2=${price2}&goods=${goods!}')"> [#if p.prePage gt 1]<input type="button" value="上一页" onclick="check('searchProduct.jspx?pageNo=${p.prePage}&chnlName=${chnlName}&categoryId=${category.id}&lodoId=${lodgId!}&price=${price!}&price1=${price1}&price2=${price2}&goods=${goods!}')">[#else]<input type="button" value="上一页" onclick="check('searchProduct.jspx?pageNo=1&chnlName=${chnlName}&categoryId=${category.id}&lodoId=${lodgId!}&price=${price!}&price1=${price1}&price2=${price2}&goods=${goods!}')">[/#if][#t/]
+[/#if]
+[#if p.lastPage]&nbsp;<input type="button" value="下一页" disabled="disabled"> <input type="button" value="尾页" disabled="disabled">
+[#else]&nbsp;<input type="button" value="下一页" onclick="check('searchProduct.jspx?pageNo=${p.nextPage}&chnlName=${chnlName}&categoryId=${category.id}&lodoId=${lodgId!}&price=${price!}&price1=${price1}&price2=${price2}&goods=${goods!}')">
+
+<input type="button" value="尾页" onclick="check('searchProduct.jspx?pageNo=${p.totalPage}&chnlName=${chnlName}&categoryId=${category.id}&lodoId=${lodgId!}&price=${price!}&price1=${price1}&price2=${price2}&goods=${goods!}')">
+[/#if]
+&nbsp;
+转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();"/>页
+	<input id="_goPage" type="button" value=" 转  " onclick="check('searchProduct.jspx?pageNo='+$('#_goPs').val()+'&chnlName=${chnlName}&categoryId=${category.id}&lodoId=${lodgId!}&price=${price!}&price1=${price1}&price2=${price2}&goods=${goods!}');" [#if p.totalPage==1] disabled="disabled"[/#if]/>
+
+<!-- 
+第<select onChange="if(this.value==1){location='declareQuary_1.jspx'}else{location='declareQuary_'+this.value+'.jspx'}this.disabled='disabled'">
+[#list 1..p.totalPage as i]
+  <option value="${i}" [#if p.pageNo==i]selected="selected"[/#if]>${i}</option>
+[/#list]
+</select>页
+ -->
+
+</div>
+
+<script type="text/javascript">
+function check(pageNo) {
+	try{
+		//var tabForm=getTableFrom();
+		//tabFrom.action=null;
+		//tabForm.action=pageNo;
+		//tabForm.submit();
+		location.href=pageNo;
+	} catch(e) {
+		alert('_gotoPage(pageNo)方法出错');
+	}
+}
+</script>
+
+

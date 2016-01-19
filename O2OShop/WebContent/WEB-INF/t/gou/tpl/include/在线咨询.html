@@ -1,0 +1,54 @@
+<script type="text/javascript">
+HS_OnlineService = {
+    options: { "Top": "40", "Accounts":
+    	[
+     [@customerService_list]
+          [#list tag_list as cs]
+           { "Type": "${cs.type}", "ID": "${cs.content}", "Name": "${cs.name}" }                     
+          [#if cs_has_next],[/#if]	
+          [/#list]
+    
+     [/@customerService_list]
+    	 
+    	 ] },
+    init: function () {
+        var html = "";
+        html += "<div class='online-service'>";
+        html += "   <div class='service-list'>";
+        html += "       <div class='t'></div>";
+        html += "       <div class='con'>";
+        html += "           <h2>在线客服</h2>";
+        html += "           <ul>";
+        var _options = HS_OnlineService.options;
+        for (var i = 0; i < _options.Accounts.length; i++) {
+            var srv = _options.Accounts[i];
+            if (srv.Type == "QQ") {
+                var url = "tencent://message/?uin=" + srv.ID + "&amp;Site=在线客服&amp;Menu=yes";
+                html += "<li><a href='" + url + "' target='_blank'><img src='http://wpa.qq.com/pa?p=1:" + srv.ID + ":1' border='0' alt='QQ' /></a></li>";
+            }
+            else if (srv.Type == "Ali") {
+                var url = "http://amos.im.alisoft.com/msg.aw?v=2&uid=" + srv.ID + "&site=cntaobao&s=1&charset=utf-8";
+                html += "<li><a href='" + url + "' target='_blank'><img border='0' src='http://amos.im.alisoft.com/online.aw?v=2&uid=" + srv.ID + "&site=cntaobao&s=1&charset=utf-8' alt='在线客服'/></a></li>";
+            }
+        }
+        html += "           </ul>";
+        html += "       </div>";
+        html += "       <div class='b'></div>";
+        html += "   </div>";
+        html += "   <div class='service-tips'><img src='${root}/img/service-tips.png' alt='在线客服'></div>";
+        html += "</div>";
+        document.write(html);
+
+        $(".online-service").hover(
+            function () {
+                $(".online-service").addClass("hover");
+            },
+            function () {
+                $(".online-service").removeClass("hover");
+            }
+        );
+    }
+}
+
+HS_OnlineService.init();
+</script>

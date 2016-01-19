@@ -1,0 +1,5 @@
+<ul>
+[#list tag_list as brand]
+<li><img[#if brand.logoUrl??] src="${brand.logoUrl}"[/#if]/> <a href="${base}/brand.jspx?id=${brand.id}">${brand.name}</a></li>
+[/#list]
+</ul>

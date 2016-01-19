@@ -1,0 +1,120 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>通知公告列表</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png"
+	href="${base}/wapstyle/assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+<script type="text/javascript"
+	src="${base}/wapstyle/assets/js/zepto.min.js"></script>
+<script type="text/javascript" src="${base}/wapstyle/assets/js/amui.js"></script>
+
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	[#include "headerback.html"]
+
+	<form action="${base}/wap/tzgglist.jspx" id="jvfrom" method="post">
+		<div class="content">
+			<!--列表筛选-->
+			<div class="am-container">
+			<ul class="am-list">
+									[@shop_ArticlePage channelId=2 count=pageSize pageNo=pageNo ]
+						            [#list tag_pagination.list as a]
+									<li><a [#if a.link?? && a.link!='' ]href="${a.link}"
+											[#else]href="${base}/wap/articleself.jspx?id=${a.id}"
+											[/#if]><div
+													class="am-text-left" style="float: left">${a.title!}</div>
+												<div class="am-text-right">${a.publishTime?string('yyyy-MM-dd')}</div></a></li>
+									[/#list] [#assign p=tag_pagination /] [#if p.pageNo gte
+									p.totalPage] <span class="am-text-center" id="next-page"
+										url="end"> 没有更多了....</span> [#else] <span
+										class="am-g am-text-center" id="next-page"
+										url="/wap/tzggpage.jspx"> <i
+										class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+										class="am-icon-spinner am-icon-spin"></i>... <script
+											type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										pageNo:${pageNo+1},
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script> <script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+									</span> [/#if] <span id="gc"></span>
+									
+									
+									  [/@shop_ArticlePage]
+									</ul>
+								</div>
+							
+		</div>
+	</form>
+
+	[#include "footer.html"]
+</body>
+</html>

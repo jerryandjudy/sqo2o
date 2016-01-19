@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopScore" table="jc_shop_score">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="Id">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="name" type="string" not-null="false" length="255"/>
+		<property name="score" column="score" type="integer" not-null="false" length="10"/>
+		<property name="scoreTime" column="scoreTime" type="timestamp" not-null="false" length="10"/>
+		<property name="scoreType" column="scoreType" type="integer" not-null="true" length="10"/>
+		<property name="useStatus" column="useStatus" type="boolean" not-null="true"/>
+		<property name="status" column="status" type="boolean" not-null="true"/>
+		<property name="remark" column="remark" type="string" not-null="false" length="255"/>
+		<property name="code" column="code" type="string" not-null="false" length="255"/>
+      <many-to-one name="member" column="member_id" class="ShopMember" not-null="false"></many-to-one>
+	</class>	
+</hibernate-mapping>

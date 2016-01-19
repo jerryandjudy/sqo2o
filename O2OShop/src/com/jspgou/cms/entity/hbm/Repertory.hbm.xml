@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="com.jspgou.cms.entity.Repertory" table="jxc_repertory">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>    
+		<id name="id" type="long" column="id"><generator class="native" /></id>
+	    <property name="addTime" column="add_time" type="timestamp"  length="19"/>
+		<property name="name" column="name" type="string" length="255" not-null="false"/>
+		<property name="remarks" column="remarks" type="string" length="255" not-null="false"/>
+		<many-to-one name="ketaUser" column="userid" class="com.jspgou.cms.entity.KetaUser"  ></many-to-one>
+	</class>	 
+</hibernate-mapping>

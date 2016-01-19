@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>修改订单</title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/pony.tree.js" type="text/javascript"></script>
+<link href="${base}/res/jspgou/css/product.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function changeCount(){
+	var totalWeight=0.0;
+	$("#[id^='itemCount_']").each(function(){
+		var ss=parseFloat(jQuery(this).val());
+		var h=jQuery(this).attr("id");
+		var index=h.split("_")[1];
+		var weight=$("#itemWeight_"+index).html();
+		totalWeight+=ss*weight;
+	});
+	ajaxtotalDeliveryFee($("#shippingId").val(),totalWeight);
+	setTimeout(function(){changePrice()},1000);
+}
+
+function changePrice(){
+	var totalPrice=0.0;
+	$("#[id^='itemPrice_']").each(function(){
+		var ss=parseFloat(jQuery(this).val());
+		var h=jQuery(this).attr("id");
+		var index=h.split("_")[1];
+		var count=$("#itemCount_"+index).val();
+		$("#subtotal_"+index).html("");
+		$("#subtotal_"+index).html(count*ss);
+		totalPrice+=count*ss;
+	});
+	$("#productPrice").html("");
+	$("#productPrice").html(totalPrice);
+	$("#total").html("");
+	$("#total").html(parseFloat($("#freight").val())+totalPrice);
+	$("#totalPice").val(parseFloat($("#freight").val())+totalPrice);
+}
+
+function changeFreight(){
+	var ss=parseFloat($("#productPrice").html());
+	$("#total").html("");
+	ss+=parseFloat($("#freight").val());
+	$("#total").html(ss);
+}
+
+function ajaxtotalDeliveryFee(d,w){
+	$.post("../order/ajaxtotalDeliveryFee.do", {
+		'deliveryMethod':d,
+		'weight':w
+	}, function(data) {
+		if(data.status==1){
+			$("#freight").val(data.freight);
+			return data.freight;
+		}
+	},'json');
+}
+
+function statusChange(status){
+	if(status==19){
+      $("#jvForm").attr("action","o_returnMoney.do");
+	}
+	$("#status").val(status);
+}
+</script>
+<style type="text/css">
+.addr{padding:2px 0;}
+.title{font-size:14px;}
+</style>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "order.function"/> - 收款</div>
+	<form class="ropt">
+		<input type="button" value="返回" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_payment.do" labelWidth="12">
+<@p.td colspan="2"><strong class="title">收款信息</strong></@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="订单编号">${order.code}</@p.td>
+<@p.td colspan="1" width="50" label="order.paymentStatus">
+<@s.m "order.paymentStatus.${order.paymentStatus}"/>
+</@p.td>
+<@p.tr/>
+<@p.td colspan="1" width="50" label="order.total"><span id="total">${order.total!0}</span>
+<input type="hidden" id="totalPrice" name="totalPrice" value="${order.total!0}"/></@p.td>
+<@p.td colspan="1" width="50" label="order.payment"><#if order.payment??>${order.payment.name}</#if></@p.td><@p.tr/>
+<@p.text label="银行" colspan="1" width="50" name="bank"  required="true" class="required" maxlength="100"/>
+<@p.text label="帐号" colspan="1" width="50" name="accounts"  required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text label="金额 " colspan="1" width="50" name="money"  required="true" class="required number" maxlength="100"/>
+<@p.text label="付款人" colspan="1" width="50" name="drawee"  required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.textarea colspan="2" label="备注" name="comment" cols="70" rows="3"/><@p.tr/>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=order.id/>
+	<@p.submit code="global.payment"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

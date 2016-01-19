@@ -1,0 +1,78 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.list_head {
+    border-bottom: medium none;
+    border-top: 1px solid #CCCCCC;
+    margin-bottom: 2px;
+}
+.listtool * {
+    vertical-align: middle;
+}
+
+.listtool {
+    background: none repeat scroll 0 0 #F0F0F0;
+    border-bottom: 1px solid #CCCCCC;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+input, select, textarea {
+    font-size: 100%;
+}
+button {
+    line-height: 20px;
+}
+
+button {
+    background: url(../img/member/btn_sprite.png) repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: bold;
+    height: 24px;
+    width: 67px;
+}
+
+.page button, .w44 {
+    background-position: -150px -80px;
+    color: #333333;
+    font-weight: normal;
+    height: 23px;
+    width: 44px;
+}
+
+a.img120 {
+    border: 1px solid #CCCCCC;
+    display: block;
+    height: 120px;
+    padding-top: 2px;
+    text-align: center;
+}
+.favorite_tb {
+    margin-bottom: 10px;
+}
+
+.favorite_tb .name {
+    text-align: left;
+    width: 520px;
+}
+.favorite_tb td {
+    border-bottom: 1px dotted #CCCCCC;
+    line-height: 24px;
+    padding: 10px;
+    text-align: center;
+}
+
+.favorite_tb .operate {
+    background-position: 10px -55px;
+    vertical-align: middle;
+    width: 67px;
+}

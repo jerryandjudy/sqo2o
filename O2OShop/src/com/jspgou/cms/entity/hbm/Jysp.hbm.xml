@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="com.jspgou.cms.entity.Jysp" table="jxc_gys_goods">
+		<meta attribute="sync-DAO">false</meta>
+		
+		<id name="id" type="long" column="id"><generator class="native" /></id>
+        <many-to-one name="productSite" column="goodsId" class="com.jspgou.cms.entity.ProductSite" ></many-to-one>
+        <many-to-one name="gys" column="gysId" class="com.jspgou.cms.entity.Gys"  ></many-to-one>
+        <many-to-one name="repertory" column="repertoryId" class="com.jspgou.cms.entity.Repertory" not-null="false"></many-to-one>
+	    <property name="createTime" column="create_time" type="timestamp" not-null="true" length="19"/>
+	    <property name="goodsPrice" column="goods_price" type="double" not-null="false" />
+		<property name="username" column="username" type="string" length="255" not-null="false"/>
+		<property name="goodsMaxNum" column="goods_max_num" type="long"  not-null="false"/>
+		<property name="goodsNum" column="goods_num" type="long"  not-null="false"/>
+		<property name="goodsMinNum" column="goods_min_num" type="long"  not-null="false"/>
+	</class>	 
+</hibernate-mapping>

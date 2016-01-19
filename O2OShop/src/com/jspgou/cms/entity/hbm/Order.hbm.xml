@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Order" table="jc_shop_order">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="order_id"><generator class="native"/></id>
+		<property name="code" column="code" type="long" not-null="true" length="20"/>
+		<property name="comments" column="comments" type="string" not-null="false" length="255"/>
+		<property name="ip" column="ip" type="string" not-null="false" length="50"/>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"/>
+		<property name="shippingTime" column="shipping_time" type="timestamp" not-null="false"/>
+		<property name="finishedTime" column="finished_time" type="timestamp" not-null="false"/>
+		<property name="lastModified" column="last_modified" type="timestamp" not-null="true"/>
+		<property name="productPrice" column="product_price" type="double" not-null="false" length="20"/>
+		<property name="freight" column="freight" type="double" not-null="false" length="20"/>
+		<property name="lsccMoney" column="lscc_money" type="double" not-null="false" />
+		<property name="total" column="total" type="double" not-null="true" length="20"/>
+		<property name="score" column="score" type="integer" not-null="true" length="10"/>
+		<property name="weight" column="weight" type="double" not-null="true" length="10"/>
+		<property name="couponPrice" column="coupon_price" type="double" not-null="false" length="10"/>
+		<property name="productName" column="productName" type="string" not-null="false" length="255"/>
+		<property name="paymentStatus" column="payment_status" type="integer" not-null="true" length="10"/>
+		<property name="shippingStatus" column="shipping_status" type="integer" not-null="true" length="10"/>
+		<property name="status" column="status" type="integer" not-null="true" length="10"/>
+		<property name="tradeNo" column="tradeno" type="string" not-null="false" length="100"/>
+		<property name="paymentCode" column="payment_code" type="string" not-null="false" length="150"/>
+		<property name="receiveName" column="receive_name" type="string" not-null="false" length="100"/>
+		<property name="receiveAddress" column="receive_address" type="string" not-null="false" length="100"/>
+		<property name="receiveZip" column="receive_zip" type="string" not-null="false" length="100"/>
+		<property name="receivePhone" column="receive_phone" type="string" not-null="false" length="100"/>
+		<property name="receiveMobile" column="receive_mobile" type="string" not-null="false" length="100"/>
+		<property name="sysComment" column="sys_comment" type="string" not-null="false" length="200"/>
+		<property name="ordeRType" column="order_type" type="integer" not-null="false" />
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="member" column="member_id" class="ShopMember" ></many-to-one>
+		<many-to-one name="bld" column="bld_id" class="Bld" ></many-to-one>
+		<many-to-one name="gys" column="gys_id" class="Gys" ></many-to-one>
+		<many-to-one name="parent" column="parent_id" class="Order" ></many-to-one>
+		
+		<many-to-one name="payment" column="payment_id" class="Payment" not-null="true"></many-to-one>
+		<many-to-one name="shipping" column="shipping_id" class="Shipping" not-null="true"></many-to-one>
+		<many-to-one name="returnOrder" column="return_id" class="OrderReturn" not-null="false"></many-to-one>
+		<many-to-one name="ecOrderJnl" column="order_jnl_id" class="EcOrderJnl" not-null="false"></many-to-one>
+		<set name="items" cascade="all-delete-orphan" inverse="true" order-by="orderitem_id">
+			<cache usage="read-write"/>
+			<key column="order_id"/>
+			<one-to-many class="OrderItem"/>
+		</set>
+		<set name="child" cascade="all-delete-orphan" inverse="true" order-by="order_id">
+			<cache usage="read-write"/>
+			<key column="order_id"/>
+			<one-to-many class="Order"/>
+		</set>
+	</class>
+</hibernate-mapping>

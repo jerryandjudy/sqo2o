@@ -1,0 +1,23 @@
+@charset "utf-8";
+.footer_bg{width:980px; margin:auto; margin-top:10px;}
+.footer_back{background: none repeat scroll 0 0 #EFEFEF;}
+.helpCol{width:123px;display:inline;float:left; margin-left:20px;}
+.footer_bg ul{
+	 background: url("../img/global/index_sprite.png") no-repeat scroll right -200px transparent;
+	 display: inline-block;
+	 height: 150px;
+	 margin-left: -3px;
+     padding-left: 28px;
+     padding-right: 2px;
+     vertical-align: top;
+	 margin-top:10px;
+	 width: 123px;
+}
+.footer_bg ul li{ height: 21px; line-height:21px; padding-left: 10px;}
+.footer_bg ul li h3{height:28px; line-height:28px; color:#565656; font-size:12px; margin-bottom:10px;}
+.footer_bg ul li a{color: #999999;}
+.footer_bg ul li a:link,.footer_bg ul li a:visited{color:#555555;}
+.foot{width:960px; margin:0 auto; position:relative; height:65px; margin-bottom:10px;}
+.foot-txt{width:958px; height:63px; border:1px solid #d1d1d1;  position:relative; box-shadow:5px 5px 6px #f6f6f6; margin-top:25px;}
+.foot-txt img{padding-top:10px; padding-left:30px;}
+.coyp_right{text-align:center; margin-top:15px;}

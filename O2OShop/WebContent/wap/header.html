@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="${base}/wapstyle/assets/css/amazeui.min.css?version=20150624">
+<link rel="stylesheet" href="${base}/wapstyle/assets/css/app.css?version=20150613">
+
+<script src="${base}/wapstyle/assets/js/jquery.min.js?version=20150613"></script>
+<script src="${base}/wapstyle/assets/js/amazeui.min.js?version=20150613"></script>
+<script src="${base}/wapstyle/assets/js/jquery.cookie.js?version=20151007"></script>
+<script src="${base}/wapstyle/assets/js/app.js?version=20151007"></script>
+<!--TOP-->
+<header data-am-widget="header" class="am-header am-header-default am-no-layout">
+[#if member?? &&member.username?? ]
+<div id="sidebar" class="am-offcanvas am-menu-offcanvas1">
+<div class="am-offcanvas-bar am-offcanvas-bar-overlay">
+<div class="am-offcanvas-content">
+<div class="am-text-center">欢迎，${member.username!}</div>
+</div>
+<ul class="am-menu-nav am-avg-sm-1">
+<li class="am-nav-header">交易管理</li>
+<li class="">
+<a target="_self" href="${base}/wap/waporderlist.jspx">我的订单</a>
+</li>
+<li class="">
+<a target="_self" href="${base}/wap/wapfworderlist.jspx">服务订单</a>
+</li>
+<li class="am-nav-header">个人设置</li>
+<li class="">
+<a target="_self" href="${base}/wap/wapaddrlist.jspx">地址管理</a>
+</li>
+<li class="">
+<a target="_self" href="${base}/wap/reset_password.jspx">修改密码</a>
+</li>
+</ul>
+<div class="am-offcanvas-content">
+<div class="am-text-right am-text-xs logout">
+<a target="_self" href="${base}/wap/waploginout.jspx?imei=${imei!}">退出登录</a>
+</div>
+</div>
+</div>
+</div>
+ [/#if]
+ 
+ 
+  <div class="am-header-left am-header-nav"> <a href="javascript:void(0)" data-am-modal="{target: '#chooseLocation'}" class=""><i class="am-header-icon am-icon-location-arrow"></i></a> <a href="javascript:void(0)" data-am-modal="{target: '#search-modal'}" class=""><i class="am-header-icon am-icon-search"></i></a> </div>
+  <h1 class="am-header-title">${headerTitle} </h1>
+   [#if member?? &&member.username??]
+    <div class="am-header-right am-header-nav"><a href="#sidebar" data-am-offcanvas="" target="_self"><i class="am-header-icon am-icon-user"></i></a></div>
+   [#else]
+    <div class="am-header-right am-header-nav"><a href="${base}/wap/waplogin.jspx?imei=${imei!}" target="_self"><i class="am-header-icon am-icon-user"></i></a></div>
+   [/#if]
+</header>
+<script type="text/javascript">
+	var defSiteId=0;
+	var defSiteUrl='';
+	function opensitelist(){
+    	[#if defsite??]
+    	defSiteId=${defsite.id!};
+    	defSiteUrl='http://${defsite.domain}:${defsite.global.port}${defsite.contextPath}/wap/wapindex.jspx?imei=${imei}';
+    	[/#if]
+    	if(defSiteUrl!='' && defSiteId!=${web.id!}){
+    		window.location.href=defSiteUrl;
+    		return;
+    	}else if(defSiteUrl==''){
+    	  $('#chooseLocation').modal('open');
+    	}
+    }
+$(function() {
+	opensitelist();
+});
+
+    
+    function gpscity(){
+    	var geolocation = new $.AMUI.Geolocation();
+  	  geolocation.get({timeout: 8000}).then(function(position){
+  	    $.ajax( {  
+  	        url:'${base}/wap/gpssite.jspx?latitude='+position.coords.latitude+'&longitude='+position.coords.longitude,// 跳转到 action  
+  	        type:'get', 
+  	        async : false, //默认为true 异步    
+  	        dataType:'json',  
+  	        success:function(data) {  
+  	        	if(data!='' && data!=null){
+  	        	$('#gpssite').html('<a onclick="chooseLocation('+data.id+','+data.url+')" href="javascript:void(0);"> <span class="am-text-primary">'+data.name+'(定位站点)</span></a>');
+  	        	}else{
+  	        		$('#gpsstie').remove();
+  	        	}
+  	        	opensitelist();
+  	         },  
+  	         error : function(XMLHttpRequest, textStatus, errorThrown) {  
+  	              // view("异常！");  
+  	              showalert("异常！"+errorThrown);  
+  	             opensitelist();
+  	         }  
+  	    });
+  	    
+  	   
+  	  }, function(err) {
+  		  showalert('获取地理位置时发生错误，错误信息：<br>' + err);
+  		  opensitelist();
+  	  });
+  	
+  	
+
+  	}
+</script>
+<!--TOP=end-->

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+//获得城市
+function getResultCity(d){
+	$.post('findAllCity.do', {"id":d}, 
+		function(data) {
+					if(data.success){
+						$("#itemcity").html("");
+                         var select="<select name='cityId' onchange='getResultCountry(this.value)'>";
+                        for(var i=0;i<data.ids.length;i++){
+              				select+="<option value='"+data.ids[i]+"'>&nbsp;"+data.citys[i]+"&nbsp;</option>";
+              			}
+              			select+="</select>";
+              			getResultCountry(data.ids[0]);
+              			$("#itemcity").append(select);
+					} 
+	 },"json");
+}
+//获得县、区
+function getResultCountry(a){
+	$.post('findAllCountry.do', {"id":a,"gysId":'${gys.id!}'},
+		 function(data) {
+				if(data.success){
+					$("#itemarea").html("");
+                     var select="<select  id='countryId' name='countryId'>";
+                      for(var i=0;i<data.ids.length;i++){
+              				select+="<option value='"+data.ids[i]+"'>&nbsp;"+data.areas[i]+"&nbsp;</option>";
+              		 }
+              		select+="</select>";
+              		$("#itemarea").append(select);
+				} 
+		},"json");
+}
+function checkSubmit(){
+	if($("#countryId").val()==''||$("#countryId").val()==null){
+           alert("请选择县/区!");
+           return;
+	}
+	$("#jvForm").submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 供应商配送区域管理 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_gys_psqy_save.do" labelWidth="12">
+<input type="hidden" name="gys.id" id="gysid" value="${gys.id!}"/>
+        <table width="100%" class="pn-ftable" cellspacing="1" cellpadding="2" border="0" >
+           <tr>
+              <td  class="pn-flabel pn-flabel-h">所在地址：</td>
+              <td class="pn-fcontent" style="width: 50%">
+                <select id="provinceId" name="provinceId" onchange="getResultCity(this.value)"  >
+	                <option value="">--请选择--</option>
+	                 <#list plist as province>
+		               <option value="${province.id!}">${province.name!}(${province.website.name!})</option>
+                   	</#list>
+              </select>
+              <span id="itemcity"></span>
+              <span id="itemarea"></span>
+             <!--  <a target="_blank" href="${base}/ps/10.htm">了解具体的配送范围 </a> --></td>
+              <td  class="pn-flabel pn-flabel-h">说明：</td>
+              <td  class="pn-fcontent"><input type="text" style="width: 200px" value="" name="description"  /></td>
+              <td class="pn-fcontent"><input type="button" value="保&nbsp;&nbsp;存 " onclick="checkSubmit();" />&nbsp;&nbsp;</td>
+           </tr>
+           
+       </table>
+   </@p.form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="gys.id" value="${gys.id!}"/>
+<@p.table value=pagination;psqy,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${psqy.id}'/><#t/>
+	</@p.column><#t/>
+	
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商姓名">${psqy.gys.ketaUser.realname}</@p.column><#t/>
+	<@p.column code="联系电话">${psqy.gys.ketaUser.phone}</@p.column><#t/>
+	<@p.column code="公司">${psqy.gys.companyName}</@p.column><#t/>
+	<@p.column code="所属站点">${psqy.gys.website.name}</@p.column><#t/>
+	<@p.column code="配送区域">${psqy.province.name}/${psqy.city.name}/${psqy.country.name}</@p.column><#t/>
+	<@p.column code="说明">${psqy.description}</@p.column><#t/>
+	<@p.column code="添加人">${psqy.user.username}</@p.column><#t/>
+	<@p.column code="添加时间">${psqy.createTime!}</@p.column><#t/>
+	
+	<@p.column code="global.operate" align="center">
+		 <a href="o_gys_psqy_delete.do?id=${psqy.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

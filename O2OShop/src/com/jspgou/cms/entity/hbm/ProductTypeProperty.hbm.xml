@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ProductTypeProperty" table="jc_shop_ptype_property">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="type_property_id"><generator class="native"/></id>
+		<property name="propertyName" column="property_name" type="string" not-null="true" length="255"/>
+        <property name="field" column="field" type="string" not-null="true" length="50"/>
+		<property name="isStart" column="is_start" type="integer" not-null="false" length="1"/>
+		<property name="isNotNull" column="is_notNull" type="integer" not-null="false" length="1"/>
+		<property name="sort" column="sort" type="integer" not-null="true" length="11"/>
+		<property name="defValue" column="def_value" type="string" not-null="false" length="255"/>
+		<property name="optValue" column="opt_value" type="string" not-null="false" length="255"/>
+		<property name="rows" column="area_rows" type="string" not-null="false" length="3"/>
+		<property name="cols" column="area_cols" type="string" not-null="false" length="3"/>
+		<property name="dataType" column="data_type" type="integer" not-null="true" length="10"/>
+		<property name="single" column="is_single" type="java.lang.Boolean" not-null="true"/>
+		<property name="category" column="is_category" type="java.lang.Boolean" not-null="true"/>
+		<property name="custom" column="is_custom" type="java.lang.Boolean" not-null="true"/>
+		<many-to-one name="propertyType" column="ptype_id" class="ProductType" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

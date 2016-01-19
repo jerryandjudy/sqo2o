@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jspgou-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<ul id="lmenu">
+<!-- <@authorize url="product/o_create_index.do"> 
+<li><a href="../product/o_create_index.do" target="rightFrame"><@s.m "product.createIndex"/></a></li>
+</@authorize> -->
+<@authorize url="tag/v_list.do"> 
+<li><a href="../tag/v_list.do" target="rightFrame"><@s.m "productTag.function"/></a></li>
+</@authorize>
+<@authorize url="adspace/v_list.do"> 
+<li><a href="../adspace/v_list.do" target="rightFrame"><@s.m "adspace.function"/> </a></li>
+</@authorize>
+<@authorize url="advertise/v_list.do"> 
+<li><a href="../advertise/v_list.do" target="rightFrame"><@s.m "advertise.function"/></a></li>
+</@authorize>
+<@authorize url="brand/v_list.do"> 
+<li><a href="../brand/v_list.do" target="rightFrame"><@s.m "brand.function"/></a></li>
+</@authorize>
+<@authorize url="exended/v_list.do"> 
+<li><a href="../exended/v_list.do" target="rightFrame">扩展属性</a></li>
+</@authorize>
+<!-- <@authorize url="standardType/v_list.do"> 
+<li><a href="../standardType/v_list.do" target="rightFrame">规格管理</a></li>
+</@authorize> -->
+<@authorize url="customerService/v_list.do"> 
+<li><a href="../customerService/v_list.do" target="rightFrame">在线客服</a></li>
+</@authorize>
+<@authorize url="activitys/v_list.do"> 
+<li><a href="../activitys/v_list.do" target="rightFrame">活动管理</a></li>
+</@authorize>
+<!-- <@authorize url="poster/v_list.do"> 
+<li><a href="../poster/v_list.do" target="rightFrame">首页海报</a></li>
+</@authorize> -->
+</ul>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "payment.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.text label="payment.name" name="name" value=payment.name required="true" class="required" maxlength="150"/>
+<@p.select  label="支付类型"  name="type" required="true" value="${payment.type}" list={"1":"在线支付","2":"线下支付"} />
+<@p.checkboxlist label="支持配送方式" name="shippingIds" valueList=shippingIds list=shippingList listKey="id" listValue="name" onclick="checkedThis(this);" /><@p.tr/>
+<@p.text label="payment.priority" name="priority" value=payment.priority size="7" required="true" class="required digits" maxlength="10"/>
+<@p.radio label="payment.disabled" name="disabled" value=payment.disabled list={"true":"global.true","false":"global.false"} required="true" class="required"/>
+<@p.radio label="是否默认" name="isDefault" value=payment.isDefault  list={"true":"global.true","false":"global.false"}  required="true" class="required"/>
+<@p.text label="介绍" name="introduce" value=payment.introduce size="60" maxlength="255" required="true" class="required"/>
+<@p.editor label="payment.description" name="description" value=payment.description! toolbarSet="Simple" maxlength="1024"/>
+<@p.td>
+	<input type="hidden" name="code" value="offline"/>
+	<@p.hidden name="id" value=payment.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

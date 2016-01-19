@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ProductExt" table="jc_shop_product_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="product_id">
+			<generator class="foreign"><param name="property">product</param></generator>
+		</id>
+		<property name="code" column="code" type="long" not-null="true" length="20"/>
+		<property name="mtitle" column="mtitle" type="string" not-null="false" length="255"/>
+		<property name="mkeywords" column="mkeywords" type="string" not-null="false" length="255"/>
+		<property name="mdescription" column="mdescription" type="string" not-null="false" length="255"/>
+		<property name="detailImg" column="detail_img" type="string" not-null="false" length="150"/>
+		<property name="listImg" column="list_img" type="string" not-null="false" length="150"/>
+		<property name="minImg" column="min_img" type="string" not-null="false" length="150"/>
+		<property name="coverImg" column="cover_img" type="string" not-null="false" length="150"/>
+		<property name="weight" column="weight" type="integer" not-null="false" length="10"/>
+		<property name="unit" column="unit" type="string" not-null="false" length="20"/>
+		<property name="islimitTime" column="is_limitTime" type="java.lang.Boolean" not-null="false" length="2"/>
+		<property name="timeLimit" column="limitTime" type="java.util.Date" not-null="false" length="20"/>
+		<property name="seckillprice" column="seckillprice" type="double" not-null="false" length="20"/>
+		
+		<property name="productImgs" column="product_imgs" type="string" not-null="false"/>
+		<property name="productImgDesc" column="product_img_desc" type="string" not-null="false"/>
+		
+		
+		
+		<one-to-one name="product" 	class="Product" cascade="all" constrained="true"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <#if isCategory>类型模型<#else>商品模型</#if> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="hidden" value="${typeId!}" name="typeId">
+		<input id="isCategory" type="hidden" name="isCategory" value="${isCategory?string("true","false")}"/>
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="字段" name="field" required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="名称" name="propertyName"  required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.select colspan="1" width="50" label="数据类型" name="dataType" required="true" list={"1":"字符串文本","2":"整型文本","3":"浮点型文本","4":"文本区","5":"日期","6":"下拉列表","7":"复选框","8":"单选框"}/>
+<@p.text colspan="1" width="50" label="排序" name="sort" value="70" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="2" label="默认值" name="defValue" maxlength="255" /><@p.tr/>
+<@p.text colspan="2" label="可选项" name="optValue" size="70" maxlength="255" help="cmsModelItem.optValue.help"/><@p.tr/>
+<@p.text colspan="1" width="50" label="行数" name="rows" value="3" class="digits" maxlength="3"/>
+<@p.text colspan="1" width="50" label="列数" name="cols" value="30" class="digits" maxlength="3"/><@p.tr/>
+<@p.td colspan="2">
+	<input type="hidden" name="typeId" value="${typeId}"/>
+	<input type="hidden" name="category" value="${isCategory?string("true","false")}"/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

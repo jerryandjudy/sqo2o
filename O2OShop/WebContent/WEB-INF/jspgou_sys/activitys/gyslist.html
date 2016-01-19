@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+    <script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+var api = frameElement.api, W = api.opener;
+
+/* 函数ok即为上面添加按钮方法中callback回调函数调用的函数 */
+function ok()
+{
+	var str="";
+	var str1="";
+    $("input[name='ids']:checkbox").each(function(){ 
+        if($(this).attr("checked")){
+            str += $(this).val()+",";
+            str1+=$('#gysname'+$(this).val()).val()+",";
+        }
+    })
+
+    if(str==''){
+        alert("请选择一个供应商!");
+        return false;
+    }
+   W.document.getElementById("gysIds").value =str.substring(0,str.length-1);
+   W.document.getElementById("gysNames").value = str1.substring(0,str1.length-1);
+   api.close();
+   // W.document.getElementById('attr_lng').value = attr_lng;
+    //W.document.getElementById('attr_lat').value = attr_lat;
+}
+
+function getTableForm(){
+	return document.getElementById("tableForm");
+}
+
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 供应商管理 - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="button" id="qd" class="ropt" onclick="ok();"  value="确定" />
+	</form>
+	<div class="clear"></div>
+</div>
+
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=gyslist;gys,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${gys.id}'/><#t/>
+		<input type='hidden' id='gysname${gys.id}' id='gysname' value='${gys.companyName!}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="序号">${i+1}</@p.column><#t/>
+	<@p.column code="供应商用户名">${gys.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="供应商密码">${gys.ketaUser.painPass!}</@p.column><#t/>
+	<@p.column code="联系电话">${gys.phone!}</@p.column><#t/>
+	<@p.column code="公司">${gys.companyName!}</@p.column><#t/>
+	<@p.column code="所属站点">${gys.website.name!}</@p.column><#t/>
+	<@p.column code="账户">${gys.account.id!}</@p.column><#t/>
+	<@p.column code="账户可用余额">${gys.account.money!}</@p.column><#t/>
+	<@p.column code="账户冻结金额">${gys.account.frozenMoney!}</@p.column><#t/>
+	<!-- <@p.column code="添加人">${(gys.user!).username!}</@p.column><#t/> -->
+	<@p.column code="添加时间">${gys.createTime!}</@p.column><#t/>
+	<@p.column code="状态"><#if gys.ketaUser.organization.name=='供应商'> 已审核<#else>  <a style="color:red" href="v_gyssh.do?id=${gys.id}">审核</a></#if></@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = document.getElementById('tableForm');
+	f.action="o_qqDelete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+<script type="text/javascript">
+var url = location.href;
+var index = url.indexOf('jsessionid');
+if(index != -1) {
+	var sid = url.substr(index+11);
+	document.cookie = "JSESSIONID="+sid+";path=/;";
+}
+function changeSite(id) {
+       var domain=$("#site"+id).val();
+	   $("#sitelist").attr("action","http://"+domain+":${site.global.port}${site.global.contextPath}/nhaocang/admin/index.do");
+	    $("#sitelist").submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 在线客服 - 列表 </div>
+	<form class="ropt">
+		<input type="submit" value="增加" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div style="float: right" >
+	 <#if isSuper>
+                                         <form action="index.do" target="_top" method="get" id="sitelist">
+                                            <#list siteList as s>
+                                              <#if s.close==false>
+											  <input type="hidden" id="site${s.id}" value="${s.domain}" />
+											  </#if>
+								              </#list>
+											<select name="${siteParam}" onchange="changeSite(this.value)">
+											  <#list siteList as s>
+											  <#if s.close==false>
+								              <option value="${s.id}"<#if s.id==site.id> selected="selected"</#if>>${s.name}</option>
+								               </#if>
+								              </#list>
+								            </select>
+							            </form>
+							            </#if>
+							           </div>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" value="${pageNo!}" name="pageNo">
+<@p.table listAction="v_qqList.do" value=pagination;customerService,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${customerService.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="类型">${customerService.type!}</@p.column><#t/>
+	<@p.column code="客服昵称">${customerService.name!}</@p.column><#t/>
+	<@p.column code="客服账号">${customerService.content!}</@p.column><#t/>
+	<@p.column code="站点">${customerService.website.name!}</@p.column><#t/>
+	<@p.column code="禁用">${customerService.disable!?string('是','否')}</@p.column><#t/>
+	<@p.column code="排序"><input type="text" name="priority" value="${customerService.priority}" size="7"/><input type="hidden" name="wids" value="${customerService.id}"/></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?id=${customerService.id}"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${customerService.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div>
+<input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/>
+<input type="button" value="<@s.m "global.saveOrder"/>" onclick="optSaveOrder();"/>
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

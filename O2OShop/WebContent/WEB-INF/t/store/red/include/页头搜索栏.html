@@ -1,0 +1,17 @@
+<div class="dpdl">
+        <div class="dplogo"><img src="${root}${store.logoImg!}" height="78" width="230"/></div>
+        <div class="dpxxright dpxx">
+            <div class="dpyj_center2">
+                <form  action="${base}/search.jspx">
+                   <input name="q" value="${q!'请输入关键词'}" type="text" 
+                   onfocus="if(this.value=='请输入关键词')this.value=''" 
+                   onblur="if(this.value=='')this.value='请输入关键词'" maxlength="24"
+                   class="dpsearchBG"/>
+                  <input type="submit" value="" onclick="this.form.action='search.jspx'" class="dpsearchmenu1"/>
+                  <input type="submit" value="" onclick="this.form.action='searchStore.jspx'" class="dpsearchmenu2"/>
+                </form>
+            </div>
+            <div class="dpyj_right"></div>
+        </div>
+	</div>
+    <div class="clear"></div>

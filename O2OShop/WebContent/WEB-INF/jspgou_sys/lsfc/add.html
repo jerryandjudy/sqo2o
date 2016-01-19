@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 流水分成设置 - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='fc_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign pathExist><@s.m "lsfc.error.pathExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.select colspan="1" width="50" label="分成类型"  name="fctypeIdstr" list=fcTypeList listKey="id" listValue="name" required="true"/>
+
+<!-- <@p.text colspan="2" width="50"  label="额度" name="ed" help="单位（元）" required="true" class="required number"  maxlength="100"  /><@p.tr/> -->
+<@p.text colspan="2" width="50"  label="平台分成" name="ptFc" help="" required="true" class="required number"  maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" width="50"  label="代理商分成" name="dlsFc" help="" required="true" class="required number"  maxlength="100"  /><@p.tr/>
+<@p.text colspan="2" width="50"  label="抽成比例" name="bl" help="百分比表示，例：填写0.2表示20%。" required="true" class="required number"  maxlength="100"  /><@p.tr/>
+
+
+
+
+<@p.select  label="选择站点" colspan="2" width="100" headerKey="" headerValue="请选择" name="siteId" class="required" required="true" listKey="id"  listValue="name" list=allsite />
+<@p.tr/>
+
+
+
+
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

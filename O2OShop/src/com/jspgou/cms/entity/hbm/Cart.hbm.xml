@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Cart" table="jc_shop_cart">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="cart_id"><generator class="native"/></id>
+		<property name="totalItems" column="total_items" type="integer" not-null="true" length="10"/>	
+		<property name="totalGifts" column="total_gifts" type="integer" not-null="false" length="10"/>	
+		<many-to-one name="member" column="member_id"  class="com.jspgou.core.entity.Member" not-null="true"/>	
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<set name="items" inverse="true" cascade="all-delete-orphan" order-by="cartitem_id">
+			<cache usage="read-write"/>
+			<key column="cart_id"/>
+			<one-to-many class="CartItem"/>
+		</set>
+		
+		<set name="gifts" inverse="true" cascade="all-delete-orphan" order-by="id">
+			<cache usage="read-write"/>
+			<key column="cartId"/>
+			<one-to-many class="CartGift"/>
+		</set>
+	</class>
+</hibernate-mapping>

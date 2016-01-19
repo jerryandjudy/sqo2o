@@ -1,0 +1,273 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>购物车</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+ var URL = '${base}';
+    var APP ='${base}';
+    var SELF = '${base}/wap/wapindex.jspx';
+  </script>
+<!--TOP-->
+[#include "headerback.html"]
+<!--TOP=end-->
+
+<div class="content">
+<div class="am-container am-margin-top-lg">
+
+   
+    <div class="am-u-sm-12"></div>
+    <div class="am-u-sm-12">
+        <form id="piorder-form" class="am-form" action="/Order/doorder.html" method="POST">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd" data-am-collapse="{target: '#addressBD'}">
+                 确认收货地址 <i class="cbh am-icon-chevron-up"></i>
+                 </div>
+<div id="addressBD" class="am-panel-collapse am-collapse am-in">
+
+    <div class="am-panel-bd">
+        <div class="am-alert am-alert-secondary am-text-sm" data-am-alert="">当前所选择站点：${web.name!}</div>
+<span class="am-text-sm">点击选择收货地址 <i class="am-icon-hand-o-down"></i></span>
+<ul class="am-avg-sm-1 c-address-list">
+[#if smalist?size gt 0]
+     [#list smalist as sma]
+    <li [#if sma.isDefault]class="selected"[/#if]   data-location="${sma.id!}">
+    <input type="radio" value="${sma.id!}" name="deliveryInfo"></input>
+
+    <p>${sma.username!}</p>
+    <p class="am-text-truncate">${sma.province.name!}/${sma.city.name!}/${sma.country.name!}/${sma.street.name!}(${sma.detailaddress!})</p>
+    <p>${sma.tel!}</p>
+    <span><i class="am-icon-check"></i></span>
+
+</li>
+ [/#list]
+[/#if]
+</ul>
+<div class="am-form-group am-margin-bottom-xs">
+    <a class="am-btn am-btn-sm am-btn-primary" href="${base}/wap/addradd.jspx?returnUrl=${base}/wap/cartself.jspx"  data-title="添加新地址"  type="button">
+添加新地址</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="DelPay" class="hide noshow">
+
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd" data-am-collapse="{target: '#DelPayBD'}">选择支付配送方式</div>
+<div id="DelPayBD" class="am-panel-collapse am-collapse am-in">
+    <div class="am-panel-bd">
+        <label>支付方式 </label>
+         [#list paylist as pay]
+        <label class="am-radio">
+            <input class="am-ucheck-radio" type="radio" data-am-ucheck="" onclick="reprice()" id="paymentMethod_${pay.id}" name="paymentMethodId" value="${pay.id}" [#if pay.disabled]disabled[/#if] [#if pay.isDefault]checked="true"[/#if]></input>
+
+    <span class="am-ucheck-icons">
+        <i class="am-icon-unchecked"></i>
+        <i class="am-icon-checked"></i>
+    </span>${pay.name!}-${pay.introduce!}</label>
+[/#list]
+<label>配送方式</label>
+ [#list splist as sp]
+<label class="am-radio">
+    <input class="am-ucheck-radio" type="radio" data-am-ucheck="" [#if sp.isDefault]checked[/#if]  onclick="reprice()" id="shippingMethod_${sp_index+1}" value="${sp.id}" name="shippingMethodId"></input>
+
+                    <span class="am-ucheck-icons">
+                        <i class="am-icon-unchecked"></i>
+                        <i class="am-icon-checked"></i>
+                    </span>
+                     ${sp.name!} - ${sp.description!}
+
+                </label>
+[/#list]
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+$(function(){
+		$('.coupons li').click(function(){
+			var this_s = $(this).find('input[name="coupon"]').prop('checked');
+			$('.coupons li').removeClass('selected');
+			if(false === this_s){
+				$(this).addClass('selected');
+				$(this).find('input[name="coupon"]').prop("checked",true);
+			}else{
+				$(this).find('input[name="coupon"]').prop('checked',false);
+			}
+			reprice();
+		});
+	})
+
+
+
+    </script>
+
+</div>
+<!-- <div id="GoodsCoupons" class="hide noshow">
+
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd" data-am-collapse="{target: '#couponsBD'}"> 可用优惠券</div>
+    <div id="couponsBD" class="am-panel-collapse am-collapse am-in">
+        <div class="am-panel-bd">
+            <p style="margin-bottom:0"><i class="iconfont"></i>暂无可用优惠券</p>
+        </div>
+    </div>
+
+</div> -->
+<div class="am-panel am-panel-default">
+
+    <div class="am-panel-hd" data-am-collapse="{target: '#goodsBD'}">
+
+    商品列表
+
+</div>
+<div id="goodsBD" class="am-panel-collapse am-collapse am-in">
+
+    <div class="am-panel-bd c-goods-list">
+      <!--   <p class="c-goods-title"><i class="iconfont"></i>即时达</p> -->
+                           [#list cart.items as item]
+								<div id="good_${item.id}">
+								<input type="hidden" name="cartItemId" value='${item.id}'/>
+									<div class="am-g am-padding-xs">
+
+										<div class="am-u-sm-3 am-text-center">
+											<img
+												src="${item.productSite.product.productExt.coverImg!}"  ></img>
+										</div>
+										<div class="am-u-sm-9">
+											<p class="am-text-xs">[@text_cut s=item.productSite.product.name len='10' appent='...'/]</p>
+											<p class="am-text-primary">￥${item.productSite.salePrice!}</p>
+										</div>
+										<div class="am-u-offset-sm-7 am-u-sm-5">
+											<div class="am-input-group am-input-group-sm">
+												<span class="am-input-group-btn">
+													<button class="am-btn am-btn-default"
+														onclick="dec('${item.id}','cart')" type="button">-</button>
+
+												</span> <input id="good_num_${item.id}"  name="itemNumBox" type="text" value="${item.count}" 
+													class="am-form-field am-text-center" type="number" readonly
+													good="${item.productSite.id}" store="5" price="￥${item.productSite.salePrice!}" value="1"
+													style="height: 28px"></input> <span
+													class="am-input-group-btn">
+
+													<button class="am-btn am-btn-default"
+														onclick="inc('${item.id}','cart')" type="button">+</button>
+												</span>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								  [/#list]
+							</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+	function confrimed(){
+		$.get(APP+'/cart/ajaxDeleteAllCartItem.jspx', function(result) {
+			if(result.status=='0'){
+				window.location.href = APP+'/wap/waplogin.jspx';
+			}else{
+				window.location.href =APP+'/wap/cartself.jspx';
+			}
+		},'json');
+	}
+	$(function(){
+		if($(".c-address-list li").length > 0){
+			$('.c-address-list li:first').click();
+		}
+	})
+
+
+
+    </script>
+
+</div>
+<div class="am-panel am-panel-default noshow">
+
+    <div class="am-panel-hd" data-am-collapse="{target: '#remarkBD'}">
+    备注 
+    <i class="cbh am-icon-chevron-up"></i>
+
+</div>
+<div id="remarkBD" class="am-panel-collapse am-collapse am-in">
+
+        <div class="am-panel-bd">
+            <div class="am-form-group am-margin-bottom-xs ">
+                <input type="text" name="comments" class="am-form-field"  id="remark"  placeholder="订单备注，如有特殊要求，请填写" ></input>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="final_price">
+    <div class="am-g am-text-sm c-goods-price">
+       
+        <div class="am-u-sm-6 gpl">
+            <p>商品金额：￥<font id="spje">${cart.productTotalPrice!}</font>元</p>
+        </div>
+        <div class="am-u-sm-6 am-text-center">
+            <p></p>
+            <p class="am-text-primary">应付总额：￥<font id="yfje">${cart.productTotalPrice!}</font>元</p>
+            <p></p>
+        </div>
+   
+    </div>
+
+</div>
+<input id="checkoutsubmit" class="c-submit am-btn-lg am-btn-block am-btn am-btn-primary am-btn-sm noshow"  type="button" value="提 交"></input>
+
+<div class="am-text-right">
+
+    <button class="am-btn am-btn-xs am-btn-danger" onclick="showconfirm('确定清空购物车吗？',this)" type="button">
+
+                        <i class="am-icon-trash"> </i>清空购物车
+
+                    </button>
+                </div>
+                <input type="hidden" value="7edfe126f35898777ec27be90ab13e63_2f42ba7a10cf2d91aac20c9e49d65a9e" name="__hash__"></input>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+</div>
+
+[#include "footer.html"]
+</body>
+</html>

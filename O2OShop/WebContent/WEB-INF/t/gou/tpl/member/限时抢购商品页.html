@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here  - ${web.name}${web.additionalTitle!}</title>
+</head>
+<body>
+<table>
+   <tr><td colspan="3">秒杀进行中</td></tr>
+   <tr><td>
+     [#list listProduct as product]
+        [#if product_index==0]
+           <table>
+             <tr>
+               <td><img src="${rootUrl}${product.listImgUrl!}"></td>
+               <td>
+                 <table>
+                   <tr><td><a href="">${product.name!}</a></td></tr>
+                   <tr><td>${product.productExt.seckillprice!}</td></tr>
+                   <tr><td><strike>${product.salePrice!}</strike></td></tr>
+                 </table>
+               </td>
+               <td><a href="limitProductDetail.jspx?id=${product.id!}">马上订购</a></td>
+             </tr>
+           </table>
+        [/#if]
+     [/#list]
+   </td></tr>
+</table>
+   <table width="80%">
+   [#list listProduct as product]
+   [#if product_index%2==0]
+     <tr>
+   [/#if]  
+       <td><img src="" width="180" height="80"></td>
+   [#if (product_index+1)%2==0]
+     </tr>
+   [/#if]  
+   [/#list]
+   </table>
+</body>
+</html>

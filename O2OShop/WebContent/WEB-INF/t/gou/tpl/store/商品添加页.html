@@ -1,0 +1,696 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品添加页- ${web.name}${web.additionalTitle!}</title>
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${sysResRoot}/front.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/res/common/css/jquery.ui.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/res/common/js/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='normaltab3';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='curr3';
+}
+function clickchange(i,j){
+	$("input[id^='isDefaultes']").each(function(){
+           $(this).val(false);
+	});
+	$("#isDefaultes"+i+"_"+j).val(true);
+}
+$(function() {
+	$("#jvForm").validate();
+	//栏目权限对话框
+	$("#channelDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 280,
+		height: 420,
+		position: ["center",20],
+		buttons: {
+			"确定": function() {
+				$(this).dialog("close");
+			}
+		},
+		close: function(event, ui) {
+			//将列表框中已选中的项复制到隐藏表单中
+			var chiculen=$("input[name='chicus']:checked").length;
+			var yanselen=$("input[name='yanses']:checked").length;
+			var names =new Array(new Array(),new Array());
+			var ids=new Array(new Array(),new Array());
+			var tableSpec=new Array();
+			var dtable=document.getElementById("tableSpec");
+			var rowNum=dtable.rows.length;
+			for(var k=0;k<rowNum;k++) {
+				 tableSpec.push(dtable.rows[k].id);
+			} 
+			  $("input[name='chicus']:checked").each(function(){
+	              names[0].push($(this).attr("nameAttr"));
+	              ids[0].push($(this).val());
+		      });
+			$("input[name='yanses']:checked").each(function(){
+		          names[1].push($(this).attr("nameAttr"));
+		          ids[1].push($(this).val());
+			 });
+			if(chiculen>0 && yanselen>0){
+				$("#chicuContainer").css("display","block");
+				$("#yanseContainer").css("display","block");
+				$("#ccItemContainer").html("");
+				$("#ysItemContainer").html("");
+			
+				$("input[name='chicus']:checked").each(function(){
+					$("#ccItemContainer").append("<input type='checkbox' name='chicusize' onclick='standardAdd(this);'"+
+				           "value='"+$(this).val()+"'nameAttr='"+$(this).attr("nameAttr")+"' checked='checked'/>"+$(this).attr("nameAttr"));
+				});
+				var tableContent="<tr>";
+				$("input[name='yanses']:checked").each(function(){
+				  tableContent+="<td align='center'><input type='checkbox' name='yansesize' onclick='standardAdd(this);'"+
+					          "value='"+$(this).val()+"'nameAttr='"+$(this).attr("nameAttr")+"' checked='checked'/>"+
+					          $(this).attr("nameAttr")+"</td>";
+		       				         
+				});
+				tableContent+="</tr><tr>";
+				var yaseindex=0;
+				$("input[name='yanses']:checked").each(function(){
+					tableContent+="<td align='center'><div>";
+					tableContent+="<img id='preImg"+yaseindex+"' alt='43*43' style='width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333'/><br/>";
+					tableContent+=" <font color='red'>*</font><input type='text' id='uploadImgPath"+yaseindex+"' name='colorImg' size='10' class='required'/><br/>"+
+	               "<span id='ufc"+yaseindex+"'><input type='file' id='uploadFile"+yaseindex+"' size='2'/></span> "+
+	              " <input type='button' value='上传' onclick='upload("+yaseindex+");'/></div></td>";
+					yaseindex++;
+				});
+				tableContent+="</tr>";	
+				$("#ysItemContainer").append(tableContent);
+				$("#onlyFashion").css("display","block"); 
+				var tbeSpec="";
+				for(var i=0;i<chiculen;i++){
+				   for(var j=0;j<yanselen;j++){
+					   var pd=false;
+					    for(var zz=0;zz<tableSpec.length;zz++){
+		                    if(tableSpec[zz]=="item_"+ids[0][i]+"_"+ids[1][j]){pd=true;}
+					    }
+					    if(!pd){
+					      tbeSpec +="<tr id='item_"+ids[0][i]+"_"+ids[1][j]+"'>";
+					      tbeSpec +="<td align='center' width='60'>";
+					      tbeSpec +="<input type='radio' name='checkDefaults' onclick='clickchange("+ids[0][i]+','+ids[1][j]+")'/>";
+					      tbeSpec +="<input type='hidden' id='isDefaultes"+ids[0][i]+"_"+ids[1][j]+"' name='isDefaults' value='false'/></td>";
+					      tbeSpec +="<td align='center' width='100'>"+names[0][i]+"<input type='hidden' name='measures' value='"+ids[0][i]+"'/> </td>";
+					      tbeSpec +="<td align='center' width='100'>"+names[1][j]+"<input type='hidden' name='colors' value='"+ids[1][j]+"'/> </td>";
+						  tbeSpec +="<td align='center' width='120'><input name='stockCounts' type='text' onchange='addStocks();' size='10' value='0' class='required digits'/></td>";
+					      tbeSpec +="<td align='center' width='120'><input name='saleCounts' type='text' onchange='addSales();' size='10' value='0' class='required digits'/></td>";
+						  tbeSpec +="<td align='center' width='120'><input name='salePrices' type='text' size='10' class='required digits'/></td>";
+						  tbeSpec +="<td align='center' width='120'><input name='marketPrices' type='text' size='10' class='required digits'/></td>";
+						  tbeSpec +="<td align='center' width='120'><input name='costPrices' type='text' size='10' class='required digits'/></td>";
+						  tbeSpec +="<td align='center' width='40'><img src='${base}/res/jspgou/img/admin/icon_delete.gif' onclick='deleteItem(this);'/></td></tr>";
+					    }
+					}
+			  }
+				$("#tbeSpec").before(tbeSpec);
+			}else{
+				$("input[name='chicus']:checked").each(function(){ $(this).attr("checked","");});
+				$("input[name='yanses']:checked").each(function(){ $(this).attr("checked","");});
+				alert("请一定勾选尺寸和颜色");
+			}	
+		}
+	});
+	var channels_opened = false;
+	$('#channel').click(function(){
+		//第一次打开，需要获取数据。
+		if(!channels_opened) {
+			//获取数据
+			$.get("../product/v_standardTypes.jspx",function(s) {
+				$(s).appendTo("#channels");
+			});
+			channels_opened = true;
+		}
+		$('#channelDialog').dialog('open');
+		return false;
+	});	
+});
+function deleteItem(rowNames){
+	$(rowNames).parent().parent().remove();
+}
+function standardAdd(checkname){
+	if($(checkname).attr("checked")=="true"){
+		$("input[name='chicus']").each(function(){
+              if($(this).val()==$(checkname).val()){
+                        $(this).attr("checked","checked");
+               }
+		});
+		$("input[name='yanses']").each(function(){
+			if($(this).val()==$(checkname).val()){
+                $(this).attr("checked","checked");
+           }
+		});
+	}else{
+		$("input[name='chicus']").each(function(){
+            if($(this).val()==$(checkname).val()){
+                      $(this).attr("checked","");
+             }
+		});
+		$("input[name='yanses']").each(function(){
+			if($(this).val()==$(checkname).val()){
+              $(this).attr("checked","");
+         }
+		});
+	}
+	$("#onlyFashion").css("display","block"); 
+	var chiculen=$("input[name='chicusize']:checked").length;
+	var yanselen=$("input[name='yansesize']:checked").length;
+	var names =new Array(new Array(),new Array());
+	var ids=new Array(new Array(),new Array());
+	var tableSpec=new Array();
+	var dtable=document.getElementById("tableSpec");
+	var rowNum=dtable.rows.length;
+	for(var k=0;k<rowNum;k++) {
+		 tableSpec.push(dtable.rows[k].id);
+	} 
+	if(chiculen*yanselen==0){
+		for(var kk=rowNum-1;kk>=0;kk--){
+            if(dtable.rows[kk].id!="it"&&dtable.rows[kk].id!="tbeSpec"){
+                $("#"+dtable.rows[kk].id).remove();
+            }
+		}
+		$("#onlyFashion").css("display","none"); 
+	}else{
+	    $("input[name='chicusize']:checked").each(function(){
+              names[0].push($(this).attr("nameAttr"));
+              ids[0].push($(this).val());
+	      });
+		$("input[name='yansesize']:checked").each(function(){
+	          names[1].push($(this).attr("nameAttr"));
+	          ids[1].push($(this).val());
+		 });
+		var tbeSpec="";
+		for(var i=0;i<chiculen;i++){
+		   for(var j=0;j<yanselen;j++){
+			   var pd=false;
+			    for(var zz=0;zz<tableSpec.length;zz++){
+                    if(tableSpec[zz]=="item_"+ids[0][i]+"_"+ids[1][j]){pd=true;}
+			    }
+			    if(!pd){
+			      tbeSpec +="<tr id='item_"+ids[0][i]+"_"+ids[1][j]+"'>";
+			      tbeSpec +="<td align='center' width='60'>";
+			      tbeSpec +="<input type='radio'  name='checkDefaults' onclick='clickchange("+ids[0][i]+','+ids[1][j]+")'/>";
+			      tbeSpec +="<input type='hidden' id='isDefaultes"+ids[0][i]+"_"+ids[1][j]+"' name='isDefaults' value='false'/></td>";
+			      tbeSpec +="<td align='center' width='100'>"+names[0][i]+"<input type='hidden' name='measures' value='"+ids[0][i]+"'/> </td>";
+			      tbeSpec +="<td align='center' width='100'>"+names[1][j]+"<input type='hidden' name='colors' value='"+ids[1][j]+"'/> </td>";
+				  tbeSpec +="<td align='center' width='120'><input name='stockCounts' onchange='addStocks();' type='text' size='10' value='0' class='required digits'/></td>";
+			      tbeSpec +="<td align='center' width='120'><input name='saleCounts' onchange='addSales();' type='text' size='10' value='0' class='required digits'/></td>";
+				  tbeSpec +="<td align='center' width='120'><input name='salePrices' type='text' size='10' class='required digits'/></td>";
+				  tbeSpec +="<td align='center' width='120'><input name='marketPrices' type='text' size='10' class='required digits'/></td>";
+				  tbeSpec +="<td align='center' width='120'><input name='costPrices' type='text' size='10' class='required digits'/></td>";
+				  tbeSpec +="<td align='center' width='40'><img src='${base}/res/jspgou/img/admin/icon_delete.gif' onclick='deleteItem(this);'/></td></tr>";
+			    }
+		 }
+	  }
+		$("#tbeSpec").before(tbeSpec);
+		var rowNum1=dtable.rows.length;
+		var tableSpec1=new Array();
+		for(k=0;k<rowNum1;k++) {
+			 tableSpec1.push(dtable.rows[k].id);
+		} 
+		for(zz=rowNum1-1;zz>=0;zz--){
+			var ppd=false;
+			if(tableSpec1[zz]=="it"){
+				 ppd=true;
+			}else if(tableSpec1[zz]=="tbeSpec"){
+				 ppd=true;
+			}else{
+			   for(i=0;i<chiculen;i++){
+				   for(j=0;j<yanselen;j++){
+						   if(tableSpec1[zz]=="item_"+ids[0][i]+"_"+ids[1][j]){ppd=true;}
+				   }
+			  }
+		   }
+		  if(!ppd){$("#"+tableSpec1[zz]).remove();}
+	  }
+
+	 }
+}
+
+function deleteItem(rowNames){
+	$(rowNames).parent().parent().remove();
+}
+function seeTime(val){
+	if(val=='true'){
+         $("#limitTimeTab").css("display","block"); 
+         $("#priceTab").css("display","block"); 
+	}else{
+          $("#limitTimeTab").css("display","none");
+          $("#priceTab").css("display","none"); 
+	}
+}
+
+function addStocks(){
+	var stockCounts=0;
+	$("input[name='stockCounts']").each(function(){
+		 if($(this).val()!=""||$(this).val()!=null){ 
+            stockCounts+=parseInt($(this).val());
+		 }
+	});
+	$("#stockCount").val(stockCounts);
+}
+
+function addSales(){
+	var saleCounts=0;
+	$("input[name='saleCounts']").each(function(){
+		 if($(this).val()!=""||$(this).val()!=null){ 
+		    saleCounts+=parseInt($(this).val());
+		 }
+	});
+	$("#saleCount").val(saleCounts);
+}
+
+function checkSubmit(){
+ if($("#colorSize").val()=="true"){
+	 if($("input[name='stockCounts']").length<=0){
+		 alert("请开启颜色尺寸");
+         return;
+	 }
+	var pd1=false;
+	$("input[name='isDefaults']").each(function(){
+		if($(this).val()=="true"){pd1=true;}
+	});
+	if(!pd1){alert("请选择默认款式！");return;}
+	 var pd=false;
+	$("input[name='stockCounts']").each(function(){
+        if($(this).val()==""||$(this).val()==null){pd=true;}
+	});
+	if(pd){alert("请必须填写款式库存");return;}
+	$("input[name='saleCounts']").each(function(){
+        if($(this).val()==""||$(this).val()==null){ pd=true;}
+	});
+	if(pd){ alert("请必须填写款式销量"); return;}
+	$("input[name='salePrices']").each(function(){
+        if($(this).val()==""||$(this).val()==null){ pd=true; }
+	});
+	if(pd){ alert("请必须填写款式 销售价"); return;}
+	$("input[name='marketPrices']").each(function(){
+        if($(this).val()==""||$(this).val()==null){ pd=true; }
+	});
+	if(pd){ alert("请必须填写款式市场价");return;}
+	$("input[name='costPrices']").each(function(){
+        if($(this).val()==""||$(this).val()==null){pd=true; }
+	});
+	if(pd){ alert("请必须填写款式成本价");return;}
+ }
+	$("#jvForm").submit();
+}
+</script>
+</head>
+<body>
+[#include "../include/店铺页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+     [#include "../include/页头导航栏.html"/]
+</div>
+[#include "../common/image_upload.html"/]
+[#include "../common/image_amp_upload.html"/]
+[#include "../common/image_big_upload.html"/]
+[#include "../common/image_switch_upload.html"/]
+<div class="w960 mt10">
+  [#include "店铺中心_导航.html"/]
+<div class="user_right">
+    <div id="right" >
+      <div class="pub_rightcontent">
+       <form method="post" action="o_save.jspx" id="jvForm">
+         <table width="98%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#C8DCF0">
+            <tr>
+              <td width="13%" height="30" align="right" bgcolor="#FAF9FE"><font color="red">*</font>商品名称：</td> 
+              <td colspan="3" bgcolor="#FFFFFF"><input type="text" name="name"  maxlength="150"  size="80" class="required"/></td>
+            </tr>
+             <tr>
+              <td width="13%" height="30" align="right" bgcolor="#FAF9FE">关键字：</td>
+              <td colspan="3" bgcolor="#FFFFFF"><input type="text" name="productKeywords"  maxlength="150"  size="80"/>用,分割</td>
+            </tr>
+         <tr>
+              <td width="13%" height="30" align="right" bgcolor="#FAF9FE"><font color="red">*</font>类别：</td>
+              <td bgcolor="#FFFFFF">
+                [#list category.nodeList as n]
+                   ${n.name}[#if n_has_next]/[/#if]
+                [/#list]<!--  <a href="../product/product_gaibian.jspx">改变目录</a>-->
+                <input type="hidden" id="ctgId" name="ctgId" value="${category.id}"/>
+               </td>
+               <td width="13%" height="30" align="right" bgcolor="#FAF9FE"><font color="red">*</font>品牌：</td>
+              <td bgcolor="#FFFFFF">
+                  <select name="brandId" class="required">
+                   <option value="">--请选择--</option>
+                   [#list category.brands as brand]
+                     <option value="${brand.id!}"[#if brandId??&&brand.id==brandId]selected="selected"[/#if]>${brand.name!}</option>
+                   [/#list]
+                 </select>
+              </td>
+       </tr>
+       <tr>
+         <td height="30" align="right" bgcolor="#FAF9FE"><font color="red">*</font>总库存：</td>
+         <td bgcolor="#FFFFFF"><input type="text" id="stockCount" name="stockCount"  maxlength="150"  size="30" value="0" class="required digits"/> </td>
+          <td height="30" align="right" bgcolor="#FAF9FE"><font color="red">*</font>总销量：</td>
+         <td bgcolor="#FFFFFF"><input type="text" id="saleCount" name="saleCount"  maxlength="150"  size="30" value="0" class="required digits"/> </td>
+       </tr>
+       <tr>
+         <td height="25" align="right" bgcolor="#FAF9FE">重量：</td>
+         <td bgcolor="#FFFFFF"><input type="text" name="weight" maxlength="100" class="digits"/></td>
+          <td height="25" align="right" bgcolor="#FAF9FE">送积分：</td>
+         <td bgcolor="#FFFFFF"><input type="text" name="score" maxlength="100" class="digits"/></td>
+       </tr>
+       <tr>
+       <td height="25" align="right" bgcolor="#FAF9FE"><font color="red">*</font>价格：</td>
+       <td bgcolor="#FFFFFF" colspan="3">
+                    市场价:<input type="text" name="marketPrice" value="0"  style="width:50px" class="required"/> &nbsp;
+                    销售价:<input type="text" name="salePrice" value="0"  style="width:50px" class="required"/>&nbsp;
+                    成本价:<input type="text" name="costPrice" value="0"  style="width:50px" class="required"/> &nbsp;
+        </td>
+       </tr>
+       <tr>
+         <td height="25" align="right" bgcolor="#FAF9FE">属性：</td>
+         <td bgcolor="#FFFFFF" colspan="3">
+           <label class="ckl"><input type="checkbox" onclick="$('#onSale').val(this.checked)" checked="checked"/>
+	                      上架<input type="hidden" id="onSale" name="onSale" value="true"/></label>
+           <label class="ckl"><input type="checkbox" onclick="$('#recommend').val(this.checked)"/>
+	                      推荐<input type="hidden" id="recommend" name="recommend" value="false"/></label>
+           <label class="ckl"><input type="checkbox" onclick="$('#special').val(this.checked)"/>
+                               特价<input type="hidden" id="special" name="special" value="false"/></label>
+          <label class="ckl"><input type="checkbox" onclick="$('#hotsale').val(this.checked)"/>
+	                   热卖<input type="hidden" id="hotsale" name="hotsale" value="false"/></label>
+         <label><input type="checkbox" onclick="$('#newProduct').val(this.checked)"/>
+    	        新品<input type="hidden" id="newProduct" name="newProduct" value="false"/></label>
+         </td>
+       </tr> 
+       <tr>
+         <td height="25" align="right" bgcolor="#FAF9FE">标签：</td>
+         <td bgcolor="#FFFFFF" colspan="3">
+             [#list tagList as tag]
+                  <input type="checkbox" name="tagIds" value="${tag.id}" />${tag.name!}
+              [/#list]
+         </td>
+       </tr> 
+       <tr>
+         <td height="25" align="right" bgcolor="#FAF9FE">分享内容：</td>
+         <td bgcolor="#FFFFFF" colspan="3"><textarea name="shareContent" rows="3" cols="70" maxlength="255"></textarea></td>
+       </tr> 
+        [#list  map?keys as mykey]
+         [#assign mapUser=map[mykey]] 
+         [#assign st=map1[mykey]] 
+         <tr>
+           <td height="25" align="right" bgcolor="#FAF9FE">${st.name}：</td>
+         [#if st.dataType=1]
+             <td bgcolor="#FFFFFF" colspan="3">
+                <select name="stand_${st.field}">
+                 [#if mapUser?size gt 0]
+                   [#list mapUser as m]
+                   <option value="${m.id}">${m.name!}</option>
+                   [/#list]
+                  [/#if]
+                </select>
+             </td>
+        [#elseif st.dataType=2]
+             <td bgcolor="#FFFFFF" colspan="3">
+              [#if mapUser?size gt 0]
+                   [#list mapUser as m]
+                    <input type="radio" name="stand_${st.field}" value="${m.id}"/>${m.name!}&nbsp;&nbsp;
+                   [/#list]
+               [/#if]
+             </td>
+       [/#if]
+      </tr> 
+    [/#list]
+       <tr>
+		<td height="25" align="right" bgcolor="#FAF9FE"><font color="red">*</font>封面图片:</td>
+		<td bgcolor="#FFFFFF">
+		<input type="text" id="uploadImgPath1" name="coverImg" size="30" class="required"/>
+        <input type="button" value="清除" onclick="clearImg(1);"/><br/>
+        <span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> 
+        <input type="button" value="上传" onclick="upload(1);"/><br/>
+        <input type="hidden" id="zoomWidth1" value="100"/> 
+        <input type="hidden" id="zoomHeight1" value="100" /> 
+        </td>
+        <td bgcolor="#FFFFFF" colspan="2" align="center">
+            <img id="preImg1" alt="预览160*160"  style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+        </td>
+        </tr>
+         <tr>
+        <td align="right" bgcolor="#FAF9FE"><font color="red">*</font>商品款式集:</td>
+        <td bgcolor="#FFFFFF" colspan="3">
+            <table id="picTable${0}" border="0" style="float: left;">
+            <tr>
+               <td align="left" colspan="3"> <input type="button" value="增加款式" onclick="addPicLine()"/> </td>
+            </tr>
+            <tr>
+             <td align="center"> 切换图片预览60*60</td>
+	         <td align="center">
+	             <div>
+		         <img id="preSwitchImg${0}" noResize="true" style="overflow:hidden;width:60px;height:60px;background-color:#ccc;border:1px solid #333"/>
+		         <br/><br/><br/>
+		        <font color="red">*</font>
+		        <input type="text" id="uploadImgPathSwitch${0}" name="fashionSwitchPic" style="width: 160px"  class="required"/>
+		         <a href="javascript:void(0);" onclick="$('#picTable${0}').remove();" class="pn-opt"></a></div>
+	         	<div><span id="ufcSwitch${0}"><input type="file" id="uploadFileSwitch${0}" size="10" style="width: 150px" /></span> 
+		          <input type="button" value="上传" onclick="uploadSwitch(${0});"/></div>
+	        </td>
+	        <td align="center"> 大图片预览380*380</td>
+	        <td align="center">
+		         <div>
+		         <img id="preBigImg${0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		         <br/>
+		        <font color="red">*</font>
+		        <input type="text" id="uploadImgPathBig${0}" name="fashionBigPic" style="width: 160px"  class="required"/>
+		         <a href="javascript:void(0);" onclick="$('#picTable${0}').remove();" class="pn-opt"></a></div>
+	         	<div><span id="ufcBig${0}"><input type="file" id="uploadFileBig${0}" size="10" style="width: 150px" /></span> 
+		          <input type="button" value="上传" onclick="uploadBig(${0});"/></div>
+	        </td>
+	        <td align="center"> 放大图片预览600*600</td>
+	        <td align="center">
+		         <div>
+		         <img id="preAmpImg${0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		         <br/>
+		       <font color="red">*</font>
+		        <input type="text" id="uploadImgPathAmp${0}" name="fashionAmpPic" style="width: 160px"  class="required"/>
+		         <a href="javascript:void(0);" onclick="$('#picTable${0}').remove();" class="pn-opt"></a></div>
+	         	<div><span id="ufcAmp${0}"><input type="file" id="uploadFileAmp${0}" size="10" style="width: 150px" /></span> 
+		          <input type="button" value="上传" onclick="uploadAmp(${0});"/></div>
+	        </td>
+         </tr>
+      </table>
+      <div id="picBefore" style="clear:both"></div>
+      </td>
+   </tr>
+   <tr>
+         <td align="right" bgcolor="#FAF9FE"><font color="red">*</font>店铺所属类目:</td>
+         <td colspan="3" align="left" bgcolor="#FFFFFF">
+	        [@storeCategory_list storeId=store.id parentId=""]
+                   <table  cellspacing="0" cellpadding="0" width="100%" border="0">
+                         [#if tag_list?size gt 0]
+                            [#list tag_list as storeCategory]
+                              <tr> <td>${storeCategory.name!}</td></tr>
+                              <tr>
+                                <td>
+                                  [@storeCategory_list storeId=store.id parentId=storeCategory.id]
+                                     <table  cellspacing="0" cellpadding="0" width="100%" border="0">
+                                      [#if tag_list?size gt 0]
+                                          [#list tag_list as storeCategory]
+                                          <tr>
+                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="storeCategoryIds" value="${storeCategory.id}"/>${storeCategory.name!}</td>
+                                           </tr>
+                                           [/#list]
+                                       [/#if]
+                                   </table>
+                                     [/@storeCategory_list]
+                                </td>
+                              </tr>
+                             [/#list]
+                           [/#if]
+                     </table>
+                     [/@storeCategory_list]
+	        
+         </td>
+   </tr>
+   <tr>
+         <td align="right" bgcolor="#FAF9FE"><font color="red">*</font>店铺限时折扣:</td>
+         <td colspan="3" align="left" bgcolor="#FFFFFF">
+           [#if plist?size>0]
+	        [#list plist as promote]
+	           <input type="radio" name="promoteId" value="${promote.id}" />${promote.name!}&nbsp;&nbsp;
+	        [/#list]
+	       [/#if]
+         </td>
+   </tr>
+   [#if category.colorsize==true]
+      <tr id="channelIdsContainer">
+         <td align="right" bgcolor="#FAF9FE">
+             <font color="red">*</font>颜色尺寸:</td>
+         <td colspan="3" align="left" bgcolor="#FFFFFF">
+	         <input id="channel" type="button" value="开启颜色尺寸"/>	
+	         <div id="channelDialog" title="规格列表" style="display:none;">
+	            <span id="channels"></span>
+	        </div>
+         <div style="clear:both"></div>
+         </td></tr>
+     <tr id="chicuContainer"  style="display:none;">
+         <td align="right" bgcolor="#FAF9FE">尺寸</td>
+         <td colspan="3" bgcolor="#FFFFFF">
+          <span id="ccItemContainer"></span>
+         </td></tr>
+     <tr id="yanseContainer" style="display:none">
+        <td align="right" bgcolor="#FAF9FE"> <font color='red'>*</font>颜色</td>
+        <td colspan="3" bgcolor="#FFFFFF">
+          <table id="ysItemContainer" border="0" style="float: left;">
+              </table>
+      </td></tr>
+    <tr id="onlyFashion" style="display:none;">
+        <td align="right" bgcolor="#FAF9FE"></td>
+        <td colspan="3" bgcolor="#FFFFFF">
+              <table id="tableSpec" cellspacing="0" cellpadding="5" border="0" class="tb-color">
+                  <tr id="it">
+                     <th align="center" width="60">默认款式</th>
+                     <th align="center" width="100">尺寸</th>
+                     <th align="center" width="100">颜色</th>
+                     <th align="center" width="120">库存</th>
+                     <th align="center" width="120">销量</th>
+                     <th align="center" width="120">销售价</th>
+                     <th align="center" width="120">市场价</th>
+                     <th align="center" width="120">成本价</th>
+                     <th align="center" width="40">移除</th>
+                 </tr>
+                <tr id="tbeSpec" style="display:none;"><td colspan="8" height="1"></td></tr>
+            </table>
+       </td>
+   </tr>
+  [/#if]
+       <tr>
+         <td height="30" align="right" bgcolor="#FAF9FE">内容：</td>
+         <td bgcolor="#FFFFFF" colspan="3">
+		    <textarea id="txt" name="text"></textarea> 
+                 <script type="text/javascript">
+						$(function() {
+						   	CKEDITOR.replace( 'txt' ,
+						   			{
+								   		filebrowserUploadUrl : '${base}/fck/upload.jspx',  
+								   		filebrowserImageUploadUrl : '${base}/fck/upload.jspx?Type=Image',  
+								   		filebrowserFlashUploadUrl : '${base}/fck/upload.jspx?Type=Flash',
+								   		filebrowserMediaUploadURL : '${base}/fck/upload.jspx?Type=Media'
+						   		     }
+						   	);  
+						 });
+				</script>
+		 </td>
+       </tr>
+       [@typePro_list typeId=category.type.id storeId=store.id]
+          [#if tag_list?size>0]
+          [#list tag_list as item]
+          [#if item.dataType==1||item.dataType==2||item.dataType==3]
+          <tr>
+            <td width="12%">${item.field!}:</td>
+            <td colspan="3" width="88%" >
+            <input type="text" name="attr_${item.field!}" vld="{maxlength:255}"/></td></tr>
+          <tr>
+          [#elseif item.dataType==4]
+          <tr>
+            <td width="12%">${item.field!}:</td>
+            <td colspan="3" width="88%" ><textarea cols="30" rows="3" name="attr_${item.field!}" maxlength="255"></textarea></td>
+            </tr>
+          [#elseif item.dataType==5]
+          <tr>
+             <td width="12%">${item.field!}:</td>
+             <td colspan="3" width="88%" ><input type="text" readonly="readonly" name="attr_${item.field!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/></td>
+          </tr>
+          [#elseif item.dataType==6]
+          <tr>
+             <td width="12%">${item.field!}:</td>
+             <td colspan="3" width="88%">
+             <select name="attr_${item.field!}"/>
+               [#list item.optValue!?split(",") as opt]
+                <option value="" selected="selected">${opt!}</option>
+               [/#list]
+             </select></td>
+           </tr>
+          [#elseif item.dataType==7]
+          <tr>
+             <td width="12%">${item.field!}:</td>
+             <td colspan="3" width="88%">
+              [#list item.optValue!?split(",") as opt]
+               <label><input type="checkbox" name="attr_${item.field!}"/>${opt!}</label>
+              [/#list]
+             </td>
+           </tr>
+          [#elseif item.dataType==8]
+          <tr>
+             <td width="12%">${item.field!}:</td>
+             <td colspan="3" width="88%">
+               [#list item.optValue!?split(",") as opt]
+                 <label><input type="radio"  name="attr_${item.field!}"/>${opt!}</label>
+                [/#list]
+             </td>
+          </tr>
+          [/#if]
+          [/#list]
+          [/#if]
+       [/@typePro_list]
+        <tr>
+         <td height="40" colspan="4" align="center" bgcolor="#FFFFFF">
+		 <input type="hidden" name="storeIds" value="${store.id}"/>
+	     <input type="submit" value="提交" />&nbsp;&nbsp;
+		 <input type="reset" value="重置" />
+		 </td>
+         </tr>
+       </table>
+       <textarea id="picTable" style="display: none;">
+<table id="picTable{0}" border="0" style="float: left;">
+<tr>
+	<td align="center">
+      <div>
+	   <img id="preSwitchImg{0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		<br/>
+         <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt">删除</a>
+		 <input type="text" id="uploadImgPathSwitch{0}" name="fashionSwitchPic" style="width: 160px" class="required"/>
+		 <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"></a></div>
+	    <div><span id="ufcSwitch{0}"><input type="file" id="uploadFileSwitch{0}" size="10" style="width: 150px" /></span> 
+		     <input type="button" value="上传" onclick="uploadSwitch({0});"/></div>
+	  </td>
+	  <td align="center">
+		<div>
+		   <img id="preBigImg{0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		  <br/>
+		   <input type="text" id="uploadImgPathBig{0}" name="fashionBigPic" style="width: 160px" />
+		    <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"></a></div>
+	        <div><span id="ufcBig{0}"><input type="file" id="uploadFileBig{0}" size="10" style="width: 150px" /></span> 
+		     <input type="button" value="上传" onclick="uploadBig({0});"/></div>
+	 </td>
+	 <td align="center">
+		  <div>
+		     <img id="preAmpImg{0}" noResize="true" style="overflow:hidden;width:90px;height:90px;background-color:#ccc;border:1px solid #333"/>
+		     <br/>
+		    <input type="text" id="uploadImgPathAmp{0}" name="fashionAmpPic" style="width: 160px"/>
+		    <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"></a></div>
+	      <div><span id="ufcAmp{0}"><input type="file" id="uploadFileAmp{0}" size="10" style="width: 150px" /></span> 
+		   <input type="button" value="上传" onclick="uploadAmp({0});"/></div>
+	  </td>
+</tr>
+</table>
+</textarea>
+	 </form>
+	 <script type="text/javascript">
+      var picIndex = 1;
+	  var picTpl = $.format($("#picTable").val());
+	   function addPicLine() {
+		$('#picBefore').before(picTpl(picIndex++));
+	   }
+     </script>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${productSite.product.name!} - ${web.name}${web.additionalTitle!}</title>
+<style>
+.box{ width:440px;}
+.box li{ float:left; width:400px; height:100px; margin-right:10px;}
+</style>
+<link href="${root}/css/product.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/pshow.css" type="text/css" rel="stylesheet" />
+<script src="${rootSys}/front/jquery.js" type="text/javascript"></script>
+<script src="${root}/js/product.js"  type="text/javascript"></script>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript">
+$(function(){
+	$.post("${base}/historyRecord.jspx",{productId:"${productSite.id}"},function(data){});
+});
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='spms_normal';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='spms_curr';
+}
+function HoverLi1(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb1_'+m+i).className='spms_normal';
+		g('tbc1_'+m+i).className='undis';
+	}
+	g('tbc1_'+m+n).className='dis';
+	g('tb1_'+m+n).className='spms_curr';
+}
+[#if category.colorsize==true]
+ function addToCart(productSiteId,count,fashId) {
+ 	//if(!Core.username()) {
+ 	//	location.href='${loginUrl}';
+ 	//	return;
+ 	//}
+ 	
+ 	$.post('${base}/cart/add_orderItem.jspx', {
+ 		'productSiteId' : productSiteId,
+ 		'productAmount' : count,
+ 		'fashId': fashId
+ 	}, function(data) {
+ 		if(data.status==1) {
+ 			location.href='${base}/cart/shopping_cart.jspx?backUrl=${location}';
+ 		} else if(data.status==0) {
+ 			location.href='${loginUrl}?returnUrl=${location}';
+ 		} else {
+ 			alert(data.error);
+ 		}
+ 	},'json');
+ }
+ [#else]
+  function addToCart(productSiteId,count) {
+ 	//if(!Core.username()) {
+ 	//	location.href='${loginUrl}';
+ 	//	return;
+ 	//}
+ 	$.post('${base}/cart/add_orderItem.jspx', {
+ 		'productId' : productSiteId,
+ 		'productAmount' : count
+ 	}, function(data) {
+ 		if(data.status==1) {
+ 			location.href='${base}/cart/shopping_cart.jspx?backUrl=${location}';
+ 		} else if(data.status==0) {
+ 			
+ 			location.href='${loginUrl}?returnUrl=${location}';
+ 		} else {
+ 			alert(data.error);
+ 		}
+ 	},'json');
+ }
+ [/#if]
+function addToPopularity(popularityId){
+	//if(!Core.username()) {
+	//	location.href='${loginUrl}';
+	//	return;
+	//}
+	$.post('${base}/cart/add_popularity.jspx', {
+	   'popularityId': popularityId
+	}, function(data) {
+		if(data.status==1) {
+			location.href='${base}/cart/shopping_cart.jspx?backUrl=${location}';
+		} else if(data.status==0) {
+			location.href='${loginUrl}?returnUrl=${location}';
+		} else {
+			alert(data.error);
+		}
+	},'json');
+}
+
+function addToCollect(productSiteId){
+	$.post('${base}/collect/add_to_collect.jspx',{
+		'productId':productSiteId
+		}, function(data){
+            if(data.status == 1){
+            	 alert('收藏成功!');
+            }else if(data.status== 2){
+                    alert('收藏过该商品');
+            }else{
+            	location.href='${base}/login.jspx';
+            }
+	   },'json');
+}
+function ChangeDiv(divId,divName,zDivCount) 
+{ 
+ for(i=0;i<zDivCount;i++)
+ {
+     document.getElementById(divName+i).style.display="none"; 
+ }
+ document.getElementById(divName+divId).style.display="block"; 
+} 
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div style="width: 100%; background: #ffffff;">
+<div id="head">
+	[#include "../include/页头搜索栏.html"/]
+</div>
+</div>
+[#include "../include/页头广告位.html"/]
+<div class="position">您现在的位置：<a href="${base}/">首页</a>  » <a href="${category.url!}" class="red">${category.name!}</a></div>
+<div class="center mt10">
+  <div class="produce clearfix">
+	 <div class="p_title"><h2><font id="productMainName">${productSite.product.name!}</font></h2></div>
+	 <div class="property property_box coat">
+	   <div class="specific_info1">
+	   [#if category.colorsize==true]
+	   <input type="hidden" id="current_merchantId" value="[#if productSite.product.productFashion??]${productSite.product.productFashion.id}[/#if]"/>	
+		[#if productSite.product.productFashion??]
+		  <dl class="clearfix">
+			<dt>销&nbsp;&nbsp;售&nbsp;价：</dt>
+			<dd><span class="price_1store productPriceSpan  f24">¥<b class="sys_item_price">${productSite..salePrice!}</b></span>
+			    <span class="price_1store">元</span>
+			    <span class="gift_points">赠送积分：
+			    <strong> [#if productSite.product.score??]${productSite.product.score!}分[#else]无积分[/#if]</strong>
+			    </span>
+			</dd>
+		  </dl>
+		 <!--  <dl class="clearfix">
+			<dt>市&nbsp;&nbsp;场&nbsp;价：</dt>
+			<dd><del class="old_price">¥<b class="sys_item_mktprice">${productSite.marketPrice!}</b>元</del></dd>
+		  </dl> -->
+		 [/#if]
+		[#else]
+			<dl class="clearfix">
+			<dt>销&nbsp;&nbsp;售&nbsp;价：</dt>
+			<dd><span class="price_1store productPriceSpan  f24">¥${productSite.salePrice!}</span>
+			    <span class="price_1store">元</span>
+			    <span class="gift_points">赠送积分：
+			    <strong> [#if productSite.product.score??]${productSite.product.score!}分[#else]无积分[/#if]</strong>
+			    </span>
+			</dd>
+		  </dl>
+		 <!--  <dl class="clearfix">
+			<dt>市&nbsp;&nbsp;场&nbsp;价：</dt>
+			<dd><del class="old_price">¥${productSite.marketPrice!}元</del></dd>
+		  </dl> -->
+		[/#if]			
+	 </div>		
+     <div class="specific_info2">
+     [#if category.colorsize==true]
+     	<div class="sys_item_spec">
+     	[#list standardTypeList as standardType]
+     		[#if standardType.dataType]
+     			<dl class="sys_item_specpara clearfix" data-sid="${standardType_index+1}" [#if arr??]data-attrval="${arr[standardType_index]}"[/#if]>
+					<dt>${standardType.name}</dt>
+					<dd>
+						<ul class="sys_spec_img">
+						      [#list psList as ps]
+		               	        [#if standardType.id=ps.type.id]
+		                    		<li data-aid="${ps.standard.id!}" [#if productSite.product.productFashion.standards?seq_contains(ps.standard)]class="selected"[#else]class=""[/#if]><a href="javascript:;" title="${ps.standard.name}"><img src="${ps.imgPath!}" alt="${ps.standard.name}" /></a><i></i></li>
+						  		[/#if]
+		                      [/#list]
+						</ul>
+					</dd>
+			   </dl>
+		   [#else]
+				<dl class="sys_item_specpara clearfix" data-sid="${standardType_index+1}" [#if arr??]data-attrval="${arr[standardType_index]}"[/#if]>
+					<dt>${standardType.name}</dt>
+					<dd>
+						<ul class="sys_spec_text">
+						 [#list psList as ps]
+		               	        [#if standardType.id=ps.type.id]
+									<li data-aid="${ps.standard.id!}" [#if productSite.product.productFashion.standards?seq_contains(ps.standard)]class="selected"[#else]class=""[/#if]><a href="javascript:;" title="${ps.standard.name}">${ps.standard.name}</a><i></i></li>
+								[/#if]
+		                 [/#list]
+						</ul>
+					</dd>
+				</dl>
+			[/#if]
+		[/#list]
+		</div>
+	 [/#if]	
+		<dl id="goToBuyDistrict" class="clearfix">
+			<dt>我      要      买：</dt>
+			<dd>
+				<div class="computing">
+					<input type="button" class="reduce" onclick="decrementAll();"/>
+					<input type="text" id="product_amount" name="productAmount" onchange ="buyButtonNumChange('product_amount')" class="num" onkeyup="inputOnlyNum(this, 1, 999);" value="1"/>
+					<input type="button" class="add" onclick="incrementAll();"/>
+				</div>
+			</dd>
+		</dl>										
+		[#if category.colorsize==true]
+		<table>
+		   <tr id="seriesShow" class="hide">
+			  <td width="84"><span class="select">您选择了：</span></td>
+			  <td colspan="4">
+							<span class="result">
+							<b class="sys_item_attitude">
+							[#if productSite.product.productFashion??]${productSite.product.productFashion.attitude!}[/#if]
+							</b>
+							</span>&nbsp;
+			  </td>
+		   </tr>
+		 <tr id="buyButtonsDistrict">
+			  <td width="84">&nbsp;</td>
+			   <td> 
+			   <input type="button" class="add_shopping_cart" value="加入购物车" onclick="javascript:addToCart(${productSite.id},$('#product_amount').val(),$('#current_merchantId').val());"/>
+			   </td>
+			   	<td>
+					<a class="collection"  href="javascript:void(0);" onclick="javascript:addToCollect(${productSite.id});">收藏&gt;&gt;</a>
+				</td>
+		   </tr>
+		</table>
+		[#else]
+		<table> 
+		 <tr id="buyButtonsDistrict">
+			  <td width="84">&nbsp;</td>
+			   <td> 
+			   <input type="button" class="add_shopping_cart" value="加入购物车" onclick="javascript:addToCart(${productSite.id},$('#product_amount').val());"/>
+			   </td>
+			   	<td>
+					<a class="collection"  href="javascript:void(0);" onclick="javascript:addToCollect(${productSite.id});">收藏&gt;&gt;</a>
+				</td>
+		   </tr>
+		</table>
+		[/#if]
+	</div>         
+	<div class="specific_info1">
+		<dl class="clearfix">
+			<dt>商品编号：</dt>
+			<dd id="productCode">${productSite.product.barcode!}</dd>
+		</dl>
+				
+        <dl class="clearfix">
+			 <dt>分&nbsp;&nbsp;享&nbsp;到：</dt>
+			 <dd class="share_ico">
+			 [#if category.colorsize==true]
+			 	<a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?title=【${productSite.product.name!}】,价 ￥url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()">新浪微博</a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${productSite.product.name!}￥${productSite.salePrice!}','2fc26c2514bb48ec891170ce68db2683');" >腾讯微博</a>
+			 [#else]
+	            <a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?title=【${productSite.product.name!}】,价 ￥${productSite.salePrice!}&url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()">新浪微博</a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${productSite.product.name!}￥${productSite.salePrice!}','2fc26c2514bb48ec891170ce68db2683');" >腾讯微博</a>
+             [/#if]
+            </dd>
+        </dl>	
+        <dl class="clearfix">
+			<dt>浏&nbsp;&nbsp;览&nbsp;量：</dt>
+			<dd id="productCode">${productSite.viewCount!}</dd>
+		</dl>		
+   </div>
+  </div><!-- property -->
+  <div class="gallery " id="gallery_view">
+	<div class="pic" id="mainPic">
+		 [#if productSite.product.pictures?? && productSite.product.pictures?size gt 0]
+           [#list productSite.product.pictures as pic]
+              [#if pic_index==0]
+                 <a id="productImgA" class="jqzoom" href="${pic.appPicturePath!}"  style="width:378px;height:378px;">
+			      <img id="productImg" src="http://u-10017112.file.myqcloud.com${pic.bigPicturePath!}" alt="${productSite.product.name!}" width="378" height="378"/>
+	          	</a>
+               [/#if]
+              [/#list]
+        [/#if]
+	</div>
+	<div class="clear"></div>
+	<div class="pic_slide">
+		<span class="prev" id="prevBtn"></span>
+			<div class="pic_slide_box" id="sliderImgs">
+				<ul id="detailPictureSlider">
+				  [#if productSite.product.pictures?? && productSite.product.pictures?size gt 0]
+                      [#list productSite.product.pictures as pic]
+                         [#if pic_index==0]
+                           	<li><img  class="selected" src="${pic.picturePath!}" onmouseover="initCurrPicture(jQuery(this),'${pic.bigPicturePath!}','${pic.appPicturePath!}')" width="58" height="58" /></li>
+                         [#else]
+                            <li><img src="${pic.picturePath!}" onmouseover="initCurrPicture(jQuery(this),'${pic.bigPicturePath!}','${pic.bigPicturePath!}')" width="58" height="58" /></li>
+                         [/#if]
+                        [/#list]
+                       [/#if]
+				</ul>
+			</div>
+	   <span class="next" id="nextBtn"></span>
+	</div>
+  </div><!-- gallery -->
+ </div><!-- produce -->	 
+[#if productSite.product.popularityGroups??]
+[#if productSite.product.popularityGroups?size gt 0]
+  <div class="produce clearfix">
+  
+      <div id="favorable-suit" class="m m2 hide" style="display: block;">
+<div class="mt">
+<h2>优惠套装</h2>
+</div>
+<div class="mc">
+<ul class="stab lh">
+	[#list product.popularityGroups as popularityGroup]
+    	<li title="${popularityGroup.name!}" onMouseMove="JavaScript:ChangeDiv('${popularityGroup_index}','JKDiv_',${product.popularityGroups?size})">优惠套装${popularityGroup_index+1}[#if popularityGroup_has_next]&nbsp;|&nbsp;[/#if]</li> 
+    [/#list]
+</ul>
+
+
+
+[#list productSite.product.popularityGroups as popularityGroup]
+<div id="JKDiv_${popularityGroup_index}" [#if popularityGroup_index=0]style="display: block;[#else]style="display:none;"[/#if]">
+<div class="suits">
+<ul class="lh" style="width:695px">
+
+[#list popularityGroup.products as product]
+<li [#if product_has_next]class=""[#else]class="last-item"[/#if] >
+<s></s>
+<div class="p-img">
+ <a href="${product.url!}" target="_blank">
+<img src="${product.productExt.coverImg!}" width="100" height="100" alt="" />
+</a>
+</div>
+<div class="p-name">
+<a target="_blank" href="${product.url!}">${product.name!}</a>
+</div>
+</li>
+[/#list]
+
+
+</ul>
+</div>
+<div class="infos">
+<s></s>
+<div class="p-name">
+${popularityGroup.name!}
+</div>
+<div class="p-price">
+套  装  价：
+<strong class="fitting-price">${popularityGroup.price-popularityGroup.privilege}</strong>
+</div>
+<div class="p-price">
+原价：
+<del class="orign-price">${popularityGroup.price!}</del>
+</div>
+<div class="p-saving">
+立即节省：
+<span class="fitting-saving">${popularityGroup.privilege!}</span>
+</div>
+<div class="btns">
+<input type="button" class="add_shopping_cart" value="购买套餐" onclick="javascript:addToPopularity(${popularityGroup.id});"/>
+</div>
+</div>
+</div>
+[/#list]
+
+
+</div>
+</div>
+ </div>  
+ [/#if]     
+ [/#if]
+ 
+ 
+ <div class="spxx">
+       <ul class="spxx_type">
+              <li class="spms_curr" id="tb_11" onclick="HoverLi(1,1,5)" style="cursor: hand"><a>商品祥情</a></li>	
+              <li class="spms_normal" id="tb_12" onclick="HoverLi(1,2,5)" style="cursor: hand"><a>服务承诺</a></li> 
+              <li class="spms_normal" id="tb_13" onclick="HoverLi(1,3,5)" style="cursor: hand"><a>商品评价</a></li>
+              <li class="spms_normal" id="tb_14" onclick="HoverLi(1,4,5)" style="cursor: hand"><a>商品咨询</a></li>
+              <li class="spms_normal" id="tb_15" onclick="HoverLi(1,5,5)" style="cursor: hand"><a>成交记录</a></li>
+       </ul>
+       <div id="tbc_11"  class="dis">
+          <div class="intro_box">
+                   ${productSite.product.text!}
+          </div>
+      </div>  
+      <div class="undis" id="tbc_12">
+          <div class="intro_box">
+                   ${productSite.product.text1!}
+          </div>
+     </div>  
+     <div class="undis" id="tbc_13">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/searchDiscussPage.jspx?productId=${productSite.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+        </iframe>
+     </div> 
+     <div class="undis" id="tbc_14">
+         <iframe width="740"  frameborder=0 scrolling=no  src="${base}/consultProduct.jspx?productId=${productSite.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+              </iframe>
+     </div>
+    <div class="undis" id="tbc_15">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/bargain.jspx?productId=${productSite.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+         </iframe>
+    </div>
+ </div>  
+  <div class="clear"></div>
+</div>
+ [#include "../include/页脚信息栏.html"/] 
+ [#if category.colorsize==true]
+ <script language="JavaScript" type="text/JavaScript">
+var sys_item={
+		[#if product.productFashion??]
+				"mktprice":"${product.productFashion.marketPrice!}",
+				"price":"${product.productFashion.salePrice!}",
+				"attitude":"${product.productFashion.attitude!}",
+				"fashId":"${product.productFashion.id!}",
+        [#else]
+     	"mktprice":"",
+		"price":"",
+		"attitude":"",
+		"attitude":"",
+		"fashId":"",
+		[/#if]
+	
+		"sys_attrprice":{
+			[#list product.fashions as fash]
+			 [#if fash_has_next]
+			  "${fash.nature!}":{"price":"${fash.salePrice!}","mktprice":"${fash.marketPrice!}","attitude":"${fash.attitude!}","fashId":"${fash.id!}"},
+             [#else]
+              "${fash.nature!}":{"price":"${fash.salePrice!}","mktprice":"${fash.marketPrice!}","attitude":"${fash.attitude!}","fashId":"${fash.id!}"}
+			 [/#if]
+			[/#list]
+		}
+	};
+
+//商品规格选择
+$(function(){
+	$(".sys_item_spec .sys_item_specpara").each(function(){
+		var i=$(this);
+		var p=i.find("ul>li");
+		p.click(function(){
+			
+			if(!!$(this).hasClass("selected")){
+				$(this).removeClass("selected");
+				i.removeAttr("data-attrval");
+			}else{
+				$(this).addClass("selected").siblings("li").removeClass("selected");
+				i.attr("data-attrval",$(this).attr("data-aid"))
+			}
+			getattrprice() //输出价格
+		})
+	})
+	//获取对应属性的价格
+	function getattrprice(){
+		var defaultstats=true;
+		var _val='';
+		var _resp={
+			mktprice:".sys_item_mktprice",
+			price:".sys_item_price",
+			attitude:".sys_item_attitude"
+		}  //输出对应的class
+		$(".sys_item_spec .sys_item_specpara").each(function(){
+			var i=$(this);
+			var v=i.attr("data-attrval");
+			if(!v){
+				defaultstats=false;
+			}else{
+				_val+=_val!=""?"_":"";
+				_val+=v;
+			}
+		})
+		
+		if(!!defaultstats){
+			if((sys_item['sys_attrprice'][_val])!=undefined){
+				_mktprice=sys_item['sys_attrprice'][_val]['mktprice'];
+				_price=sys_item['sys_attrprice'][_val]['price'];
+				_attitude=sys_item['sys_attrprice'][_val]['attitude'];
+				_fashId=sys_item['sys_attrprice'][_val]['fashId'];
+			}else{
+				alert("您选择的商品已无库存！");
+				_mktprice=sys_item['mktprice'];
+				_price=sys_item['price'];
+				_attitude=sys_item['attitude'];
+				_fashId=sys_item['fashId'];
+			}
+			
+		}else{
+			_mktprice=sys_item['mktprice'];
+			_price=sys_item['price'];
+			_attitude=sys_item['attitude'];
+			_fashId=sys_item['fashId'];
+		}
+		//输出价格
+		$(_resp.mktprice).text(_mktprice);  ///其中的math.round为截取小数点位数
+		$(_resp.price).text(_price);
+		$(_resp.attitude).text(_attitude);
+		$("#current_merchantId").val(_fashId);
+	}
+})
+
+</script>
+[/#if]
+<style>
+.tables td{
+    padding: 10px;
+}
+</style>
+
+</body>
+</html>

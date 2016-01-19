@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+</script>
+</head>
+<body>
+
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "customer.consult"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="javascript:history.go(-1);"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<!--<@p.text colspan="2" label="product.name" name="name" value=consult.productSite.product.name required="true" class="required" maxlength="100"/><@p.tr/>  -->
+<@p.td width="100" colspan="2" label="product.name"> ${consult.productSite.product.name!}</@p.td><@p.tr/>
+<@p.textarea colspan="2" label="consult.txt" name="consult" value=consult.consult! rows="3" cols="70" maxlength="255"/><@p.tr/>
+<@p.textarea colspan="2" label="consult.reply" name="adminReplay" value=consult.adminReplay rows="3" cols="70" maxlength="255"/><@p.tr/>
+<input type="hidden" name="id" value="${consult.id!}"  />
+ <@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

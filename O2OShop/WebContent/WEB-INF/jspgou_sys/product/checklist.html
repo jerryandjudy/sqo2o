@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+ <script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+var api = frameElement.api, W = api.opener;
+
+/* 函数ok即为上面添加按钮方法中callback回调函数调用的函数 */
+function ok()
+{
+	var list= $('input:radio[name="ids"]:checked').val();
+    if(list==null){
+        alert("请选择一个商品!");
+        return false;
+    }
+   W.document.getElementById("parentName").value = $('#parentName'+list).val();
+   W.document.getElementById("parentId").value = list;
+   api.close();
+   // W.document.getElementById('attr_lng').value = attr_lng;
+    //W.document.getElementById('attr_lat').value = attr_lat;
+}
+
+function getTableForm(){
+	return document.getElementById("tableForm");
+}
+
+</script>
+
+</head>
+<body>
+	<form action="v_checklist.do"  id="tableForm" method="post">
+<div class="body-box">
+<div class="rhead">
+	<@s.m "product.name"/>:<input type="text" name="productName" value="${productName!}" style="width:100px"/>
+	品牌名称: <input type="text" name="brandName" value="${brandName!}" style="width:100px"/>  
+	 <input type="button" id="qd" class="ropt" onclick="ok();"  value="确定" />
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+	<div class="clear"></div>
+</div>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="ctgId" value="${ctgId!}"/>
+<@p.table listAction="v_checklist.do" value=pagination;product,i,has_next><#rt/>
+<@p.column title=" " width="20">
+		<input type='radio' name='ids' value='${product.id}'/><#t/>
+		<input type='hidden' id='parentName${product.id}' name='parentName${product.id}' value='${product.name}'/>
+	</@p.column><#t/>
+	<@p.column title="ID" width="20">${product.id!}</@p.column><#t/>
+	<@p.column code="product.name">${product.name}</@p.column><#t/>
+	<@p.column code="product.category">${product.category.name}</@p.column><#t/>
+	<@p.column code="product.type">${product.type.name}</@p.column><#t/>
+	<@p.column code="product.brand"><#if product.brand??>${(product.brand.name)!}</#if></@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

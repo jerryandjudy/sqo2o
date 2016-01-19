@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	<#if paymentPlugins.imgPath??>
+	$("#preImg1").css("width","auto").css("height","auto").attr("src","${paymentPlugins.imgPath}?d="+new Date()*1);
+	</#if>
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "payment.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do" labelWidth="15">
+<@p.text colspan="2" width="50" label="名称" name="name" required="true" value=paymentPlugins.name class="required" maxlength="150"/><@p.tr/>
+<@p.text colspan="2" width="50" label="排列顺序" name="priority" size="7" value=paymentPlugins.priority required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="2" width="50" label="合作身份者ID" name="partner"  value=paymentPlugins.partner required="true" class="required" maxlength="150"/><@p.tr/>
+<@p.text colspan="2" width="50" label="交易安全检验码" name="sellerKey"  value=paymentPlugins.sellerKey required="true" class="required" maxlength="150"/><@p.tr/>
+<@p.text colspan="2" width="50" label="签约支付宝账号" name="sellerEmail" value=paymentPlugins.sellerEmail required="true" class="required" maxlength="150"/><@p.tr/>
+<@p.text colspan="2" width="50" label="微信partnerkey" name="partnerkey" value=paymentPlugins.partnerkey  maxlength="150"/><@p.tr/>
+<@p.text colspan="2" width="50" label="支付代码" name="code"  required="true" value=paymentPlugins.code class="required" maxlength="150"/><@p.tr/>
+<@p.td label="LOGO" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="imgPath" value=paymentPlugins.imgPath! size="30"/> <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+<span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="139" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="139" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.editor colspan="2" width="50" label="payment.description" name="description" value=paymentPlugins.description! toolbarSet="Simple" maxlength="1024"/><@p.tr/>
+<@p.td colspan="2">
+<@p.hidden name="id" value=paymentPlugins.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

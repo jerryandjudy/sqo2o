@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+var f=0;
+$(function() {
+	$("#jvForm").validate();
+});
+function checkSiteMaster(siteMaster){
+	var siteId=$("input[name='id']").val();
+	if(siteMaster=="true"){
+		$.post('v_checkMaster.do', {
+			siteId:siteId
+			}, function(data) {if (!data) {$("#masterMsgSpan").html("主站点已存在");} },
+			"json");
+	}else{
+		$("#masterMsgSpan").html("");
+		}
+}
+function beforeSubmit(){
+	if($("#masterMsgSpan").html()!=""){
+			return false;
+		}else{
+			return true;
+			}
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsSite.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" name="root" value="${website.id!}" id="root"/>
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="$('#root').val('${(website.parent.id)!}');this.form.action='v_list.do';"//>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign domainExist><@s.m "cmsSite.error.domainExist"/></#assign>
+<#assign accessPathExist><@s.m "cmsSite.error.accessPathExist"/></#assign>
+<@p.form id="jvForm" action="o_update.do" labelWidth="15">
+<@p.text colspan="1" width="50" style="width:260px"  label="站点名称" name="name" value=website.name  required="true" class="required" maxlength="100"/>
+<@p.text colspan="1"  width="50" label="附加标题" name="additionalTitle" value=website.additionalTitle  required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50"  label="域名" name="domain" value=website.domain rvalue=website.domain required="true" maxlength="50" vld="{required:true}" vld="{required:true,remote:'v_checkDomain.do?siteId=${website.id}',messages:{remote:'${domainExist}'}}"/>
+<@p.text colspan="1" width="50" label="当前系统" name="currentSystem" value=website.currentSystem  required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.select colspan="1" width="50"  label="访问后缀" name="suffix" value=website.suffix list=[".jhtml",".htm"] required="true" />
+<@p.text colspan="1" width="50"  label="站点简称" name="shortName" value=website.shortName maxlength="100"/><@p.tr/>
+
+<@p.text colspan="1" width="50" label="根域名" name="baseDomain" value=website.baseDomain required="true" class="required" maxlength="20" />
+
+<@p.radio colspan="1" width="50"  label="使用相对路径" name="relativePath" value=website.relativePath list={"true":"global.true","false":"global.false"} required="true" /><@p.tr/>
+
+<!-- <@p.text colspan="1"  label="域名别名" name="domainAlias"   maxlength="255" help="多个别名用;分割"/><@p.tr/> -->
+
+<@p.radio colspan="1"  width="50" label="站点关闭" name="close" value=website.close list={"true":"global.true","false":"global.false"} required="true" />
+<@p.text colspan="1" width="50" label="关闭原因" name="closeReason" value=website.closeReason   maxlength="255"/><@p.tr/>
+<@p.text colspan="1" width="100" colspan="2" label="公司名称"  required="true" class="required" name="company" colspan="2" value=website.company   maxlength="255"/><@p.tr/>
+<@p.text colspan="1" width="50"  label="版权信息"  required="true" class="required" name="copyright" value=website.copyright   />
+<@p.text colspan="1" width="50"  label="备案号"  required="true" class="required" name="recordCode" value=website.recordCode  /><@p.tr/>
+<@p.text colspan="1" width="50"  label="电子邮箱" name="email" required="true" value=website.email class="required"   />
+<@p.text colspan="1" width="50" label="电话" name="phone" required="true" value=website.email class="required"   /><@p.tr/>
+
+<@p.hidden value=website.frontEncoding name="frontEncoding"  />
+<@p.hidden  value=website.frontContentType  name="frontContentType"  /><@p.tr/>
+<@p.hidden    value=website.controlNameMinlen name="controlNameMinlen"  />
+<@p.hidden   value=website.localeAdmin name="localeAdmin"  />
+<@p.hidden   value=website.localeFront name="localeFront"  /><@p.tr/>
+
+
+
+
+
+<@p.td colspan="2">
+	<@p.hidden name="root" value=root!(website.parent.id)!/>
+	<@p.hidden name="id" value=website.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

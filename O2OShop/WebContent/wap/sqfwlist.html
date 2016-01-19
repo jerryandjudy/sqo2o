@@ -1,0 +1,339 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>服务列表</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png"
+	href="${base}/wapstyle/assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="${base}/wapstyle/assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+<script type="text/javascript"
+	src="${base}/wapstyle/assets/js/zepto.min.js"></script>
+<script type="text/javascript" src="${base}/wapstyle/assets/js/amui.js"></script>
+
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	[#include "headerback.html"]
+
+	<form action="${base}/wap/sqfwlist.jspx" id="jvfrom" method="post">
+		<div class="content">
+			<!--列表筛选-->
+			<div class="am-container">
+				<div class="am-g">
+					<div data-am-widget="tdabs"
+						class="am-tabs am-tabs-d002 list_type_choose_title">
+						<div class="am-g">
+							<div class="am-u-sm-8">
+								<ul class="am-tabs-hd00 am-cf00 sm-block-grid-002">
+									<li class="am-tabs-hd-active00" style="float: left">社区服务</li>
+									<li class="" style="float: left">资讯</li>
+								</ul>
+							</div>
+							<div class="am-u-sm-4">
+								<ul class="list_type_choose_more">
+									<li class="tlr"><a href="#"  onclick="openlist();">筛选&nbsp;<i
+											class="am-icon-institution"></i></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="am-tabs-bd00">
+							<div class="am-tabs-bd-content00 ">
+								<div class="am-tabs-bd-active00 ">
+									[@sqservice_page status=1 ctId=category.id
+									provinceId=provinceId cityId=cityId countryId=countryId
+									streetId=streetId count=1 ] [#list tag_list as sqservice]
+									<div class="am-g good-detial">
+										<div class="am-u-sm-12">
+											<p class="am-text-truncate am-text-sm good-name">
+												<a data-url="${base}/wap/sqfwself.jspx?id=${sqservice.id}"
+													data-title="服务详情" data-toggle="modalhelper"
+													href="javascript:void(0)">[${(sqservice.category!).name!}]
+													${sqservice.name!}</a>
+											</p>
+											<p class="am-text-truncate am-text-xs ">
+												<a data-url="${base}/wap/sqfwself.jspx?id=${sqservice.id}"
+													data-title="服务详情" data-toggle="modalhelper"
+													href="javascript:void(0)">[@text_cut
+													s=sqservice.descriptions len=20 append='..' /]</a>
+											</p>
+											<p class="am-text-truncate am-text-xs ">
+												<a data-url="${base}/wap/sqfwself.jspx?id=${sqservice.id}"
+													data-title="服务范围" data-toggle="modalhelper"
+													href="javascript:void(0)">范围:[${(sqservice.city!).name!}${(sqservice.country!).name!}${(sqservice.street!).name!}]</a>
+											</p>
+											<p class="good-price">
+												<a data-url="${base}/wap/sqfwself.jspx?id=${sqservice.id}"
+													data-title="服务详情" data-toggle="modalhelper"
+													href="javascript:void(0)"> <strong
+													class="am-text-secondary">${sqservice.ketaUser.phone!}</a></strong>
+												<a class="am-fr am-text-xs am-text-danger good-cart"
+													href="${base}/wap/fworder.jspx?sqServiceId=${sqservice.id!}"><i
+													class="am-icon-pencil-square-o am-text-primary"></i></a>
+											</p>
+											</p>
+
+										</div>
+									</div>
+									<hr class="am-margin-top-sm am-margin-bottom-sm"></hr>
+									[/#list] [#assign p=tag_pagination /] [#if p.pageNo gte
+									p.totalPage] <span class="am-text-center" id="next-page"
+										url="end"> 没有更多了....</span> [#else] <span
+										class="am-g am-text-center" id="next-page"
+										url="/wap/sqfwpage.jspx"> <i
+										class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+										class="am-icon-spinner am-icon-spin"></i>... <script
+											type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										orderBy : '${orderBy!}',
+										pageNos:${pageNos+1},
+										categoryId : $("#categoryId").val()
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script> <script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+									</span> [/#if] <span id="gc"></span> [/@sqservice_page]
+								</div>
+								<div>
+									<ul class="am-list">
+										[@shop_ArticleList channelId=13 count=20] [#list tag_list as
+										a]
+										<li><a [#if a.link?? && a.link!='' ]href="${a.link}"
+											[#else]data-url="${base}/wap/articleself.jspx?id=${a.id}"
+											data-title="咨询详情" data-toggle="modalhelper"
+											href="javascript:void(0)"[/#if]><div
+													class="am-text-left" style="float: left">${a.title!}</div>
+												<div class="am-text-right">${a.publishTime?string('yyyy-MM-dd')}</div></a></li> [/#list]
+										[/@shop_ArticleList]
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 筛选 -->
+		<div id="list-select" class="am-offcanvas">
+			<div class="am-offcanvas-bar am-offcanvas-bar-flip">
+				<div class="am-offcanvas-content am-form">
+					<div class="am-form-group am-form-select">
+						<label for="cats">服务分类</label> <select id="categoryId"  data-am-selected name="categoryId">
+						<option value="">请选择</option>
+							[@shop_Category_list loadChild='1' Level=2 count=20 parentId=584
+							isDisplay='1' ] [#list tag_list as categorys]
+							<option value="${categorys.id}" [#if categoryId??&&categorys.id==categoryId]selected [/#if]>${categorys.name}</option>
+							[/#list] [/@shop_Category_list]
+						</select>
+					</div>
+					<div class="am-form-group">
+						<label for="building">选择省：</label>
+						 <select id="provinceId" data-am-selected
+							name="provinceId" onchange="getResultCity(this.value)">
+							<option value="-1">请选择</option> [#list plist as province]
+							<option value="${province.id!}" [#if provinceId??&& province.id==provinceId]selected [/#if]>${province.name!}</option>
+							[/#list]
+						</select>
+					</div>
+					<div class="am-form-group">
+						<label for="building">选择市：</label> <select id="cityId" data-am-selected
+							name="cityId" onchange='getResultCountry(this.value)'>
+							<option value="-1">请选择</option>
+						</select>
+					</div>
+					<div class="am-form-group">
+						<label for="building">选择县/区：</label> <select id="countryId" data-am-selected
+							name="countryId" onchange='getResultStreet(this.value)'>
+							<option value="-1">请选择</option>
+						</select>
+					</div>
+					<div class="am-form-group">
+						<label for="building">选择建筑物：</label> <select id="streetId" data-am-selected
+							name="streetId">
+							<option value="-1">请选择</option>
+						</select>
+
+						<div class="am-form-group">
+							<button id="sqfwselectsubmit"
+								class="am-btn-block am-btn am-btn-primary" name="selectsubmit"
+								type="button">确定</button>
+						</div>
+						<div class="am-form-group">
+							<button  onclick="closelist();"
+								class="am-btn-block am-btn am-btn-primary" 
+								type="button">取消</button>
+								
+						</div>
+					</div>
+				</div>
+
+			</div>
+			</div>
+	</form>
+
+	[#include "footer.html"]
+	
+	<script type="text/javascript">
+
+	
+//获得城市
+function getResultCity(d){
+	
+	$.post('../shopMemberAddress/findAllCity.jspx', {"id":d}, 
+		function(data) {
+					if(data.success){
+						$("#cityId").html("");
+                         var select="<option value='-1'>请选择</option>";
+                        	
+                        for(var i=0;i<data.ids.length;i++){
+                        	var cityids=0;
+                        	[#if cityId?? && cityId gt 0]
+                        	cityids=${cityId};
+                        	[/#if]
+                        	if(cityids==data.ids[i]){
+              				select+="<option value='"+data.ids[i]+"' selected >&nbsp;"+data.citys[i]+"&nbsp;</option>";
+                        	}else{
+                        		select+="<option value='"+data.ids[i]+"'  >&nbsp;"+data.citys[i]+"&nbsp;</option>";
+                        	}
+              			}
+                        // 不支持 MutationObserver 的浏览器使用 JS 操作 select 以后需要手动触发 `changed.selected.amui` 事件
+                	    
+                        [#if cityId?? && cityId gt 0]
+                        getResultCountry(${cityId!});
+                        [#else]
+              			getResultCountry(-1);
+                        [/#if]
+              			$("#cityId").append(select);
+              			if (!$.AMUI.support.mutationobserver) {
+                	    	$("#cityId").trigger('changed.selected.amui');
+                	    }
+					} 
+	 },"json");
+}
+//获得县、区
+function getResultCountry(a){
+	$.post('../shopMemberAddress/findAllCountry.jspx', {"id":a},
+		 function(data) {
+				if(data.success){
+					$("#countryId").html("");
+                     var select="<option value='-1'>请选择</option>";
+                      for(var i=0;i<data.ids.length;i++){
+                    	  var countryIds=0;
+                      	[#if countryId?? && countryId gt 0]
+                      	countryIds=${countryId};
+                      	[/#if]
+                    	  if(countryIds==data.ids[i]){
+              				select+="<option value='"+data.ids[i]+"' selected>&nbsp;"+data.areas[i]+"&nbsp;</option>";
+                    	  }else{
+              				select+="<option value='"+data.ids[i]+"'>&nbsp;"+data.areas[i]+"&nbsp;</option>";
+                    	  }
+              		 }
+                      [#if countryId?? && countryId gt 0]
+              		    getResultStreet(${countryId!});
+                      [#else]
+              		    getResultStreet(-1);
+                      [/#if]
+              		$("#countryId").append(select);
+              		if (!$.AMUI.support.mutationobserver) {
+            	    	$("#countryId").trigger('changed.selected.amui');
+            	    }
+				} 
+		},"json");
+}
+//获得建筑物
+function getResultStreet(a){
+	$.post('../shopMemberAddress/findAllStreet.jspx', {"id":a},
+		 function(data) {
+				if(data.success){
+					$("#streetId").html("");
+                     var select="<option value='-1'>请选择</option>";
+                      for(var i=0;i<data.ids.length;i++){
+                    	  var streetIds=0;
+                        	[#if streetId?? && streetId gt 0]
+                        	streetIds=${streetId};
+                        	[/#if]
+                    	  if(streetIds==data.ids[i]){
+              				select+="<option value='"+data.ids[i]+"' selected>&nbsp;"+data.streets[i]+"&nbsp;</option>";
+                      	  }else{
+              				select+="<option value='"+data.ids[i]+"' >&nbsp;"+data.streets[i]+"&nbsp;</option>";
+                      	  }
+              		 }
+              		$("#streetId").append(select);
+              		if (!$.AMUI.support.mutationobserver) {
+            	    	$("#streetId").trigger('changed.selected.amui');
+            	    }
+				} 
+		},"json");
+}
+$(function() {
+[#if provinceId?? && provinceId gt 0]
+	getResultCity(${provinceId!});
+[/#if]
+});
+</script>
+</body>
+</html>

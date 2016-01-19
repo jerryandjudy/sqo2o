@@ -1,0 +1,35 @@
+[#--
+栏目翻页样式
+
+pageClass: 翻页DIV class
+pageStyle: 翻页DIV style
+--]
+[#assign p=tag_pagination/]
+<div class="turnPageBottom">
+   [#list 1..p.totalPage as i]
+     [#if p.pageNo==i]
+          <span class="page_cur">${i}</span>
+     [#else]
+         [#if i==1]
+               <a id="page_1" href="${urlPrefix}${urlSuffix}">1</a>
+         [#else]
+                <a id="page_${i}" href="${urlPrefix}_${i}${urlSuffix}">${i}</a>
+         [/#if]
+      [/#if]
+    [/#list]
+    [#if p.totalPage!=1] <a class="page_next" href="${urlPrefix}_${tag_pagination.nextPage}${urlSuffix}">下一页</a>[/#if]
+    <span class="pageOp">共${p.totalPage}页</span>
+    <span class="pageOp go">到第<input type="text" id="_goPs" onkeydown="if(event.keyCode==13){return false;event.keyCode=0}"/>页<button id="jumptopage" onclick="_gotoPage($('#_goPs').val(),'${urlPrefix}','${urlSuffix}');" [#if p.totalPage==1] disabled="disabled"[/#if]>确定</button> </span>
+</div>
+<script type="text/javascript">
+function _gotoPage(pageNo,urlp,urls) {
+	try{
+		var tableForm = getTableForm();
+		tableForm.action=urlp+"_"+pageNo+urls;
+		tableForm.onsubmit=null;
+		tableForm.submit();
+	} catch(e) {
+		alert('_gotoPage(pageNo)方法出错');
+	}
+}
+</script>

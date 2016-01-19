@@ -1,0 +1,200 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>添加地址</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+<script type="text/javascript">
+	var APP = '${base}';
+    var SELF = '${base}/wap/register.jspx';
+  </script>
+  [#include "headerback.html"]
+<script type="text/javascript">
+//获得城市
+function getResultCity(d){
+	$.post('../shopMemberAddress/findAllCity.jspx', {"id":d}, 
+		function(data) {
+					if(data.success){
+						$("#cityId").html("");
+                         var select="<option value='-1'>请选择</option>";
+                        for(var i=0;i<data.ids.length;i++){
+              				select+="<option value='"+data.ids[i]+"'>&nbsp;"+data.citys[i]+"&nbsp;</option>";
+              			}
+              			getResultCountry(-1);
+              			$("#cityId").append(select);
+              			if (!$.AMUI.support.mutationobserver) {
+                	    	$("#cityId").trigger('changed.selected.amui');
+                	    }
+					} 
+	 },"json");
+}
+//获得县、区
+function getResultCountry(a){
+	$.post('../shopMemberAddress/findAllCountry.jspx', {"id":a},
+		 function(data) {
+				if(data.success){
+					$("#countryId").html("");
+                     var select="<option value='-1'>请选择</option>";
+                      for(var i=0;i<data.ids.length;i++){
+              				select+="<option value='"+data.ids[i]+"'>&nbsp;"+data.areas[i]+"&nbsp;</option>";
+              		 }
+              		getResultStreet(-1);
+              		$("#countryId").append(select);
+              		if (!$.AMUI.support.mutationobserver) {
+            	    	$("#countryId").trigger('changed.selected.amui');
+            	    }
+				} 
+		},"json");
+}
+//获得建筑物
+function getResultStreet(a){
+	$.post('../shopMemberAddress/findAllStreet.jspx', {"id":a},
+		 function(data) {
+				if(data.success){
+					$("#streetId").html("");
+                     var select="<option value='-1'>请选择</option>";
+                      for(var i=0;i<data.ids.length;i++){
+              				select+="<option value='"+data.ids[i]+"'>&nbsp;"+data.streets[i]+"&nbsp;</option>";
+              		 }
+              		$("#streetId").append(select);
+              		if (!$.AMUI.support.mutationobserver) {
+            	    	$("#streetId").trigger('changed.selected.amui');
+            	    }
+				} 
+		},"json");
+}
+
+</script>
+<div class="content">
+<div class="am-container am-margin-top-lg">
+<div class="am-popup-bd" >
+    <form id="newaddress-form" class="am-form">
+        <div class="am-form-group">
+            <label for="accept_name"> 收货人</label>
+            <input id="accept_name" type="text" placeholder="请输入收货人姓名" name="username"></input>
+        </div>
+        <div class="am-form-group">
+            <label for="phone"> 手机</label>
+            <input id="tel" type="tel" placeholder="请输入收货人联系手机" name="tel"></input>
+        </div>
+        <div class="am-form-group" style="display: none" >
+            <label for="postCode"> 邮政编码</label>
+            <input id="postCode" type="tel" placeholder="请输入收货人邮政编码" name="postCode"></input>
+        </div>
+        <div class="am-form-group" style="display: none">
+            <label for="phone"> 联系电话</label>
+            <input type="tel" placeholder="请输入区号" id="areaCode" name="areaCode"  size="4"  maxlength="4" />-<input id="phone" type="tel" placeholder="请输入收货人联系电话" name="phone"></input>
+        </div>
+        <div class="am-form-group">
+            <input type="hidden" value="${returnUrl!}" name="returnUrl"></input>
+            <label for="location">当前站点：</label>
+            ${web.name!}
+        </div>
+        <div class="am-form-group">
+            <label for="building">选择省：</label>
+            <select id="provinceId"  name="provinceId"  data-am-selected onchange="getResultCity(this.value)" >
+                <option value="-1">请选择</option>
+                 [#list plist as province]
+		           <option value="${province.id!}">${province.name!}</option>
+                 [/#list]
+            </select>
+        </div>
+        <div class="am-form-group">
+            <label for="building">选择市：</label>
+            <select id="cityId"  data-am-selected name="cityId" onchange='getResultCountry(this.value)'>
+                <option value="-1">请选择</option>
+            </select>
+        </div>
+        <div class="am-form-group">
+            <label for="building">选择县/区：</label>
+            <select id="countryId"  data-am-selected name="countryId" onchange='getResultStreet(this.value)'>
+                <option value="-1">请选择</option>
+            </select>
+        </div>
+        <div class="am-form-group">
+            <label for="building">选择建筑物：</label>
+            <select id="streetId"  data-am-selected name="streetId">
+                <option value="-1">请选择</option>
+            </select>
+        </div>
+        <div class="am-form-group">
+            <label for="address">
+
+                详细地址：
+
+            </label>
+            <input id="detailAddress" name="detailaddress" class="form-control" type="text" placeholder="请补全填写详细地址" ></input>
+        </div>
+            <input id="newaddress-submit" class="am-btn-block am-btn am-btn-primary am-btn-sm" type="button" value="提 交"></input>
+
+                <input type="hidden" value="7edfe126f35898777ec27be90ab13e63_2f42ba7a10cf2d91aac20c9e49d65a9e" name="__hash__"></input>
+            </form>
+            </div>
+            </div>
+            <script type="text/javascript">
+            
+$(function(){
+		$('#newaddress-submit').click(function(){
+			if($("#accept_name").val()==''||$("#accept_name").val()==null){
+				showalert("收货人不能为空!");
+		           return;
+			}
+			if($("#tel").val()==''&&$("#phone").val()==''){
+				showalert("手机跟电话至少有一项必填");
+		        return;
+			}
+			
+			if($("#streetId").val()=='-1'||$("#streetId").val()==null){
+				showalert("请选择建筑物!");
+		           return;
+			}
+			
+			if($("#detailAddress").val()==''||$("#detailAddress").val()==null){
+				showalert("请添加详细地址!");
+		           return;
+			}
+			$('#newaddress-submit').button('loading');
+			var $form = $('#newaddress-form');
+	        $.post(APP+'/shopMemberAddress/wap_address_save.jspx', $form.serialize(), function(result) {
+				if(result.status){
+					window.location.href=result.url;
+				}else{
+					showalert(result.info);
+					$('#newaddress-submit').button('reset');
+				}
+			});
+		});
+	})
+
+            </script>
+        </div>
+       [#include "footer.html"]
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function selectzffs(id){
+	if(id==null || id.length<1){
+		alert("选择有错误！");
+		return;
+	}
+var dialog = $.dialog({title:'支付',min:false,max:false,width:'850px',height:'500px',content: 'url:../accountTx/alipay.do?id='+id,close:function(){
+	window.location='../accountTx/v_list.do';
+} });
+dialog.max();
+dialog.show();
+}
+</script>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 账户提现审核管理 - <@s.m "global.list"/></div>
+	<form class="ropt" action="v_add.do">
+	    <input type="hidden" value="20" name="id" id="orid" />
+		
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_list.do" id="tableForm" method="post">
+	 <div style="padding-top:5px">
+	名称： <input type="text" name="username" id="username" value="${username!}" style="width:150px"/>  
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+	组织类型：<select name="organizationType">
+            <option value="">--请选择--</option>
+              <option value="代理商" <#if organizationType?? && organizationType=='代理商'>selected="selected"</#if>>代理商</option>
+              <option value="供应商" <#if organizationType?? && organizationType=='供应商'>selected="selected"</#if>>供应商</option>
+              <option value="便利店" <#if organizationType?? && organizationType=='便利店'>selected="selected"</#if>>便利店</option>
+              <option value="服务商" <#if organizationType?? && organizationType=='服务商'>selected="selected"</#if>>服务商</option>
+       </select>
+	是否完成提现：<select name="payStatus">
+            <option value="">--请选择--</option>
+              <option value="0" <#if payStatus?? && payStatus=='0'>selected="selected"</#if>>未审核</option>
+              <option value="1" <#if payStatus?? && payStatus=='1'>selected="selected"</#if>>完成提现</option>
+       </select>
+       支付成功时间:<input type="text" name="paySuccessTime" value="${paySuccessTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		
+		</div>
+	<div class="clear"></div>
+</div>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;accounttx,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${accounttx.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="用户名">${accounttx.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="姓名">${accounttx.ketaUser.realname!}</@p.column><#t/>
+	<@p.column code="所属站点">${accounttx.website.name!}</@p.column><#t/>
+	<@p.column code="提现金额">${accounttx.realValue!}</@p.column><#t/>
+	<@p.column code="支付类型">${accounttx.payType!}</@p.column><#t/>
+	<@p.column code="户名">${accounttx.payHm!}</@p.column><#t/>
+	<@p.column code="账号">${accounttx.payBankAccount!}</@p.column><#t/>
+	<@p.column code="添加人">${accounttx.addName!}</@p.column><#t/>
+	<@p.column code="组织类型">${accounttx.organizationType!}</@p.column><#t/>
+	<@p.column code="申请提现时间">${accounttx.addTime!?string('yyyy-MM-dd HH:mm:ss')}</@p.column><#t/>
+	<@p.column code="支付成功时间">${accounttx.paySuccessTime!}</@p.column><#t/>
+	<@p.column code="提现状态">
+		<#if !accounttx.payStatus?? ||(accounttx.payStatus?? &&accounttx.payStatus=='0') ><font color='red'>未审核</font><#else>完成提现</#if>
+	</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<#if !accounttx.payStatus?? ||(accounttx.payStatus?? &&accounttx.payStatus=='0') > <a  href="javascript:void(0)"  onclick="selectzffs(${accounttx.id});">支付</a> <#rt/> </#if>
+	</@p.column><#t/>
+	
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

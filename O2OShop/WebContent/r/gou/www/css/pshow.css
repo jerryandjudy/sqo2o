@@ -1,0 +1,122 @@
+
+body {
+    background: none repeat scroll 0 0 #fff;
+    color: #666;
+    font: 12px/150% Arial,Verdana,"ËÎÌו";
+}
+ol, ul {
+    list-style: outside none none;
+}
+a img {
+    border: 0 none;
+}
+img {
+    vertical-align: middle;
+}
+
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+a:hover {
+    color: #e4393c;
+    text-decoration: underline;
+}
+.lh {
+    overflow: hidden;
+}
+.lh li, .lh dl, .lh .item {
+    float: left;
+}
+.spec-control, #store-selector .text b, #choose .selected b, .slogens b, #brand-bar .slogens .fore2, #brand-bar .slogens .fore4, .star, .wrap-input a, #brand-bar .slogens dt, #brand-bar .seller-btn a, .itemover-title button, .topic .icon, #ranklist .tabcon span, #comment .btn-comment, #recomment .master s, .topic-best, .master s, .suits li s, #recommend .infos s, #favorable-suit .infos s, .btn-buy, #product-detail .detail-correction b, div.nav-minicart-buynow a, #consult .btn-search, #comments-list .tl, .item-warnning s, .share-list-item a, .share-ft b, #view-bigimg, #tab-services table td .btn-buy, #evaluate s, #evaluate-detail s, .li-img a b, #store-selector .close, .extra-ico, .f-sercvice-list b, .btn-append-extra, .u-name a b, #more-fitting-link b, #summary-countdown s, .s-item .active b, #product-detail .p-tab s, .m3 .p-info s {
+    background-image: url("../img/newicon20140417.png");
+    background-repeat: no-repeat;
+}
+#recommend .suits li.last-item s, #favorable-suit .suits li.last-item s, #recommend .suits li.last_item s, #favorable-suit .suits li.last_item s {
+    display: none;
+}
+
+
+#favorable-suit .master {
+    float: left;
+    overflow: hidden;
+    padding: 0 0 0 10px;
+    width: 150px;
+}
+#favorable-suit .master s, #favorable-suit .suits li s {
+    background-position: 0 -260px;
+    float: right;
+    height: 22px;
+    margin-right: 3px;
+    margin-top: 40px;
+    width: 24px;
+}
+#favorable-suit .suits {
+    float: left;
+    padding-bottom: 10px;
+    width: 700px;
+}
+#favorable-suit .suits li {
+    background-position: 0 -260px;
+    padding: 0;
+    width: 128px;
+}
+#favorable-suit .suits li .p-name {
+    width: 100px;
+}
+#favorable-suit .infos {
+    float: left;
+    line-height: 20px;
+    padding-left: 10px;
+    width: 190px;
+}
+#favorable-suit .infos s {
+    background-position: -30px -260px;
+    float: left;
+    height: 22px;
+    margin-top: 40px;
+    width: 24px;
+}
+#favorable-suit .infos .selected, #favorable-suit .infos .p-price, #favorable-suit .infos .p-saving, #favorable-suit .infos .btns, #favorable-suit .infos .p-name {
+    margin-left: 35px;
+}
+#favorable-suit .infos .p-name {
+    height: 3em;
+    line-height: 1.5em;
+    overflow: hidden;
+}
+#favorable-suit .btn-buy {
+    background-position: -166px -112px;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    height: 25px;
+    line-height: 25px;
+    margin-top: 10px;
+    text-align: center;
+    width: 77px;
+}
+#favorable-suit .infos .p-name a, #favorable-suit .infos .p-name a:visited {
+    color: #005aa0;
+    font-weight: 700;
+}
+#favorable-suit .suits {
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+#favorable-suit .suits ul {
+    padding-bottom: 10px;
+    width: 958px;
+}
+#tab-suits .master {
+    width: 200px;
+}
+
+#favorable-suit #tab-suits ul {
+    width: auto;
+}
+#favorable-suit #tab-suits .suits {
+    overflow-x: auto;
+    width: 356px;
+}

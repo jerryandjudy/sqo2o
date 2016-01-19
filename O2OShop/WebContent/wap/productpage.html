@@ -1,0 +1,100 @@
+			[@shop_ProductPageChannel  recommend=recommend special=special categoryId=category.id q=q area=area
+			brandId=brandId count=5 pageNos=pageNos orderBy=orderBy] [#list
+			tag_pagination.list as productSite]
+
+			<div class="am-g good-detial">
+				<div class="am-u-sm-3">
+					<a 
+						data-title="商品详情" 
+						href="${base}/wap/productself.jspx?id=${productSite.id}"> <img 
+						alt="${productSite.product.name!}" 
+						src="http://u-10017112.file.myqcloud.com${productSite.product.minImg!web.global.defImg}"></img>
+					</a>
+
+				</div>
+				<div class="am-u-sm-9">
+
+					<p class="am-text-truncate am-text-sm good-name">
+						<a 
+							data-title="商品详情" 
+							href="${base}/wap/productself.jspx?id=${productSite.id}">[${productSite.product.category.name!}]&nbsp;${productSite.product.name!}</a>
+					</p>
+					<p class="am-text-truncate am-text-xs am-text-danger"></p>
+
+					<p class="good-price">
+
+						<!--   <strong class="am-text-secondary"></strong> -->
+						<span class="am-text-primary am-text-sm">￥${productSite.salePrice!}
+							(总销量：${productSite.product.saleCount!})</span> <a
+							class="am-fr am-text-xs am-text-danger good-cart"
+							onclick="addcart(this)" data-price="${productSite.salePrice!}"
+							data-goodid="${productSite.id!}"
+							data-name="${productSite.product.name!}" data-store="5"
+							href="javascript:void(0)"><i
+							class="am-icon-shopping-cart am-text-primary"></i></a>
+					</p>
+				</div>
+
+
+			</div>
+			<hr class="am-margin-top-sm am-margin-bottom-sm"></hr>
+			[/#list]  [#assign p=tag_pagination /] [#if p.pageNo gte p.totalPage]
+			<div class="am-g am-text-center" id="next-page" url="end">
+				没有更多了.... [#else]
+				<div class="am-g am-text-center" id="next-page"
+					url="/wap/productpage.jspx">
+					<i class="am-icon-arrow-circle-o-down"></i>&nbsp; 加载中<i
+						class="am-icon-spinner am-icon-spin"></i>... [/#if]
+					<script type="text/javascript">
+						$('#next-page').scrollspy({
+							animation : 'slide-top',
+							repeat : false
+						});
+						$('#next-page').on('inview.scrollspy.amui', function() {
+							var url = $(this).attr('url');
+							if ('end' !== url) {
+								$.ajax({
+									beforeSend : function() {
+										return true;
+									},
+									complete : function() {
+										return true;
+									},
+									url : '${base}' + $(this).attr('url'),
+									data : {
+										orderBy : '${orderBy!}',
+										q : $('#q').val(),
+										pageNos:${pageNos+1},
+										brandId:'${brandId!}',
+										categoryId : $("#categoryId").val()
+									},
+									dataType : "html",
+									type : "get",
+									cache : false,
+									async : true,
+									success : function(html) {
+										$('#next-page').remove();
+										$('#gc').before(html);
+									}
+								});
+							}
+						});
+					</script>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$(".scrollLoading").scrollLoading();
+						$('[data-toggle="modalhelper"]').on('click',
+								function(e) {
+									var url = $(this).attr('data-url');
+									var title = $(this).attr('data-title');
+									var helper = $('#modal-helper');
+									helper.find('.am-popup-title').text(title);
+									helper.find('.am-popup-bd').text('');
+									helper.find('.am-popup-bd').load(url);
+									helper.modal('open');
+								});
+					})
+				</script>
+	</div>
+	[/@shop_ProductPageChannel]

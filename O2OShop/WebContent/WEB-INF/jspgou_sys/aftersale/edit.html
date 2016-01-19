@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "aftersale.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.td label="订单编号" colspan="2" width="100">${aftersale.order.code!}</@p.td><@p.tr/>
+<@p.td label="售后类型" colspan="2" width="100">${aftersale.type.name!}</@p.td><@p.tr/>
+<@p.td label="售后要求" colspan="2" width="100">${aftersale.demand.name!}</@p.td><@p.tr/>
+<@p.td label="售后状态" colspan="2" width="100">
+<#if aftersale.status==1>申请售后成功，等待卖家处理
+<#elseif aftersale.status==2>卖家同意售后
+<#else>卖家不同意售后</#if></@p.td><@p.tr/>
+<@p.td label="买家名称" colspan="2" width="100">${aftersale.member.realName!}</@p.td><@p.tr/>
+<@p.td label="买家留言" colspan="2" width="100">${aftersale.additionalwords!}</@p.td><@p.tr/>
+<@p.td label="申请时间" colspan="2" width="100">${aftersale.applyTime!?string("yyyy-MM-dd HH:mm:ss")}</@p.td><@p.tr/>
+<@p.td label="卖家名称" colspan="2" width="100">${aftersale.store.storeName!}</@p.td><@p.tr/>
+<@p.td label="卖家留言" colspan="2" width="100">${aftersale.saleadditionalwords!}</@p.td><@p.tr/>
+<#if aftersale.demand.isRefund>
+<@p.td label="退款金额" colspan="2" width="100">${aftersale.refundmoney!0.0}</@p.td><@p.tr/>
+</#if>
+<@p.td label="平台商留言" colspan="2" width="100"><textarea name="platadditionalwords" cols="100" rows="5m">${aftersale.platadditionalwords!}</textarea></@p.td><@p.tr/>
+<@p.td colspan="2" width="100">
+<@p.hidden name="id" value=aftersale.id/>
+<@p.hidden name="intervene" value=1/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

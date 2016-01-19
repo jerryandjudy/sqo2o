@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jspgou-left</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	JCore.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<ul id="lmenu">
+<li><a href="member_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+<@authorize url="member/v_list.do"> 
+<li><a href="../member/v_list.do" target="rightFrame"><@s.m "member.function"/></a></li>
+</@authorize>
+<@authorize url="group/v_list.do"> 
+<li><a href="../group/v_list.do" target="rightFrame"><@s.m "group.function"/></a></li>
+</@authorize> 
+<@authorize url="dls/v_list.do"> 
+<li><a href="../dls/v_list.do" target="rightFrame">代理商管理</a></li>
+</@authorize>
+<@authorize url="gys/v_list.do"> 
+<li><a href="../gys/v_list.do" target="rightFrame">供应商管理</a></li>
+</@authorize>
+<@authorize url="gys/v_product_list.do"> 
+<li><a href="../gys/v_gysjysp_list.do" target="rightFrame">供应商商品库存</a></li>
+</@authorize>
+<@authorize url="gys/v_gysps_list.do"> 
+<li><a href="../gys/v_gysps_list.do" target="rightFrame">供应商配送区域</a></li>
+</@authorize>
+<@authorize url="bld/v_list.do"> 
+<li><a href="../bld/v_list.do" target="rightFrame">便利店管理</a></li>
+</@authorize>
+<@authorize url="bld/v_productkc_list.do"> 
+<li><a href="../bld/v_productkc_list" target="rightFrame">便利店商品库存</a></li>
+</@authorize>
+<@authorize url="bld/v_gysps_list.do"> 
+<li><a href="../bld/v_bldps_list.do" target="rightFrame">便利店配送区域</a></li>
+</@authorize>
+<@authorize url="khgx/v_gysglbld_list.do"> 
+<li><a href="../khgx/v_khgx_list.do" target="rightFrame">客户关系查询</a></li>
+</@authorize>
+<@authorize url="fws/v_list.do"> 
+<li><a href="../fws/v_list.do" target="rightFrame">服务商管理</a></li>
+</@authorize>
+<@authorize url="shopDictionary/v_list.do"> 
+<li><a href="../shopDictionary/v_list.do" target="rightFrame"><@s.m "shopDictionary.function"/></a></li>
+</@authorize>
+
+<@authorize url="shopDictionaryType/v_list.do"> 
+<li><a href="../shopDictionaryType/v_list.do" target="rightFrame"><@s.m "shopDictionaryType.function"/></a></li>
+</@authorize>
+<@authorize url="address/v_list.do"> 
+<li><a href="../address/v_list.do" target="rightFrame">地区管理</a></li>
+</@authorize>
+</ul>
+</body>
+</html>

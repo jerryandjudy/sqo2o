@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="OrderItem" table="jc_shop_order_item">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="orderitem_id"><generator class="native"/></id>
+		<property name="count" column="count" type="integer" not-null="true" length="10"/>
+		<property name="salePrice" column="sale_price" type="double" not-null="false" length="20"/>
+		<property name="memberPrice" column="member_price" type="double" not-null="false" length="20"/>
+		<property name="costPrice" column="cost_price" type="double" not-null="false" length="20"/>
+		<property name="finalPrice" column="final_price" type="double" not-null="false" length="20"/>	
+		<property name="seckillprice" column="seckillprice" type="double" not-null="false" length="15"/>			
+		<property name="isZp" column="is_zp" type="java.lang.Boolean" not-null="false"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="productSite" column="productSite_id" class="ProductSite" not-null="true"></many-to-one>
+		<many-to-one name="ordeR" column="order_id" class="Order" not-null="true"></many-to-one>
+		<many-to-one name="productFash" column="productFash_id" class="ProductFashion" not-null="false"></many-to-one>
+	</class>
+</hibernate-mapping>

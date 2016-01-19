@@ -1,0 +1,82 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>申请退款</title>
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+<!-- Add to homescreen for Chrome on Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+<!-- Add to homescreen for Safari on iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="apple-touch-icon-precomposed"
+	href="assets/i/app-icon72x72@2x.png">
+
+<!-- Tile icon for Win8 (144x144 + tile color) -->
+<meta name="msapplication-TileImage"
+	content="assets/i/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#0e90d2">
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	<script type="text/javascript">
+		var URL = '${base}';
+		var APP = '${base}';
+		var SELF = '${base}/wap/wapindex.jspx';
+	</script>
+	<!--TOP-->
+	[#include "headerback.html"]
+	<!--TOP=end-->
+	<div class="content">
+<div class="am-container am-margin-top-lg">
+
+ <form class="am-form" action="${base}/wap/orderReturn/orderReturnRefer.jspx" method="post">
+    <div class="am-g">
+
+        <div class="am-u-sm-12">
+            <input type="hidden" name="orderId" value="${order.id}"/>
+	              <input type="hidden" name="delivery" [#if delivery] value="true" [#else]value="false"[/#if]/>		
+	              <input type="hidden" name="money" value="${order.total!0}"/>	
+            <fieldset>
+            <legend>申请退款：</legend>
+            <div class="am-form-group"><label><span style="color:#F00">*</span>退款金额：<span style="color:#F00">${order.total!}</span>元</label>
+            
+            </div>
+            <div class="am-form-group"><label><span style="color:#F00">*</span>退款原因：</label>
+            <select id="reasonId" name="reasonId" type="url" required placeholder="" class="am-active">
+            <option selected="selected" value="">请选择退款原因</option>
+             [#list ndList as sd]
+             <option value="${sd.id}">${sd.name}</option>
+             [/#list]
+            </select>
+            </div>
+            <div class="am-form-group"><label>退款说明:</label>
+            <textarea id="" maxlength="100" name="reason" minlength="10"></textarea>
+            </div>
+            </fieldset>
+            
+            </div>
+        </div>
+         <div class="am-u-sm-12" >
+        <button type="submit" class="am-btn am-btn-warning am-btn-block">提交退款申请</button>   
+        </div> 
+        </form>
+    </div>
+</div>
+	[#include "footer.html"]
+</body>
+</html>

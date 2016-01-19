@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ProductStandard" table="jc_shop_product_standard">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="ps_id">
+			<generator class="native"/>
+		</id>
+	    <property name="imgPath" column="img_path" type="string" not-null="false" length="255" />
+	    <property name="dataType" column="dataType" type="boolean" not-null="true"/>
+        <many-to-one name="product" column="product_id" class="Product" not-null="true"></many-to-one>
+        <many-to-one name="standard" column="standard_id" class="Standard" not-null="true"></many-to-one>
+        <many-to-one name="type" column="type_id" class="StandardType" not-null="true"></many-to-one>
+	</class>	
+</hibernate-mapping>

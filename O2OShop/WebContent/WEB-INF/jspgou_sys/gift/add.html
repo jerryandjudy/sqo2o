@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 礼品管理 - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do">
+<@p.text label="礼品名称" colspan="2" width="100" name="giftName" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text label="换取积分" colspan="2" width="100" name="giftScore" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.text label="礼品库存" colspan="2" width="100" name="giftStock" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.radio label="是否发放" colspan="2" width="100" name="isgift" value=true list={"true":"是","false":"否"}/><@p.tr/>
+<@p.td label="礼品图片" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="giftPicture" size="30"/> 
+<input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+<span id="ufc1">
+<input type="file" id="uploadFile1" size="20"/></span> 
+<input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="139" size="5"/> <@s.m "global.height"/>:
+ <input type="text" id="zoomHeight1" value="139" size="5"/>
+  <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+</@p.td>
+<@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.editor colspan="2" label="礼品介绍" name="introduced"  /><@p.tr/>
+<@p.td colspan="2" width="100"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

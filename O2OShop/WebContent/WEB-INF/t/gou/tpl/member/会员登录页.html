@@ -1,0 +1,146 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登陆 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/login.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${root}/js/jquery.js"></script> 
+
+</head>
+
+<body>
+<div class="login_logo"><img  src="${root}/images/login/login_logo.jpg" width="314" height="81" /></div>
+<!--focus start-->
+<div class="focus">
+  <div class="login_box">
+    <div class="login">
+      <div class="login_bg"></div>
+      <div class="login_content"> 
+        <!--login main start-->
+        <ul  class="login_main">
+          <li class="li_0"><a  class="active">会员登录</a></li>
+        </ul>
+        <!--login main end--> 
+        <!--login sub start-->
+        <div id="login_sub" class="login_sub"> 
+          <!--login_` start-->
+          <div id="login_cnzz" class="login_cnzz">
+           <form id="jvForm" action="login.jspx" onsubmit="" method="post">
+           [#if returnUrl??]
+	          <p style="font-color:red">[#if message??][@s.mt code=message text=message/][#else]您需要登录才能继续刚才的操作[/#if]</p>
+	          <input type="hidden" name="returnUrl" value="${returnUrl}"/>
+              [#else]
+	          <input type="hidden" name="redirectUrl" value="/"/>
+              [/#if]
+              [#if errors??]
+					<ul>
+					   [#list errors as error]
+					       <li><font color="red">${error}</font></li>
+					   [/#list]
+					</ul>
+				[/#if]
+            <table>
+              <tbody>
+                <tr>
+                  <td class="td_0">用户名：</td>
+                  <td class="td_1"><input type="text" name="username" vld="{required:true}" id="username" placeholder="请输入用户名" value="" tabindex="1"></td>
+                </tr>
+                <tr>
+                  <td class="td_0">密　码：</td>
+                  <td class="td_1"><input type="password" name="password" vld="{required:true,rangelength:[3,32]}" placeholder="请输入密码"  tabindex="2"></td>
+                </tr>
+                <tr>
+                  <td class="td_0"></td>
+                  <td class="td_2"><!-- <input type="checkbox" > <label >记住用户名密码</label> --> &nbsp;&nbsp; &nbsp;  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td class="td_4"><p class="clearFix"><span onclick="sub()" >登陆</span><a class="a_1" title="忘记密码？" href="${base}/forgot_password.jspx">忘记密码？</a></p></td>
+                </tr>
+                <tr>
+                  <td colspan="2"  class="login_error"></td>
+                </tr>
+              </tbody>
+            </table>
+            </form> 
+            <a class="register"  title="注册" href="${base}/register.jspx">注册</a> </div>
+          <!--login_cnzz end--> 
+        </div>
+        <!--login sub end--> 
+        
+      </div>
+    </div>
+  </div>
+  <div id="focus_m" class="focus_m">
+    <ul>
+      <li class="li_1"><a href="#" hidefocus="true"></a></li>
+      <li class="li_2"><a href="#" hidefocus="true"></a></li>
+      <li class="li_3"><a href="#" hidefocus="true"></a></li>
+    </ul>
+  </div>
+</div>
+<!--focus end--> 
+
+<div class="login_bq"> 版权所有：便利店股份有限公司 </div>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function sub(){
+	if($("#jvForm").valid()){
+		document.getElementById('jvForm').submit();
+	}
+}
+//重新发送激活邮件
+function reactive(){
+	var d = "";
+	if($("#username").val()==''){
+		showTips("用户名为空不可以发送激活邮件");
+		return;
+	}
+	d = "email=" +$("#username").val();
+	$.ajax({
+		   type: "POST",
+		   url: "reactives.jspx",
+		   data: d,
+		   success: function(msg){
+			   var msg=eval("("+msg+")");
+		    	if(msg.data==0){
+		    	 showTips("用户名不能为空");
+		    	 return;
+		         }else if(msg.data==1){
+			    	 showTips("用户已经激活");
+			    	 return;
+			     }else if(msg.data==2){
+			    	 showTips("用户名不存在");
+			    	 return;
+			     }else if(msg.data==3){
+			    	 showTips("发送邮件异常");
+			    	 return;
+			     }else{
+		    	 showTips('重新发送成功',2500,1);
+		         }
+		}
+	});
+}
+//显示提示框，目前三个参数(txt：要显示的文本；time：自动关闭的时间（不设置的话默认1500毫秒）；status：默认0为错误提示，1为正确提示；)
+function showTips(txt,time,status)
+{
+	var htmlCon = '';
+	if(txt != ''){
+		if(status != 0 && status != undefined){
+			htmlCon = '<div class="tipsBox" style="width:220px;padding:10px;background-color:#4AAF33;border-radius:4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;color:#fff;box-shadow:0 0 3px #ddd inset;-webkit-box-shadow: 0 0 3px #ddd inset;text-align:center;position:fixed;top:25%;left:50%;z-index:999999;margin-left:-120px;"><img src="${root}/images/register/ok.png" style="vertical-align: middle;margin-right:5px;" alt="OK，"/>'+txt+'</div>';
+		}else{
+			htmlCon = '<div class="tipsBox" style="width:220px;padding:10px;background-color:#D84C31;border-radius:4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;color:#fff;box-shadow:0 0 3px #ddd inset;-webkit-box-shadow: 0 0 3px #ddd inset;text-align:center;position:fixed;top:25%;left:50%;z-index:999999;margin-left:-120px;"><img src="${root}/images/register/err.png" style="vertical-align: middle;margin-right:5px;" alt="Error，"/>'+txt+'</div>';
+		}
+		$('body').prepend(htmlCon);
+		if(time == '' || time == undefined){
+			time = 1500; 
+		}
+		setTimeout(function(){ $('.tipsBox').remove(); },time);
+	}
+}
+</script>
+</body>
+</html>

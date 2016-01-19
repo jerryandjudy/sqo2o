@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Advertise" table="jc_shop_advertise">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="identity"/></id>
+		<property name="name" column="name" type="string" not-null="false" length="50"/>
+		<property name="weight" column="weight" type="integer" not-null="false" length="10"/>
+		<property name="displayCount" column="display_count" type="integer" not-null="false"/>
+		<property name="clickCount" column="click_count" type="integer" not-null="false" length="10"/>
+		<property name="startTime" column="starttime" type="date" not-null="false" length="19"/>
+		<property name="endTime" column="endTime" type="date" not-null="false" length="19"/>
+		<property name="enabled" column="is_enabled" type="java.lang.Boolean" not-null="false"/>
+		<property name="priority" column="priority" type="java.lang.Integer" not-null="false"/>
+		<property name="categoryId" column="category_id" type="java.lang.Long" not-null="false"/>
+		<many-to-one name="adspace" column="adspace_id" class="Adspace" not-null="true"></many-to-one>
+		<map name="attr" table="jc_shop_advertise_attr" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="id" not-null="true"></key>
+			<map-key column="attr_name" type="string" length="100"></map-key>
+			<element column="attr_value" type="string" length="225"></element>
+		</map>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<div class="dplm1">
+   <div class="dplm1tit">宝贝分类</div>
+   <div class="dplm1box" style="height:200px;">
+     <ul>
+       [@storeCategory_list storeId=store.id parentId=""]
+            [#if tag_list?size gt 0]
+              [#list tag_list as storeCategory]
+                   <li><h1><a href="javascript:void(0);">${storeCategory.name!}</a></h1>
+                       <ul>
+                          [@storeCategory_list storeId=store.id parentId=storeCategory.id]
+                            [#if tag_list?size gt 0]
+                                 [#list tag_list as sc]
+                                <li>&nbsp;&nbsp;&nbsp;&nbsp;<h1><a href="storeCategoryList.jspx?storeCategoryId=${sc.id}">${sc.name!}</a></h1> </li>
+                                 [/#list]
+                             [/#if]
+                            [/@storeCategory_list]
+                      </ul>
+                   </li>
+              [/#list]
+            [/#if]
+      [/@storeCategory_list]
+      </ul>
+    </div>
+</div>

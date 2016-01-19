@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="MemberCoupon" table="jc_shop_member_coupon">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="isuse" column="is_use" type="java.lang.Boolean" not-null="false" length="2"/>	
+		<many-to-one name="member" column="member_id" class="ShopMember" not-null="false"></many-to-one>
+		<many-to-one name="coupon" column="coupon_id" class="Coupon" not-null="false"></many-to-one>	
+	</class>
+</hibernate-mapping>

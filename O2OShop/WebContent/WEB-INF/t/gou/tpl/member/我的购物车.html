@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的购物车  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/buy.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<link href="${root}/u/css/cart.css" type="text/css" rel="stylesheet" />
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script src="${root}/u/js/cart.js"  type="text/javascript"></script>
+<script type="text/javascript"> 
+var URLPrefix = {"url":"${base}"};
+var d_url="${base}";
+</script>
+<script type="text/javascript">
+function addToCart(productId,fashId,count,isAdd) {
+	$.post('${base}/add_to_cart.jspx', {
+		'productId' : productId,
+		'productFashId' : fashId,//新加属性（wang ze wu ）
+		'count' : count,
+		'isAdd' : isAdd
+	}, function(data) {
+		location.reload();
+	},'json');
+}
+function clearCart(){
+	$.post('${base}/clearCart.jspx',{},function(data){
+           location.reload();
+		},'json');
+}
+function fetchGift(id,count){
+	var numb=$("#numb"+id+"").val();
+	if(!(numb.indexOf('.')==-1)||!(numb.indexOf('-')==-1)||isNaN (numb)||$.trim(numb)==""){
+              alert("请输入正确的数字!");
+              location.reload();
+              return false;
+		}
+	$.post('fetchGift.jspx',{giftId:id,giftNumb:count},function(data){
+		alert(data);
+                   location.reload();
+		});
+}
+function intoCart(index,store,faid,pid,url){alert(22);
+	var i=document.getElementById("p_"+index).name;
+	if(i<2){
+		if(store<1){
+              alert("暂无库存!");
+              return false;
+			}
+          $.post("${base}/add_to_cart.jspx",{
+            'productId' : pid,
+      		'productFashId' : faid,//新加属性（wang ze wu ）
+      		'count' : 1,
+      		'isAdd' : true
+           },function(data){
+        	   if(data.status==1) {
+       			location.href='${base}/shopping_cart.jspx?backUrl=${location}';
+       		} else if(data.status==0) {
+       			location.href='${loginUrl}';
+       		} else {
+       			alert('error code: ' + data.status);
+       		}
+                  },'json');
+		}
+	else{
+		alert('请选择款式！');
+             location.href=url;
+		}
+}
+
+function checks(names,name,checked){
+	$("input[type=checkbox][name=" + name + "]").each(function() {
+		$(this).attr("checked", checked);
+	});
+	$("input[type=checkbox][name=" + names + "]").each(function() {
+		$(this).attr("checked", checked);
+	});
+}
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+	 [#include "../include/页头搜索栏.html"/]
+<div class="w960">
+<div id="topcolumn"></div>
+<div class="buy_position">您当前的位置：<a href="" target="_blank">首页</a>&nbsp;&gt;&nbsp;我的购物车</div>
+    <ul class="step clearfix mt10">
+        <li class="on"><span>STEP 1.</span>查看购物车</li><li><span>STEP 2.</span>选择店铺</li>
+        <li><span>STEP 3.</span>确定认订单信息</li><li><span>STEP 4.</span>成功提交订单</li>
+    </ul>
+
+    [#if cart??]
+    <div class="gray-box pro-li"> 
+    <form id="jvForm" action="../cart/checkout_choose_shipping.jspx" method="post">   
+      <table width="1280" cellspacing="0" cellpadding="0" border="0" class="clear list">
+           <tr> 
+              <th width="95" colspan="2" align="left"></th>
+              <th width="310">商品名称</th> <th width="80">单价</th><th width="58">积 分</th> <th width="100">数 量</th>
+              <th width="59">重 量</th> <th width="172">商品合计</th><th width="70">操 作</th> 
+           </tr> 
+           [#list slist as store]
+           <tr><td colspan="9">
+               <div class="shop_name" align="left"> 
+                  <input type="checkbox" name="idss"  onclick="checks('idss','cart2Checkbox',this.checked)" checked/>全选
+                  &nbsp;&nbsp;店铺：${store.storeName!} &nbsp;&nbsp;卖家：${store.member.username!}
+              </div> 
+           </td>
+           </tr>
+          [@cartItem_list storeId=store.id memberId=member.id]
+           [#list tag_list as item]
+            <tr class="select" id="item_tr_${item.product.id}_${item_index}"> 
+                <td class="first_td"> <input type="checkbox" name="cart2Checkbox" checked/> </td> 
+                <td> <a class="img60" href="${item.product.url}" target="_blank">
+                      <img src="${root!}${item.product.productExt.coverImg!}" width="60" height="60"/></a>
+               </td> 
+              <td class="tl">
+                 <h3>
+                    <a href="${item.product.url}" target="_blank">
+                      [@text_cut s=item.product.name len='10' appent='...'/]&nbsp;
+                      [#if item.productFash??]${item.productFash.standard.name!}${item.productFash.standardSecond.name!}[/#if]
+                    </a> 
+                 </h3>
+                 [#if item.productFash??]
+                      [#if item.productFash.stockCount==0]
+                       <p class="tips_2"><strong class="orange" style="color:red;">该款式商品已下架或无库存</strong></p>
+                    [#elseif item.count gt item.productFash.stockCount]
+                       <p class="tips_2" ><strong class="orange" style="color:red;">该款式商品的购买数量大于库存</strong></p>
+                   [/#if]
+                 [#else]
+                     [#if item.product.stockCount==0]
+                       <p class="tips_2"><strong class="orange" style="color:red;">该商品已下架或无库存</strong></p>
+                    [#elseif item.count gt item.product.stockCount]
+                       <p class="tips_2" ><strong class="orange" style="color:red;">该商品的购买数量大于库存</strong></p>
+                   [/#if]   
+                 [/#if]
+             </td>
+              <td> 
+              [#if item.productFash??]
+                 <del>￥<span id="market_items_${item.product.id}_${item_index}">${item.productFash.marketPrice!}</span></del><br/>
+                [#if item.product.promote??]
+                <strong class="red">￥<span id="sale_items_${item.product.id}_${item_index}">${(item.product.salePrice*item.product.promote.discount!)?string('0.00')}</span></strong>
+                [#else]
+                <strong class="red">￥<span id="sale_items_${item.product.id}_${item_index}">${item.productFash.salePrice!}</span></strong>
+                [/#if]
+              [#else]
+                 <del>￥<span id="market_items_${item.product.id}_${item_index}">${item.product.marketPrice!}</span></del><br/>
+                 [#if item.product.promote??]
+                 <strong class="red">￥<span id="sale_items_${item.product.id}_${item_index}">${(item.product.salePrice*item.product.promote.discount!)?string('0.00')}</span></strong>
+                  [#else]
+                  <strong class="red">￥<span id="sale_items_${item.product.id}_${item_index}">${item.product.salePrice!}</span></strong>
+                  [/#if]
+              [/#if]  
+                 <span id="score_items_${item.product.id}_${item_index}" style="display:none;">${item.product.score!0}</span>
+                 <span id="weight_items_${item.product.id}_${item_index}" style="display:none;">${item.product.productExt.weight!0}</span>
+               </td> 
+              <td>
+                <span id="total_score_items_${item.product.id}_${item_index}">${item.count*item.product.score!0}</span>
+              </td>
+              <td> 
+                <input type="hidden" name="num_${item.product.id}_3_0" value="5" /> 
+                <input class="btn-reduce-active" type="button" onclick="decrement('${base}',${item.id},'items_${item.product.id}_${item_index}');" />
+                <input id="items_${item.product.id}_${item_index}" name="itemNumBox" type="text" value="${item.count}" class="num" oriNum="${item.product.stockCount!0}"
+                  onblur="calSubTotal('${base}',${item.id},'items_${item.product.id}_${item_index}');" />
+                 <input class="btn-plus" type="button" onclick="increment('${base}',${item.id},'items_${item.product.id}_${item_index}');"/> 
+             </td>
+            <td><span id="total_weight_items_${item.product.id}_${item_index}">${item.count*item.product.productExt.weight!0}</span>g</td> 
+          
+            <td> 
+            [#if item.productFash??]
+                 <input id="items_fash_${item.product.id}_${item_index}"  type="hidden" value="${item.productFash.id}" /> 
+               
+                 [#if item.product.promote??]
+                  <strong class="red">￥<span id="total_sale_items_${item.product.id}_${item_index}">${item.count*(item.productFash.salePrice*item.product.promote.discount)}</span></strong>
+                  [#else]
+                   <strong class="red">￥<span id="total_sale_items_${item.product.id}_${item_index}">${item.count*item.productFash.salePrice!0}</span></strong>
+                  [/#if]
+                <span id="total_market_items_${item.product.id}_${item_index}" style="display:none;">${item.count*item.productFash.marketPrice!0}</span>
+            [#else]
+               [#if item.product.promote??]
+                 <strong class="red">￥<span id="total_sale_items_${item.product.id}_${item_index}">${item.count*(item.product.salePrice*item.product.promote.discount)}</span></strong>
+               [#else] 
+                 <strong class="red">￥<span id="total_sale_items_${item.product.id}_${item_index}">${item.count*item.product.salePrice!0}</span></strong>
+               [/#if]
+                 <span id="total_market_items_${item.product.id}_${item_index}" style="display:none;">${item.count*item.product.marketPrice!0}</span>
+            [/#if]
+            </td>
+            <td class="last_td"> 
+                  <span> 
+                    <a href="javascript:void(0)"  class="deleteButton" onclick="ajaxDeleteCartItem('${base}',${item.id});" id="items_${item.product.id}_${item_index}_delete" style="color:#656565;">删除</a>
+                  </span> 
+            </td> 
+          </tr>
+           [/#list]
+          [/@cartItem_list] 
+         [/#list]
+          </table>
+          </form>
+           <p class="subtotal">
+            <span class="fl"> 重量总计：<span id="items_weight"></span>g &nbsp;
+                                                                         共节省：<span id="items_spare"></span>元 &nbsp; 
+                                                                         预计可获积分：<span id="items_score"></span> </span> 
+            <strong class="darkgray">运费：</strong> (以结算时为准) &nbsp;&nbsp; <strong class="darkgray">商品金额：</strong>
+            <strong class="red f16 yh">&nbsp;<span id="items_sale"></span></strong>&nbsp;元 
+          </p>
+   </div> 
+    <div style="height:35px;"> 
+       <div class="fix_btm_bar clearfix">
+              <div class="fr"> 
+                <strong> 商品总价（未包含运费）： <span class="red" id="total_price_bottom"></span>元 </strong> 
+                <button id="nextstep" class="ctn_shopping" onclick="continueShopping();">继续购物</button>
+                <button id="confirmToPay" class="settlement" onclick="checksubmit();" >确认结账</button> 
+                <input type="hidden" id="allTrackerInfo" name="allTrackerInfo" value="confirmToPayButton:{items:[{pId:1006563,mid:3,num:5,price:69.5},{pId:1764278,mid:3,num:4,price:79.6}],proms:[]}" /> 
+              </div>
+              <div class="selectbox_btm"> 
+                 <input type="checkbox" name="idss"  onclick="checks('idss','cart2Checkbox',this.checked)" checked/>
+                  <label for="allselect_bottom">全选</label> 
+                  <a href="javascript:void(0);" onclick="ajaxBatchDelete();" class="ablue">批量删除</a> 
+                  <a href="javascript:void(0);" onclick="ajaxEmpty();" class="ablue">清空购物车</a>
+              </div> 
+        </div> 
+     </div>  
+     </form>
+    [#else]
+     <div class="nogoodsbg"> 
+         <div class="nogoodsimg"><img src="${root!}/u/img/member/nogoods.jpg"/></div> 
+         <div class="nogoodstxt"> 
+              <p class="empty">您的购物车还是空的。</p> 
+              <p class="color_blue"> 您还没有添加任何商品。 马上去 [ <a href="${base}/">挑选商品</a> ]。<br/>
+              </p>
+            <br/><br/><br/><br/>
+         </div>
+         <div class="clear"></div>
+    </div> 
+    [/#if]
+    <div id="cart2BlockUI" style="display:none"></div>
+    <div class="recommend_sp">
+    	 <div class="recommend_title">推荐商品</div>
+         <ul class="tj_spul">
+          [@isRecommend_product isrecommend='1' count='8']
+           [#list tag_list as product]
+         	<li>
+            	<a href="${product.url!}" target="_blank"><img src="${root!}${product.productExt.coverImg!}" width="132" height="132" /></a> 
+                <p><a href="${product.url}" target="_blank">[@text_cut s=product.name len='21' append=''/]</a></p>
+                <p style="text-align:left;">
+                [#if product.category.colorsize] 
+                   [#list product.fashions as fashion]
+                      [#if fashion.isDefault]
+                        ¥${fashion.salePrice!0}
+                      [/#if]
+                   [/#list]     
+                [#else]
+                   ¥${product.salePrice!0}
+                 [/#if]
+                </p>
+               <a  class="a-red" href="${product.url}" ><s></s><font color="#FFFFFF">查看详情 </font></a>
+            </li>
+           [/#list] 
+          [/@isRecommend_product]  
+            <div class="clear"></div>
+         </ul>
+    </div>
+</div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

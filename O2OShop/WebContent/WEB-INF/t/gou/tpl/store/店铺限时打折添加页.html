@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>店铺打折添加页  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/memeber.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/buy.css" type="text/css" rel="stylesheet" />
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+[#include "../include/店铺页头顶栏.html"/]
+<div id="head">
+	 [#include "../include/页头搜索栏.html"/]
+     [#include "../include/页头导航栏.html"/]
+</div>
+<div class="w960 mt10">
+  [#include "店铺中心_导航.html"/]
+  <div class="user_right">
+       <div class="mc_content">
+	    <div class="usercenter_position"><span>店铺打折管理</span> 
+	    <form class="ropt">
+		 		 <input type="submit" value="返回列表" onclick="this.form.action='list.jspx?pageNo=${pageNo}';"/>
+     	</form>    
+        <div class="right_line">
+          <form method="post" action="save.jspx" id="jvForm">
+            <table width="100%" cellpadding="2" cellspacing="1" border="0">
+              <tr><td width="20%"><span>*</span>名称：</td>
+                  <td width="80%"><input type="text" name="name" class="required regist_input" /></td>
+              </tr>
+            <tr>
+              <td width="20%"><span>*</span>折扣比</td>
+              <td width="80%">
+              <input type="text" name="discount" class="required regist_input"/></td>
+            </tr>
+            <tr>
+              <td width="20%"><span>*</span>限购数量：</td>
+              <td width="80%">
+                 <input type="text" name="limitCount" class="required regist_input digits" /></td>
+            </tr>
+             
+            <tr>
+              <td width="20%"><span>*</span>开始时间：</td>
+              <td width="80%">
+              <input type="text" name="startDate" class="Wdate required regist_input" style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
+            </tr>
+            <tr>
+              <td width="20%"><span>*</span>结束时间：</td>
+              <td width="80%"><input type="text" name="endDate" class="Wdate required regist_input" style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
+            </tr>
+           
+           <tr>
+              <td width="20%">禁用</td>
+              <td width="80%">
+                 <input type="radio" name="disable" value="true"/>是&nbsp;&nbsp;
+                 <input type="radio" name="disable"  value="false" checked="checked"/>否
+              </td>
+           </tr>
+          <tr><td colspan="2" align="center">
+	             <input type="submit" value="提交"/> &nbsp; <input type="reset" value="重置"/>
+            </td></tr>
+                 </table>
+              </form>
+          </div>
+       </div>
+  </div>
+</div>
+</div>
+ <div class="clear"></div>
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function opens(path){
+var dialog = $.dialog({title:'详细',min:false,max:false,width:'850px',height:'500px',content: 'url:'+path
+});
+dialog.show();
+}
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 便利店管理 - <@s.m "global.list"/></div>
+	<form class="ropt" method="post" >
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_list.do" method="post">
+	 <div style="padding-top:5px">
+	便利店名称： <input type="text" name="companyName" id="companyName" value="${companyName!}" style="width:150px"/>  
+	站点：<select name="siteId">
+            <option value="">--请选择--</option>
+             <#list siteList as site>
+               <option value="${site.id}"
+                <#if siteId??><#if siteId==site.id>selected="selected"</#if></#if>>${site.name!}</option>
+            </#list>  
+       </select>
+	状态：<select name="organizationName">
+            <option value="">--请选择--</option>
+              <option value="供应商注册" <#if organizationName?? && organizationName=='便利店注册'>selected="selected"</#if>>未审核</option>
+              <option value="供应商" <#if organizationName??&&organizationName=='便利店'>selected="selected"</#if>>已审核</option>
+       </select>
+		<input type="submit"  class="ropt" value="<@s.m "global.query"/>" />
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;bld,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${bld.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="电话账号">${bld.ketaUser.username!}</@p.column><#t/>
+	<@p.column code="便利店密码">${bld.ketaUser.painPass!}</@p.column><#t/>
+	<@p.column code="姓名">${bld.ketaUser.realname!}</@p.column><#t/>
+	<@p.column code="联系电话">${bld.ketaUser.phone!}</@p.column><#t/>
+	<@p.column code="名称">${bld.companyName!}</@p.column><#t/>
+	<@p.column code="所属站点">${bld.website.name!}</@p.column><#t/>
+	<@p.column code="账户">${bld.account.id!}</@p.column><#t/>
+	<@p.column code="账户可用余额">${bld.account.money!}</@p.column><#t/>
+	<@p.column code="账户冻结金额">${bld.account.frozenMoney!}</@p.column><#t/>
+	<@p.column code="添加人">${(bld.user!).username!}</@p.column><#t/>
+	<@p.column code="平台默认"><#if bld.isDef?? && bld.isDef><font color='red'>是</font><#else>否&nbsp;<a href="javascript:if(confirm('确定要设置默认吗？若设置默认，该站点下其他设置的默认便利店将被清除'));window.location.href='v_edit_mr.do?id=${bld.id}'">设置为默认</a>
+	</#if></@p.column><#t/>
+	<@p.column code="状态"><#if bld.ketaUser.organization.name=='便利店'> 已审核<#else>  <a style="color:red" href="v_bldsh.do?id=${bld.id}">审核</a></#if></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		 <a href="v_edit.do?id=${bld.id}"><@s.m "global.edit"/></a> | <#rt/> 
+		 <a href="v_bldps_add.do?id=${bld.id}">配送区域</a> | <#rt/> 
+		 <a href="javascript:opens('../account/qt_list.do?accountId=${bld.account.id}')">账单</a> | <#rt/> 
+		 <a href="o_delete.do?id=${bld.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<script type="text/javascript">
+//上传文档
+function uploadDoc(n) {
+	var of = $('#uploadFileDoc'+n);
+	//检查是否选择了文档
+	if(of.val()=='') {
+		alert('<@s.m "docupload.error.noFileToUpload"/>');
+		return;
+	}
+	//将file移动至上传表单
+	$('#fileContentDoc').empty();
+	$('#fileContentDoc').append(of);
+	//复制一个file放至原处
+	$('#ufcDoc'+n).append(of.clone());
+	
+	//修改属性
+	of.attr('id','');
+	
+	of.attr('name','uploadFileDoc');
+	//其他表单
+	
+	$('#ufFileName').val($('#fileName'+n).val());
+	
+	$('#uploadDocNum').val(n);	
+	$('#uploadDocForm').submit();
+}
+
+//清除文档
+function clearDoc(n) {
+	$('#uploadPathDoc'+n).val("");
+	
+}
+
+
+</script>
+<form id="uploadDocForm" action="../common/o_upload_doc.do" method="post" enctype="multipart/form-data" target="hiddenIframe" style="display:none;width:0px;height:0px;">
+<span id="fileContentDoc">　</span>
+
+<input id="uploadDocNum" type="hidden" name="uploadNum"/>
+<input id="ufFileNameDoc" type="hidden" name="fileName"/>
+</form>
+<iframe name="hiddenIframe" frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

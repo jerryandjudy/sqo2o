@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>店铺商品搜索结果页 - ${web.name}${web.additionalTitle!}</title>
+<link href="${storeRoot}/css/dianpu.css" rel="stylesheet" type="text/css" />
+<link href="${storeRoot}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${storeRoot}/css/layout.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript">
+  function getTableForm(){
+           return  document.getElementById("searchForm");
+	  }
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div class="width980">
+	 [#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+    <div class="dpcon_left">
+    	<div class="dplm1">
+    		<div class="dplm1tit">客服中心</div>
+    		<div class="dplm1box">
+            	<div style="border-bottom:1px dashed #dcdcdc; padding-bottom:10px; margin-bottom:10px;">
+                <b>工作时间</b><br />
+                &nbsp;&nbsp;周一至周五：9:00-23:00<br />
+                &nbsp;&nbsp;周六至周日：9:00-23:00<br />
+                </div>
+                <div style="border-bottom:1px dashed #dcdcdc; padding-bottom:10px;">
+                <b>在线咨询</b><br />
+                &nbsp;&nbsp;客服中心
+                </div>
+            </div>
+        </div>
+      [#include "../include/页面搜索页.html"/]
+      [#include "../include/宝贝分类页.html"/]
+    </div>
+    
+    <div class="dpcon_right">
+      <div class="dplm2">
+      <form id="searchForm" action="${base}/search.jspx">
+      <input type="hidden" name="q" id="q" value="${q!}"/>
+       [#if q??]
+         [@shop_lucene_page q=q ctgId=ctgId storeId=storeId endPrice=endPrice beginPrice=beginPrice descLen='100' append='...' count='5']
+    	  <div class="dplm2tit"> <span>您搜索的“${q!}”</span>关键字，共${tag_pagination.totalCount} 条 查询结果，[@process_time/]</div>
+    	  <div class="dplm2box" style="height:435px;">
+		     [#if tag_list??]
+		       <ul>
+			     [#list tag_list as product]
+		           <li>
+		           <p><a href="${product.url!}">
+		             [#if product.coverImg??]
+                      <img src="${root!}${product.coverImg}" title="${product.name!}" width="120" height="150"/>
+                     [#else]
+                      <img src="${root!}${global.defImg}" title="${product.name!}" width="120" height="150" />
+                     [/#if]
+                       </a></p>
+                       <p><a href="${product.url!}" class="sp_title1">[@text_cut s=product.name length='3' append='...'/]</a></p>
+                       <p class="red">￥${product.salePrice!}元</p>
+                       <p align="center">
+                           <a class="button buy" href="${product.url}" target="_blank"> 查看详情</a>
+                        </p>
+                    </li>
+			      [/#list]
+		        </ul>
+		        <div align="center">[@pagination_style sysPage='3'/]</div> 
+	            <div class="clear"></div>    
+	       [#else]
+	           <p>暂无记录</p>
+	       [/#if]
+       </div>
+       	  [/@shop_lucene_page]	  
+        [/#if]	
+        </form>
+      </div>
+    </div>
+   <div class="clear"></div>
+    [#include "../include/页脚信息栏.html"/] 
+</div>
+</body>
+</html>

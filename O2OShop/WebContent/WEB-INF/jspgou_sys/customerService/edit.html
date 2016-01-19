@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 在线客服 - 修改 </div>
+	
+	<form class="ropt">
+		<input type="submit" value="返回" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="tableForm" action="o_update.do">
+<@p.text colspan="2" width="50" label="客服昵称" name="name" value="${customerService.name!}"  required="true" class="required"/><@p.tr/>
+<@p.text colspan="2" width="50" label="客服账号" name="content" value="${customerService.content!}" required="true" class="required"  maxlength="11" helpPosition="2"/><@p.tr/>
+<@p.select colspan="2" width="50" label="类型" required="true" value="${customerService.type}" list={"QQ":"QQ","Ali":"Ali"} name="type"/><@p.tr/>
+<@p.text colspan="2" width="50" label="排序" name="priority"  value="${customerService.priority!10}" required="true" class="required"  maxlength="11"  help="默认10" helpPosition="2" /><@p.tr/>
+<@p.radio colspan="2" width="50" label="禁用" name="disable" value="${customerService.disable!?string('true','false')}" required="true" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.td colspan="2" width="100">
+<input type="hidden" name="id" value="${customerService.id}">
+<@p.submit code="global.submit"/>&nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

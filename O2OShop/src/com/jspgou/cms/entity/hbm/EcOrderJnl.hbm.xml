@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="EcOrderJnl" table="jc_shop_order_jnl">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="paymentNo" column="card_number" type="string" not-null="false" length="255"/>
+		<property name="transType" column="reason" type="string" not-null="false" length="500"/>
+		<property name="paymentAmount" column="money" type="java.lang.Double"  length="11"/>
+		<property name="qid" column="qid" type="string" length="255"/>
+		<property name="traceNo" column="TRACE_NO" type="string"  />
+		<property name="traceDate" column="TRACE_DATE" type="string" not-null="false" length="11"/>
+		<property name="buyerIp" column="BUYER_IP" type="string"  length="11"/>
+		<property name="curType" column="cur_type" type="string" />
+		<property name="rspcode1" column="RSP_CODE1" type="string" not-null="false"/>
+		<property name="rspcode2" column="RSP_CODE2" type="string"  />
+		<property name="rspcode3" column="RSP_CODE3" type="string"  />
+		<property name="qsAmount" column="QS_AMOUNT" type="string"  />
+		<property name="qsCurrency" column="QS_CURRENCY" type="string"  />
+		<property name="qsDate" column="QS_DATE" type="string"  />
+		<property name="respTime" column="RESPTIME" type="string"  />
+		<property name="origQid" column="ORIG_QID" type="string"  />
+		<property name="branchId" column="BRANCH_ID" type="string"  />
+		<property name="cardType" column="CARD_TYPE" type="string"  />
+		<property name="cardNumber" column="CARD_NUMBER" type="string"  />
+		<property name="orderDate" column="ORDER_DATE" type="string"  />
+		<property name="orderTime" column="ORDER_TIME" type="string"  />
+		<many-to-one name="oRder" column="PAYMENT_NO" class="Order" ></many-to-one>
+		
+	</class>	
+</hibernate-mapping>

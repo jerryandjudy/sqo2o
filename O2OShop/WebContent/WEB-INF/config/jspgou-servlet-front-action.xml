@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+	<bean id="staticPageAct" class="com.jspgou.cms.action.front.StaticPageAct"/>
+	<bean id="dynamicPageAct" class="com.jspgou.cms.action.front.DynamicPageAct"/>
+    <bean id="wapPageAct" class="com.jspgou.cms.action.front.WapPageAct"/>
+	<bean id="alipayAct" class="com.jspgou.cms.action.front.AlipayAct"/>
+	<bean id="userAct" class="com.jspgou.cms.action.front.UserAct"/>
+	<bean id="searchAct" class="com.jspgou.cms.action.front.SearchAct"/>
+	<bean id="cartAct" class="com.jspgou.cms.action.front.CartAct"/>
+	<bean id="shoppingCartAct" class="com.jspgou.cms.action.front.ShoppingCartAct"/>
+	<bean id="orderAct" class="com.jspgou.cms.action.front.OrderAct"/>
+	<bean id="myInfomationAct" class="com.jspgou.cms.action.front.MyInfomationAct"/>
+	<bean id="myGiftAct" class="com.jspgou.cms.action.front.MyGiftAct"/>
+	<bean id="limitProductFromtAct" class="com.jspgou.cms.action.front.LimitProductFromtAct"/>
+	<bean id="productFormAct" class="com.jspgou.cms.action.front.ProductFormAct"/>
+	<bean id="paymentAct" class="com.jspgou.cms.action.front.PaymentAct"/>
+	<bean id="memberCouponAct" class="com.jspgou.cms.action.front.MemberCouponAct"/>
+	<bean id="collectAct" class="com.jspgou.cms.action.front.CollectAct"/>
+	<bean id="advertiseAct" class="com.jspgou.cms.action.front.AdvertiseAct"/>
+    <bean id="giftAct" class="com.jspgou.cms.action.front.GiftAct"/>
+	<bean id="shopScoreAct" class="com.jspgou.cms.action.front.ShopScoreAct"/>
+	<bean id="orderReturnAct" class="com.jspgou.cms.action.front.OrderReturnAct"/>
+	<bean id="shopMoneyAct" class="com.jspgou.cms.action.front.ShopMoneyAct"/>
+	
+    <bean id="forgotPasswordAct" class="com.jspgou.cms.action.member.ForgotPasswordAct"/>
+	<bean id="loginAct" class="com.jspgou.cms.action.member.LoginAct"/>
+	<bean id="registerAct" class="com.jspgou.cms.action.member.RegisterAct"/>
+	<bean id="shopMemberAct" class="com.jspgou.cms.action.member.ShopMemberAct"/>
+	<bean id="shopMenberAddressAct" class="com.jspgou.cms.action.member.ShopMenberAddressAct"/>
+	<bean id="discussFroAct" class="com.jspgou.cms.action.member.DiscussFroAct"/>
+	<bean id="consultFroAct" class="com.jspgou.cms.action.member.ConsultFroAct"/>
+	<bean id="aftersaleFroAct" class="com.jspgou.cms.action.member.AftersaleFroAct"/>
+	<bean id="refundFroAct" class="com.jspgou.cms.action.member.RefundFroAct"/>
+	<bean id="reportFroAct" class="com.jspgou.cms.action.member.ReportFroAct"/>
+	
+	<bean id="fckAct" class="com.jspgou.cms.action.store.FckAct"/>
+	<bean id="storeFroAct" class="com.jspgou.cms.action.store.StoreFroAct"/>
+	<bean id="productSellFroAct" class="com.jspgou.cms.action.store.ProductSellFroAct"/>
+	<bean id="customerServiceFroAct" class="com.jspgou.cms.action.store.CustomerServiceFroAct"/>
+	<bean id="registerStoreAct" class="com.jspgou.cms.action.store.RegisterStoreAct"/>
+	<bean id="productFroAct" class="com.jspgou.cms.action.store.ProductFroAct"/>
+	<bean id="orderStFroAct" class="com.jspgou.cms.action.store.OrderStFroAct"/>
+	<bean id="typeFroAct" class="com.jspgou.cms.action.store.TypeFroAct"/>
+	<bean id="refundAct" class="com.jspgou.cms.action.store.RefundAct"/>
+	<bean id="reportAct" class="com.jspgou.cms.action.store.ReportAct"/>
+	<bean id="aftersaleStAct" class="com.jspgou.cms.action.store.AftersaleStAct"/>
+	<bean id="storeCategoryAct" class="com.jspgou.cms.action.store.StoreCategoryAct"/>
+	<bean id="shippingFroAct" class="com.jspgou.cms.action.store.ShippingFroAct"/>
+	<bean id="roleFroAct" class="com.jspgou.cms.action.store.RoleFroAct"/>
+	<bean id="fullGiveFroAct" class="com.jspgou.cms.action.store.FullGiveFroAct"/>
+	<bean id="employeeAct" class="com.jspgou.cms.action.store.EmployeeAct"/>
+	<bean id="promoteFroAct" class="com.jspgou.cms.action.store.PromoteFroAct"/>
+	
+    <bean id="templateFroAct" class="com.jspgou.cms.action.store.TemplateFroAct">
+		    <property name="tplManager" ref="tplManager"/>
+	</bean>
+	<bean id="adspceFroAct" class="com.jspgou.cms.action.store.AdspaceFroAct"/>
+	<bean id="advertiseFroAct" class="com.jspgou.cms.action.store.AdvertiseFroAct"/>
+	<bean id="resourceFroAct" class="com.jspgou.cms.action.store.ResourceFroAct"/>
+	<bean id="balanceFroAct" class="com.jspgou.cms.action.store.BalanceFroAct"/>
+	
+	<bean id="imageFroCutAct" class="com.jspgou.cms.action.front.utils.ImageFroCutAct"/>
+	<bean id="imageFroUploadAct" class="com.jspgou.cms.action.front.utils.ImageFroUploadAct"/>
+
+</beans>

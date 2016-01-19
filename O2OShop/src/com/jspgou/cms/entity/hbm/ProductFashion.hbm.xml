@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class dynamic-insert="true" name="ProductFashion" table="jc_shop_product_fashion">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write" />
+		<id name="id" type="java.lang.Long" column="fashion_id">
+			<generator class="native" />
+		</id>
+		<property name="fashionStyle" column="fashion_style" type="string" not-null="false" length="255" />
+		<property name="productCode" column="product_code" type="string" not-null="false" length="255" />
+		<property name="saleCount" column="sale_count" type="java.lang.Integer"	not-null="false" length="11" />
+		<property name="stockCount" column="stock_count" type="java.lang.Integer" not-null="false" length="11" />
+		<property name="onSale" column="on_sale" type="java.lang.Integer" not-null="false" length="1" />
+		<property name="createTime" column="create_time" type="timestamp" not-null="false" />
+		<property name="marketPrice" column="market_price" type="java.lang.Double" not-null="false" length="11" />
+		<property name="salePrice" column="sale_price" type="java.lang.Double"	not-null="false" length="11" />
+		<property name="costPrice" column="cost_price" type="java.lang.Double"	not-null="false" length="11" />
+		<property name="lackRemind" column="lackRemind" type="java.lang.Integer" not-null="false" length="1" />
+		<property name="nature" column="nature" type="string" not-null="false" />
+		<property name="attitude" column="attitude" type="string" not-null="false" />
+		<property name="fashionPic" column="fashion_pic" type="string" not-null="false" />
+		<property name="fashionColor" column="fashion_color" type="string" not-null="false" />
+		<property name="fashionSize" column="fashion_size" type="string" not-null="false" />
+		<property name="isDefault" column="is_default" type="java.lang.Boolean" not-null="true"/>	
+		<set name="cartItems" inverse="true">
+			<cache usage="read-write" />
+			<key column="productFash_id" />
+			<one-to-many class="CartItem" />
+		</set>	
+		<many-to-one name="productId" column="product_id" class="Product" not-null="false" />
+		<set name="standards" table="jc_shop_fashion_standard">
+			<cache usage="read-write"/>
+			<key column="fashion_id"/>
+			<many-to-many column="standard_id" class="Standard"/>
+		</set>
+	</class>
+</hibernate-mapping>

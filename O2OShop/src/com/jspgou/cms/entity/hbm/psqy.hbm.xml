@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="com.jspgou.cms.entity.Psqy" table="jc_core_psqy">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="long" column="id"><generator class="native" /></id>
+        <many-to-one name="bld" column="bld_id" class="com.jspgou.cms.entity.Bld" ></many-to-one>
+        <many-to-one name="gys" column="gys_id" class="com.jspgou.cms.entity.Gys" ></many-to-one>
+        <many-to-one name="user" column="user_id" class="com.jspgou.core.entity.User" not-null="true"></many-to-one>
+        <many-to-one name="province" column="province_id" class="Address" not-null="true"></many-to-one>
+		<many-to-one name="city" column="city_id" class="Address" not-null="true"></many-to-one>
+		<many-to-one name="country" column="country_id" class="Address" not-null="true"></many-to-one>
+		<many-to-one name="street" column="street_id" class="Address" ></many-to-one>
+	    <property name="createTime" column="create_time" type="timestamp" not-null="true" length="19"/>
+		<property name="description" column="description" type="string" length="255" not-null="false"/>
+	</class>	 
+</hibernate-mapping>

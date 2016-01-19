@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="Activitys" table="jc_shop_activitys">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="name" column="name" type="string" not-null="true" length="50"/>	
+		<property name="texts" column="texts" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>	
+		<property name="buyName" column="buy_product_name" type="string" not-null="false"/>	
+		<property name="giveName" column="give_product_name" type="string" not-null="false"/>	
+		<property name="gysNames" column="gys_names" type="string" not-null="false"/>	
+		<property name="beginTime" column="begin_time" type="timestamp" not-null="true" length="19"/>	
+		<property name="addTime" column="add_time" type="timestamp"  length="19"/>	
+		<property name="endTime" column="end_time" type="timestamp" not-null="true" length="19"/>
+		<property name="isusing" column="is_using" type="java.lang.Boolean" not-null="true" length="3"/>
+		<property name="buyCount" column="buy_count" type="integer"/>
+		<set name="gyss" inverse="true" cascade="all-delete-orphan" order-by="id">
+		<cache usage="read-write"/>
+		<key column="activitys_id"/>
+		<one-to-many class="ActivitysGys"/>
+		</set>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="buyProductSite" column="buy_product_id" class="com.jspgou.cms.entity.ProductSite" not-null="true"></many-to-one>
+		<many-to-one name="giveProductSite" column="give_product_id" class="com.jspgou.cms.entity.ProductSite" not-null="true"></many-to-one>
+		<property name="giveCount" column="give_count" type="integer"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<script type="text/javascript">
+ function jte(obj,n){
+    obj.className="current";
+     var t;
+	 var id;
+	 var s;
+	 for(var i=0;i<=n;i++){
+	   id ="nav"+i;
+	   t = document.getElementById(id);
+	   if(id != obj.id){
+	   	 t.className="white";
+	   }
+	 }
+ }
+</script>
+
+<div class="nav">
+	<ul class="nav_ul">
+		<li><a href="${base}/" class="current" id="nav0" onmouseover="jte(this,0)">首页</a></li>
+		[@shop_Category_list]
+		[#list tag_list as ctg]
+		<li><a href="${ctg.url}" class="white" id="nav${ctg_index+1}" onmouseover="jte(this,${tag_list?size})">${ctg.name}</a></li>
+        [/#list]
+        [/@shop_Category_list]    
+    </ul>
+    <div class="nav_rg">
+    	<div class="gwc">
+   			<a href="${base}/cart/shopping_cart.jspx">我的购物车<span id="cart_total_items"></span>个商品</a>
+       </div>
+   		<a href="${base}/cart/checkout_shipping.jspx" class="jiesuan"></a>
+   </div>
+   <script type="text/javascript">
+	  $('#cart_total_items').html(Shop.cartTotalItems());
+   </script>
+</div>

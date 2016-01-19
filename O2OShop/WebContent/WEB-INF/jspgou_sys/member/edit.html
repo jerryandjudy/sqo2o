@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<style type="text/css">
+.addr{padding:2px 0;}
+</style>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "member.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<#assign usernameExist><@s.m "error.usernameExist"/></#assign>
+<#assign emailExist><@s.m "error.emailExist"/></#assign>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="member.username" id="username" name="username" value=member.username rvalue=member.username size="30" disabled="disabled"/>
+<@p.text colspan="1" width="50" label="member.email" id="email" name="email" value=member.email rvalue=member.email size="30"  vld="{required:true,email:true,maxlength:100,remote:'../admin/v_check_email.do',messages:{remote:'${emailExist}'}}"/><@p.tr/>
+<@p.select colspan="1" width="50" label="group.function" id="groupId" name="groupId" value=member.group.id list=groupList listKey="id" listValue="name" required="true"/>
+<@p.text colspan="1" width="50" label="member.score" id="score" name="score" value=member.score required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="1" width="50" label="member.realname" id="realName" name="realName" value=member.realName required="true" class="required" maxlength="10"/>
+<@p.radio colspan="1" width="50" label="member.gender" id="gender" name="gender" value=member.gender required="true" list={"true":"member.gender.male","false":"member.gender.female"}/><@p.tr/>
+<@p.text colspan="1" width="50" label="member.birthday" id="birthday" name="birthday" value=member.birthday onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate required"/>
+<@p.text colspan="1"  width="50" label="member.schoolTag" id="schoolTag" name="schoolTag" value=member.schoolTag maxlength="50"/><@p.tr/>
+<@p.text colspan="1" width="50" label="member.schoolTagDate" id="schoolTagDate" name="schoolTagDate" value=member.schoolTagDate onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.radio colspan="1" width="50" label="member.disabled" id="disabled" name="disabled" value=member.disabled  required="true" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.text colspan="2"  width="50" label="member.position" id="position" name="position" value=member.position maxlength="50"/><@p.tr/>
+
+
+
+<@p.td label="头像" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="avatar" value=member.avatar! size="30"/> <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(1);"/><br/>
+<span id="ufc1"><input type="file" id="uploadFile1" size="20"/></span> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="139" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="139" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" src="${member.avatar!}" style="<#if !member.avatar??>width:100px;height:70px;</#if>background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.text colspan="2" width="100" label="member.company" id="company" name="company" value=member.company size="70" maxlength="100" /><@p.tr/>
+<@p.text colspan="2" width="100" label="member.address" id="address" name="address" value=member.address size="70" maxlength="100" /><@p.tr/>
+<@p.td colspan="2" ><strong class="title">收货人信息</strong></@p.td><@p.tr/>
+<#list addrList as addr>
+<@p.td colspan="1" width="50" label="收货人姓名">${addr.username!}</@p.td>
+<@p.td colspan="1" width="50" label="收货人电话">${addr.tel!}</@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="收货人固定电话">${addr.phone!}</@p.td>
+<@p.td colspan="1" width="50" label="收货人邮编">${addr.postCode!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="收货人地址">${addr.detailaddress!}</@p.td><@p.tr/>
+<@p.td colspan="2" ><strong class="title">&nbsp;</strong></@p.td><@p.tr/>
+</#list>
+
+</@p.form>
+</div>
+</body>
+</html>

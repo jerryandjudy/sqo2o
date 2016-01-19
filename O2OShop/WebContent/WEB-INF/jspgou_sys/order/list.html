@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+<script type="text/javascript">
+var url = location.href;
+var index = url.indexOf('jsessionid');
+if(index != -1) {
+	var sid = url.substr(index+11);
+	document.cookie = "JSESSIONID="+sid+";path=/;";
+}
+function changeSite(id) {
+       var domain=$("#site"+id).val();
+	   $("#sitelist").attr("action","http://"+domain+":${site.global.port}${site.global.contextPath}/nhaocang/admin/index.do");
+	    $("#sitelist").submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "order.function.all"/> - <@s.m "global.list"/></div>
+		
+	<div style="float: right" >
+
+	 <#if isSuper><div style="float:left" >
+                                         <form action="index.do" target="_top" method="get" id="sitelist">
+                                            <#list siteList as s>
+                                              <#if s.close==false>
+											  <input type="hidden" id="site${s.id}" value="${s.domain}" />
+											  </#if>
+								              </#list>
+											<select name="${siteParam}" onchange="changeSite(this.value)">
+											  <#list siteList as s>
+											  <#if s.close==false>
+								              <option value="${s.id}"<#if s.id==site.id> selected="selected"</#if>>${s.name}</option>
+								               </#if>
+								              </#list>
+								            </select>
+							            </form>
+							            </div>
+							            </#if>
+							            
+							           </div>
+	<div class="clear"></div>
+</div>
+<div class="rhead">
+	<form action="v_list.do" id="forms" method="post">
+	 <div style="padding-top:5px">
+	 订单编号: <input type="text" name="code" value="${code!}" style="width:100px"/> 
+	 收货人:&nbsp;&nbsp;<input type="text" name="userName" value="${userName!}" style="width:100px"/>  
+	下单日期:<input type="text" name="startTime" value="${startTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/>&nbsp;至&nbsp;<input type="text" name="endTime" value="${endTime!}" class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px"/> 
+	  订单状态:<select name="status">
+      	<option value="">--订单状态--</option>
+        <option value="0" <#if status??><#if 0==status>selected="selected"</#if></#if>>未分单</option>
+        <option value="1" <#if status??><#if 1==status>selected="selected"</#if></#if>>未确认</option>
+        <option value="2" <#if status??><#if 2==status>selected="selected"</#if></#if>>已确认</option>
+        <option value="3" <#if status??><#if 3==status>selected="selected"</#if></#if>>已取消</option>
+        <option value="4" <#if status??><#if 4==status>selected="selected"</#if></#if>>已完成</option>
+      </select>
+       支付状态:<select name="paymentStatus">
+      	<option value="">--支付状态--</option>
+        <option value="1" <#if paymentStatus??><#if 1==paymentStatus>selected="selected"</#if></#if>>未支付</option>
+        <option value="2" <#if paymentStatus??><#if 2==paymentStatus>selected="selected"</#if></#if>>已支付</option>
+        <option value="3" <#if paymentStatus??><#if 3==paymentStatus>selected="selected"</#if></#if>>已退款</option>
+      </select>
+ 配送状态:<select name="shippingStatus">
+      	<option value="">--配送状态--</option>
+        <option value="1" <#if shippingStatus??><#if 1==shippingStatus>selected="selected"</#if></#if>>未发货</option>
+        <option value="2" <#if shippingStatus??><#if 2==shippingStatus>selected="selected"</#if></#if>>已发货</option>
+        <!-- <option value="3" <#if shippingStatus??><#if 3==shippingStatus>selected="selected"</#if></#if>>已退货</option> -->
+      </select>
+   <br/>支付方式:<select name="paymentId">
+      	<option value="">--支付方式--</option>
+        <#list paymentList as payment>
+        <option value="${payment.id}"<#if paymentId??> <#if paymentId==payment.id>selected="selected"</#if></#if>>${payment.name!}</option>
+        </#list>  
+      </select>
+     配送方式: <select name="shoppingId">
+         <option value="">--配送方式--</option>
+         <#list shippingList as shopping>
+         <option value="${shopping.id}"<#if shoppingId??> <#if shoppingId==shopping.id>selected="selected"</#if></#if>>${shopping.name!}</option>
+         </#list>  
+       </select>
+       订单类型:<select name="ordeRType">
+      	<option value="">--订单类型--</option>
+        <option value="1" <#if ordeRType??><#if 1==ordeRType>selected="selected"</#if></#if>>商城订单</option>
+        <option value="2" <#if ordeRType??><#if 2==ordeRType>selected="selected"</#if></#if>>进销存订单</option>
+      </select>
+       <input type="submit"  value="<@s.m "global.query"/>" />
+       <input type="button" value="导出" onclick="$('#forms').attr('action','v_exportExcel.do');$('#forms').submit();$('#forms').attr('action','v_list.do')"/>
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;order,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${order.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column code="订单编号">${order.code}</@p.column><#t/>
+	<@p.column code="买家"><#if order.ordeRType==1>${order.member.username!}<#else>${order.bld.companyName!} </#if></@p.column><#t/>
+	<@p.column code="卖家"><#if order.ordeRType==1 ><#if order.status!=0 && order.bld??>${order.bld.ketaUser.realname!}</#if><#else><#if order.status!=0 && order.gys??>${order.gys.companyName!}</#if> </#if></@p.column><#t/>
+	<@p.column code="收货人名称">${order.receiveName!}</@p.column><#t/>
+	<@p.column code="order.total" align="center">￥${order.total!}<br/></@p.column><#t/>
+	<@p.column code="order.createTime" style="width:100px;">${order.createTime}</@p.column><#t/>
+	<@p.column code="处理时间" style="width:100px;">${order.lastModified!}</@p.column><#t/>
+	<@p.column code="order.shipping"><#if order.shipping??>${order.shipping.name!}</#if></@p.column><#t/>
+	<@p.column code="order.payment"><#if order.payment??>${order.payment.name!}</#if></@p.column><#t/>
+	<@p.column code="order.status"><@s.m "order.status.${order.status}"/></@p.column><#t/>
+	<@p.column code="order.paymentStatus"><@s.m "order.paymentStatus.${order.paymentStatus}"/></@p.column><#t/>
+	<@p.column code="支付途径"><#if order.payment?? && order.paymentCode?? && order.payment.id==1><@s.m "order.paymentCode.${order.paymentCode}"/></#if></@p.column><#t/>
+	<@p.column  code="order.shippingStatus"><@s.m "order.shippingStatus.${order.shippingStatus}"/></@p.column><#t/>
+	<@p.column code="order.ordeRType"><@s.m "order.ordeRType.${order.ordeRType}"/></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+	    <#if order.status==0 && order.ordeRType==1 && (order.paymentStatus==2 || order.payment.type==2 )><a href="v_fpdd.do?id=${order.id}&pageNo=${pageNo!0}">分单</a> | <#rt/></#if>
+		<a href="v_view.do?id=${order.id}&pageNo=${pageNo!}">查看</a> | <#rt/>
+		<!-- <a href="v_edit.do?id=${order.id}&pageNo=${pageNo!}"><@s.m "global.edit"/></a> | <#rt/> -->
+		<!-- <a href="o_delete.do?ids=${order.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/> -->
+	</@p.column><#t/>
+</@p.table>
+<!-- <div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div> -->
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "group.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="v_update.do">
+<@p.text colspan="1" width="50" label="group.name" name="name" value=student.name required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="年龄" name="age" value=student.age required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="电话" name="phone" value=student.phone required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="地址" name="addre" value=student.addre required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="分数" name="point" value=student.point required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="老师名" name="tname" value=student.tname required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="性别" name="sex" value=student.sex list={"true":"男","false":"女"} required="true" class="required"/>
+<@p.text colspan="1" width="50" label="科目" name="subject" value=student.subject required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="2" width="50" label="老师住址" name="taddre" value=student.taddre required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.textarea colspan="2" label="学生留言" name="leveWord" value=student.leveWord cols="70" rows="3"/><@p.tr/>
+<@p.textarea colspan="2" label="老师留言" name="tleveWord" value=student.leveWord cols="70" rows="3"/><@p.tr/>
+
+<@p.td><@p.hidden name="sid" value=student.sid/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

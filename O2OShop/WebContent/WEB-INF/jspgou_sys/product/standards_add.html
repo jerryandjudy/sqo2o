@@ -1,0 +1,10 @@
+<tr><td width="12%" class="pn-flabel pn-flabel-h">${standardType.name}</td>
+<td colspan="3" width="88%" class="pn-fcontent">
+<input type="hidden" name="standardType" value="${standardType.name}" attr="${standardType.field}"/>
+<#list sList as standard>
+<input type="checkbox" value="${standard.id}" id="sType_${standardType.field}" name="sType_${standardType.field}" nameAttr="${standard.name}" attr="${standardType.name}" onclick="standardAdd('sType_${standardType.field}');"/>
+<#if standard.color!="">
+<span style="width:13px;height:13px;border:1px solid #fff;cursor:pointer;background-color:${standard.color}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<#else>${standard.name}</#if>
+</#list>
+</td></tr>

@@ -1,0 +1,181 @@
+﻿     <!doctype html>
+     <html class="no-js">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>找回密码  - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/member.css" type="text/css" rel="stylesheet" />
+<link href="${root}/js/front.css" rel="stylesheet" type="text/css"/>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+<script src="${root}/js/jquery.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body class="am-with-fixed-navbar hPC" style="padding-bottom: initial;">
+	 [#include "../include/页头搜索栏.html"/]
+<!-- <div class="column_ad"><img src="${root}/img/ad.gif" /></div> -->
+<div class="position">您现在的位置：<a href="${base!}">首页</a> &gt; <a href="#" class="red">找回密码</a></div>
+<!-- 
+<h1>找回密码</h1>
+ -->
+ <div class="center mt10">
+	 <div class="column_title"><span>找回密码</span></div>
+ <div class="regist_box">
+<link rel="stylesheet" href="${root}/assets/css/amazeui.min.css">
+<link rel="stylesheet" href="${root}/assets/css/app.css">
+<script type="text/javascript">
+	var APP = '${base}';
+    var SELF = 'reset_password.jspx';
+  </script>
+	<!--TOP=end-->
+
+	<div class="content">
+		<div class="am-container am-margin-top-lg">
+
+
+			<div class="am-g">
+
+				<div class="am-u-sm-12">
+					<form id="reg-form" action="reset_password.jspx" class="am-form am-form-horizontal"
+						method="post">
+						<div class="am-form-group">
+
+							<div class="am-u-sm-12">
+								<div class="am-form-icon">
+									<i class="am-icon-mobile-phone"> </i> <input id="account"
+										class="am-form-field" type="text" placeholder="输入有效手机号"
+										name="account"></input>
+								</div>
+							</div>
+
+						</div>
+						<div class="am-form-group">
+
+							<div class="am-u-sm-7">
+								<div class="am-form-icon">
+									<i class="am-icon-check"> </i> <input id="verify"
+										class="am-form-field" type="text" placeholder="请输入右侧验证码"
+										name="verify"></input>
+								</div>
+							</div>
+							<div class="am-u-sm-5" style="line-height: 41px">
+								<img id="verifyImg" border="0" align="absmiddle"
+									style="cursor: pointer" alt="刷新验证码" src="${base}/checkcode.svl"
+									border="1"
+									onclick="$('#verifyImg').attr('src','${base}/checkcode.svl?d'+new Date()*1);"></img>
+
+							</div>
+						</div>
+						<div class="am-form-group">
+							<div class="am-u-sm-12">
+								<button id="getCodeBtn"
+									class="am-btn-block am-btn am-btn-default am-btn-sm"
+									onclick="getResetCode()" type="button">获取短信验证码</button>
+							</div>
+						</div>
+						<hr></hr>
+
+						<div id="moreinfo" class="am-hide" > 
+
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="am-form-icon">
+										<i class="am-icon-phone"></i> <input id="code"
+											class="am-form-field" type="text" placeholder="请输入短信验证码"
+											name="code"></input>
+									</div>
+								</div>
+							</div>
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="am-form-icon">
+										<i class="am-icon-lock"></i> <input id="password"
+											class="am-form-field" type="password" name="password"  placeholder="请设置一个密码"
+											name="password"></input>
+									</div>
+								</div>
+							</div>
+							<div class="am-form-group">
+								<div class="am-u-sm-12">
+									<div class="am-form-icon">
+										<i class="am-icon-lock"></i> <input id="repassword"
+											class="am-form-field" type="password" placeholder="请再次重复密码"
+											name="repassword"></input>
+									</div>
+								</div>
+							</div>
+							<hr></hr>
+							<div class="am-form-group am-margin-bottom-sm">
+							<div class="am-u-sm-12">
+								<input id="resetpasssubmit"
+									class="am-btn-block am-btn am-btn-primary am-btn-sm"
+									type="button" value="确定"></input>
+
+							</div>
+							</div>
+						</div>
+						<input type="hidden"
+							value="179d9a52f7e64a6429872428e6b22387_becd0be3793f9ade65ccd3aade193e88"
+							name="__hash__"></input>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+
+	</div>
+	<div class="am-modal am-modal-alert" tabindex="-1" id="modal-alert">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">提示</div>
+			<div class="am-modal-bd"></div>
+			<div class="am-modal-footer">
+				<span class="am-modal-btn">确定</span>
+			</div>
+		</div>
+	</div>
+	<div class="am-modal am-modal-confirm" tabindex="-1" id="modal-confirm">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">提示</div>
+			<div class="am-modal-bd"></div>
+			<div class="am-modal-footer">
+				<span class="am-modal-btn" data-am-modal-cancel>取消</span><span
+					class="am-modal-btn" data-am-modal-confirm>确定</span>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!--[if (gte IE 9)|!(IE)]><!-->
+
+	<script src="${root}/assets/js/jquery.min.js"></script>
+	<script src="${root}/assets/js/amazeui.min.js"></script>
+	<script src="${root}/assets/js/app.js"></script>
+
+
+	<!--<![endif]-->
+	<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+
+ </div>
+</div>
+[#include "../include/页脚信息栏.html"/] 
+</body>
+</html>

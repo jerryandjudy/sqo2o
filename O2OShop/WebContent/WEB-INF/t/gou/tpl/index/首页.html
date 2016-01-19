@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>N号仓互联网超市 -${base} ${web.name}</title>
+<meta name="baidu-site-verification" content="5jnUEaFu3G" />
+<meta http-equiv="keywords" content="N号仓,nhaocang,n号仓,Nhaocang,N好仓"/>
+<meta http-equiv="description" content="“N号仓”通过汇集加盟商采购订单来形成庞大的采购系统吸引供货源，降低采购成本；打破传统家庭式超市经营模式，为加盟商提供垂直、有效的商品销售链条。消费者按需决定选购方式，享受便利生活"/>
+<link href="${root}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/layout.css" type="text/css" rel="stylesheet" />
+<link href="${root}/css/service.css" type="text/css" rel="stylesheet" />
+<!--  <script language="javascript" src="${root}/js/duice.js"></script> -->
+<script type="text/javascript" src="${root}/js/img.js"></script>
+<link href="${root}/css/base.css" rel="stylesheet" type="text/css">
+<link href="${root}/css/index.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+function g(o){
+	return document.getElementById(o);
+}
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='normaltab';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='curr';
+}
+function HoverLi2(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb2_'+m+i).className='normaltab2';
+		g('tbc2_'+m+i).className='undis';
+	}
+	g('tbc2_'+m+n).className='dis';
+	g('tb2_'+m+n).className='curr2';
+}
+lastScrollY=0;
+function heartBeat(){ 
+var diffY;
+if (document.documentElement && document.documentElement.scrollTop)
+    diffY = document.documentElement.scrollTop;
+else if (document.body)
+    diffY = document.body.scrollTop
+else
+    {/*Netscape stuff*/}
+    
+percent=.1*(diffY-lastScrollY); 
+if(percent>0)percent=Math.ceil(percent); 
+else percent=Math.floor(percent); 
+document.getElementById("lovexin12").style.top=parseInt(document.getElementById("lovexin12").style.top)+percent+"px";
+document.getElementById("lovexin14").style.top=parseInt(document.getElementById("lovexin12").style.top)+percent+"px";
+
+lastScrollY=lastScrollY+percent; 
+//alert(lastScrollY);
+}
+<!--广告-->
+[@shop_advertising_space id=19 count=1]
+[#list tag_list as ad]
+
+
+suspendcode12="<DIV id=\"lovexin12\" style='z-index:99;left:22px;POSITION:absolute;TOP:169px;'><a href='${ad.attr.image_link!}' target='${ad.attr.image_target!}'><img border=0 src=http://u-10017112.file.myqcloud.com${ad.attr.image_url!}><br><a href=JavaScript:; onclick=\"lovexin12.style.visibility='hidden'\"><img border=0 src=${root}/images/index/close.gif></a></div>"
+document.write(suspendcode12); 
+	[/#list]
+[/@shop_advertising_space]
+ [@shop_advertising_space id=20 count=1]
+[#list tag_list as ad]
+suspendcode14="<DIV id=\"lovexin14\" style='z-index:99;right:22px;POSITION:absolute;TOP:169px;'><a href='${ad.attr.image_link!}' target='${ad.attr.image_target!}'><img border=0 src=http://u-10017112.file.myqcloud.com${ad.attr.image_url!}><br><a href=JavaScript:; onclick=\"lovexin14.style.display = 'none'\"><img border=0 src=${root}/images/index/close.gif></div>";
+document.write(suspendcode14); 
+ [/#list]
+  [/@shop_advertising_space]
+window.setInterval("heartBeat()",1);
+</script>
+<script type="text/javascript" src="${root}/js/jquery1.42.min.js"></script>
+<script type="text/javascript" src="${root}/js/jquery.SuperSlide.2.1.1.js"></script>
+</head> 
+
+<body>
+<!--TOP-->
+[#include "../include/页头顶栏.html"/]
+<!--TOP_广告-->
+[#include "../include/页头广告位.html"/]
+<!--LOGO-->
+[#include "../include/页头搜索栏.html"/]
+<!--------------------------------------------------------▷▷商品分类★开始◁◁------------------------------------------------------>
+[#include "../include/商品分类.html"/]
+<!--------------------------------------------------------▷▷商品分类★结束◁◁------------------------------------------------------> 
+
+
+
+<!--广告-->
+[@shop_advertising_space id=5 count=1]
+[#list tag_list as ad]
+
+<div class="ad_01"><a  href="${ad.attr.image_link!}" target="${ad.attr.image_target!}"> <img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}"  title="${ad.attr.image_title!}" width="1280px" height="70" /></a></div>
+[/#list]
+[/@shop_advertising_space]
+
+<!-- 特价商品 -->
+<div class="floor_box_1">
+[@shop_ProductSiteList  count='12' special ='1']
+[#if tag_list?size gt 0]
+[#list tag_list as productSite]
+[#if productSite_index %2 ==0]
+<div class="floor_in200">
+[/#if]
+<a href="${productSite.url!}" target="_blank" class="floor_gridup01">
+<div class="piccc" ><b></b><img src="http://u-10017112.file.myqcloud.com${productSite.product.coverImg!}" width="174" height="168" /></div>
+<div style=" font-size:12px; text-align: center; " >
+<div style="width:215px;">${productSite.product.name!}</div>
+<div style="width:215px; color:#F00;">￥${productSite.salePrice!}元</div>
+</div>
+</a> 
+[#if productSite_index %2 !=0 ||productSite_index+1==tag_list?size]
+</div>
+[/#if]
+[/#list]
+[/#if]
+[/@shop_ProductSiteList]
+
+</div>
+
+
+
+
+
+<!--首页产品展示组-->
+[@shop_Category_list count=12 isDisplay='1' isJp='1' ]
+[#list tag_list as ca]
+<div class="floor_box">
+
+<div class="floor_inleft">
+ <div class="floor_inleft_top1" style="background: rgba(0, 0, 0, 0) url('http://u-10017112.file.myqcloud.com/r/gou/www/images/index/floor_0${ca_index+1}.png') repeat scroll 0 0" ><a href="${ca.url}" target="_blank" >${ca.name!}</a></div>
+[@shop_advertising_space id=6 categoryId=ca.id count=3 ]
+[#list tag_list as ad]
+<div class="floor_inleft_logo67"><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}" ><img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}" width="191" height="67" title="${ad.attr.image_title!}" />
+</a>
+</div>
+[/#list]
+[/@shop_advertising_space]
+ 
+ <div class="floor_inleft_list">
+  <ul>
+   [@shop_Category_brand id=ca.id  ]
+   [#list tag_list as brand]
+   [#if brand_index lt 8]
+   <li><a href="#">${brand.name!}</a></li>
+   [/#if]
+   [/#list]
+   [/@shop_Category_brand]
+   </ul>
+ </div>
+</div>
+[@shop_advertising_space id=7 categoryId=ca.id count=1]
+[#list tag_list as ad]
+<div class="floor_in217"><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}" ><img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}" width="217" height="422" title="${ad.attr.image_title!}" />
+</a>
+</div>
+[/#list]
+[/@shop_advertising_space]
+[@shop_ProductSiteList categoryId=ca.id count='8' recommend ='1']
+[#if tag_list?size gt 0]
+[#list tag_list as productSite]
+[#if productSite_index %2 ==0]
+<div class="floor_in194">
+[/#if]
+<a href="${productSite.url!}" target="_blank" class="floor_gridup"><div ><img src="http://u-10017112.file.myqcloud.com${productSite.product.coverImg!}" width="174" height="168" /></div>
+<div style=" font-size:12px; text-align: center;" >
+<div style="width:215px;">${productSite.product.name!}</div>
+<div style="width:215px; color:#F00;">￥${productSite.salePrice!}元</div>
+</div>
+</a> 
+[#if productSite_index %2 !=0 ||productSite_index+1==tag_list?size]
+</div>
+[/#if]
+[/#list]
+[/#if]
+[/@shop_ProductSiteList]
+</div>
+[/#list]
+[/@shop_Category_list]
+<!--首页产品展示组-->
+
+
+
+<!--左右广告-->
+<div class="ad_02_box">
+[@shop_advertising_space  id=14 count=1]
+[#list tag_list as ad]
+<div class="ad_02_left tr"><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}" ><img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}" width="512" height="100" title="${ad.attr.image_title!}" />
+</a>
+</div>
+[/#list]
+[/@shop_advertising_space]
+[@shop_advertising_space  id=15 count=1]
+[#list tag_list as ad]
+<div class="ad_02_right tl"><a href="${ad.attr.image_link!}" target="${ad.attr.image_target!}" ><img src="http://u-10017112.file.myqcloud.com${ad.attr.image_url!}" width="480" height="100" title="${ad.attr.image_title!}" />
+</a>
+</div>
+[/#list]
+[/@shop_advertising_space]
+</div>
+
+<!--页脚-->
+[#include "../include/页脚信息栏.html"/]
+
+
+
+</body>
+</html>

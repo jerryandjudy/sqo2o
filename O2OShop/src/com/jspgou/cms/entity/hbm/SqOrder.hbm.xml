@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="SqOrder" table="sq_order">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Long" column="id"><generator class="native"/></id>
+		<property name="status" column="status" type="int"   />
+		<property name="code" column="code" type="long" not-null="true" length="20"/>
+        <property name="totalPrice" column="total_price" type="string"   />
+        <property name="createTime" column="create_time" type="timestamp" not-null="false"/>
+        <property name="finishedTime" column="finished_time" type="timestamp" not-null="false"/>
+        <property name="comments" column="comments" type="string"   />
+        <many-to-one name="seller" column="seller_id" class="KetaUser" ></many-to-one>
+        <property name="receiveTel" column="receive_tel" type="string"  length="255" />
+		<property name="receiveName" column="receive_name" type="string" not-null="false" length="100"/>
+		<property name="receiveAddress" column="receive_address" type="string" not-null="false" length="100"/>
+        <many-to-one name="sqService" column="service_id" class="SqService"></many-to-one>
+        <many-to-one name="member" column="member_id" class="ShopMember" ></many-to-one>
+        <many-to-one name="website" column="site_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+	</class>	 
+</hibernate-mapping>

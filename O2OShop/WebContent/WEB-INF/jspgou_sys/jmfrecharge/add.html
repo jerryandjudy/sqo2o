@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script src="${base}/thirdparty/swfupload/swfupload.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/swfupload.queue.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/fileprogress.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/handlers.js" type="text/javascript"></script>
+<link href="${base}/thirdparty/swfupload/process.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/res/common/js/lhgdialog.min.js?self=true&skin=iblue" type="text/javascript"></script>
+<script type="text/javascript">
+(function(config){
+    config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+    config['lock'] = true;
+    // [more..]
+})($.dialog.setting);
+function selectUser(){
+	var jmf = document.getElementById("jmftypeIdstr").value;
+	if(jmf==null || jmf.length<1){
+		alert("请选择加盟费类型！");
+		return;
+	}
+var dialog = $.dialog({title:'选择用户',min:false,max:false,width:'850px',height:'500px',content: 'url:../jmfrecharge/userlist.do?id='+$("#id").val()+'&jmftypeIdstr='+$("#jmftypeIdstr").val()+'&siteId='+$("#siteId").val()});
+dialog.show();
+}
+</script>
+
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function selectjmf(){
+	//$("#ptfc"+$("#jmflx").val()).val();
+	//alert($("#ptfc"+$("#jmflx").val()).val());
+	//$("#ptFc").value = $("#ptFc").value
+	var ids = document.getElementById("jmflx").value;
+	$("#userRealname").val("");
+	$("#ketauserId").val("");
+	$("#ketauserUsername").val("");
+	
+	document.getElementById("ptFc").value = document.getElementById("ptFc" + ids).value;
+	document.getElementById("siteId").value = document.getElementById("siteId" + ids).value;
+	document.getElementById("dlsFc").value = document.getElementById("dlsFc" + ids).value;
+	document.getElementById("je").value = document.getElementById("je" + ids).value;
+	document.getElementById("jmftypeIdstr").value = document.getElementById("jmftype" + ids).value;
+	
+	
+}
+
+</script>
+
+</head>
+<body>
+<#list jmfDictList as jmf>
+
+<input type="hidden" id="siteId${jmf.id}" value="${jmf.website.id}"></input>
+<input type="hidden" id="dlsFc${jmf.id}" value="${jmf.dlsFc}"></input>
+<input type="hidden" id="ptFc${jmf.id}" value="${jmf.ptFc}"></input>
+<input type="hidden" id="je${jmf.id}" value="${jmf.je}"></input>
+<input type="hidden" id="jmftype${jmf.id}" value="${jmf.jmftypeId.id}"></input>
+</#list>
+
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 加盟费充值添加 - <@s.m 
+
+"global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12"><@p.tr/>
+
+
+
+
+<tr>
+<td>站点加盟费类型</td>
+<td>
+<select name="jmf" id="jmflx" onchange="selectjmf();" >
+<option value="" >请选择</option>
+<#list jmfDictList as jmf>
+<option value="${jmf.id}" >${jmf.website.name}--${jmf.jmftypeId.name}</option>
+
+</#list>
+</select>
+</td>
+</tr>
+<@p.hidden  name="ketauserId"  id="ketauserId"  /><@p.tr/>
+<@p.hidden  name="siteId"  id="siteId"  /><@p.tr/>
+<@p.hidden  name="websiteId"  id="websiteId" /><@p.tr/>
+<@p.hidden name="jmftypeIdstr" id="jmftypeIdstr" /><@p.tr/>
+<@p.hidden  name="ptFc" id="ptFc"  /><@p.tr/>
+<@p.hidden  name="dlsFc" id="dlsFc"  /><@p.tr/>
+<@p.text colspan="2" label="用户姓名" name="userRealname" required="true" maxlength="200" size="50" onclick="selectUser()" id="userRealname" readonly="readonly"  /><@p.tr/>
+<@p.text colspan="2" label="用户账号" name="ketauserUsername" required="true" id="ketauserUsername"  readonly="readonly" size="50" /><@p.tr/>
+<@p.text colspan="2" label="加盟费参考金额" name="referenceValue" id="je" required="true" maxlength="200" size="50" readonly="readonly"  /><@p.tr/>
+<@p.text colspan="2" label="实际充值" name="realValue"   required="false" maxlength="200" size="50"  /><@p.tr/>
+<@p.text colspan="2" label="加盟费有效期-起" name="validFrom" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" required="false" maxlength="200" size="50"  /><@p.tr/>
+<@p.text colspan="2" label="加盟费有效期-止" name="validUntil" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" required="false" maxlength="200" size="50"  /><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+
+</@p.form>
+</div>
+</body>
+</html>

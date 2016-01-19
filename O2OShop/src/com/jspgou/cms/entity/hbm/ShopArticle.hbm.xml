@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jspgou.cms.entity">
+	<class name="ShopArticle" table="jc_shop_article">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="article_id"><generator class="native"/></id>
+		<property name="title" column="title" type="string" not-null="true" length="150"/>
+		<property name="publishTime" column="publish_time" type="timestamp" not-null="true" length="19"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="link" column="link" type="string" not-null="false" length="255"/>
+		<property name="titleImg" column="title_img" type="string" not-null="false" length="255"/>
+		<property name="param2" column="param2" type="string" not-null="false" length="255"/>
+		<property name="param3" column="param3" type="string" not-null="false" length="255"/>
+		<one-to-one name="articleContent" class="ShopArticleContent" cascade="delete"/>
+		<many-to-one name="website" column="website_id" class="com.jspgou.core.entity.Website" not-null="true"></many-to-one>
+		<many-to-one name="channel" column="channel_id" class="ShopChannel" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

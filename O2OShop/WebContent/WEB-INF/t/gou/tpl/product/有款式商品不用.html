@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JSPGOU商品 - ${web.name}${web.additionalTitle!}</title>
+<link href="${root}/u/css/product.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/global.css" type="text/css" rel="stylesheet" />
+<link href="${root}/u/css/layout.css" type="text/css" rel="stylesheet" />
+<script src="${sysResRoot}/jquery.js" type="text/javascript"></script>
+<script src="${root}/u/js/product.js"  type="text/javascript"></script>
+<script type="text/javascript"> 
+var URLPrefix = {
+		"url":"${base}"
+};
+</script>
+<script language="JavaScript" type="text/JavaScript">
+function g(o){
+	return document.getElementById(o);
+}
+
+function HoverLi(m,n,counter){
+	for(var i=1;i<=counter;i++){
+		g('tb_'+m+i).className='spms_normal';
+		g('tbc_'+m+i).className='undis';
+	}
+	g('tbc_'+m+n).className='dis';
+	g('tb_'+m+n).className='spms_curr';
+}
+
+function addToCart(productId,count,fashId,isAdd) {
+	if($("#color_list .selected").length<=0||$("#size_list .selected").length<=0){
+        alert("请选择款式！");
+        return;
+	}
+	if($("#seriesCartButton").val()=="该款式已售完"){
+         alert("该款式已经售完，请选择其他款式。");
+         return ;
+	}
+	if(!Core.username()) {
+		location.href='${loginUrl}';
+		return;
+	}
+	$.post('${base}/cart/add_orderItem.jspx', {
+		'productId' : productId,
+		'productAmount' : count,
+		'fashId': fashId,
+		'isAdd' : isAdd
+	}, function(data) {
+		if(data.status==1) {
+			location.href='${base}/cart/shopping_cart.jspx?backUrl=${location}';
+		} else if(data.status==0) {
+			location.href='${loginUrl}';
+		} else {
+			alert(data.error);
+		}
+	},'json');
+}
+
+function addToCollect(productId,productFashId){
+	$.post('${base}/collect/add_to_collect.jspx',{
+		'productId':productId,
+		'productFashId':productFashId
+		}, function(data){
+            if(data.status == 1){
+            	 alert('收藏成功!');
+            }else if(data.status== 2){
+                    alert('收藏过该商品');
+            }else{
+            	location.href='${base}/login.jspx';
+            }
+	  },'json');
+}
+</script>
+</head>
+<body>
+[#include "../include/页头顶栏.html"/]
+<div id="head">
+	[#include "../include/页头搜索栏.html"/]
+    [#include "../include/页头导航栏.html"/]
+</div>
+[#include "../include/页头广告位.html"/]
+<div class="position">您现在的位置：<a href="${base}/">首页</a>  » <a href="${category.url!}" class="red">${category.name!}</a></div>
+<div class="center mt10">
+  <div class="produce clearfix">
+  <input type="hidden" id="productId" autocomplete="off"   value="${product.id}"/>
+  <input type="hidden" id="merchantId"  value="${productFashion.id}"/> 
+    <input type="hidden" id="current_productID" autocomplete="off" value="${product.id}"/>	
+   <input type="hidden" id="current_merchantId" autocomplete="off" value="${productFashion.id}"/>	
+    <input type="hidden" name="id" value="${product.id}"/>
+    <input type="hidden" id="product_color" value="${productFashion.standard.name}"/>
+    <input type="hidden" id="product_size" value="${productFashion.standardSecond.name}"/>
+    [#list   map?keys as mykey]   
+       <input type="hidden" id="${mykey}" value="${map[mykey]}"/>
+    [/#list]  
+    <input type="hidden" id="all_size" value="${allSize!}"/>
+    <input type="hidden" id="all_color" value="${allColor!}"/>
+    [#list product.fashions as fash]
+    <input id="product_${fash.standardSecond.name!}_${fash.standard.name!}" type="hidden" value="${product.id}"  merchantId="${fash.id}"/>
+    <input type="hidden" id="product_${fash.id}" merchantId="${fash.id}" />
+    [/#list]
+	 <div class="p_title"><h2><font id="productMainName">${product.name!}</font></h2></div>
+	 <div class="property property_box coat">
+	   <div class="specific_info1">
+		  <dl class="clearfix">
+			<dt>销&nbsp;售&nbsp;价：</dt>
+			<dd><span class="price_1store productPriceSpan  f24" id="nonMemberPrice">¥${productFashion.salePrice!0}</span>
+			    <span class="price_1store">元</span>
+			    <span class="gift_points">赠送积分：
+			    <strong> [#if product.score??]${product.score!}分[#else]无积分[/#if]</strong>
+			    </span>
+			</dd>
+		</dl>
+		<dl class="clearfix">
+			<dt>市&nbsp;&nbsp;场&nbsp;价：</dt>
+			<dd><del id="old_price" class="old_price">¥${productFashion.marketPrice!}元</del></dd>
+		</dl>			
+	 </div>		
+     <div class="specific_info2">
+     	[#if category.colorsize==true]
+		<dl class="clearfix">
+			<dt class="size_lineheight">规　　格：</dt>
+			<dd>
+				<ul class="size_list" id="size_list">
+				 [#list product.standardMeasures as cc]
+				    <li><span title="${cc.name}" id="size_${cc.name}">${cc.name!}</span><div class="lion">已选中</div></li>
+				 [/#list]
+				</ul>
+			</dd>
+		</dl>
+		<dl class="clearfix">
+			<dt class="color_lineheight">颜　　色：</dt>
+			<dd>
+				<ul class="color_list" id="color_list">
+				  [#list ysList as ys]
+					 <li>
+					 <img src="${root!}${ys.imgPath!}" id="color_${ys.standard.name}" width="43" height="43" title="${ys.standard.name!}"/>
+					<div class="lion">已选中</div>
+                     </li>
+				   [/#list]
+				</ul>
+						
+			</dd>
+		</dl>
+	    [/#if]	
+		<dl id="goToBuyDistrict" class="clearfix">
+			<dt>我      要      买：</dt>
+			<dd>
+				<div class="computing">
+					<input type="button" class="reduce" onclick="decrementAll();"/>
+					<input type="text" id="product_amount" name="productAmount" onchange ="buyButtonNumChange('product_amount')" class="num" onkeyup="inputOnlyNum(this, 1, 999);" value="1"/>
+					<input type="button" class="add" onclick="incrementAll();"/>
+				</div>
+			</dd>
+		</dl>								
+		<table>
+		   <tr id="seriesShow" class="hide">
+			  <td width="84"><span class="select">您选择了：</span></td>
+			  <td colspan="4">
+					 <span class="result" id="seriesSelectColor"></span>&nbsp;
+					 <span class="result" id="seriesSelectSize"></span>
+			</td>
+			</tr>
+		   <tr id="buyButtonsDistrict">
+			  <td width="84">&nbsp;</td>
+			   <td> 
+			   <input type="button" class="add_shopping_cart" id="seriesCartButton"  value="加入购物车" onclick="javascript:addToCart(${product.id},$('#product_amount').val(),$('#current_merchantId').val(),true);"/>
+	             <span  style="display:none" onclick="doSubscribeProdAction();" class="rp_btn" id="subscribeProdSpan" productId="2227287" merchantId="3">
+		               <strong><span id="subscribeProdBtn">0</span>元</strong></span>
+			   </td>
+			   <td>
+					<a id="addFavorite" class="collection" style="display:none" href="javascript:void(0);" onclick="javascript:addToCollect(${product.id},$('#current_merchantId').val());">收藏&gt;&gt;</a>
+				</td>
+		 </tr>
+		</table>
+		<div id="noGoodsRecommendsDiv" style="display:none;"></div>
+	</div>           
+	<div class="specific_info1">
+		<dl class="clearfix">
+			<dt>商品编号：</dt>
+			<dd id="productCode">${product.productExt.code!}</dd>
+		</dl>		
+        <dl class="clearfix">
+			 <dt>分&nbsp;&nbsp;享&nbsp;到：</dt>
+			 <dd class="share_ico">
+	            <a class="ico_sina" href="javascript:(function(){var rul=location.href;if(rul.indexOf('?')>0){rul = rul +'&'}else{rul = rul +'?'};rul = rul +'tarcker_u=9402576';window.open(' http://v.t.sina.com.cn/share/share.php?appkey=2794712645&title=【${product.name!}】,JSPGOU价 ￥${product.salePrice!}&ralateUid=1725229222&url='+encodeURIComponent(rul),'_blank','width=615,height=505');})()">新浪微博</a>
+			    <a class="ico_qq" href="javascript:void(0)" onclick="posttoWb('http://v.t.qq.com/share/share.php','${product.name!}￥${product.salePrice!}','2fc26c2514bb48ec891170ce68db2683');" >腾讯微博</a>
+            </dd>
+        </dl>			
+   </div>
+  </div><!-- property -->
+  <div class="gallery " id="gallery_view">
+	<div class="pic" id="mainPic">
+		 [#if product.pictures?? && product.pictures?size gt 0]
+           [#list product.pictures as pic]
+              [#if pic_index==0]
+                 <a id="productImgA" class="jqzoom" href="${root!}${pic.appPicturePath!}"  style="width:378px;height:378px;">
+			      <img id="productImg" src="${root!}${pic.bigPicturePath!}" alt="${product.name!}" width="378" height="378"/>
+	          	</a>
+               [/#if]
+              [/#list]
+        [/#if]
+	</div>
+	<div class="clear"></div>
+	<div class="pic_slide">
+		<span class="prev" id="prevBtn"></span>
+			<div class="pic_slide_box" id="sliderImgs">
+				<ul id="detailPictureSlider">
+				  [#if product.pictures?? && product.pictures?size gt 0]
+                      [#list product.pictures as pic]
+                         [#if pic_index==0]
+                           	<li><img  class="selected" src="${root!}${pic.picturePath!}" onmouseover="initCurrPicture(jQuery(this),'${root}','${pic.bigPicturePath!}','${pic.appPicturePath!}')" width="58" height="58" /></li>
+                         [#else]
+                            <li><img src="${root!}${pic.picturePath!}" onmouseover="initCurrPicture(jQuery(this),'${root}','${pic.bigPicturePath!}','${pic.bigPicturePath!}')" width="58" height="58" /></li>
+                         [/#if]
+                        [/#list]
+                       [/#if]
+				</ul>
+			</div>
+	   <span class="next" id="nextBtn"></span>
+	</div>
+  </div><!-- gallery -->
+ </div><!-- produce -->	 
+      
+ <div class="spxx">
+       <ul class="spxx_type">
+              <li class="spms_curr" id="tb_11" onclick="HoverLi(1,1,5)" style="cursor: hand"><a>商品祥情</a></li>	
+              <li class="spms_normal" id="tb_12" onclick="HoverLi(1,2,5)" style="cursor: hand"><a>服务承诺</a></li> 
+              <li class="spms_normal" id="tb_13" onclick="HoverLi(1,3,5)" style="cursor: hand"><a>商品评价</a></li>
+              <li class="spms_normal" id="tb_14" onclick="HoverLi(1,4,5)" style="cursor: hand"><a>商品咨询</a></li>
+              <li class="spms_normal" id="tb_15" onclick="HoverLi(1,5,5)" style="cursor: hand"><a>成交记录</a></li>
+       </ul>
+       <div id="tbc_11"  class="dis">
+          <div class="intro_box">
+                   ${product.text!}
+          </div>
+      </div>  
+      <div class="undis" id="tbc_12">
+          <div class="intro_box">
+                   ${product.text1!}
+          </div>
+     </div>  
+     <div class="undis" id="tbc_13">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/searchDiscussPage.jspx?productId=${product.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+              </iframe>
+     </div> 
+     <div class="undis" id="tbc_14">
+         <iframe width="740"  frameborder=0 scrolling=no  src="${base}/consultProduct.jspx?productId=${product.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+              </iframe>
+     </div>
+    <div class="undis" id="tbc_15">
+        <iframe width="740"  frameborder=0 scrolling=no  src="${base}/bargain.jspx?productId=${product.id!}" name="rightFrame" noresize="noresize" id="rightFrame"  height="800">
+         </iframe>
+    </div>
+ </div>  
+  <div class="clear"></div>
+</div>
+ [#include "../include/页脚信息栏.html"/] 
+</body>
+</html>

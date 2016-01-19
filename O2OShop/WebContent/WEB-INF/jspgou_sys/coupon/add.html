@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 优惠券 - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="2" width="50" label="优惠劵名称" name="couponName" required="true" class="required" maxlength="50"/><@p.tr/>
+<@p.text colspan="1" width="50" label="开始时间" name="couponTime" required="true" class="required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
+<@p.text colspan="1" width="50" label="结束时间" name="couponEndTime" required="true" class="required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/><@p.tr/>
+<@p.text colspan="1" width="50" label="满足金额" name="leastPrice" required="true" class="required number" maxlength="12"/>
+<@p.text colspan="1" width="50" label="面值" name="couponPrice" required="true" class="required number" maxlength="12"/><@p.tr/>
+<@p.text colspan="1" width="50" label="数量" name="couponCount" required="true" class="required number" maxlength="11"/>
+<@p.radio label="是否启用" colspan="1" width="50" name="isusing" value=true list={"true":"是","false":"否"}/><@p.tr/>
+<@p.td label="优惠劵图" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath11" name="couponPicture" size="30"/> <input type="button" value="<@s.m "imageupload.clear"/>" onclick="clearImg(11);"/><br/>
+<span id="ufc11"><input type="file" id="uploadFile11" size="20"/></span> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(11);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth11" value="139" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight11" value="139" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(11);"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg11" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

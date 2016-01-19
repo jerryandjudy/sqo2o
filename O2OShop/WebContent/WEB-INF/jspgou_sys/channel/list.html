@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jspgou_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+
+function optSaveOrder() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "shopChannel.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+	    <input type="hidden" name="root" value="${root!}"/>
+		<input type="hidden" id="type" name="type" value="1"/>
+		<input type="submit" value="<@s.m "global.add"/><@s.m "shopChannel.type.1"/>" onclick="this.form.action='v_add.do';$('#type').val(1);"/>
+		<input type="submit" value="<@s.m "global.add"/><@s.m "shopChannel.type.2"/>" onclick="this.form.action='v_add.do';$('#type').val(2);"/>
+		<input type="submit" value="<@s.m "global.add"/><@s.m "shopChannel.type.3"/>" onclick="this.form.action='v_add.do';$('#type').val(3);"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=list;shopChannel,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${shopChannel.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${shopChannel.id}</@p.column><#t/>
+	<@p.column code="shopChannel.name">${shopChannel.name} [<@s.m "shopChannel.type.${shopChannel.type}"/>]</@p.column><#t/>
+	<@p.column code="shopChannel.path"><#if shopChannel.type==3>${shopChannel.outerUrl}<#else>${shopChannel.path}</#if><input type="hidden" name="wids" value="${shopChannel.id}"/></@p.column><#t/>
+	<@p.column code="shopChannel.tplChannel">
+		<#if shopChannel.type==1>${shopChannel.tplChannel}
+		<#elseif shopChannel.type==2><#if shopChannel.tplChannel==""><@s.m "global.tplDefault"/><#else>${shopChannel.tplChannel}</#if>
+		<#else><@s.m "global.none"/>
+		</#if>
+	</@p.column><#t/>
+	<@p.column code="shopChannel.tplContent">
+		<#if shopChannel.type==1>${shopChannel.tplChannel}
+		<#elseif shopChannel.type==2><#if shopChannel.tplContent==""><@s.m "global.tplDefault"/><#else>${shopChannel.tplContent}</#if>
+		<#else><@s.m "global.none"/>
+		</#if>
+	</@p.column><#t/>
+	<@p.column code="shopChannel.display"><#if shopChannel.display><@s.m "global.true"/><#else><@s.m "global.false"/></#if></@p.column><#t/>
+	<@p.column code="global.priority" align="center"><input type="text" name="priority" value="${shopChannel.priority}" style="width:30px"/></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?id=${shopChannel.id}&pageNo=${pageNo!}"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${shopChannel.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/>
+&nbsp; <input type="button" value="<@s.m "global.saveOrder"/>" onclick="optSaveOrder();"/>
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

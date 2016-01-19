@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>成功提示页面  - ${web.name}${web.additionalTitle!}</title>
+</head>
+<body>
+<h1>操作成功：</h1>
+[#if message??]
+<p>[@s.mt code=message text=message/]</p>
+[/#if]
+<p>
+	[#if backUrl??]
+		【<a href="${backUrl}">如果您的浏览器没有自动跳转，请点击此链接</a>】
+		<script>setTimeout("window.location.href ='${backUrl}';", 2000);</script>
+	[/#if]
+</p>
+</body>
+</html>

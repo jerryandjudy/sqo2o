@@ -1,0 +1,14 @@
+<div[#if pageClass??] class="${pageClass}"[/#if][#if pageStyle??] style="${pageStyle}"[/#if]>
+共${pagination2.totalCount}条记录 ${pagination2.pageNo}/${pagination2.totalPage}页
+[#if pagination2.firstPage]&nbsp;<a disabled="disabled">首页</a> <a disabled="disabled">上一页</a>[#t/]
+[#else]&nbsp;<a href="${urlPrefix}${urlSuffix}?pageNo=1&flag=1&mark=${mark!}">首页</a> <a href="${urlPrefix}[#if pagination2.prePage gt 1]_${pagination2.prePage}[/#if]${urlSuffix}?pageNo=${pagination2.prePage}&flag=1&mark=${mark!}">上一页</a>[#t/]
+[/#if]
+[#if pagination2.lastPage]&nbsp;<a disabled="disabled">下一页</a> <a disabled="disabled">尾页</a>
+[#else]&nbsp;<a href="${urlPrefix}_${pagination2.nextPage}${urlSuffix}?pageNo=${pagination2.nextPage}&flag=1&mark=${mark!}">下一页</a> <a href="${urlPrefix}_${pagination2.totalPage}${urlSuffix}?pageNo=${pagination2.nextPage}&flag=1&mark=${mark!}">尾页</a>
+[/#if]
+&nbsp;第<select onChange="if(this.value==1){location='${urlPrefix!}${urlSuffix!}??pageNo=1&flag=1&mark=${mark!}'}else{location='${urlPrefix!}_'+this.value+'${urlSuffix!}?pageNo='+this.value+'&flag=1&mark=${mark!}'}this.disabled='disabled'">
+[#list 1..pagination2.totalPage as i]
+  <option value="${i}" [#if pagination2.pageNo==i]selected="selected"[/#if]>${i}</option>
+[/#list]
+</select>页
+</div>

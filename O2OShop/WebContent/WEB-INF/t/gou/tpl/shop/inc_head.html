@@ -1,0 +1,16 @@
+<a href="${base}/search.jspx">����</a> <a href="${base}/shopping_cart.jspx">���ﳵ����<span id="cart_total_items"></span>����Ʒ</a>
+<script type="text/javascript">
+	$('#cart_total_items').html(Shop.cartTotalItems());
+</script>
+<p>
+<script type="text/javascript">
+var username = Core.username();
+if(username != null) {
+	document.write("��ã� <a href='${base}/account.jspx'>" + username + "</a>�� <a href='${base}/account.jspx'>[��Ա����]</a> &nbsp; <a href='${base}/jspgou/logout.jspx'>[�˳�]</a>");
+} else {
+	document.write("��ã� <a href='${base}/login.jspx'>[���¼]</a> <a href='${base}/register.jspx'>[���ע��]</a>");
+}
+</script>
+</p>
+<p><a href="${base}/">��ҳ</a> [@shop_Category_list tpl='1'/]</p>
+<p><a href="${base}/brand.jspx">Ʒ��ר��</a></p>
